@@ -1,17 +1,17 @@
 import { combineReducers } from 'redux'
 
-import authReducer from './auth/auth.slice'
-import userReducer from './user/user.slice'
-import { authApi } from './auth/auth.query'
-import { userApi } from './user/user.query'
+import sectionReducer from './section/section.slice'
+import volumeReducer from './volume/volume.slice'
+import { sectionApi } from './section/section.query'
+import { volumeApi } from './volume/volume.query'
 
 const createRootReducer = combineReducers({
   // Slices
-  authReducer,
-  userReducer,
+  sectionReducer,
+  volumeReducer,
   // RTK Query's
-  [authApi.reducerPath]: authApi.reducer,
-  [userApi.reducerPath]: userApi.reducer
+  [sectionApi.reducerPath]: sectionApi.reducer,
+  [volumeApi.reducerPath]: volumeApi.reducer
 })
 
 export default createRootReducer
