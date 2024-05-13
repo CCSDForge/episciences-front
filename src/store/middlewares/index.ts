@@ -1,7 +1,7 @@
-import { authApi } from '../features/auth/auth.query'
-import { userApi } from '../features/user/user.query'
+import { sectionApi } from '../features/section/section.query'
+import { volumeApi } from '../features/volume/volume.query'
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const enhancedMiddleware = (getDefaultMiddleware: Function) => getDefaultMiddleware()
-  .concat(authApi.middleware)
-  .concat(userApi.middleware)
+  .concat(sectionApi.middleware)
+  .concat(volumeApi.middleware)
