@@ -1,12 +1,18 @@
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 import logo from '/logo.svg';
 import Button from '../Button/Button';
-import './Header.scss'
 import SearchInput from '../SearchInput/SearchInput';
+import './Header.scss'
 
 export default function Header(): JSX.Element {
   const navigate = useNavigate();
+  const [showDropdown, setShowDropdown] = useState({ content: false, about: false });
+
+  const toggleDropdown = (menu: string) => {
+    setShowDropdown(prev => ({ ...prev, [menu]: !prev[menu as keyof typeof prev] }));
+  };
 
   const updateSearch = (search: string) => {
     // TODO : put in redux ?
@@ -40,8 +46,34 @@ export default function Header(): JSX.Element {
       </div>
       <div className='header-postheader'>
         <div className='header-postheader-links'>
-          <Link to='/'>Content</Link>
-          <Link to='/'>About</Link>
+          <div className='header-postheader-links-dropdown' onMouseEnter={() => toggleDropdown('content')} onMouseLeave={() => toggleDropdown('content')}>
+            <div>Content</div>
+            {showDropdown.content && (
+                <div className='header-postheader-links-dropdown-content'>
+                  <div className='header-postheader-links-dropdown-content-links'>
+                    <Link to='/'>All articles</Link>
+                    <Link to='/'>All volumes</Link>
+                    <Link to='/'>Last volume</Link>
+                    <Link to='/'>Sections</Link>
+                    <Link to='/'>Special issues</Link>
+                    <Link to='/'>Proceedings</Link>
+                    <Link to='/'>Authors</Link>
+                  </div>
+                </div>
+              )}
+          </div>
+          <div className='header-postheader-links-dropdown' onMouseEnter={() => toggleDropdown('about')} onMouseLeave={() => toggleDropdown('about')}>
+            <div>About</div>
+            {showDropdown.about && (
+                <div className='header-postheader-links-dropdown-content'>
+                  <div className='header-postheader-links-dropdown-content-links'>
+                    <Link to='/'>The journal</Link>
+                    <Link to='/'>News</Link>
+                    <Link to='/'>Statistics</Link>
+                  </div>
+                </div>
+              )}
+          </div>
           <Link to='/boards'>Boards</Link>
           <Link to='/'>For authors</Link>
         </div>

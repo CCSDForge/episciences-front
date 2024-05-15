@@ -1,32 +1,57 @@
 .boards {
   &-title {
+    display: flex;
+    align-items: center;
     margin-bottom: 30px;
+
+    &-count {
+      color: var(--grey);
+      font-size: 21px;
+      font-weight: 300;
+      padding-left: 220px;
+    }
   }
 
   &-content {
     display: flex;
 
     &-groups {
+      width: 100%;
       display: flex;
       flex-direction: column;
+      padding-left: 60px;
 
       &-group {
         margin-bottom: 45px;
 
         &-title {
+          display: flex;
+          justify-content: space-between;
           padding-bottom: 5px;
           margin-bottom: 20px;
           border-bottom: 1px solid var(--red);
         }
 
-        &-description {
-          margin-bottom: 20px;
+        &-caret {
+          cursor: pointer;
         }
 
-        &-grid {
-          display: grid;
-          gap: 15px;
-          grid-template-columns: repeat(3, 1fr);
+        &-content {
+          display: none;
+
+          &-active {
+            display: block;
+          }
+
+          &-description {
+            margin-bottom: 20px;
+          }
+
+          &-grid {
+            display: grid;
+            gap: 15px;
+            grid-template-columns: repeat(3, 1fr);
+          }
         }
       }
     }

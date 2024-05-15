@@ -6,12 +6,25 @@ export interface IBoardCardProps {
   role: string;
   university: string;
   skills: string;
-  full?: boolean;
+  fullCard?: boolean;
+  blurCard?: boolean;
 }
 
-export default function BoardCard({ picture, name, role, university, skills, full }: IBoardCardProps): JSX.Element {
+export default function BoardCard({ picture, name, role, university, skills, fullCard, blurCard }: IBoardCardProps): JSX.Element {
+  const boardCardClassName = () => {
+    if (fullCard) {
+      return 'boardCard boardCard-full';
+    }
+
+    if (blurCard) {
+      return 'boardCard boardCard-blur';
+    }
+
+    return 'boardCard';
+  }
+
   return (
-    <div className={`boardCard ${full && 'boardCard-full'}`}>
+    <div className={boardCardClassName()}>
       <div className='boardCard-person'>
         <div className='boardCard-person-picture'>{picture}</div>
         <div className='boardCard-person-title'>

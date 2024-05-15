@@ -3,13 +3,13 @@ import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import Card, { ICardType, ICardContent } from '../Cards/Card'
+import Card, { ISwiperCardType, ISwiperCardContent } from '../SwiperCards/SwiperCard'
 import './Swiper.scss'
 
 interface ISwiperProps {
   id: string;
-  type: ICardType;
-  cards: ICardContent[];
+  type: ISwiperCardType;
+  cards: ISwiperCardContent[];
 }
 
 export default function Swiper({ id, type, cards }: ISwiperProps): JSX.Element {
@@ -29,7 +29,7 @@ export default function Swiper({ id, type, cards }: ISwiperProps): JSX.Element {
 
           if (paginationContainer) {
             const dots = paginationContainer.querySelectorAll('.swiper-pagination-bullet');
-            
+
             dots.forEach((dot, i) => {
               if (i === index) {
                 dot.classList.add('swiper-pagination-bullet-active');
@@ -40,7 +40,7 @@ export default function Swiper({ id, type, cards }: ISwiperProps): JSX.Element {
           }
         }}
       >
-        {cards.map((content: ICardContent, key: number) => (
+        {cards.map((content: ISwiperCardContent, key: number) => (
           <SwiperSlide key={key}>
             <Card type={type} content={content} />
           </SwiperSlide>
