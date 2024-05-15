@@ -1,0 +1,19 @@
+.swiper {
+  width: 100%;
+
+  &-wrapper {
+    margin-bottom: 40px;
+  }
+
+  &-pagination {
+    position: relative;
+
+    &-bullet {
+      background: var(--grey-light);
+
+      &-active {
+        background: var(--red);
+      }
+    }
+  }
+}

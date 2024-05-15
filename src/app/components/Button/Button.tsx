@@ -1,11 +1,12 @@
+import './Button.scss'
+
 interface IButtonProps {
   text: string;
-  type?: 'submit' | 'reset' | 'button';
-  onClickCallback?: () => void
+  onClickCallback: () => void;
 }
 
-export default function Button({ text, type, onClickCallback }: IButtonProps): JSX.Element {
+export default function Button({ text, onClickCallback }: IButtonProps): JSX.Element {
   return (
-    <button type={type} onClick={onClickCallback}>{text}</button>
+    <button className='button' onClick={onClickCallback}>{text}</button>
   )
 }
