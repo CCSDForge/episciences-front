@@ -1,5 +1,9 @@
+import './NotFound.scss';
+
 export default function NotFound(): JSX.Element {
   return (
-    <h1>404</h1>
+    <main className='notfound'>
+      <h1>404</h1>
+    </main>
   )
 }
