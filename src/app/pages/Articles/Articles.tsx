@@ -1,13 +1,14 @@
 import { useState } from "react";
 
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
-import ArticleCard from "../../components/Cards/ArticleCard/ArticleCard";
+import ArticleCard, { IArticleCard } from "../../components/Cards/ArticleCard/ArticleCard";
 import ArticleSidebar from "../../components/Sidebars/ArticleSidebar/ArticleSidebar";
 import Tag from "../../components/Tag/Tag";
 import './Articles.scss';
 
 export default function Articles(): JSX.Element {
   // TODO: remove mocks
+  // TODO: type hint filters in src/types ?
   const [filters, setFilters] = useState([
     {
       id: 1,
@@ -40,7 +41,7 @@ export default function Articles(): JSX.Element {
     },
   ]);
 
-  const [articles, setArticles] = useState([
+  const [articles, setArticles] = useState<IArticleCard[]>([
     { 
       id: 1,
       title: "D’un rêve d'universalité fonctionnelle au libéralisme linguistique : standardisation de la langue tchèque moderne et controverse des années 1990 et 2000",

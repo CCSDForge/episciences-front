@@ -1,11 +1,7 @@
+import { IArticle } from '../../../../types/article'
 import './SwiperArticleCard.scss'
 
-export interface ISwiperArticleCardProps {
-  title: string;
-  authors: string;
-  publicationDate: string;
-  tag: string;
-}
+export type ISwiperArticleCardProps = IArticle;
 
 export default function SwiperArticleCard({ title, authors, publicationDate, tag }: ISwiperArticleCardProps): JSX.Element {
   return (

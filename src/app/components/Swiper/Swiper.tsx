@@ -9,14 +9,15 @@ import './Swiper.scss'
 interface ISwiperProps {
   id: string;
   type: ISwiperCardType;
+  slidesPerView: number;
   cards: ISwiperCardContent[];
 }
 
-export default function Swiper({ id, type, cards }: ISwiperProps): JSX.Element {
+export default function Swiper({ id, type, slidesPerView, cards }: ISwiperProps): JSX.Element {
   return (
     <>
       <SwiperReactLib
-        slidesPerView={3}
+        slidesPerView={slidesPerView}
         slidesPerGroup={3}
         spaceBetween={15}
         modules={[Pagination]}

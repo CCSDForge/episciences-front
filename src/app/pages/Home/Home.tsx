@@ -1,9 +1,15 @@
+import { IArticle } from '../../../types/article';
+import { IBoard } from '../../../types/board';
+import { INews } from '../../../types/news';
+import { IStat } from '../../../types/stat';
+import NewsSection from '../../HomeSections/NewsSection/NewsSection';
+import StatisticsSection from '../../HomeSections/StatisticsSection/StatisticsSection';
 import Swiper from '../../components/Swiper/Swiper';
 import './Home.scss';
 
 export default function Home(): JSX.Element {
   // TODO : remove mocks
-  const articles = [
+  const articles: IArticle[] = [
     { id: 1, title: "D’un rêve d'universalité fonctionnelle au libéralisme linguistique : standardisation de la langue tchèque moderne et controverse des années 1990 et 2000", authors: 'Adrien Martin ; Andrea Opreni ; Alessandra Vizzaccaro et al.', publicationDate: 'Published on Aug. 18th, 2023', tag: 'Compte-rendu' },
     { id: 2, title: "D’un rêve d'universalité fonctionnelle au libéralisme linguistique : standardisation de la langue tchèque moderne et controverse des années 1990 et 2000", authors: 'Adrien Martin ; Andrea Opreni ; Alessandra Vizzaccaro et al.', publicationDate: 'Published on Aug. 18th, 2023', tag: 'Compte-rendu' },
     { id: 3, title: "D’un rêve d'universalité fonctionnelle au libéralisme linguistique : standardisation de la langue tchèque moderne et controverse des années 1990 et 2000", authors: 'Adrien Martin ; Andrea Opreni ; Alessandra Vizzaccaro et al.', publicationDate: 'Published on Aug. 18th, 2023', tag: 'Compte-rendu' },
@@ -24,7 +30,13 @@ export default function Home(): JSX.Element {
     { id: 18, title: "D’un rêve d'universalité fonctionnelle au libéralisme linguistique : standardisation de la langue tchèque moderne et controverse des années 1990 et 2000", authors: 'Adrien Martin ; Andrea Opreni ; Alessandra Vizzaccaro et al.', publicationDate: 'Published on Aug. 18th, 2023', tag: 'Compte-rendu' }
   ]
 
-  const boards = [
+  const news: INews[] = [
+    { id: 1, title: "Articles scientifiques : nouveaux modèles économiques et nouvelles formes de publication", publicationDate: 'Published on Aug. 18th, 2023'},
+    { id: 2, title: "Episciences Days. Publishing another way: the epic of Episciences and overlay journals", publicationDate: 'Published on Aug. 18th, 2023' },
+    { id: 3, title: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam", publicationDate: 'Published on Aug. 18th, 2023' },
+  ]
+
+  const boards: IBoard[] = [
     { id: 1, picture: 'TODO', name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
     { id: 2, picture: 'TODO', name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
     { id: 3, picture: 'TODO', name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
@@ -45,14 +57,22 @@ export default function Home(): JSX.Element {
     { id: 18, picture: 'TODO', name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' }
   ]
 
+  const stats: IStat[] = [
+    { stat: '62.07%', title: 'Acceptance rate' },
+    { stat: '29', title: 'Published articles' },
+    { stat: '2 weeks', title: 'Submission-publication time' }
+  ]
+
   return (
     <main className='home'>
       <h1 className='home-title'>Home</h1>
       <h2 className='home-subtitle'>Latest articles</h2>
-      <Swiper id='articles-swiper' type='article' cards={articles}/>
+      <Swiper id='articles-swiper' type='article' slidesPerView={3} cards={articles}/>
       <h2 className='home-subtitle'>News</h2>
+      <NewsSection news={news} />
       <h2 className='home-subtitle'>Members</h2>
-      <Swiper id='boards-swiper' type='board' cards={boards}/>
+      <Swiper id='boards-swiper' type='board' slidesPerView={4} cards={boards}/>
+      <StatisticsSection stats={stats} />
       <h2 className='home-subtitle'>Journal indexation</h2>
       <h2 className='home-subtitle'>Special issues</h2>
     </main>

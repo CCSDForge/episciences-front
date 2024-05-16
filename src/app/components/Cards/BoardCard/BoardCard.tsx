@@ -1,11 +1,7 @@
+import { IBoard } from "../../../../types/board";
 import './BoardCard.scss'
 
-export interface IBoardCardProps {
-  picture: string;
-  name: string;
-  role: string;
-  university: string;
-  skills: string;
+interface IBoardCardProps extends IBoard {
   fullCard?: boolean;
   blurCard?: boolean;
 }
