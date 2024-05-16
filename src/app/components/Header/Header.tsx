@@ -5,6 +5,7 @@ import logo from '/logo.svg';
 import { useAppDispatch, useAppSelector } from '../../../hooks/store';
 import { setSearch } from '../../../store/features/search/search.slice';
 import Button from '../Button/Button';
+import LanguageDropdown from '../LanguageDropdown/LanguageDropdown';
 import SearchInput from '../SearchInput/SearchInput';
 import './Header.scss'
 
@@ -13,14 +14,15 @@ export default function Header(): JSX.Element {
   const dispatch = useAppDispatch();
 
   const search = useAppSelector(state => state.searchReducer.search);
+  const language = useAppSelector(state => state.i18nReducer.language);
 
   const [showDropdown, setShowDropdown] = useState({ content: false, about: false });
 
-  const toggleDropdown = (menu: string) => {
+  const toggleDropdown = (menu: string): void => {
     setShowDropdown(prev => ({ ...prev, [menu]: !prev[menu as keyof typeof prev] }));
   };
 
-  const updateSearch = (updatedSearch: string) => {
+  const updateSearch = (updatedSearch: string): void => {
     dispatch(setSearch(updatedSearch))
   }
 
@@ -36,15 +38,15 @@ export default function Header(): JSX.Element {
     <header className='header'>
       <div className='header-preheader'>
         <div className='header-preheader-logo'>
-          <img src={logo} alt='Episciences logo'/>
+          <a href={import.meta.env.VITE_EPISCIENCES_HOMEPAGE} target='_blank'>
+            <img src={logo} alt='Episciences logo' />
+          </a>
         </div>
         <div className='header-preheader-links'>
-          <div className='header-preheader-links-access'>Open Access journals</div>
-          <div className='header-preheader-links-buttons'>
-            <div className='header-preheader-links-buttons-switch'>EN</div>
-            <div>|</div>
-            <div className='header-preheader-links-buttons-connect'>Connect</div>
+          <div className='header-preheader-links-access'>
+            <a href={language === 'fr' ? import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_FR : import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_EN} target='_blank'>Open Access journals</a>
           </div>
+          <LanguageDropdown />
         </div>
       </div>
       <div className='header-journal'>

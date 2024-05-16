@@ -29,20 +29,6 @@
         font-weight: 300;
         text-decoration: underline;
       }
-
-      &-buttons {
-        display: flex;
-        font-size: 15px;
-        font-weight: 500;
-
-        &-switch {
-          margin-right: 30px;
-        }
-
-        &-connect {
-          margin: 0px 50px 0px 50px
-        }
-      }
     }
   }
 
@@ -57,6 +43,7 @@
       align-items: center;
       justify-content: center;
       border: 1px solid var(--red);
+      cursor: pointer;
     }
 
     &-title {
