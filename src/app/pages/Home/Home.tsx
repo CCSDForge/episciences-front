@@ -2,8 +2,8 @@ import { IArticle } from '../../../types/article';
 import { IBoard } from '../../../types/board';
 import { INews } from '../../../types/news';
 import { IStat } from '../../../types/stat';
-import NewsSection from '../../HomeSections/NewsSection/NewsSection';
-import StatisticsSection from '../../HomeSections/StatisticsSection/StatisticsSection';
+import NewsSection from '../../components/HomeSections/NewsSection/NewsSection';
+import StatisticsSection from '../../components/HomeSections/StatisticsSection/StatisticsSection';
 import Swiper from '../../components/Swiper/Swiper';
 import './Home.scss';
 
