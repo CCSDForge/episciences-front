@@ -1,0 +1,49 @@
+.languageDropdown {
+  position: relative;
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 500;
+  margin-right: 50px;
+
+  &-icon {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+
+    &-text {
+      width: 20px;
+    }
+  }
+
+  &-content {
+    position: absolute;
+    display: none;
+    z-index: 2;
+
+    &-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 7px 30px 10px 9px;
+      background: var(--white);
+      color: var(--grey);
+      border: 1px solid var(--grey-light);
+      box-shadow: 0px 3px 6px var(--grey);
+      font-size: 18px;
+
+      span {
+        cursor: pointer;
+
+        &:hover {
+          color: var(--grey-dark);
+        }
+      }
+    }
+  }
+
+  &:hover &-content {
+    display: block;
+  }
+}
