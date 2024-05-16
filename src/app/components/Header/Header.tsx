@@ -2,25 +2,34 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 import logo from '/logo.svg';
+import { useAppDispatch, useAppSelector } from '../../../hooks/store';
+import { setSearch } from '../../../store/features/search/search.slice';
 import Button from '../Button/Button';
 import SearchInput from '../SearchInput/SearchInput';
 import './Header.scss'
 
 export default function Header(): JSX.Element {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const search = useAppSelector(state => state.searchReducer.search);
+
   const [showDropdown, setShowDropdown] = useState({ content: false, about: false });
 
   const toggleDropdown = (menu: string) => {
     setShowDropdown(prev => ({ ...prev, [menu]: !prev[menu as keyof typeof prev] }));
   };
 
-  const updateSearch = (search: string) => {
-    // TODO : put in redux ?
-    console.log('TODO', search)
+  const updateSearch = (updatedSearch: string) => {
+    dispatch(setSearch(updatedSearch))
   }
 
   const submitSearch = (): void => {
-    console.log('TODO')
+    if (!search) {
+      return;
+    }
+
+    navigate('/search');
   }
 
   return (
@@ -51,7 +60,7 @@ export default function Header(): JSX.Element {
             {showDropdown.content && (
                 <div className='header-postheader-links-dropdown-content'>
                   <div className='header-postheader-links-dropdown-content-links'>
-                    <Link to='/'>All articles</Link>
+                    <Link to='/browse/latest'>All articles</Link>
                     <Link to='/'>All volumes</Link>
                     <Link to='/'>Last volume</Link>
                     <Link to='/'>Sections</Link>

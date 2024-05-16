@@ -9,11 +9,11 @@ export interface ISwiperArticleCardProps {
 
 export default function SwiperArticleCard({ title, authors, publicationDate, tag }: ISwiperArticleCardProps): JSX.Element {
   return (
-    <div className='swiperSwiperArticleCard'>
-      <div className='swiperSwiperArticleCard-tag'>{tag}</div>
-      <div className='swiperSwiperArticleCard-title'>{title}</div>
-      <div className='swiperSwiperArticleCard-authors'>{authors}</div>
-      <div className='swiperSwiperArticleCard-publicationDate'>{publicationDate}</div>
+    <div className='swiperArticleCard'>
+      <div className='swiperArticleCard-tag'>{tag}</div>
+      <div className='swiperArticleCard-title'>{title}</div>
+      <div className='swiperArticleCard-authors'>{authors}</div>
+      <div className='swiperArticleCard-publicationDate'>{publicationDate}</div>
     </div>
   )
 }
