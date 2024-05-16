@@ -1,12 +1,7 @@
+import { IBoard } from '../../../../types/board'
 import './SwiperBoardCard.scss'
 
-export interface ISwiperBoardCardProps {
-  picture: string;
-  name: string;
-  role: string;
-  university: string;
-  skills: string;
-}
+export type ISwiperBoardCardProps = IBoard
 
 export default function SwiperBoardCard({ picture, name, role, university, skills }: ISwiperBoardCardProps): JSX.Element {
   return (

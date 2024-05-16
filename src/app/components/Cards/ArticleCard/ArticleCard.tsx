@@ -1,13 +1,12 @@
 import logo from '/logo.svg';
+import { IArticle } from "../../../../types/article";
 import './ArticleCard.scss'
 
-export interface IArticleCardProps {
-  title: string;
-  authors: string;
+export interface IArticleCard extends IArticle {
   openedAbstract: boolean;
-  abstract: string;
-  publicationDate: string;
-  tag: string;
+}
+
+interface IArticleCardProps extends IArticleCard {
   toggleAbstractCallback: () => void;
 }
 

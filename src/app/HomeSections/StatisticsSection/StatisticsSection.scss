@@ -1,0 +1,26 @@
+.statisticsSection {
+  display: flex;
+  justify-content: space-around;
+  margin: 45px 45px 5px 45px;
+
+  &-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+
+    &-bordered {
+      padding-right: 120px;
+      border-right: 4px solid var(--red);
+    }
+
+    &-stat {
+      font-size: 40px;
+      color: var(--red);
+    }
+
+    &-title {
+      font-size: 22px;
+    }
+  }
+}
