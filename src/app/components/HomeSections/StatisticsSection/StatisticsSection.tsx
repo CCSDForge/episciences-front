@@ -1,4 +1,4 @@
-import { IStat } from '../../../types/stat';
+import { IStat } from '../../../../types/stat';
 import './StatisticsSection.scss'
 
 interface IStatisticsSectionProps {
