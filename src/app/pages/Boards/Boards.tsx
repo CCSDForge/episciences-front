@@ -4,7 +4,6 @@ import logo from '/logo.svg';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import BoardCard from '../../components/Cards/BoardCard/BoardCard';
 import BoardSidebar from '../../components/Sidebars/BoardSidebar/BoardSidebar';
-
 import './Boards.scss';
 
 export default function Boards(): JSX.Element {

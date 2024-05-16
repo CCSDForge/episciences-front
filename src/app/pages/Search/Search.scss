@@ -1,0 +1,14 @@
+.search {
+  &-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+    &-count {
+      color: var(--grey);
+      font-size: 21px;
+      font-weight: 300;
+      padding-left: 210px;
+    }
+  }
+}

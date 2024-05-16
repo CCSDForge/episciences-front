@@ -1,15 +1,22 @@
 .searchInput {
-  color: var(--red);
-  font-size: 17px;
-  font-style: italic;
-  border: none;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-  &::placeholder {
+  &-input {
     color: var(--red);
-    opacity: 1;
-  }
+    font-size: 17px;
+    font-style: italic;
+    border: none;
 
-  &:focus-visible {
-    outline: none;
+    &::placeholder {
+      color: var(--red);
+      opacity: 1;
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
   }
 }

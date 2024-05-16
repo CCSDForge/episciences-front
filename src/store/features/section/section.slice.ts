@@ -5,7 +5,9 @@ import { ISectionState } from './section.type'
 
 const sectionSlice = createSlice({
   name: 'section',
-  initialState: {} as ISectionState,
+  initialState: {
+    sections: []
+  } as ISectionState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addMatcher(

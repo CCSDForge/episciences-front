@@ -1,0 +1,19 @@
+.tag {
+  height: 30px;
+  padding: 0px 6px 0px 6px;
+  border: 1px solid var(--red);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+
+  &-text {
+    font-size: 14px;
+  }
+
+  &-close {
+    width: 9px;
+    height: 9px;
+    cursor: pointer;
+  }
+}

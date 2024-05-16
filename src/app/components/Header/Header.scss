@@ -107,7 +107,7 @@
             font-size: 18px;
 
             a:hover {
-              color: var(--black);
+              color: var(--grey-dark);
             }
           }
         }
@@ -131,11 +131,11 @@
 
       &-search {
         height: 100%;
+        margin: 0px 18px 0px 70px;
 
         input {
           width: 100px;
           height: 95%;
-          margin-left: 70px;
         }
       }
 

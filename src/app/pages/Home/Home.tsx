@@ -1,5 +1,4 @@
 import Swiper from '../../components/Swiper/Swiper';
-
 import './Home.scss';
 
 export default function Home(): JSX.Element {

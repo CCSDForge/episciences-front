@@ -5,7 +5,9 @@ import { IVolumeState } from './volume.type'
 
 const volumeSlice = createSlice({
   name: 'volume',
-  initialState: {} as IVolumeState,
+  initialState: {
+    volumes: []
+  } as IVolumeState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addMatcher(

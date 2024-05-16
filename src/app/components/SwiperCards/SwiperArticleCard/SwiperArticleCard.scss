@@ -1,4 +1,4 @@
-.swiperSwiperArticleCard {
+.swiperArticleCard {
   display: flex;
   flex-direction: column;
   padding: 30px 35px 20px 35px;
@@ -30,5 +30,6 @@
   &-publicationDate {
     font-size: 12px;
     color: var(--grey-light);
+    font-style: italic;
   }
 }
