@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 import logo from '/logo.svg';
@@ -10,13 +10,21 @@ import SearchInput from '../SearchInput/SearchInput';
 import './Header.scss'
 
 export default function Header(): JSX.Element {
+  const reducedScrollPosition = 100;
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const search = useAppSelector(state => state.searchReducer.search);
   const language = useAppSelector(state => state.i18nReducer.language);
 
+  const [isReduced, setIsReduced] = useState(false);
   const [showDropdown, setShowDropdown] = useState({ content: false, about: false });
+
+  const handleScroll = () => {
+    const position = window.scrollY;
+    setIsReduced(position > reducedScrollPosition);
+  };
 
   const toggleDropdown = (menu: string): void => {
     setShowDropdown(prev => ({ ...prev, [menu]: !prev[menu as keyof typeof prev] }));
@@ -34,27 +42,8 @@ export default function Header(): JSX.Element {
     navigate('/search');
   }
 
-  return (
-    <header className='header'>
-      <div className='header-preheader'>
-        <div className='header-preheader-logo'>
-          <a href={import.meta.env.VITE_EPISCIENCES_HOMEPAGE} target='_blank'>
-            <img src={logo} alt='Episciences logo' />
-          </a>
-        </div>
-        <div className='header-preheader-links'>
-          <div className='header-preheader-links-access'>
-            <a href={language === 'fr' ? import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_FR : import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_EN} target='_blank'>Open Access journals</a>
-          </div>
-          <LanguageDropdown />
-        </div>
-      </div>
-      <div className='header-journal'>
-        <div className='header-journal-logo'>
-          <img src={logo} alt='Journal logo' onClick={(): void => navigate('/')} />
-        </div>
-        <div className='header-journal-title'>Journal of Philosophical Economics</div>
-      </div>
+  const getPostHeaderLinks = (): JSX.Element => {
+    return (
       <div className='header-postheader'>
         <div className='header-postheader-links'>
           <div className='header-postheader-links-dropdown' onMouseEnter={() => toggleDropdown('content')} onMouseLeave={() => toggleDropdown('content')}>
@@ -88,7 +77,7 @@ export default function Header(): JSX.Element {
           <Link to='/boards'>Boards</Link>
           <Link to='/'>For authors</Link>
         </div>
-        <div className='header-postheader-search'>
+        <div className={`header-postheader-search ${isReduced && 'header-postheader-search-reduced'}`}>
           <div className='header-postheader-search-delimiter'></div>
           <div className='header-postheader-search-search'>
             <SearchInput placeholder='search' onChangeCallback={updateSearch}/>
@@ -98,6 +87,54 @@ export default function Header(): JSX.Element {
           </div>
         </div>
       </div>
+    )
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  if (isReduced) {
+    return (
+      <header className='header header-reduced'>
+        <div className='header-reduced-journal'>
+          <div className='header-reduced-journal-logo'>
+            <img src={logo} alt='Reduced journal logo' onClick={(): void => navigate('/')} />
+          </div>
+          <div className='header-reduced-journal-blank'></div>
+          <div className='header-reduced-journal-dropdown'>
+            <LanguageDropdown />
+          </div>
+        </div>
+        {getPostHeaderLinks()}
+      </header>
+    )
+  }
+
+  return (
+    <header className='header'>
+      <div className='header-preheader'>
+        <div className='header-preheader-logo'>
+          <a href={import.meta.env.VITE_EPISCIENCES_HOMEPAGE} target='_blank'>
+            <img src={logo} alt='Episciences logo' />
+          </a>
+        </div>
+        <div className='header-preheader-links'>
+          <div className='header-preheader-links-access'>
+            <a href={language === 'fr' ? import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_FR : import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_EN} target='_blank'>Open Access journals</a>
+          </div>
+          <LanguageDropdown />
+        </div>
+      </div>
+      <div className='header-journal'>
+        <div className='header-journal-logo'>
+          <img src={logo} alt='Journal logo' onClick={(): void => navigate('/')} />
+        </div>
+        <div className='header-journal-title'>Journal of Philosophical Economics</div>
+      </div>
+      {getPostHeaderLinks()}
     </header>
   )
 }

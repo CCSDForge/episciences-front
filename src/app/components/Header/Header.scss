@@ -1,9 +1,50 @@
 .header {
   height: 285px;
+  width: 100%;
   background: var(--white);
   display: flex;
   flex-direction: column;
   box-shadow: 0px 2px 4px var(--black-shadow);
+  position: fixed;
+  top: 0;
+  z-index: 2;
+  transition: height 0.3s ease;
+
+  * {
+    transition: height 0.3s ease;
+  }
+
+  &-reduced {
+    height: 110px;
+
+    &-journal {
+      height: 50px;
+      display: flex;
+      justify-content: space-between;
+
+      &-logo {
+        width: 190px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid var(--red);
+      }
+
+      &-blank {
+        width: 100%;
+        background: var(--red);
+      }
+
+      &-dropdown {
+        min-width: 395px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        color: var(--blue-navy);
+        border-bottom: 1px solid var(--red);
+      }
+    }
+  }
 
   &-preheader {
     height: 45px;
@@ -79,7 +120,7 @@
           position: absolute;
           display: none;
           padding-top: 8px;
-          z-index: 2;
+          z-index: 3;
 
           &-links {
             display: flex;
@@ -110,6 +151,10 @@
       align-items: center;
       height: 100%;
       margin-top: 2px;
+
+      &-reduced {
+        margin-top: 0px;
+      }
 
       &-delimiter {
         height: 43px;
