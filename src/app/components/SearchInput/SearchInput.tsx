@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 
-import logo from '/logo.svg';
+import search from '/icons/search.svg';
 import './SearchInput.scss'
 
 interface ISearchInputProps {
@@ -12,7 +12,7 @@ export default function SearchInput({ placeholder, onChangeCallback }: ISearchIn
   return (
     <div className='searchInput'>
       <input className='searchInput-input' placeholder={placeholder} onChange={(e: ChangeEvent<HTMLInputElement>): void => onChangeCallback(e.target.value)} />
-      <img className='searchInput-icon' src={logo} alt='Search icon'/>
+      <img className='searchInput-icon' src={search} alt='Search icon'/>
     </div>
   )
 }

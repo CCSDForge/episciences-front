@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
-import logo from '/logo.svg';
+import logoText from '/icons/logo-text.svg';
+import logoJpeBig from '/icons/logo-jpe-big.svg';
+import logoJpeSmall from '/icons/logo-jpe-small.svg';
 import { useAppDispatch, useAppSelector } from '../../../hooks/store';
 import { setSearch } from '../../../store/features/search/search.slice';
 import Button from '../Button/Button';
@@ -101,7 +103,9 @@ export default function Header(): JSX.Element {
       <header className='header header-reduced'>
         <div className='header-reduced-journal'>
           <div className='header-reduced-journal-logo'>
-            <img src={logo} alt='Reduced journal logo' onClick={(): void => navigate('/')} />
+            <Link to='/'>
+              <img src={logoJpeSmall} alt='Reduced journal logo' />
+            </Link>
           </div>
           <div className='header-reduced-journal-blank'></div>
           <div className='header-reduced-journal-dropdown'>
@@ -117,20 +121,22 @@ export default function Header(): JSX.Element {
     <header className='header'>
       <div className='header-preheader'>
         <div className='header-preheader-logo'>
-          <a href={import.meta.env.VITE_EPISCIENCES_HOMEPAGE} target='_blank'>
-            <img src={logo} alt='Episciences logo' />
-          </a>
+          <Link to={import.meta.env.VITE_EPISCIENCES_HOMEPAGE} target='_blank'>
+            <img src={logoText} alt='Episciences logo' />
+          </Link>
         </div>
         <div className='header-preheader-links'>
           <div className='header-preheader-links-access'>
-            <a href={language === 'fr' ? import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_FR : import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_EN} target='_blank'>Open Access journals</a>
+            <Link to={language === 'fr' ? import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_FR : import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_EN} target='_blank'>Open Access journals</Link>
           </div>
           <LanguageDropdown />
         </div>
       </div>
       <div className='header-journal'>
         <div className='header-journal-logo'>
-          <img src={logo} alt='Journal logo' onClick={(): void => navigate('/')} />
+          <Link to='/'>
+            <img src={logoJpeBig} alt='Journal logo' />
+          </Link>
         </div>
         <div className='header-journal-title'>Journal of Philosophical Economics</div>
       </div>

@@ -1,4 +1,4 @@
-import logo from '/logo.svg';
+import close from '/icons/close-black.svg';
 import './Tag.scss'
 
 interface ITagProps {
@@ -10,7 +10,7 @@ export default function Tag({ text, onCloseCallback }: ITagProps): JSX.Element {
   return (
     <div className="tag">
       <span className="tag-text">{text}</span>
-      <img className="tag-close" src={logo} alt='Close icon' onClick={onCloseCallback} />
+      <img className="tag-close" src={close} alt='Close icon' onClick={onCloseCallback} />
     </div>
   )
 }
