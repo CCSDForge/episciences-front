@@ -1,8 +1,10 @@
 import { useState } from "react";
 
+import usePagination, { PaginatedResults } from "../../../hooks/pagination";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import ArticleCard, { IArticleCard } from "../../components/Cards/ArticleCard/ArticleCard";
 import ArticleSidebar from "../../components/Sidebars/ArticleSidebar/ArticleSidebar";
+import Pagination from "../../components/Pagination/Pagination";
 import Tag from "../../components/Tag/Tag";
 import './Articles.scss';
 
@@ -98,6 +100,17 @@ export default function Articles(): JSX.Element {
     },
   ]);
 
+  const fetchPaginatedArticles = async (currentPage: number): Promise<PaginatedResults> => {
+    // TODO : fetch call
+    
+    return {
+      data: articles,
+      totalPages: 20
+    }
+  }
+
+  const { paginatedItems, handlePageClick, pageCount } = usePagination(fetchPaginatedArticles);
+
   const getActiveFiltersChoices = (): { id: number; label: string; filterId: number }[] => {
     const activeChoices: { id: number; label: string; filterId: number }[] = [];
 
@@ -185,12 +198,15 @@ export default function Articles(): JSX.Element {
         <div className="articles-filters-abstracts" onClick={openAllAbstracts}>Show all abstracts</div>
       </div>
       <div className='articles-content'>
-        <ArticleSidebar filters={filters} onCheckFilterChoiceCallback={onCheckFilterChoice} />
-        <div className='articles-content-cards'>
-          {articles.map((article, index) => (
-            <ArticleCard key={index} {...article} toggleAbstractCallback={(): void => toggleAbstract(article.id)} />
-          ))}
+        <div className='articles-content-results'>
+          <ArticleSidebar filters={filters} onCheckFilterChoiceCallback={onCheckFilterChoice} />
+          <div className='articles-content-results-cards'>
+            {paginatedItems.map((article, index) => (
+              <ArticleCard key={index} {...article as IArticleCard} toggleAbstractCallback={(): void => toggleAbstract(article.id)} />
+            ))}
+          </div>
         </div>
+        <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
       </div>
     </main>
   )

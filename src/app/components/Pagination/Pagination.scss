@@ -1,0 +1,31 @@
+.pagination {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  margin-top: 200px;
+
+  &-previous, &-next, &-page {
+    cursor: pointer;
+  }
+
+  &-page, &-break {
+    color: var(--grey-light);
+  }
+
+  &-page {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 3px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &-active {
+      color: var(--white);
+      background: var(--red);
+    }
+  }
+}

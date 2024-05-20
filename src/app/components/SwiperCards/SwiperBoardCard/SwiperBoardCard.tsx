@@ -7,7 +7,9 @@ export default function SwiperBoardCard({ picture, name, role, university, skill
   return (
     <div className='swiperBoardCard'>
       <div className='swiperBoardCard-person'>
-        <div className='swiperBoardCard-person-picture'>{picture}</div>
+        <div className='swiperBoardCard-person-picture'>
+          <img src={picture} alt={`${name} picture`}/>
+        </div>
         <div className='swiperBoardCard-person-title'>
           <div className='swiperBoardCard-person-title-name'>{name}</div>
           <div className='swiperBoardCard-person-title-role'>{role}</div>
