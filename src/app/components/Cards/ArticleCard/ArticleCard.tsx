@@ -1,4 +1,5 @@
-import logo from '/logo.svg';
+import caretUp from '/icons/caret-up-red.svg';
+import caretDown from '/icons/caret-down-red.svg';
 import { IArticle } from "../../../../types/article";
 import './ArticleCard.scss'
 
@@ -20,9 +21,9 @@ export default function ArticleCard({ title, authors, openedAbstract, abstract, 
         <div className={`articleCard-abstract-title ${!openedAbstract && 'articleCard-abstract-title-closed'}`} onClick={toggleAbstractCallback}>
           <div className='articleCard-abstract-title-text'>Abstract</div>
           {openedAbstract ? (
-            <img className='articleCard-abstract-title-caret' src={logo} alt='Caret up icon' />
+            <img className='articleCard-abstract-title-caret' src={caretUp} alt='Caret up icon' />
           ) : (
-            <img className='articleCard-abstract-title-caret' src={logo} alt='Caret down icon' />
+            <img className='articleCard-abstract-title-caret' src={caretDown} alt='Caret down icon' />
           )}
         </div>
         <div className={`articleCard-abstract-content ${openedAbstract && 'articleCard-abstract-content-opened'}`}>{abstract}</div>

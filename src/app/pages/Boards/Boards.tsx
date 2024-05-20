@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
-import logo from '/logo.svg';
+import caretUp from '/icons/caret-up-red.svg';
+import caretDown from '/icons/caret-down-red.svg';
 import { IBoard } from '../../../types/board';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import BoardCard from '../../components/Cards/BoardCard/BoardCard';
@@ -82,9 +83,9 @@ export default function Boards(): JSX.Element {
               <div className='boards-content-groups-group-title'>
                 <h2>{boardPerTitle.title}</h2>
                 {activeGroupIndex === index ? (
-                  <img className='boards-content-groups-group-caret' src={logo} alt='Caret up icon' onClick={(): void => handleGroupToggle(-1)} />
+                  <img className='boards-content-groups-group-caret' src={caretUp} alt='Caret up icon' onClick={(): void => handleGroupToggle(-1)} />
                 ) : (
-                  <img className='boards-content-groups-group-caret' src={logo} alt='Caret down icon' onClick={(): void => handleGroupToggle(index)} />
+                  <img className='boards-content-groups-group-caret' src={caretDown} alt='Caret down icon' onClick={(): void => handleGroupToggle(index)} />
                 )}
               </div>
               <div className={`boards-content-groups-group-content ${activeGroupIndex === index && 'boards-content-groups-group-content-active'}`}>
