@@ -5,7 +5,9 @@ import { IArticle } from '../../../types/article';
 import { IBoard } from '../../../types/board';
 import { INews } from '../../../types/news';
 import { IStat } from '../../../types/stat';
+import JournalSection from '../../components/HomeSections/JournalSection/JournalSection';
 import NewsSection from '../../components/HomeSections/NewsSection/NewsSection';
+import PresentationSection from '../../components/HomeSections/PresentationSection/PresentationSection';
 import StatisticsSection from '../../components/HomeSections/StatisticsSection/StatisticsSection';
 import Swiper from '../../components/Swiper/Swiper';
 import './Home.scss';
@@ -68,9 +70,22 @@ export default function Home(): JSX.Element {
     { stat: '2 weeks', title: 'Submission-publication time' }
   ]
 
+  // TODO: type hint ?
+  const journals = [
+    [
+      { title: 'Directory of Open Access Journals (DOAJ)', link: 'https://www.episciences.org/fr/accueil' },
+      { title: 'Free Journal Network (FJN)', link: 'https://www.episciences.org/fr/accueil' }
+    ],
+    [
+      { title: 'Directory of Open Access Journals (DOAJ)', link: 'https://www.episciences.org/fr/accueil' },
+      { title: 'Free Journal Network (FJN)', link: 'https://www.episciences.org/fr/accueil' }
+    ],
+  ]
+
   return (
     <main className='home'>
       <h1 className='home-title'>{t('pages.home.title')}</h1>
+      <PresentationSection />
       <h2 className='home-subtitle'>Latest articles</h2>
       <Swiper id='articles-swiper' type='article' slidesPerView={3} cards={articles}/>
       <h2 className='home-subtitle'>News</h2>
@@ -79,6 +94,7 @@ export default function Home(): JSX.Element {
       <Swiper id='boards-swiper' type='board' slidesPerView={4} cards={boards}/>
       <StatisticsSection stats={stats} />
       <h2 className='home-subtitle'>Journal indexation</h2>
+      <JournalSection journals={journals} />
       <h2 className='home-subtitle'>Special issues</h2>
     </main>
   )

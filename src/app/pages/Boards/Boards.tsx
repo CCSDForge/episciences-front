@@ -9,14 +9,10 @@ import BoardCard from '../../components/Cards/BoardCard/BoardCard';
 import BoardSidebar from '../../components/Sidebars/BoardSidebar/BoardSidebar';
 import './Boards.scss';
 
-interface IFullableBoardMember extends IBoard {
-  full?: boolean;
-}
-
 interface IBoardPerTitle {
   title: string;
   description: string;
-  members: IFullableBoardMember[];
+  members: IBoard[];
 }
 
 export default function Boards(): JSX.Element {
@@ -31,36 +27,36 @@ export default function Boards(): JSX.Element {
       title: titles[0],
       description: 'The Associate Editors form the Editorial Board and represent the community. They handle submissions assigned to them by the authors, following the Editorial Policy of the journal.',
       members: [
-        { id: 1, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-        { id: 2, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-        { id: 3, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-        { id: 4, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics', full: true },
-        { id: 5, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-        { id: 6, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
+        { id: 1, email: 'emailadresse@episciences.org', picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr', socialNetworks: [], website: 'https://www.episciences.org/fr/accueil' },
+        { id: 2, email: 'emailadresse@episciences.org', picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr', socialNetworks: [], website: 'https://www.episciences.org/fr/accueil' },
+        { id: 3, email: 'emailadresse@episciences.org', picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr', socialNetworks: [], website: 'https://www.episciences.org/fr/accueil' },
+        { id: 4, email: 'emailadresse@episciences.org', picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr', socialNetworks: [], website: 'https://www.episciences.org/fr/accueil' },
+        { id: 5, email: 'emailadresse@episciences.org', picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr', socialNetworks: [], website: 'https://www.episciences.org/fr/accueil' },
+        { id: 6, email: 'emailadresse@episciences.org', picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr', socialNetworks: [], website: 'https://www.episciences.org/fr/accueil' },
       ],
     },
     {
       title: titles[1],
       description: 'The Associate Editors form the Editorial Board and represent the community. They handle submissions assigned to them by the authors, following the Editorial Policy of the journal.',
       members: [
-        { id: 7, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-        { id: 8, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-        { id: 9, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-        { id: 10, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-        { id: 11, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-        { id: 12, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-        { id: 13, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-        { id: 14, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
+        { id: 7, email: 'emailadresse@episciences.org', picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr', socialNetworks: [], website: 'https://www.episciences.org/fr/accueil' },
+        { id: 8, email: 'emailadresse@episciences.org', picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr', socialNetworks: [], website: 'https://www.episciences.org/fr/accueil' },
+        { id: 9, email: 'emailadresse@episciences.org', picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr', socialNetworks: [], website: 'https://www.episciences.org/fr/accueil' },
+        { id: 10, email: 'emailadresse@episciences.org', picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr', socialNetworks: [], website: 'https://www.episciences.org/fr/accueil' },
+        { id: 11, email: 'emailadresse@episciences.org', picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr', socialNetworks: [], website: 'https://www.episciences.org/fr/accueil' },
+        { id: 12, email: 'emailadresse@episciences.org', picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr', socialNetworks: [], website: 'https://www.episciences.org/fr/accueil' },
+        { id: 13, email: 'emailadresse@episciences.org', picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr', socialNetworks: [], website: 'https://www.episciences.org/fr/accueil' },
+        { id: 14, email: 'emailadresse@episciences.org', picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr', socialNetworks: [], website: 'https://www.episciences.org/fr/accueil' },
       ]
     },
     {
       title: titles[2],
       description: 'The Associate Editors form the Editorial Board and represent the community. They handle submissions assigned to them by the authors, following the Editorial Policy of the journal.',
       members: [
-        { id: 15, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-        { id: 16, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-        { id: 17, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-        { id: 18, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' }
+        { id: 15, email: 'emailadresse@episciences.org', picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr', socialNetworks: [], website: 'https://www.episciences.org/fr/accueil' },
+        { id: 16, email: 'emailadresse@episciences.org', picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr', socialNetworks: [], website: 'https://www.episciences.org/fr/accueil' },
+        { id: 17, email: 'emailadresse@episciences.org', picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr', socialNetworks: [], website: 'https://www.episciences.org/fr/accueil' },
+        { id: 18, email: 'emailadresse@episciences.org', picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr', socialNetworks: [], website: 'https://www.episciences.org/fr/accueil' }
       ]
     }
   ]
@@ -81,19 +77,25 @@ export default function Boards(): JSX.Element {
         <div className='boards-content-groups'>
           {boardsPerTitle.map((boardPerTitle, index) => (
             <div key={index} className='boards-content-groups-group'>
-              <div className='boards-content-groups-group-title'>
+              <div className='boards-content-groups-group-title' onClick={(): void => activeGroupIndex === index ? handleGroupToggle(-1) : handleGroupToggle(index)}>
                 <h2>{boardPerTitle.title}</h2>
                 {activeGroupIndex === index ? (
-                  <img className='boards-content-groups-group-caret' src={caretUp} alt='Caret up icon' onClick={(): void => handleGroupToggle(-1)} />
+                  <img className='boards-content-groups-group-caret' src={caretUp} alt='Caret up icon' />
                 ) : (
-                  <img className='boards-content-groups-group-caret' src={caretDown} alt='Caret down icon' onClick={(): void => handleGroupToggle(index)} />
+                  <img className='boards-content-groups-group-caret' src={caretDown} alt='Caret down icon' />
                 )}
               </div>
               <div className={`boards-content-groups-group-content ${activeGroupIndex === index && 'boards-content-groups-group-content-active'}`}>
                 <p className='boards-content-groups-group-content-description'>{boardPerTitle.description}</p>
                 <div className='boards-content-groups-group-content-grid'>
                   {boardPerTitle.members.map((member, index) => (
-                    <BoardCard key={index} {...member} fullCard={fullMemberIndex === index} blurCard={fullMemberIndex !== -1 && fullMemberIndex !== index} />
+                    <BoardCard
+                      key={index}
+                      {...member}
+                      fullCard={fullMemberIndex === index}
+                      blurCard={fullMemberIndex !== -1 && fullMemberIndex !== index}
+                      setFullMemberIndexCallback={(): void => fullMemberIndex !== index ? setFullMemberIndex(index) : setFullMemberIndex(-1)}
+                    />
                   ))}
                 </div>
               </div>

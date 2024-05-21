@@ -10,6 +10,7 @@ export default function Footer(): JSX.Element {
       <div className='footer-journal'>
         <div className='footer-journal-logo'>
           <img src={logoJpeSmall} alt='Journal logo'/>
+          {/* TODO: links */}
           <Link to='/'>See the journal’s notice</Link>
           <div>|</div>
           <Link to='/'>Contact</Link>

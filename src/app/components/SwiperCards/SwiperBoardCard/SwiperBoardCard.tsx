@@ -1,3 +1,5 @@
+import orcid from '/icons/orcid.svg';
+
 import { IBoard } from '../../../../types/board'
 import './SwiperBoardCard.scss'
 
@@ -11,7 +13,10 @@ export default function SwiperBoardCard({ picture, name, role, university, skill
           <img src={picture} alt={`${name} picture`}/>
         </div>
         <div className='swiperBoardCard-person-title'>
-          <div className='swiperBoardCard-person-title-name'>{name}</div>
+          <div className='swiperBoardCard-person-title-name'>
+            <div className='swiperBoardCard-person-title-name-text'>{name}</div>
+            <img className='swiperBoardCard-person-title-name-orcid' src={orcid} alt='Orcid icon' />
+          </div>
           <div className='swiperBoardCard-person-title-role'>{role}</div>
         </div>
       </div>

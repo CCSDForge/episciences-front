@@ -11,4 +11,18 @@
       padding-left: 210px;
     }
   }
+
+  &-icon {
+    &-small {
+      img {
+        width: 17px;
+      }
+    }
+
+    &-reverted {
+      flex-direction: row-reverse;
+      justify-content: start;
+      gap: 14px;
+    }
+  }
 }

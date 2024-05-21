@@ -1,13 +1,20 @@
 .pagination {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   justify-content: center;
   align-items: center;
   list-style: none;
-  margin-top: 200px;
 
   &-previous, &-next, &-page {
     cursor: pointer;
+  }
+
+  &-previous {
+    margin-right: 10px;
+  }
+
+  &-next {
+    margin-left: 10px;
   }
 
   &-page, &-break {
