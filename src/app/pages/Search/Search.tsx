@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { PATHS } from '../../../config/paths'
 import { useAppSelector } from '../../../hooks/store';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import './Search.scss';
@@ -12,7 +13,7 @@ export default function Search(): JSX.Element {
 
   useEffect(() => {
     if (!search) {
-      navigate('/');
+      navigate(PATHS.home);
     }
   }, [search, navigate])
 

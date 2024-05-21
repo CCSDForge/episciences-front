@@ -4,6 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import logoText from '/icons/logo-text.svg';
 import logoJpeBig from '/icons/logo-jpe-big.svg';
 import logoJpeSmall from '/icons/logo-jpe-small.svg';
+import { PATHS } from '../../../config/paths'
 import { useAppDispatch, useAppSelector } from '../../../hooks/store';
 import { setSearch } from '../../../store/features/search/search.slice';
 import Button from '../Button/Button';
@@ -41,7 +42,7 @@ export default function Header(): JSX.Element {
       return;
     }
 
-    navigate('/search');
+    navigate(PATHS.search);
   }
 
   const getPostHeaderLinks = (): JSX.Element => {
@@ -53,13 +54,13 @@ export default function Header(): JSX.Element {
             {showDropdown.content && (
                 <div className='header-postheader-links-dropdown-content'>
                   <div className='header-postheader-links-dropdown-content-links'>
-                    <Link to='/browse/latest'>All articles</Link>
+                    <Link to={PATHS.articles}>All articles</Link>
                     <Link to='/'>All volumes</Link>
                     <Link to='/'>Last volume</Link>
                     <Link to='/'>Sections</Link>
                     <Link to='/'>Special issues</Link>
                     <Link to='/'>Proceedings</Link>
-                    <Link to='/'>Authors</Link>
+                    <Link to={PATHS.authors}>Authors</Link>
                   </div>
                 </div>
               )}
@@ -69,14 +70,14 @@ export default function Header(): JSX.Element {
             {showDropdown.about && (
                 <div className='header-postheader-links-dropdown-content'>
                   <div className='header-postheader-links-dropdown-content-links'>
-                    <Link to='/'>The journal</Link>
+                    <Link to={PATHS.about}>The journal</Link>
                     <Link to='/'>News</Link>
                     <Link to='/'>Statistics</Link>
                   </div>
                 </div>
               )}
           </div>
-          <Link to='/boards'>Boards</Link>
+          <Link to={PATHS.boards}>Boards</Link>
           <Link to='/'>For authors</Link>
         </div>
         <div className={`header-postheader-search ${isReduced && 'header-postheader-search-reduced'}`}>
@@ -103,7 +104,7 @@ export default function Header(): JSX.Element {
       <header className='header header-reduced'>
         <div className='header-reduced-journal'>
           <div className='header-reduced-journal-logo'>
-            <Link to='/'>
+            <Link to={PATHS.home}>
               <img src={logoJpeSmall} alt='Reduced journal logo' />
             </Link>
           </div>
@@ -134,7 +135,7 @@ export default function Header(): JSX.Element {
       </div>
       <div className='header-journal'>
         <div className='header-journal-logo'>
-          <Link to='/'>
+          <Link to={PATHS.home}>
             <img src={logoJpeBig} alt='Journal logo' />
           </Link>
         </div>

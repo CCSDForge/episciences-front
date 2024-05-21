@@ -1,0 +1,22 @@
+.journalSection {
+  display: flex;
+  padding: 12px 24px 12px 24px;
+  border: 1px solid var(--grey);
+  border-bottom: 4px solid var(--red);
+
+  &-column {
+    margin-right: 50px;
+
+    &-row {
+      color: var(--red);
+      font-size: 14px;
+      text-decoration: underline;
+      margin-bottom: 10px;
+
+      a {
+        display: flex;
+        gap: 5px;
+      }
+    }
+  }
+}
