@@ -1,0 +1,52 @@
+.newsCard {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 30px 35px 20px 35px;
+  border: 1px solid var(--grey);
+  border-bottom: 4px solid var(--red);
+
+  &-publicationDate {
+    min-width: 190px;
+    color: var(--grey-light);
+    font-style: italic;
+    border-right: 1px solid var(--grey-light);
+    font-size: 14px;
+  }
+
+  &-content {
+    display: flex;
+    flex-direction: column;
+
+    &-title {
+      margin-bottom: 8px;
+      color: var(--red);
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    &-author {
+      margin-bottom: 16px;
+      font-size: 16px;
+    }
+
+    &-description {
+      flex: 1;
+      margin-bottom: 16px;
+      color: var(--black);
+      font-size: 16px;
+    }
+
+    &-read {
+      align-self: flex-end;
+      color: var(--red);
+      font-size: 14px;
+
+      a {
+        display: flex;
+        justify-content: space-between;
+        gap: 4px;
+      }
+    }
+  }
+}

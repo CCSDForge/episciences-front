@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 
 import { IArticle } from '../types/article';
 import { IAuthor } from '../types/author';
+import { INews } from '../types/news';
 
 export const ITEMS_PER_PAGE = 10;
 
 export interface PaginatedResults {
-  data: IArticle[] | IAuthor[];
+  data: IArticle[] | IAuthor[] | INews[];
   totalPages: number;
 }
 
