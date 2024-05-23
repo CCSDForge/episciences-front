@@ -6,7 +6,9 @@ import About from "../app/pages/About/About";
 import Articles from "../app/pages/Articles/Articles";
 import Authors from "../app/pages/Authors/Authors";
 import Boards from "../app/pages/Boards/Boards";
+import News from "../app/pages/News/News";
 import Search from "../app/pages/Search/Search";
+import Statistics from "../app/pages/Statistics/Statistics";
 import { PATHS, PathKeys } from "./paths";
 
 const basicRoute = (path: PathKeys, Component: () => JSX.Element): RouteObject => ({
@@ -35,6 +37,8 @@ const router = createBrowserRouter([
       crumbedRoute("articles", Articles, { parent: { path: 'home', label : 'Home > Content > ' }, crumb: 'Articles'}),
       crumbedRoute("authors", Authors, { parent: { path: 'home', label : 'Home > Content > ' }, crumb: 'Authors'}),
       crumbedRoute("about", About, { parent: { path: 'home', label : 'Home > About > ' }, crumb: 'The journal'}),
+      crumbedRoute("news", News, { parent: { path: 'home', label : 'Home > About > ' }, crumb: 'News'}),
+      crumbedRoute("statistics", Statistics, { parent: { path: 'home', label : 'Home > About > ' }, crumb: 'Statistics'}),
     ]
   },
   redirectedRoute("home"),

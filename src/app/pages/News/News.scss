@@ -1,0 +1,51 @@
+.news {
+  &-title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 35px;
+
+    &-icons {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 30px;
+
+      &-icon {
+        cursor: pointer;
+
+        &-row, &-row-red {
+          display: flex;
+          justify-content: space-between;
+          gap: 10px;
+        }
+
+        &-row {
+          color: var(--grey);
+          
+          &-red {
+            color: var(--red);
+          }
+        }
+      }
+    }
+  }
+
+  &-content {
+    display: flex;
+    flex-direction: column;
+
+    &-results {
+      display: flex;
+      margin-bottom: 150px;
+
+      &-cards {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding-left: 60px;
+        margin-top: 30px;
+      }
+    }
+  }
+}

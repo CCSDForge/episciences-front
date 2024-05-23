@@ -71,8 +71,8 @@ export default function Header(): JSX.Element {
                 <div className='header-postheader-links-dropdown-content'>
                   <div className='header-postheader-links-dropdown-content-links'>
                     <Link to={PATHS.about}>The journal</Link>
-                    <Link to='/'>News</Link>
-                    <Link to='/'>Statistics</Link>
+                    <Link to={PATHS.news}>News</Link>
+                    <Link to={PATHS.statistics}>Statistics</Link>
                   </div>
                 </div>
               )}

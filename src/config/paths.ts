@@ -1,10 +1,12 @@
 export const PATHS = {
   home: '/',
-  articles: 'browse/latest',
   boards: '/boards',
   search: '/search',
+  articles: 'browse/latest',
   authors: '/authors',
-  about: '/about'
+  about: '/about',
+  news: '/news',
+  statistics: '/statistics'
 }
 
 export type PathKeys = keyof typeof PATHS;
