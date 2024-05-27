@@ -11,6 +11,6 @@ i18next
     supportedLngs: ['en', 'fr'],
     debug: true,
     backend: {
-      loadPath: '/src/locales/{{lng}}/{{lng}}.json',
+      loadPath: '/locales/{{lng}}/{{lng}}.json',
     }
   })

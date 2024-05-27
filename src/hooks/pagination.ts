@@ -16,7 +16,7 @@ type FetchArticlesFunction = (currentPage: number) => Promise<PaginatedResults>;
 function usePagination(apiFunction: FetchArticlesFunction) {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
-  const [paginatedItems, setPaginatedItems] = useState<IArticle[] | IAuthor[]>([]);
+  const [paginatedItems, setPaginatedItems] = useState<IArticle[] | IAuthor[] | INews[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {

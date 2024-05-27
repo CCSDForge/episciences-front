@@ -55,9 +55,9 @@ export default function Header(): JSX.Element {
                 <div className='header-postheader-links-dropdown-content'>
                   <div className='header-postheader-links-dropdown-content-links'>
                     <Link to={PATHS.articles}>All articles</Link>
-                    <Link to='/'>All volumes</Link>
-                    <Link to='/'>Last volume</Link>
-                    <Link to='/'>Sections</Link>
+                    <Link to={PATHS.volumes}>All volumes</Link>
+                    <Link to={PATHS.volumes}>Last volume</Link>
+                    <Link to={PATHS.volumes}>Sections</Link>
                     <Link to='/'>Special issues</Link>
                     <Link to='/'>Proceedings</Link>
                     <Link to={PATHS.authors}>Authors</Link>

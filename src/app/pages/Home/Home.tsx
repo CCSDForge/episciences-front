@@ -1,10 +1,14 @@
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+import caretRight from '/icons/caret-right-grey.svg';
 import fakeProfile from '/icons/fake-profile.svg';
+import { PATHS } from '../../../config/paths';
 import { IArticle } from '../../../types/article';
 import { IBoard } from '../../../types/board';
 import { INews } from '../../../types/news';
 import { IStat } from '../../../types/stat';
+import IssuesSection from '../../components/HomeSections/IssuesSection/IssuesSection';
 import JournalSection from '../../components/HomeSections/JournalSection/JournalSection';
 import NewsSection from '../../components/HomeSections/NewsSection/NewsSection';
 import PresentationSection from '../../components/HomeSections/PresentationSection/PresentationSection';
@@ -82,20 +86,51 @@ export default function Home(): JSX.Element {
     ],
   ]
 
+  // TODO: type hint ?
+  const issues = [
+    { volume: 'Volume 16 - Issue 1', title: "D’un rêve d'universalité fonctionnelle au libéralisme linguistique : standardisation de la langue tchèque moderne et controverse des années 1990 et 2000" },
+    { volume: 'Volume 16 - Issue 1', title: "D’un rêve d'universalité fonctionnelle au libéralisme linguistique : standardisation de la langue tchèque moderne et controverse des années 1990 et 2000" }
+  ]
+
   return (
     <main className='home'>
       <h1 className='home-title'>{t('pages.home.title')}</h1>
       <PresentationSection />
-      <h2 className='home-subtitle'>Latest articles</h2>
+      <div className='home-subtitle'>
+        <h2>Latest articles</h2>
+        <Link to={PATHS.articles}>
+          <div className='home-subtitle-all'>
+            <div className='home-subtitle-all-text'>See all articles</div>
+            <img src={caretRight} alt='Caret right icon' />
+          </div>
+        </Link>
+      </div>
       <Swiper id='articles-swiper' type='article' slidesPerView={3} cards={articles}/>
-      <h2 className='home-subtitle'>News</h2>
+      <div className='home-subtitle'>
+        <h2>News</h2>
+        <Link to={PATHS.news}>
+          <div className='home-subtitle-all'>
+            <div className='home-subtitle-all-text'>See all news</div>
+            <img src={caretRight} alt='Caret right icon' />
+          </div>
+        </Link>
+      </div>
       <NewsSection news={news} />
-      <h2 className='home-subtitle'>Members</h2>
+      <div className='home-subtitle'>
+        <h2>Members</h2>
+        <Link to={PATHS.boards}>
+          <div className='home-subtitle-all'>
+            <div className='home-subtitle-all-text'>See all members</div>
+            <img src={caretRight} alt='Caret right icon' />
+          </div>
+        </Link>
+      </div>
       <Swiper id='boards-swiper' type='board' slidesPerView={4} cards={boards}/>
       <StatisticsSection stats={stats} />
       <h2 className='home-subtitle'>Journal indexation</h2>
       <JournalSection journals={journals} />
       <h2 className='home-subtitle'>Special issues</h2>
+      <IssuesSection issues={issues} />
     </main>
   )
 }
