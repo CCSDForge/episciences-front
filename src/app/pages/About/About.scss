@@ -2,4 +2,27 @@
   &-title {
     margin-bottom: 70px;
   }
+
+  &-content {
+    display: flex;
+
+    &-body {
+      display: flex;
+      flex-direction: column;
+      padding-left: 60px;
+
+      &-subtitle {
+        display: flex;
+        justify-content: space-between;
+        padding: 0px 15px 8px 0px;
+        margin: 20px 0px 20px 0px;
+        border-bottom: 1px solid var(--red);
+        cursor: pointer;
+      }
+
+      h2, h3 {
+        scroll-margin: 120px;
+      }
+    }
+  }
 }

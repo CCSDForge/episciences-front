@@ -1,5 +1,5 @@
-import { IAboutPage } from '../../../types/about'
+import { IPage } from '../../../types/page'
 
 export interface IAboutState {
-  about?: IAboutPage
+  about?: IPage
 }

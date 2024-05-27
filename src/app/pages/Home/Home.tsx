@@ -5,7 +5,7 @@ import caretRight from '/icons/caret-right-grey.svg';
 import fakeProfile from '/icons/fake-profile.svg';
 import { PATHS } from '../../../config/paths';
 import { IArticle } from '../../../types/article';
-import { IBoard } from '../../../types/board';
+import { IBoardMember } from '../../../types/board';
 import { INews } from '../../../types/news';
 import { IStat } from '../../../types/stat';
 import IssuesSection from '../../components/HomeSections/IssuesSection/IssuesSection';
@@ -47,7 +47,7 @@ export default function Home(): JSX.Element {
     { id: 3, title: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam", publicationDate: 'Published on Aug. 18th, 2023' },
   ]
 
-  const boards: IBoard[] = [
+  const boards: IBoardMember[] = [
     { id: 1, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
     { id: 2, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
     { id: 3, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },

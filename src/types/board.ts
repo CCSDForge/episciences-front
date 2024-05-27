@@ -1,9 +1,14 @@
-export interface IBoard {
+import { IPage } from "./page";
+
+export type IBoardPage = IPage;
+
+export interface IBoardMember {
   id: number;
-  name: string;
+  firstname: string;
+  lastname: string;
   email: string;
   description: string;
-  role: string;
+  roles: string[];
   university: string;
   skills: string;
   picture: string;
