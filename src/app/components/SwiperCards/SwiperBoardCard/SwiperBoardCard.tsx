@@ -1,9 +1,9 @@
 import orcid from '/icons/orcid.svg';
 
-import { IBoard } from '../../../../types/board'
+import { IBoardMember } from '../../../../types/board'
 import './SwiperBoardCard.scss'
 
-export type ISwiperBoardCardProps = IBoard
+export type ISwiperBoardCardProps = IBoardMember
 
 export default function SwiperBoardCard({ picture, name, role, university, skills }: ISwiperBoardCardProps): JSX.Element {
   return (

@@ -6,7 +6,7 @@ import tileRed from '/icons/tile-red.svg';
 import tileGrey from '/icons/tile-grey.svg';
 import usePagination, { PaginatedResults } from "../../../hooks/pagination";
 import { INews } from '../../../types/news';
-import { MODE } from '../../../utils';
+import { MODE } from '../../../utils/common';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import NewsCard from '../../components/Cards/NewsCard/NewsCard';
 import NewsSidebar from '../../components/Sidebars/NewsSidebar/NewsSidebar';

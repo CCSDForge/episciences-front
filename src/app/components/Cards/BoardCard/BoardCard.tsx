@@ -6,10 +6,10 @@ import externalLink from '/icons/external-link-red.svg';
 import linkedin from '/icons/linkedin.svg';
 import twitter from '/icons/twitter.svg';
 import mastodon from '/icons/mastodon.svg';
-import { IBoard } from "../../../../types/board";
+import { IBoardMember } from "../../../../types/board";
 import './BoardCard.scss'
 
-interface IBoardCardProps extends IBoard {
+interface IBoardCardProps extends IBoardMember {
   fullCard: boolean;
   blurCard: boolean;
   setFullMemberIndexCallback: () => void;

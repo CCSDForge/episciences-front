@@ -1,6 +1,8 @@
 import { createBrowserRouter, Navigate, RouteObject } from "react-router-dom";
 
 import JournalHook from "../hooks/journal";
+import ScrollToAnchor from "../hooks/scrollToAnchor";
+import ScrollToTop from "../hooks/scrollToTop";
 import MainLayout from "../app/layouts/MainLayout/MainLayout";
 import Home from "../app/pages/Home/Home";
 import About from "../app/pages/About/About";
@@ -19,6 +21,8 @@ const basicRoute = (path: PathKeys, Component: () => JSX.Element): RouteObject =
   path: PATHS[path],
   element: (
     <>
+      <ScrollToTop />
+      <ScrollToAnchor />
       <JournalHook />
       <Component />
     </>
@@ -29,6 +33,8 @@ const crumbedRoute = (path: PathKeys, Component: () => JSX.Element, handle?: { p
   path: PATHS[path],
   element: (
     <>
+      <ScrollToTop />
+      <ScrollToAnchor />
       <JournalHook />
       <Component />
     </>

@@ -1,4 +1,4 @@
-import { alphabet } from '../../../../utils';
+import { alphabet } from '../../../../utils/common';
 import SearchInput from '../../SearchInput/SearchInput';
 import './AuthorSidebar.scss'
 
