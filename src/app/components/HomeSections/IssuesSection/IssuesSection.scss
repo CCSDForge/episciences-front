@@ -1,0 +1,89 @@
+.issuesSection {
+  display: flex;
+  gap: 16px;
+
+  &-card {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 24px;
+    border: 1px solid var(--grey);
+    border-bottom: 4px solid var(--red);
+
+    &-template {
+      display: flex;
+      flex-direction: column;
+      padding: 15px;
+      background: var(--red);
+      color: var(--white);
+
+      &-jpe {
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 4px;
+      }
+
+      &-volume {
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: 4px;
+      }
+
+      &-issue {
+        font-size: 12px;
+        font-weight: 300;
+        margin-bottom: 4px;
+      }
+
+      &-number {
+        font-size: 50px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      &-year {
+        font-size: 12px;
+        font-weight: 300;
+      }
+    }
+
+    &-text {
+      display: flex;
+      flex-direction: column;
+
+      &-volume {
+        color: var(--red);
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      &-title {
+        color: var(--black);
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      &-year {
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+
+      &-count {
+        display: flex;
+        gap: 8px;
+        color: var(--grey);
+        font-size: 13px;
+      }
+      
+      &-download {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        flex: 1;
+        gap: 8px;
+        color: var(--red);
+        font-size: 13px;
+      }
+    }
+  }
+}

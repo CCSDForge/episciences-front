@@ -1,11 +1,10 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
 
 import { IVolume } from '../../../types/volume'
+import { createBaseQuery } from '../../utils'
 
 export const volumeApi = createApi({
-  baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_ROOT_ENDPOINT,
-  }),
+  baseQuery: createBaseQuery,
   reducerPath: 'volume',
   tagTypes: ['Volume'],
   endpoints: (build) => ({

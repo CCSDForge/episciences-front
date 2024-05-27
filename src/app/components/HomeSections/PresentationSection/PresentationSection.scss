@@ -3,9 +3,12 @@
   gap: 18px;
 
   &-about {
+    display: flex;
+    flex-direction: column;
     padding: 24px;
     border: 1px solid var(--grey);
     border-bottom: 4px solid var(--red);
+    max-width: 850px;
 
     &-content {
       font-size: 18px;
@@ -28,7 +31,43 @@
   }
 
   &-new {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
     border: 1px solid var(--grey);
     border-bottom: 4px solid var(--red);
+
+    &-title {
+      display: flex;
+      gap: 30px;
+      font-size: 14px;
+      border-bottom: 1px solid var(--grey-light);
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+
+      &-text {
+        color: var(--red);
+        font-weight: 600;
+      }
+    }
+
+    &-description {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      flex: 1;
+    }
+
+    &-about {
+      display: flex;
+      gap: 8px;
+      color: var(--red);
+      text-decoration: underline;
+      font-weight: bold;
+
+      &-text {
+        padding-bottom: 3px;
+      }
+    }
   }
 }

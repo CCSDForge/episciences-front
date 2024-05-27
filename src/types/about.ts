@@ -1,11 +1,5 @@
 export interface IAboutPage {
   id: number;
-  title: {
-    en: string;
-    fr: string;
-  };
-  content: {
-    en: string;
-    fr: string;
-  }
+  title: Record<string, string>;
+  content: Record<string, string>;
 }

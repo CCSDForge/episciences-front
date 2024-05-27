@@ -4,6 +4,23 @@
   }
 
   &-subtitle {
+    display: flex;
+    align-items: center;
+    gap: 30px;
     margin: 40px 0px 25px 0px;
+
+    &-all {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--grey);
+      font-size: 20px;
+      font-style: italic;
+
+      img {
+        height: 14px;
+        margin-top: 3px;
+      }
+    }
   }
 }

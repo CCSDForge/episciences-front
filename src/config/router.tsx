@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate, RouteObject } from "react-router-dom";
 
+import JournalHook from "../hooks/journal";
 import MainLayout from "../app/layouts/MainLayout/MainLayout";
 import Home from "../app/pages/Home/Home";
 import About from "../app/pages/About/About";
@@ -8,17 +9,30 @@ import Authors from "../app/pages/Authors/Authors";
 import Boards from "../app/pages/Boards/Boards";
 import News from "../app/pages/News/News";
 import Search from "../app/pages/Search/Search";
+import Sections from "../app/pages/Sections/Sections";
 import Statistics from "../app/pages/Statistics/Statistics";
+import VolumeDetails from "../app/pages/VolumeDetails/VolumeDetails";
+import Volumes from "../app/pages/Volumes/Volumes";
 import { PATHS, PathKeys } from "./paths";
 
 const basicRoute = (path: PathKeys, Component: () => JSX.Element): RouteObject => ({
   path: PATHS[path],
-  element: <Component />
+  element: (
+    <>
+      <JournalHook />
+      <Component />
+    </>
+  )
 })
 
-const crumbedRoute = (path: PathKeys, Component: () => JSX.Element, handle?: { parent: { path: PathKeys; label: string }; crumb: string }): RouteObject => ({
+const crumbedRoute = (path: PathKeys, Component: () => JSX.Element, handle?: { parent: { path: PathKeys; label: string }; crumb: string | ((id: string) => string) }): RouteObject => ({
   path: PATHS[path],
-  element: <Component />,
+  element: (
+    <>
+      <JournalHook />
+      <Component />
+    </>
+  ),
   handle: handle ? { ...handle, parent: { ...handle.parent, path: PATHS[handle.parent.path] } } : undefined
 })
 
@@ -36,6 +50,9 @@ const router = createBrowserRouter([
       crumbedRoute("search", Search, { parent: { path: 'home', label : 'Home > ' }, crumb: 'Search'}),
       crumbedRoute("articles", Articles, { parent: { path: 'home', label : 'Home > Content > ' }, crumb: 'Articles'}),
       crumbedRoute("authors", Authors, { parent: { path: 'home', label : 'Home > Content > ' }, crumb: 'Authors'}),
+      crumbedRoute("volumes", Volumes, { parent: { path: 'home', label : 'Home > Content > ' }, crumb: 'Volumes'}),
+      crumbedRoute("volumeDetails", VolumeDetails, { parent: { path: 'home', label : 'Home > Content > Volume > ' }, crumb: (id: string) => `Volume ${id}`}),
+      crumbedRoute("sections", Sections, { parent: { path: 'home', label : 'Home > Content > ' }, crumb: 'Sections'}),
       crumbedRoute("about", About, { parent: { path: 'home', label : 'Home > About > ' }, crumb: 'The journal'}),
       crumbedRoute("news", News, { parent: { path: 'home', label : 'Home > About > ' }, crumb: 'News'}),
       crumbedRoute("statistics", Statistics, { parent: { path: 'home', label : 'Home > About > ' }, crumb: 'Statistics'}),

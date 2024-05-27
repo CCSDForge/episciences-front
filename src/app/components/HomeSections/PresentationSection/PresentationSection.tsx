@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import caretRight from '/icons/caret-right-grey.svg';
+import caretDown from '/icons/caret-down-red.svg';
 import { PATHS } from '../../../../config/paths'
 import './PresentationSection.scss'
 
@@ -18,7 +19,17 @@ export default function PresentationSection(): JSX.Element {
           </div>
         </Link>
       </div>
-      <div className='presentationSection-new'></div>
+      <div className='presentationSection-new'>
+        <div className='presentationSection-new-title'>
+          <div className='presentationSection-new-title-date'>2024</div>
+          <div className='presentationSection-new-title-text'>Volume 14 - Spécial Issue</div>
+        </div>
+        <div className='presentationSection-new-description'>Archives et traces : enjeux, usages et poétiques. Actes des Doctoriales de l’Europe médiane, de l’espace russe et (post)soviétique (DEMEPS 2021)</div>
+        <div className='presentationSection-new-about'>
+          <div className='presentationSection-new-about-text'>About</div>
+          <img className='presentationSection-new-about-text-icon' src={caretDown} alt='Caret down icon' />
+        </div>
+      </div>
     </div>
   )
 }
