@@ -10,9 +10,8 @@ export const aboutApi = createApi({
   endpoints: (build) => ({
     fetchAboutPage: build.query<IPage | undefined, string>({
       query: (rvcode: string) => ({ url: `pages?page_code=about&rvcode=${rvcode}` }),
-      transformResponse(baseQueryReturnValue) {
-        const typedBaseQueryReturnValue = baseQueryReturnValue as IPage[]
-        return typedBaseQueryReturnValue.length > 0 ? typedBaseQueryReturnValue[0] : undefined
+      transformResponse(baseQueryReturnValue: IPage[]) {
+        return baseQueryReturnValue.length > 0 ? baseQueryReturnValue[0] : undefined
       },
     }),
   }),

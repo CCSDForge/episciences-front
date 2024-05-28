@@ -2,9 +2,16 @@ import { Link } from 'react-router-dom';
 
 import logo from '/logo.svg';
 import logoJpeSmall from '/icons/logo-jpe-small.svg';
+import { useAppSelector } from '../../../hooks/store';
 import './Footer.scss'
 
 export default function Footer(): JSX.Element {
+  const settings = useAppSelector(state => state.journalReducer.currentJournal?.settings);
+
+  const getISSN = (): string | undefined => {
+    return settings?.find((setting) => setting.setting === "ISSN")?.value
+  }
+
   return (
     <footer className='footer'>
       <div className='footer-journal'>
@@ -18,8 +25,8 @@ export default function Footer(): JSX.Element {
           <Link to='/'>Credits</Link>
         </div>
         <div className='footer-journal-rss'>
-          <Link to='/'>eISSN 1365-8050</Link>
-          <div>|</div>
+          {getISSN() && <div>{`eISSN ${getISSN()}`}</div>}
+          {getISSN() && <div>|</div>}
           <Link to='/'>RSS</Link>
         </div>
       </div>

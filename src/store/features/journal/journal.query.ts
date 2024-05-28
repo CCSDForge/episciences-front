@@ -10,8 +10,8 @@ export const journalApi = createApi({
   endpoints: (build) => ({
     fetchJournals: build.query<IJournal[], null>({
       query: () => ({ url: 'journals?pagination=false' }),
-      transformResponse(baseQueryReturnValue) {
-        return baseQueryReturnValue as IJournal[]
+      transformResponse(baseQueryReturnValue: IJournal[]) {
+        return baseQueryReturnValue
       },
     }),
   }),

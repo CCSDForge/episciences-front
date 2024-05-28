@@ -5,18 +5,17 @@ import caretUp from '/icons/caret-up-blue.svg';
 import caretDown from '/icons/caret-down-blue.svg';
 import { useAppDispatch, useAppSelector } from '../../../hooks/store';
 import { setLanguage } from '../../../store/features/i18n/i18n.slice';
+import { AvailableLanguage, availableLanguages } from '../../../utils/i18n';
 import './LanguageDropdown.scss'
 
 export default function LanguageDropdown() {
-  const availablesLanguages = ['en', 'fr']
-
   const dispatch = useAppDispatch();
 
   const language = useAppSelector(state => state.i18nReducer.language);
 
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const switchLanguage = (updatedLanguage: string): void => {
+  const switchLanguage = (updatedLanguage: AvailableLanguage): void => {
     if (updatedLanguage === language) {
       return;
     }
@@ -38,8 +37,8 @@ export default function LanguageDropdown() {
       {showDropdown && (
         <div className='languageDropdown-content'>
           <div className='languageDropdown-content-links'>
-            {availablesLanguages.map((availablesLanguage, index) => (
-              <span key={index} onClick={(): void => switchLanguage(availablesLanguage)}>{availablesLanguage.toUpperCase()}</span>
+            {availableLanguages.map((availableLanguage, index) => (
+              <span key={index} onClick={(): void => switchLanguage(availableLanguage)}>{availableLanguage.toUpperCase()}</span>
             ))}
           </div>
         </div>

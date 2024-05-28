@@ -2,14 +2,17 @@ import ReactPaginate from 'react-paginate';
 
 import caretLeft from '/icons/caret-left-red.svg';
 import caretRight from '/icons/caret-right-red.svg';
+import { ITEMS_PER_PAGE } from '../../../utils/pagination';
 import './Pagination.scss'
 
 interface IPaginationProps {
-  pageCount: number;
+  totalItems?: number;
   onPageChange: (selectedItem: { selected: number }) => void;
 }
 
-export default function Pagination({ pageCount, onPageChange }: IPaginationProps): JSX.Element {
+export default function Pagination({ totalItems, onPageChange }: IPaginationProps): JSX.Element {
+  const pageCount = totalItems ? Math.ceil(totalItems / ITEMS_PER_PAGE) : 0;
+
   return (
     <ReactPaginate
       pageCount={pageCount}

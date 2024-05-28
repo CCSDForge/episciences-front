@@ -20,6 +20,7 @@ export default function Header(): JSX.Element {
 
   const search = useAppSelector(state => state.searchReducer.search);
   const language = useAppSelector(state => state.i18nReducer.language);
+  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name);
 
   const [isReduced, setIsReduced] = useState(false);
   const [showDropdown, setShowDropdown] = useState({ content: false, about: false });
@@ -139,7 +140,7 @@ export default function Header(): JSX.Element {
             <img src={logoJpeBig} alt='Journal logo' />
           </Link>
         </div>
-        <div className='header-journal-title'>Journal of Philosophical Economics</div>
+        <div className='header-journal-title'>{journalName}</div>
       </div>
       {getPostHeaderLinks()}
     </header>
