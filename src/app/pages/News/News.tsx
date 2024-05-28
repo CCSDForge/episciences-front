@@ -4,17 +4,22 @@ import listRed from '/icons/list-red.svg';
 import listGrey from '/icons/list-grey.svg';
 import tileRed from '/icons/tile-red.svg';
 import tileGrey from '/icons/tile-grey.svg';
-import usePagination, { PaginatedResults } from "../../../hooks/pagination";
-import { INews } from '../../../types/news';
-import { MODE } from '../../../utils/common';
+import { useAppSelector } from "../../../hooks/store";
+import { useFetchNewsQuery } from '../../../store/features/news/news.query';
+import { RENDERING_MODE } from '../../../utils/card';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
+import Loader from '../../components/Loader/Loader';
 import NewsCard from '../../components/Cards/NewsCard/NewsCard';
 import NewsSidebar from '../../components/Sidebars/NewsSidebar/NewsSidebar';
 import Pagination from "../../components/Pagination/Pagination";
 import './News.scss'
 
 export default function News(): JSX.Element {
-  const [mode, setMode] = useState(MODE.LIST);
+  const language = useAppSelector(state => state.i18nReducer.language)
+  const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [mode, setMode] = useState(RENDERING_MODE.LIST);
 
     // TODO: remove mocks
   // TODO: type hint filters in src/types ?
@@ -31,50 +36,11 @@ export default function News(): JSX.Element {
     },
   ]);
 
-  const [news, setNews] = useState<INews[]>([
-    { 
-      id: 1,
-      title: 'Open-access reformers launch next bold publishing plan',
-      publicationDate: 'August 18, 2023',
-      author: 'Ilona Sinzelle-Poňavičová',
-      description: 'The group behind Plan S has already accelerated the open-access movement. Now it is proposing a more radical revolution for science publishing. In case you missed the article, click on the link below.'
-    },
-    { 
-      id: 2,
-      title: 'Open-access reformers launch next bold publishing plan',
-      publicationDate: 'August 18, 2023',
-      author: 'Ilona Sinzelle-Poňavičová',
-      description: 'The group behind Plan S has already accelerated the open-access movement. Now it is proposing a more radical revolution for science publishing. In case you missed the article, click on the link below.'
-    },
-    { 
-      id: 3,
-      title: 'Open-access reformers launch next bold publishing plan',
-      publicationDate: 'August 18, 2023',
-      author: 'Ilona Sinzelle-Poňavičová',
-      description: 'The group behind Plan S has already accelerated the open-access movement. Now it is proposing a more radical revolution for science publishing. In case you missed the article, click on the link below.'
-    },
-    { 
-      id: 4,
-      title: 'Open-access reformers launch next bold publishing plan',
-      publicationDate: 'August 18, 2023',
-      author: 'Ilona Sinzelle-Poňavičová',
-      description: 'The group behind Plan S has already accelerated the open-access movement. Now it is proposing a more radical revolution for science publishing. In case you missed the article, click on the link below.'
-    },
-    { 
-      id: 5,
-      title: 'Open-access reformers launch next bold publishing plan',
-      publicationDate: 'August 18, 2023',
-      author: 'Ilona Sinzelle-Poňavičová',
-      description: 'The group behind Plan S has already accelerated the open-access movement. Now it is proposing a more radical revolution for science publishing. In case you missed the article, click on the link below.'
-    },
-    { 
-      id: 6,
-      title: 'Open-access reformers launch next bold publishing plan',
-      publicationDate: 'August 18, 2023',
-      author: 'Ilona Sinzelle-Poňavičová',
-      description: 'The group behind Plan S has already accelerated the open-access movement. Now it is proposing a more radical revolution for science publishing. In case you missed the article, click on the link below.'
-    },
-  ]);
+  const { data: news, isFetching } = useFetchNewsQuery({ rvcode: rvcode!, page: currentPage }, { skip: !rvcode })
+
+  const handlePageClick = (selectedItem: { selected: number }): void => {
+    setCurrentPage(selectedItem.selected + 1);
+  };
 
   const onSelectFilterChoice = (filterId: number, choiceId: number): void => {
     const updatedFilters = filters.map((filter) => {
@@ -96,25 +62,14 @@ export default function News(): JSX.Element {
     setFilters(updatedFilters);
   }
 
-  const fetchPaginatedNews = async (currentPage: number): Promise<PaginatedResults> => {
-    // TODO : fetch call
-    
-    return {
-      data: news,
-      totalPages: 20
-    }
-  }
-
-  const { paginatedItems, handlePageClick, pageCount } = usePagination(fetchPaginatedNews);
-
   return (
     <main className='news'>
       <Breadcrumb />
       <div className='news-title'>
         <h1>News</h1>
         <div className='news-title-icons'>
-          <div className='news-title-icons-icon' onClick={(): void => setMode(MODE.TILE)}>
-            {mode === MODE.TILE ? (
+          <div className='news-title-icons-icon' onClick={(): void => setMode(RENDERING_MODE.TILE)}>
+            {mode === RENDERING_MODE.TILE ? (
               <div className='news-title-icons-icon-row-red'>
                 <img src={tileRed} alt='Red tile icon' />
                 <span>Tile</span>
@@ -126,8 +81,8 @@ export default function News(): JSX.Element {
               </div>
             )}
           </div>
-          <div className='news-title-icons-icon' onClick={(): void =>setMode(MODE.LIST)}>
-            {mode === MODE.LIST ? (
+          <div className='news-title-icons-icon' onClick={(): void =>setMode(RENDERING_MODE.LIST)}>
+            {mode === RENDERING_MODE.LIST ? (
               <div className='news-title-icons-icon-row-red'>
                 <img src={listRed} alt='Red list icon' />
                 <span>List</span>
@@ -141,17 +96,25 @@ export default function News(): JSX.Element {
           </div>
         </div>
       </div>
-      <div className='news-content'>
-        <div className='news-content-results'>
-          <NewsSidebar filters={filters} onSelectFilterChoiceCallback={onSelectFilterChoice} />
-          <div className='news-content-results-cards'>
-            {paginatedItems.map((news, index) => (
-              <NewsCard key={index} {...news} />
-            ))}
+      {isFetching ? (
+        <Loader />
+      ) : (
+        <div className='news-content'>
+          <div className='news-content-results'>
+            <NewsSidebar filters={filters} onSelectFilterChoiceCallback={onSelectFilterChoice} />
+            <div className='news-content-results-cards'>
+              {news?.data.map((singleNews, index) => (
+                <NewsCard
+                  key={index}
+                  language={language}
+                  news={singleNews}
+                />
+              ))}
+            </div>
           </div>
+          <Pagination totalItems={news?.totalItems} onPageChange={handlePageClick} />
         </div>
-        <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
-      </div>
+      )}
     </main>
   )
 }

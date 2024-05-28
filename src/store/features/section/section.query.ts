@@ -10,8 +10,8 @@ export const sectionApi = createApi({
   endpoints: (build) => ({
     fetchSections: build.query<ISection[], null>({
       query: () => ({ url: 'sections' }),
-      transformResponse(baseQueryReturnValue) {
-        return (baseQueryReturnValue as { data: ISection[] }).data
+      transformResponse(baseQueryReturnValue: { data: ISection[] }) {
+        return baseQueryReturnValue.data
       },
     }),
   }),

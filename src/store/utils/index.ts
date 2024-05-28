@@ -12,3 +12,12 @@ export const createBaseQueryWithJsonAccept = fetchBaseQuery({
     return headers;
   }
 });
+
+export const createBaseQueryWithLdJsonAccept = fetchBaseQuery({
+  baseUrl: import.meta.env.VITE_API_ROOT_ENDPOINT,
+  prepareHeaders: (headers) => {
+    headers.set('Accept', 'application/ld+json')
+
+    return headers;
+  }
+});

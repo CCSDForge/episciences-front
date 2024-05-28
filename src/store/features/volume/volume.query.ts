@@ -10,8 +10,8 @@ export const volumeApi = createApi({
   endpoints: (build) => ({
     fetchVolumes: build.query<IVolume[], null>({
       query: () => ({ url: 'volumes' }),
-      transformResponse(baseQueryReturnValue) {
-        return (baseQueryReturnValue as { data: IVolume[] }).data
+      transformResponse(baseQueryReturnValue: { data: IVolume[] }) {
+        return baseQueryReturnValue.data
       },
     }),
   }),

@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import usePagination, { PaginatedResults } from "../../../hooks/pagination";
 import { IAuthor } from "../../../types/author";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import AuthorCard, { IAuthorCardProps } from "../../components/Cards/AuthorCard/AuthorCard";
@@ -54,14 +53,14 @@ export default function Authors(): JSX.Element {
     },
   ]);
 
-  const fetchPaginatedAuthors = async (currentPage: number): Promise<PaginatedResults> => {
-    // TODO : fetch call
+  // const fetchPaginatedAuthors = async (currentPage: number): Promise<PaginatedResults> => {
+  //   // TODO : fetch call
     
-    return {
-      data: authors,
-      totalPages: 20
-    }
-  }
+  //   return {
+  //     data: authors,
+  //     totalPages: 20
+  //   }
+  // }
 
   const onSearch = (newSearch: string): void => {
     setSearch(newSearch)
@@ -71,15 +70,13 @@ export default function Authors(): JSX.Element {
     setActiveLetter(newActiveLetter !== activeLetter ? newActiveLetter : '')
   }
 
-  const { paginatedItems, handlePageClick, pageCount } = usePagination(fetchPaginatedAuthors);
+  // const getExpandedAuthor = (): IAuthor | null => {
+  //   if (expandedAuthorIndex === -1) {
+  //     return null
+  //   }
 
-  const getExpandedAuthor = (): IAuthor | null => {
-    if (expandedAuthorIndex === -1) {
-      return null
-    }
-
-    return paginatedItems.find((_, index) => expandedAuthorIndex === index) as IAuthor
-  }
+  //   return paginatedItems.find((_, index) => expandedAuthorIndex === index) as IAuthor
+  // }
 
   const onCloseDetails = (): void => {
     setExpandedAuthorIndex(-1)
@@ -94,24 +91,24 @@ export default function Authors(): JSX.Element {
         <AuthorSidebar onSearchCallback={onSearch} activeLetter={activeLetter} onSetActiveLetterCallback={onSetActiveLetter} />
         <div className='authors-content-results'>
           <div className='authors-content-results-paginationTop'>
-            <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
+            {/* <Pagination pageCount={pageCount} onPageChange={handlePageClick} /> */}
           </div>
           <div className='authors-content-results-cards'>
-            {paginatedItems.map((author, index) => (
+            {/* {paginatedItems.map((author, index) => (
               <AuthorCard
                 key={index}
                 {...author as IAuthorCardProps}
                 expandedCard={expandedAuthorIndex === index}
                 setExpandedAuthorIndexCallback={(): void => expandedAuthorIndex !== index ? setExpandedAuthorIndex(index) : setExpandedAuthorIndex(-1)}
               />
-            ))}
+            ))} */}
           </div>
           <div className='authors-content-results-paginationBottom'>
-            <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
+            {/* <Pagination pageCount={pageCount} onPageChange={handlePageClick} /> */}
           </div>
         </div>
       </div>
-      {expandedAuthorIndex >= 0 && <AuthorDetails {...getExpandedAuthor() as IAuthorCardProps} onCloseDetailsCallback={onCloseDetails} />}
+      {/* {expandedAuthorIndex >= 0 && <AuthorDetails {...getExpandedAuthor() as IAuthorCardProps} onCloseDetailsCallback={onCloseDetails} />} */}
     </main>
   )
 }

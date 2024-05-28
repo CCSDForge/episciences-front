@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import usePagination, { PaginatedResults } from "../../../hooks/pagination";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import ArticleCard, { IArticleCard } from "../../components/Cards/ArticleCard/ArticleCard";
 import ArticleSidebar from "../../components/Sidebars/ArticleSidebar/ArticleSidebar";
@@ -101,16 +100,14 @@ export default function Articles(): JSX.Element {
     },
   ]);
 
-  const fetchPaginatedArticles = async (currentPage: number): Promise<PaginatedResults> => {
-    // TODO : fetch call
+  // const fetchPaginatedArticles = async (currentPage: number): Promise<PaginatedResults> => {
+  //   // TODO : fetch call
     
-    return {
-      data: articles,
-      totalPages: 20
-    }
-  }
-
-  const { paginatedItems, handlePageClick, pageCount } = usePagination(fetchPaginatedArticles);
+  //   return {
+  //     data: articles,
+  //     totalPages: 20
+  //   }
+  // }
 
   const getActiveFiltersChoices = (): { id: number; label: string; filterId: number }[] => {
     const activeChoices: { id: number; label: string; filterId: number }[] = [];
@@ -202,12 +199,12 @@ export default function Articles(): JSX.Element {
         <div className='articles-content-results'>
           <ArticleSidebar filters={filters} onCheckFilterChoiceCallback={onCheckFilterChoice} />
           <div className='articles-content-results-cards'>
-            {paginatedItems.map((article, index) => (
+            {/* {paginatedItems.map((article, index) => (
               <ArticleCard key={index} {...article as IArticleCard} toggleAbstractCallback={(): void => toggleAbstract(article.id)} />
-            ))}
+            ))} */}
           </div>
         </div>
-        <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
+        {/* <Pagination pageCount={pageCount} onPageChange={handlePageClick} /> */}
       </div>
     </main>
   )
