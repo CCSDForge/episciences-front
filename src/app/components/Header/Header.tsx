@@ -58,7 +58,7 @@ export default function Header(): JSX.Element {
                     <Link to={PATHS.articles}>All articles</Link>
                     <Link to={PATHS.volumes}>All volumes</Link>
                     <Link to={PATHS.volumes}>Last volume</Link>
-                    <Link to={PATHS.volumes}>Sections</Link>
+                    <Link to={PATHS.sections}>Sections</Link>
                     <Link to='/'>Special issues</Link>
                     <Link to='/'>Proceedings</Link>
                     <Link to={PATHS.authors}>Authors</Link>

@@ -9,7 +9,7 @@ export const journalApi = createApi({
   tagTypes: ['Journal'],
   endpoints: (build) => ({
     fetchJournals: build.query<IJournal[], null>({
-      query: () => ({ url: 'journals?pagination=false' }),
+      query: () => 'journals?pagination=false',
       transformResponse(baseQueryReturnValue: IJournal[]) {
         return baseQueryReturnValue
       },

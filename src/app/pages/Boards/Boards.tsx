@@ -9,7 +9,7 @@ import { IBoardMember } from '../../../types/board';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import BoardCard from '../../components/Cards/BoardCard/BoardCard';
 import Loader from '../../components/Loader/Loader';
-import BoardSidebar from '../../components/Sidebars/BoardSidebar/BoardSidebar';
+import BoardsSidebar from '../../components/Sidebars/BoardsSidebar/BoardsSidebar';
 import './Boards.scss';
 
 interface IBoardPerTitle {
@@ -66,6 +66,7 @@ export default function Boards(): JSX.Element {
     setActiveGroupIndex(prev => prev === index ? 0 : index);
   };
 
+  console.log(getBoardsPerTitle())
   return (
     <main className='boards'>
       <Breadcrumb />
@@ -82,7 +83,7 @@ export default function Boards(): JSX.Element {
         <Loader />
       ) : (
         <div className='boards-content'>
-          <BoardSidebar groups={getPagesLabels()} activeGroupIndex={activeGroupIndex} onSetActiveGroupCallback={handleGroupToggle} />
+          <BoardsSidebar groups={getPagesLabels()} activeGroupIndex={activeGroupIndex} onSetActiveGroupCallback={handleGroupToggle} />
           <div className='boards-content-groups'>
             {getBoardsPerTitle().map((boardPerTitle, index) => (
               <div key={index} className='boards-content-groups-group'>
@@ -102,7 +103,7 @@ export default function Boards(): JSX.Element {
                     {boardPerTitle.members.map((member, index) => (
                       <BoardCard
                         key={index}
-                        {...member}
+                        member={member}
                         fullCard={fullMemberIndex === index}
                         blurCard={fullMemberIndex !== -1 && fullMemberIndex !== index}
                         setFullMemberIndexCallback={(): void => fullMemberIndex !== index ? setFullMemberIndex(index) : setFullMemberIndex(-1)}

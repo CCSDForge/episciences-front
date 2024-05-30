@@ -1,32 +1,32 @@
 import './NewsSidebar.scss'
 
-interface INewsSidebarProps {
-  filters: { id: number; title: string; choices: { id: number; label: string; isSelected: boolean; }[] }[];
-  onSelectFilterChoiceCallback: (filterId: number, choiceId: number) => void;
+export interface INewsYearSelection {
+  year: number;
+  isSelected: boolean;
 }
 
-export default function NewsSidebar({ filters, onSelectFilterChoiceCallback }: INewsSidebarProps): JSX.Element {
+interface INewsSidebarProps {
+  years: INewsYearSelection[];
+  onSelectYearCallback: (year: number) => void;
+}
+
+export default function NewsSidebar({ years, onSelectYearCallback }: INewsSidebarProps): JSX.Element {
   return (
     <div className='newsSidebar'>
-      {filters.map((filter, index) => (
-        <div
-          key={index}
-          className='newsSidebar-filter'
-        >
-          <div className='newsSidebar-filter-title'>{filter.title}</div>
-          <div className='newsSidebar-filter-choices'>
-            {filter.choices.map((choice, index) => (
-              <div
-                key={index}
-                className={`newsSidebar-filter-choices-choice ${choice.isSelected && 'newsSidebar-filter-choices-choice-selected'}`}
-                onClick={(): void => onSelectFilterChoiceCallback(filter.id, choice.id )}
-              >
-                {choice.label}
-              </div>
-            ))}
-          </div>
+      <div className='newsSidebar-title'>Years</div>
+      <div className='newsSidebar-years'>
+        <div className='newsSidebar-years-list'>
+          {years.map((y) => (
+            <div
+              key={y.year}
+              className={`newsSidebar-years-list-year ${y.isSelected && 'newsSidebar-years-list-year-selected'}`}
+              onClick={(): void => onSelectYearCallback(y.year)}
+            >
+              {y.year}
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   )
 }

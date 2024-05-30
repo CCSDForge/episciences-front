@@ -21,7 +21,7 @@ export default function NewsCard({ language, news }: INewsCardProps): JSX.Elemen
         {news.content && <div className='newsCard-content-content'>{news.content[language]}</div>}
         {news.link && (
           <div className='newsCard-content-read'>
-            <Link to={news.link}>
+            <Link to={news.link} target='_blank'>
               <img src={externalLink} alt='External link icon' />
               <div className='newsCard-content-read-text'>Read</div>
             </Link>

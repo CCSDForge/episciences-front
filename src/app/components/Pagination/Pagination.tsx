@@ -27,6 +27,7 @@ export default function Pagination({ totalItems, onPageChange }: IPaginationProp
       breakClassName='pagination-break'
       marginPagesDisplayed={0}
       pageRangeDisplayed={3}
+      renderOnZeroPageCount={null}
     />
   )
 }

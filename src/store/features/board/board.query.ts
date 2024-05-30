@@ -2,7 +2,7 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 
 import { IBoardPage, IBoardMember } from '../../../types/board'
 import { createBaseQueryWithJsonAccept } from '../../utils'
-import { boardTypes } from '../../../utils/board'
+import { boardTypes } from '../../../utils/filter'
 
 export const boardApi = createApi({
   baseQuery: createBaseQueryWithJsonAccept,
@@ -10,13 +10,13 @@ export const boardApi = createApi({
   tagTypes: ['Board'],
   endpoints: (build) => ({
     fetchBoardPages: build.query<IBoardPage[], string>({
-      query: (rvcode: string) => ({ url: `pages?pagination=false&rvcode=${rvcode}` }),
+      query: (rvcode: string) => `pages?pagination=false&rvcode=${rvcode}`,
       transformResponse(baseQueryReturnValue) {
         return (baseQueryReturnValue as IBoardPage[]).filter((page) => boardTypes.includes(page.page_code))
       },
     }),
     fetchBoardMembers: build.query<IBoardMember[], string>({
-      query: (rvcode: string) => ({ url: `journals/boards/${rvcode}` }),
+      query: (rvcode: string) => `journals/boards/${rvcode}`,
       transformResponse(baseQueryReturnValue: { boards: { roles: string[][] }[] }) {
         const formattedBoardMembers = baseQueryReturnValue.boards.map((board) => ({
           ...board,
