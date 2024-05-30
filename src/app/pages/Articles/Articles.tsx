@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import ArticleCard, { IArticleCard } from "../../components/Cards/ArticleCard/ArticleCard";
-import ArticleSidebar from "../../components/Sidebars/ArticleSidebar/ArticleSidebar";
+import ArticlesSidebar from "../../components/Sidebars/ArticlesSidebar/ArticlesSidebar";
 import Pagination from "../../components/Pagination/Pagination";
 import Tag from "../../components/Tag/Tag";
 import './Articles.scss';
@@ -197,7 +197,7 @@ export default function Articles(): JSX.Element {
       </div>
       <div className='articles-content'>
         <div className='articles-content-results'>
-          <ArticleSidebar filters={filters} onCheckFilterChoiceCallback={onCheckFilterChoice} />
+          <ArticlesSidebar filters={filters} onCheckFilterChoiceCallback={onCheckFilterChoice} />
           <div className='articles-content-results-cards'>
             {/* {paginatedItems.map((article, index) => (
               <ArticleCard key={index} {...article as IArticleCard} toggleAbstractCallback={(): void => toggleAbstract(article.id)} />

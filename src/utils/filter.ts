@@ -2,15 +2,24 @@ export const alphabet: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 
 
 export const START_YEAR = 1960;
 
-export const years = (): number[] => {
-  const allYears = [];
+export const allYears = (): number[] => {
+  const years = [];
 
   const start = START_YEAR;
   const end = new Date().getFullYear();
 
-  for (let year = start; year <= end; year++) {
-    allYears.push(year);
+  for (let year = end; year >= start; year--) {
+    years.push(year);
   }
 
-  return allYears;
+  return years;
 }
+
+export const boardTypes = ['editorial-board', 'technical-board', 'scientific-advisory-board', 'former-members']
+
+// TODO: translate ?
+export const volumeTypes: { label: string; value: string; }[] = [
+  { label: 'Volumes', value: 'volume' },
+  { label: 'Special Issues', value: 'special_issue' },
+  { label: 'Proceedings', value: 'proceeding' }
+]

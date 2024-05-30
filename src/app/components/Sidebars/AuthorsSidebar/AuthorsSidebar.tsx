@@ -1,24 +1,24 @@
 import { alphabet } from '../../../../utils/filter';
 import SearchInput from '../../SearchInput/SearchInput';
-import './AuthorSidebar.scss'
+import './AuthorsSidebar.scss'
 
-interface IAuthorSidebarProps {
+interface IAuthorsSidebarProps {
   onSearchCallback: (search: string) => void;
   activeLetter: string;
   onSetActiveLetterCallback: (letter: string) => void;
 }
 
-export default function AuthorSidebar({ onSearchCallback, activeLetter, onSetActiveLetterCallback }: IAuthorSidebarProps): JSX.Element {
+export default function AuthorsSidebar({ onSearchCallback, activeLetter, onSetActiveLetterCallback }: IAuthorsSidebarProps): JSX.Element {
   return (
-    <div className='authorSidebar'>
-      <div className='authorSidebar-search'>
+    <div className='authorsSidebar'>
+      <div className='authorsSidebar-search'>
         <SearchInput placeholder='search a name' onChangeCallback={onSearchCallback} className='search-icon-small search-icon-reverted' />
       </div>
-      <div className='authorSidebar-letters'>
+      <div className='authorsSidebar-letters'>
         {alphabet.map((letter, index) => (
           <div
             key={index}
-            className={`authorSidebar-letters-letter ${activeLetter === letter && 'authorSidebar-letters-letter-active'}`}
+            className={`authorsSidebar-letters-letter ${activeLetter === letter && 'authorsSidebar-letters-letter-active'}`}
             onClick={(): void => onSetActiveLetterCallback(letter)}
           >{letter}</div>
         ))}

@@ -1,31 +1,31 @@
 import Checkbox from '../../Checkbox/Checkbox';
-import './ArticleSidebar.scss'
+import './SectionsSidebar.scss'
 
-interface IArticleSidebarProps {
+interface ISectionsSidebarProps {
   filters: { id: number; title: string; choices: { id: number; label: string; isChecked: boolean; }[] }[];
   onCheckFilterChoiceCallback: (filterId: number, choiceId: number) => void;
 }
 
-export default function ArticleSidebar({ filters, onCheckFilterChoiceCallback }: IArticleSidebarProps): JSX.Element {
+export default function SectionsSidebar({ filters, onCheckFilterChoiceCallback }: ISectionsSidebarProps): JSX.Element {
   return (
-    <div className='articleSidebar'>
+    <div className='sectionsSidebar'>
       {filters.map((filter, index) => (
         <div
           key={index}
-          className='articleSidebar-filter'
+          className='sectionsSidebar-filter'
         >
-          <div className='articleSidebar-filter-title'>{filter.title}</div>
-          <div className='articleSidebar-filter-choices'>
+          <div className='sectionsSidebar-filter-title'>{filter.title}</div>
+          <div className='sectionsSidebar-filter-choices'>
             {filter.choices.map((choice, index) => (
               <div
                 key={index}
-                className='articleSidebar-filter-choices-choice'
+                className='sectionsSidebar-filter-choices-choice'
               >
-                <div className='articleSidebar-filter-choices-choice-checkbox'>
+                <div className='sectionsSidebar-filter-choices-choice-checkbox'>
                   <Checkbox checked={choice.isChecked} onChangeCallback={(): void => onCheckFilterChoiceCallback(filter.id, choice.id )}/>
                 </div>
                 <span
-                  className={`articleSidebar-filter-choices-choice-label ${choice.isChecked && 'articleSidebar-filter-choices-choice-label-checked'}`}
+                  className={`sectionsSidebar-filter-choices-choice-label ${choice.isChecked && 'sectionsSidebar-filter-choices-choice-label-checked'}`}
                   onClick={(): void => onCheckFilterChoiceCallback(filter.id, choice.id )}
                 >
                   {choice.label}

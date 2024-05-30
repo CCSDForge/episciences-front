@@ -31,6 +31,16 @@
         color: var(--black);
       }
     }
+
+    &-picture {
+      width: 64px;
+      height: 64px;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
 
   &-university, &-full-initial-university {

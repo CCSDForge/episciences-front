@@ -11,7 +11,7 @@ export interface IBoardMember {
   roles: string[];
   university: string;
   skills: string;
-  picture: string;
+  picture?: string;
   socialNetworks: string[];
   website: string;
 }

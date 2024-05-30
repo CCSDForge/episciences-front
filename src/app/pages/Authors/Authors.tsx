@@ -3,7 +3,7 @@ import { useState } from "react";
 import { IAuthor } from "../../../types/author";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import AuthorCard, { IAuthorCardProps } from "../../components/Cards/AuthorCard/AuthorCard";
-import AuthorSidebar from "../../components/Sidebars/AuthorSidebar/AuthorSidebar";
+import AuthorsSidebar from "../../components/Sidebars/AuthorsSidebar/AuthorsSidebar";
 import Pagination from "../../components/Pagination/Pagination";
 import './Authors.scss';
 import AuthorDetails from "../../components/AuthorDetails/AuthorDetails";
@@ -88,7 +88,7 @@ export default function Authors(): JSX.Element {
       <h1 className='authors-title'>Authors</h1>
       <div className='authors-count'>17 Authors for B</div>
       <div className='authors-content'>
-        <AuthorSidebar onSearchCallback={onSearch} activeLetter={activeLetter} onSetActiveLetterCallback={onSetActiveLetter} />
+        <AuthorsSidebar onSearchCallback={onSearch} activeLetter={activeLetter} onSetActiveLetterCallback={onSetActiveLetter} />
         <div className='authors-content-results'>
           <div className='authors-content-results-paginationTop'>
             {/* <Pagination pageCount={pageCount} onPageChange={handlePageClick} /> */}
