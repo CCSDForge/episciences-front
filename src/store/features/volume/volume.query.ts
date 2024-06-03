@@ -1,6 +1,8 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
+import { IArticle } from '../../../types/article'
 import { IVolume } from '../../../types/volume'
+import { AvailableLanguage } from "../../../utils/i18n"
 import { PaginatedResponse } from '../../../utils/pagination'
 import { createBaseQueryWithLdJsonAccept } from '../../utils'
 
@@ -22,9 +24,18 @@ export const volumeApi = createApi({
         }
       },
       transformResponse(baseQueryReturnValue: PaginatedResponse<IVolume>) {
+        const totalItems = baseQueryReturnValue['hydra:totalItems'];
+        const formattedData = (baseQueryReturnValue['hydra:member'] as (IVolume & { titles?: Record<AvailableLanguage, string>; descriptions?: Record<AvailableLanguage, string>; vol_year?: number; papers: IArticle[] })[]).map((volume) => ({
+          ...volume,
+          title: volume['titles'],
+          description: volume['descriptions'],
+          year: volume['vol_year'],
+          articles: volume['papers']
+        }))
+
         return {
-          data: baseQueryReturnValue['hydra:member'],
-          totalItems: baseQueryReturnValue['hydra:totalItems']
+          data: formattedData,
+          totalItems
         }
       },
     }),

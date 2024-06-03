@@ -1,66 +1,46 @@
 .volumeCard {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   padding: 30px 35px 20px 35px;
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--red);
 
-  &-tag {
-    width: fit-content;
-    height: fit-content;
-    padding: 4px 8px 4px 8px;
-    margin-bottom: 20px;
-    font-size: 16px;
-    font-weight: 500;
-    background: var(--red);
-    color: var(--white);
-  }
-
   &-title {
-    font-size: 21px;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
+    width: 260px;
+    padding-right: 50px;
+    border-right: 1px solid var(--grey-light);
 
-  &-authors {
-    font-size: 16px;
-    margin-bottom: 25px;
-  }
+    &-text {
+      color: var(--red);
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+    
+    &-year {
+      color: var(--black);
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
 
-  &-abstract {
-    margin-bottom: 25px;
-
-    &-title {
+    &-count {
       display: flex;
-      gap: 8px;
-      border-bottom: 1px solid var(--red);
-      cursor: pointer;
+      gap: 4px;
+      align-items: center;
 
-      &-closed {
-        width: 100px;
+      &-icon {
+        height: 13px;
       }
 
       &-text {
-        font-size: 16px;
-        font-weight: bold;
-        color: var(--red);
-      }
-    }
-
-    &-content {
-      display: none;
-      font-size: 16px;
-      margin-top: 8px;
-
-      &-opened {
-        display: block;
+        color: var(--grey-light);
+        font-size: 13px;
       }
     }
   }
 
-  &-publicationDate {
-    font-size: 14px;
-    color: var(--grey-light);
-    font-style: italic;
+  &-content {
+
   }
 }

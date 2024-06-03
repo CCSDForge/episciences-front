@@ -17,6 +17,10 @@
     margin-left: 10px;
   }
 
+  &-disabled {
+    cursor: default;
+  }
+
   &-page, &-break {
     color: var(--grey-light);
   }

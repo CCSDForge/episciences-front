@@ -50,7 +50,10 @@ export default function Boards(): JSX.Element {
       const title = page.title[language];
       const description = page.content[language];
 
-      const pageMembers = members.filter((member) => member.roles.includes(page.page_code));
+      const pageMembers = members.filter((member) => {
+        const pluralRoles = member.roles.map((role) => `${role}s`)
+        return member.roles.includes(page.page_code) || pluralRoles.includes(page.page_code);
+      });
 
       boardsPerTitle.push({
         title,
@@ -66,7 +69,6 @@ export default function Boards(): JSX.Element {
     setActiveGroupIndex(prev => prev === index ? 0 : index);
   };
 
-  console.log(getBoardsPerTitle())
   return (
     <main className='boards'>
       <Breadcrumb />
@@ -103,6 +105,7 @@ export default function Boards(): JSX.Element {
                     {boardPerTitle.members.map((member, index) => (
                       <BoardCard
                         key={index}
+                        language={language}
                         member={member}
                         fullCard={fullMemberIndex === index}
                         blurCard={fullMemberIndex !== -1 && fullMemberIndex !== index}

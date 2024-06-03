@@ -1,8 +1,9 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import { IBoardPage, IBoardMember } from '../../../types/board'
+import { IBoardPage, IBoardMember, IBoardMemberAffiliation } from '../../../types/board'
+import { boardTypes } from '../../../utils/types'
+import { AvailableLanguage } from '../../../utils/i18n'
 import { createBaseQueryWithJsonAccept } from '../../utils'
-import { boardTypes } from '../../../utils/filter'
 
 export const boardApi = createApi({
   baseQuery: createBaseQueryWithJsonAccept,
@@ -17,13 +18,26 @@ export const boardApi = createApi({
     }),
     fetchBoardMembers: build.query<IBoardMember[], string>({
       query: (rvcode: string) => `journals/boards/${rvcode}`,
-      transformResponse(baseQueryReturnValue: { boards: { roles: string[][] }[] }) {
-        const formattedBoardMembers = baseQueryReturnValue.boards.map((board) => ({
-          ...board,
-          roles: board.roles[0].map(role => role.replace('_', '-'))
-        }))
+      transformResponse(baseQueryReturnValue: { boards: IBoardMember[] }) {
+        const formattedBoardMembers = (baseQueryReturnValue.boards as (IBoardMember & { roles: string[][]; assignedSections?: { sid: number, titles: Record<AvailableLanguage, string> }[]; additionalProfileInformation?: { biography?: string; affiliations: IBoardMemberAffiliation[]; socialMedias?: string; webSites: string[]; } })[]).map((board) => {
+          const roles = board.roles.length > 0 ? board.roles[0].map(role => role.replace(/_/g, '-')) : []
+
+          return {
+            ...board,
+            biography: board.additionalProfileInformation?.biography,
+            roles,
+            rolesLabels: roles.filter(role => !boardTypes.includes(role)),
+            affiliations: board.additionalProfileInformation?.affiliations ?? [],
+            assignedSections: board.assignedSections ? board.assignedSections.map((assignedSection: { sid: number, titles: Record<AvailableLanguage, string> }) => ({
+              ...assignedSection,
+              title: assignedSection.titles
+            })): [],
+            socialMedias: board.additionalProfileInformation?.socialMedias,
+            websites: board.additionalProfileInformation?.webSites ?? []
+          }
+        })
         
-        return formattedBoardMembers as unknown as IBoardMember[];
+        return formattedBoardMembers;
       },
     }),
   }),

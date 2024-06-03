@@ -5,29 +5,25 @@
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--red);
 
-  &-tag {
-    width: fit-content;
-    height: fit-content;
-    padding: 4px 8px 4px 8px;
-    margin-bottom: 20px;
-    font-size: 16px;
-    font-weight: 500;
-    background: var(--red);
-    color: var(--white);
-  }
-
   &-title {
+    display: flex;
     font-size: 21px;
-    font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 20px;
+
+    &-text {
+      color: var(--red);
+      font-weight: 600;
+      padding-right: 30px;
+      border-right: 1px solid var(--grey-light);
+    }
+
+    &-count {
+      padding-left: 30px;
+      font-weight: 300;
+    }
   }
 
-  &-authors {
-    font-size: 16px;
-    margin-bottom: 25px;
-  }
-
-  &-abstract {
+  &-description {
     margin-bottom: 25px;
 
     &-title {
@@ -37,7 +33,7 @@
       cursor: pointer;
 
       &-closed {
-        width: 100px;
+        width: 70px;
       }
 
       &-text {
@@ -56,11 +52,5 @@
         display: block;
       }
     }
-  }
-
-  &-publicationDate {
-    font-size: 14px;
-    color: var(--grey-light);
-    font-style: italic;
   }
 }

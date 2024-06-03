@@ -1,7 +1,7 @@
 .boardCard {
   display: flex;
   flex-direction: column;
-  padding: 30px 35px 20px 35px;
+  padding: 25px;
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--red);
   cursor: pointer;
@@ -33,24 +33,28 @@
     }
 
     &-picture {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       width: 64px;
       height: 64px;
+      background: var(--red);
+      border-radius: 50%;
 
-      img {
-        width: 100%;
-        height: 100%;
+      &-placeholder {
+        width: 44px;
+        height: 40px;
       }
     }
   }
 
-  &-university, &-full-initial-university {
-    color: var(--red);
+  &-affiliations, &-full-initial-affiliations {
     font-size: 12px;
     font-weight: bold;
     margin-bottom: 15px;
   }
 
-  &-skills, &-full-initial-skills {
+  &-assignedSections, &-full-initial-assignedSections {
     font-size: 12px;
     color: var(--grey);
   }
@@ -63,7 +67,8 @@
     gap: 40px;
 
     &-initial {
-      max-width: 260px;
+      min-width: 320px;
+      max-width: 320px;
     }
 
     &-expanded {
@@ -85,7 +90,7 @@
         }
       }
   
-      &-description {
+      &-biography {
         flex: 1;
         font-size: 12px;
       }

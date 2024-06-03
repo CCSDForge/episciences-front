@@ -1,34 +1,26 @@
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
+import file from '/icons/file-grey.svg';
 import { IVolume } from "../../../../types/volume";
+import { AvailableLanguage } from '../../../../utils/i18n';
 import './VolumeCard.scss'
 
-export interface IVolumeCard extends IVolume {
-  openedAbstract: boolean;
+interface IVolumeCardProps {
+  language: AvailableLanguage;
+  volume: IVolume;
 }
 
-interface IVolumeCardProps extends IVolumeCard {
-  toggleAbstractCallback: () => void;
-}
-
-export default function VolumeCard({ title, authors, openedAbstract, abstract, publicationDate, tag, toggleAbstractCallback }: IVolumeCardProps): JSX.Element {
+export default function VolumeCard({ language, volume }: IVolumeCardProps): JSX.Element {
   return (
     <div className='volumeCard'>
-      <div className='volumeCard-tag'>{tag}</div>
-      <div className='volumeCard-title'>{title}</div>
-      <div className='volumeCard-authors'>{authors}</div>
-      <div className='volumeCard-abstract'>
-        <div className={`volumeCard-abstract-title ${!openedAbstract && 'volumeCard-abstract-title-closed'}`} onClick={toggleAbstractCallback}>
-          <div className='volumeCard-abstract-title-text'>Abstract</div>
-          {openedAbstract ? (
-            <img className='volumeCard-abstract-title-caret' src={caretUp} alt='Caret up icon' />
-          ) : (
-            <img className='volumeCard-abstract-title-caret' src={caretDown} alt='Caret down icon' />
-          )}
+      <div className='volumeCard-title'>
+        <div className='volumeCard-title-text'>{volume.title ? volume.title[language] : ''}</div>
+        <div className='volumeCard-title-year'>{volume.year}</div>
+        <div className='volumeCard-title-count'>
+          <img className='volumeCard-title-count-icon' src={file} alt='File icon' />
+          <span className='volumeCard-title-count-text'>{volume.articles.length > 1 ? `${volume.articles.length} articles`: `${volume.articles.length} article`}</span>
         </div>
-        <div className={`volumeCard-abstract-content ${openedAbstract && 'volumeCard-abstract-content-opened'}`}>{abstract}</div>
       </div>
-      <div className='volumeCard-publicationDate'>{publicationDate}</div>
     </div>
   )
 }

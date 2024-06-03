@@ -1,9 +1,37 @@
 .newsCard {
   display: flex;
   gap: 20px;
-  padding: 30px 35px 20px 35px;
+  padding: 20px 35px 20px 35px;
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--red);
+
+  &-tile {
+    padding: 25px;
+    cursor: pointer;
+
+    &-blur {
+      opacity: 0.2;
+    }
+
+    &-full {
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row;
+      gap: 40px;
+
+      &-expanded {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    &-anchor {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--grey-light);
+    }
+  }
 
   &-publicationDate {
     min-width: 190px;
@@ -11,6 +39,11 @@
     font-style: italic;
     border-right: 1px solid var(--grey-light);
     font-size: 14px;
+
+    &-tile {
+      border-right: none;
+      padding-top: 8px;
+    }
   }
 
   &-content {
@@ -28,6 +61,10 @@
     &-author {
       margin-bottom: 16px;
       font-size: 16px;
+
+      &-tile {
+        margin-bottom: 45px;
+      }
     }
 
     &-content {
@@ -46,6 +83,12 @@
         display: flex;
         justify-content: space-between;
         gap: 4px;
+      }
+
+      &-full {
+        a {
+          justify-content: flex-end;
+        }
       }
     }
   }

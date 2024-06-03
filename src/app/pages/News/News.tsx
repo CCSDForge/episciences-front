@@ -16,14 +16,17 @@ import Pagination from "../../components/Pagination/Pagination";
 import './News.scss'
 
 export default function News(): JSX.Element {
+  const NEWS_PER_PAGE = 10;
+
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
 
   const [currentPage, setCurrentPage] = useState(1);
   const [mode, setMode] = useState(RENDERING_MODE.LIST);
   const [years, setYears] = useState<INewsYearSelection[]>([]);
+  const [fullNewsIndex, setFullNewsIndex] = useState(-1);
 
-  const { data: news, isFetching } = useFetchNewsQuery({ rvcode: rvcode!, page: currentPage, year: years.find(y => y.isSelected)?.year }, { skip: !rvcode })
+  const { data: news, isFetching } = useFetchNewsQuery({ rvcode: rvcode!, page: currentPage, itemsPerPage: NEWS_PER_PAGE, year: years.find(y => y.isSelected)?.year }, { skip: !rvcode })
 
   useEffect(() => {
     if (years.length === 0) {
@@ -78,18 +81,27 @@ export default function News(): JSX.Element {
           {isFetching ? (
             <Loader />
           ) : (
-            <div className='news-content-results-cards'>
+            <div className={`news-content-results-cards ${mode === RENDERING_MODE.TILE && 'news-content-results-cards-grid'}`}>
               {news?.data.map((singleNews, index) => (
                 <NewsCard
                   key={index}
                   language={language}
+                  mode={mode}
+                  fullCard={mode === RENDERING_MODE.TILE && fullNewsIndex === index}
+                  blurCard={mode === RENDERING_MODE.TILE && fullNewsIndex !== -1 && fullNewsIndex !== index}
+                  setFullNewsIndexCallback={(): void => mode === RENDERING_MODE.TILE ? fullNewsIndex !== index ? setFullNewsIndex(index) : setFullNewsIndex(-1) : void(null)}
                   news={singleNews}
                 />
               ))}
             </div>
           )}
         </div>
-        <Pagination totalItems={news?.totalItems} onPageChange={handlePageClick} />
+        <Pagination
+          currentPage={currentPage}
+          itemsPerPage={NEWS_PER_PAGE}
+          totalItems={news?.totalItems}
+          onPageChange={handlePageClick}
+        />
       </div>
     </main>
   )

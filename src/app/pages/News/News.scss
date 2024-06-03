@@ -46,6 +46,12 @@
         gap: 16px;
         padding-left: 60px;
         margin-top: 30px;
+
+        &-grid {
+          display: grid;
+          gap: 15px;
+          grid-template-columns: repeat(3, 1fr);
+        }
       }
     }
   }
