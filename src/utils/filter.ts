@@ -14,12 +14,3 @@ export const allYears = (): number[] => {
 
   return years;
 }
-
-export const boardTypes = ['editorial-board', 'technical-board', 'scientific-advisory-board', 'former-members']
-
-// TODO: translate ?
-export const volumeTypes: { label: string; value: string; }[] = [
-  { label: 'Volumes', value: 'volume' },
-  { label: 'Special Issues', value: 'special_issue' },
-  { label: 'Proceedings', value: 'proceeding' }
-]

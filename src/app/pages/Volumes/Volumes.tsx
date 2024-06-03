@@ -7,22 +7,28 @@ import tileGrey from '/icons/tile-grey.svg';
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchVolumesQuery } from '../../../store/features/volume/volume.query';
 import { RENDERING_MODE } from '../../../utils/card';
-import { allYears, volumeTypes } from '../../../utils/filter';
+import { allYears } from '../../../utils/filter';
+import { volumeTypes } from '../../../utils/types';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
-import VolumeCard, { IVolumeCard } from "../../components/Cards/VolumeCard/VolumeCard";
+import VolumeCard from "../../components/Cards/VolumeCard/VolumeCard";
 import VolumesSidebar, { IVolumeTypeSelection, IVolumeYearSelection } from "../../components/Sidebars/VolumesSidebar/VolumesSidebar";
 import Pagination from "../../components/Pagination/Pagination";
 import Tag from "../../components/Tag/Tag";
 import './Volumes.scss';
 
+type IVolumeTypeFilter = 'type' | 'year';
+
 interface IVolumeFilter {
-  type: 'type' | 'year',
+  type: IVolumeTypeFilter,
   value: string | number;
   label: string | number;
 }
 
 export default function Volumes(): JSX.Element {
+  const VOLUMES_PER_PAGE = 10;
+
+  const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,7 +47,7 @@ export default function Volumes(): JSX.Element {
 
       setTypes(initTypes)
     }
-  }, [years])
+  }, [types])
 
   useEffect(() => {
     if (years.length === 0) {
@@ -54,7 +60,7 @@ export default function Volumes(): JSX.Element {
     }
   }, [years])
 
-  const { data: volumes, isFetching } = useFetchVolumesQuery({ rvcode: rvcode!, page: currentPage, year: years.find(y => y.isSelected)?.year, type: types.find(t => t.isChecked)?.value }, { skip: !rvcode })
+  const { data: volumes, isFetching } = useFetchVolumesQuery({ rvcode: rvcode!, page: currentPage, itemsPerPage: VOLUMES_PER_PAGE, year: years.find(y => y.isSelected)?.year, type: types.find(t => t.isChecked)?.value }, { skip: !rvcode })
 
   const handlePageClick = (selectedItem: { selected: number }): void => {
     setCurrentPage(selectedItem.selected + 1);
@@ -106,7 +112,7 @@ export default function Volumes(): JSX.Element {
     setTaggedFilters(initFilters)
   }
 
-  const onCloseTaggedFilter = (type: 'type' | 'year', value: string | number) => {
+  const onCloseTaggedFilter = (type: IVolumeTypeFilter, value: string | number) => {
     if (type === 'type') {
       const updatedTypes = types.map((t) => {
         if (t.value === value) {
@@ -144,21 +150,9 @@ export default function Volumes(): JSX.Element {
     setTaggedFilters([]);
   }
 
-  const toggleAbstract = (volumeId: number): void => {
-    // const updatedVolumes = volumes.map((volume) => {
-    //   if (volume.id === volumeId) {
-    //     return { ...volume, openedAbstract: !volume.openedAbstract };
-    //   }
-
-    //   return volume;
-    // });
-
-    // setVolumes(updatedVolumes);
-  }
-
   useEffect(() => {
     setAllTaggedFilters()
-  }, [types, years, taggedFilters])
+  }, [types, years])
 
   return (
     <main className='volumes'>
@@ -203,12 +197,21 @@ export default function Volumes(): JSX.Element {
           ) : (
             <div className='volumes-content-results-cards'>
               {volumes?.data.map((volume, index) => (
-                <VolumeCard key={index} {...volume as IVolumeCard} toggleAbstractCallback={(): void => toggleAbstract(volume.id)} />
+                <VolumeCard
+                  key={index}
+                  language={language}
+                  volume={volume}
+                />
               ))}
             </div>
           )}
         </div>
-        <Pagination totalItems={volumes?.totalItems} onPageChange={handlePageClick} />
+        <Pagination
+          currentPage={currentPage}
+          itemsPerPage={VOLUMES_PER_PAGE}
+          totalItems={volumes?.totalItems}
+          onPageChange={handlePageClick}
+        />
       </div>
     </main>
   )
