@@ -1,6 +1,6 @@
-import { IBoardPage, IBoardMember } from '../../../types/board';
+import { BoardPage, IBoardMember } from '../../../types/board';
 
 export interface IBoardState {
-  pages: IBoardPage[];
+  pages: BoardPage[];
   members: IBoardMember[];
 }

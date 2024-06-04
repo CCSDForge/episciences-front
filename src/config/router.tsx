@@ -9,6 +9,7 @@ import About from "../app/pages/About/About";
 import Articles from "../app/pages/Articles/Articles";
 import Authors from "../app/pages/Authors/Authors";
 import Boards from "../app/pages/Boards/Boards";
+import ForAuthors from "../app/pages/ForAuthors/ForAuthors";
 import News from "../app/pages/News/News";
 import Search from "../app/pages/Search/Search";
 import Sections from "../app/pages/Sections/Sections";
@@ -53,6 +54,7 @@ const router = createBrowserRouter([
     children: [
       basicRoute("home", Home),
       crumbedRoute("boards", Boards, { parent: { path: 'home', label : 'Home > ' }, crumb: 'Boards'}),
+      crumbedRoute("forAuthors", ForAuthors, { parent: { path: 'home', label : 'Home > ' }, crumb: 'For authors'}),
       crumbedRoute("search", Search, { parent: { path: 'home', label : 'Home > ' }, crumb: 'Search'}),
       crumbedRoute("articles", Articles, { parent: { path: 'home', label : 'Home > Content > ' }, crumb: 'Articles'}),
       crumbedRoute("authors", Authors, { parent: { path: 'home', label : 'Home > Content > ' }, crumb: 'Authors'}),

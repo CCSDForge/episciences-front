@@ -6,7 +6,10 @@ import { IVolumeState } from './volume.type'
 const volumeSlice = createSlice({
   name: 'volume',
   initialState: {
-    volumes: []
+    volumes: {
+      data: [],
+      totalItems: 0
+    }
   } as IVolumeState,
   reducers: {},
   extraReducers: (builder) => {

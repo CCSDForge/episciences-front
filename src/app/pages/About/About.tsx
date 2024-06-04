@@ -28,8 +28,8 @@ export default function About(): JSX.Element {
 
   const content = (): string | undefined => aboutPage?.content[language];
 
-  const parseContentSections = (): IAboutSection[] => {
-    const tree = unifiedProcessor.parse(content());
+  const parseContentSections = (toBeParsed: string | undefined): IAboutSection[] => {
+    const tree = unifiedProcessor.parse(toBeParsed);
     const sections = [];
     let currentSection = { id: '', value: '', opened: true };
   
@@ -58,8 +58,8 @@ export default function About(): JSX.Element {
   };
   
 
-  const parseSidebarHeaders = (): IAboutHeader[] => {
-    const tree = unifiedProcessor.parse(content());
+  const parseSidebarHeaders = (toBeParsed: string | undefined): IAboutHeader[] => {
+    const tree = unifiedProcessor.parse(toBeParsed);
     const headings = [];
     let lastH2 = null;
   
@@ -111,8 +111,8 @@ export default function About(): JSX.Element {
   };
 
   useEffect(() => {
-    setPageSections(parseContentSections())
-    setSidebarHeaders(parseSidebarHeaders());
+    setPageSections(parseContentSections(content()))
+    setSidebarHeaders(parseSidebarHeaders(content()));
   }, [aboutPage]);
 
   return (

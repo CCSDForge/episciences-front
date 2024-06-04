@@ -3,14 +3,14 @@ import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import Card, { ISwiperCardType, ISwiperCardContent } from '../SwiperCards/SwiperCard'
+import Card, { SwiperCardType, SwiperCardContent } from '../SwiperCards/SwiperCard'
 import './Swiper.scss'
 
 interface ISwiperProps {
   id: string;
-  type: ISwiperCardType;
+  type: SwiperCardType;
   slidesPerView: number;
-  cards: ISwiperCardContent[];
+  cards: SwiperCardContent[];
 }
 
 export default function Swiper({ id, type, slidesPerView, cards }: ISwiperProps): JSX.Element {
@@ -41,7 +41,7 @@ export default function Swiper({ id, type, slidesPerView, cards }: ISwiperProps)
           }
         }}
       >
-        {cards.map((content: ISwiperCardContent, key: number) => (
+        {cards.map((content: SwiperCardContent, key: number) => (
           <SwiperSlide key={key}>
             <Card type={type} content={content} />
           </SwiperSlide>

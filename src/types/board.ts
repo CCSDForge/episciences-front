@@ -1,7 +1,7 @@
 import { AvailableLanguage } from "../utils/i18n";
 import { IPage } from "./page";
 
-export type IBoardPage = IPage;
+export type BoardPage = IPage;
 
 export interface IBoardMemberAffiliation {
   label: string;

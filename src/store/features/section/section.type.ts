@@ -1,5 +1,8 @@
 import { ISection } from '../../../types/section'
 
 export interface ISectionState {
-  sections: ISection[]
+  sections: {
+    data: ISection[];
+    totalItems: number;
+  }
 }

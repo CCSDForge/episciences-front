@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+import filter from '/icons/filter.svg';
 import listRed from '/icons/list-red.svg';
 import listGrey from '/icons/list-grey.svg';
 import tileRed from '/icons/tile-red.svg';
@@ -17,10 +18,10 @@ import Pagination from "../../components/Pagination/Pagination";
 import Tag from "../../components/Tag/Tag";
 import './Volumes.scss';
 
-type IVolumeTypeFilter = 'type' | 'year';
+type VolumeTypeFilter = 'type' | 'year';
 
 interface IVolumeFilter {
-  type: IVolumeTypeFilter,
+  type: VolumeTypeFilter,
   value: string | number;
   label: string | number;
 }
@@ -32,7 +33,7 @@ export default function Volumes(): JSX.Element {
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [mode, setMode] = useState(RENDERING_MODE.LIST);
+  const [mode, setMode] = useState<RENDERING_MODE>(RENDERING_MODE.LIST);
   const [types, setTypes] = useState<IVolumeTypeSelection[]>([]);
   const [years, setYears] = useState<IVolumeYearSelection[]>([]);
   const [taggedFilters, setTaggedFilters] = useState<IVolumeFilter[]>([]);
@@ -112,7 +113,7 @@ export default function Volumes(): JSX.Element {
     setTaggedFilters(initFilters)
   }
 
-  const onCloseTaggedFilter = (type: IVolumeTypeFilter, value: string | number) => {
+  const onCloseTaggedFilter = (type: VolumeTypeFilter, value: string | number) => {
     if (type === 'type') {
       const updatedTypes = types.map((t) => {
         if (t.value === value) {
@@ -160,11 +161,13 @@ export default function Volumes(): JSX.Element {
       <div className='volumes-title'>
         <h1>Volumes</h1>
         <div className='volumes-title-count'>
-          {volumes && volumes.totalItems > 1 ? (
-            <div className='volumes-title-count-text'>{volumes.totalItems} volumes</div>
-          ) : (
-            <div className='volumes-title-count-text'>{volumes?.totalItems ?? 0} volume</div>
-          )}
+          {mode === RENDERING_MODE.LIST ? (
+            volumes && volumes.totalItems > 1 ? (
+              <div className='volumes-title-count-text'>{volumes.totalItems} volumes</div>
+            ) : (
+              <div className='volumes-title-count-text'>{volumes?.totalItems ?? 0} volume</div>
+            )
+          ) : <div className='volumes-title-count-text'></div>}
           <div className='volumes-title-count-icons'>
             <div className='volumes-title-count-icons-icon' onClick={(): void => setMode(RENDERING_MODE.TILE)}>
               <div className={`${mode === RENDERING_MODE.TILE ? 'volumes-title-count-icons-icon-row-red' : 'volumes-title-count-icons-icon-row'}`}>
@@ -181,21 +184,44 @@ export default function Volumes(): JSX.Element {
           </div>
         </div>
       </div>
-      <div className="volumes-filters">
-        <div className="volumes-filters-tags">
-          {taggedFilters.map((filter, index) => (
-            <Tag key={index} text={filter.label.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
-          ))}
-          <div className="volumes-filters-tags-clear" onClick={clearTaggedFilters}>Clear all filters</div>
+      {mode === RENDERING_MODE.TILE && (
+        volumes && volumes.totalItems > 1 ? (
+          <div className='volumes-title-count-text volumes-title-count-text-tiles'>{volumes.totalItems} volumes</div>
+        ) : (
+          <div className='volumes-title-count-text volumes-title-count-text-tiles'>{volumes?.totalItems ?? 0} volume</div>
+        )
+      )}
+      {mode === RENDERING_MODE.LIST ? (
+        <div className='volumes-filters'>
+          <div className="volumes-filters-tags">
+            {taggedFilters.map((filter, index) => (
+              <Tag key={index} text={filter.label.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
+            ))}
+            <div className="volumes-filters-tags-clear" onClick={clearTaggedFilters}>Clear all filters</div>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className='volumes-filters volumes-filters-tiles'>
+          <div className="volumes-filters-tags">
+          <div className="volumes-filters-tags-filterTile" onClick={(): void => console.log('OOO')}>
+            <img className="volumes-filters-tags-filterTile-icon" src={filter} alt='List icon' />
+            <div className="volumes-filters-tags-filterTile-text">{taggedFilters.length > 0 ? `Editer les filtres (${taggedFilters.length})` : 'Filtrer'}</div>
+          </div>
+            {taggedFilters.map((filter, index) => (
+              <Tag key={index} text={filter.label.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
+            ))}
+          </div>
+        </div>
+      )}
       <div className='volumes-content'>
         <div className='volumes-content-results'>
-          <VolumesSidebar types={types} onCheckTypeCallback={onCheckType} years={years} onSelectYearCallback={onSelectYear} />
+          {mode === RENDERING_MODE.LIST && (
+            <VolumesSidebar types={types} onCheckTypeCallback={onCheckType} years={years} onSelectYearCallback={onSelectYear} />
+          )}
           {isFetching ? (
             <Loader />
           ) : (
-            <div className='volumes-content-results-cards'>
+            <div className={`volumes-content-results-cards ${mode === RENDERING_MODE.TILE && 'volumes-content-results-cards-tiles'}`}>
               {volumes?.data.map((volume, index) => (
                 <VolumeCard
                   key={index}

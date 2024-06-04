@@ -6,7 +6,10 @@ import { ISectionState } from './section.type'
 const sectionSlice = createSlice({
   name: 'section',
   initialState: {
-    sections: []
+    sections: {
+      data: [],
+      totalItems: 0
+    }
   } as ISectionState,
   reducers: {},
   extraReducers: (builder) => {

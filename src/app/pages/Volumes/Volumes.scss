@@ -14,6 +14,10 @@
         color: var(--grey);
         font-size: 21px;
         font-weight: 300;
+
+        &-tiles {
+          margin: 15px 0px 15px 0px;
+        }
       }
 
       &-icons {
@@ -51,6 +55,10 @@
     margin: 0px 0px 15px 325px;
     padding-bottom: 28px;
 
+    &-tiles {
+      margin: 0px 0px 15px 0px;
+    }
+
     &-tags {
       display: flex;
       align-items: center;
@@ -63,6 +71,19 @@
         color: var(--red);
         text-decoration: underline;
         cursor: pointer;
+      }
+
+      &-filterTile {
+        display: flex;
+        gap: 4px;
+        padding-bottom: 4px;
+        border-bottom: 1px solid var(--red);
+
+        &-text {
+          color: var(--red);
+          font-size: 14px;
+          font-weight: bold;
+        }
       }
     }
   }
@@ -81,6 +102,10 @@
         flex-direction: column;
         gap: 16px;
         padding-left: 60px;
+
+        &-tiles {
+          padding-left: 0px;
+        }
       }
     }
   }
