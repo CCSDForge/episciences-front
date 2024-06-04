@@ -1,9 +1,9 @@
 import { IArticle } from '../../../../types/article'
 import './SwiperArticleCard.scss'
 
-export type ISwiperArticleCardProps = IArticle;
+export type SwiperArticleCardProps = IArticle;
 
-export default function SwiperArticleCard({ title, authors, publicationDate, tag }: ISwiperArticleCardProps): JSX.Element {
+export default function SwiperArticleCard({ title, authors, publicationDate, tag }: SwiperArticleCardProps): JSX.Element {
   return (
     <div className='swiperArticleCard'>
       <div className='swiperArticleCard-tag'>{tag}</div>

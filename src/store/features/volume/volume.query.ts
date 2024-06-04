@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import { IArticle } from '../../../types/article'
+import { PartialVolumeArticle } from '../../../types/article'
 import { IVolume } from '../../../types/volume'
 import { AvailableLanguage } from "../../../utils/i18n"
 import { PaginatedResponse } from '../../../utils/pagination'
@@ -11,21 +11,21 @@ export const volumeApi = createApi({
   reducerPath: 'volume',
   tagTypes: ['Volume'],
   endpoints: (build) => ({
-    fetchVolumes: build.query<{ data: IVolume[], totalItems: number }, { rvcode: string, page: number, year?: number, type?: string; }>({
-      query: ({ rvcode, page, year, type } :{ rvcode: string, page: number, year?: number, type?: string; }) => {
+    fetchVolumes: build.query<{ data: IVolume[], totalItems: number }, { rvcode: string, page: number, itemsPerPage: number, year?: number, type?: string; }>({
+      query: ({ rvcode, page, itemsPerPage, year, type } :{ rvcode: string, page: number, itemsPerPage: number; year?: number, type?: string; }) => {
         if (year && type) {
-          return `volumes?page=${page}&rvcode=${rvcode}&year=${year}&type=${type}`
+          return `volumes?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}&year=${year}&type=${type}`
         } else if (year) {
-          return `volumes?page=${page}&rvcode=${rvcode}&year=${year}`
+          return `volumes?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}&year=${year}`
         } else if (type) {
-          return `volumes?page=${page}&rvcode=${rvcode}&type=${type}`
+          return `volumes?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}&type=${type}`
         } else {
-          return `volumes?page=${page}&rvcode=${rvcode}`
+          return `volumes?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`
         }
       },
       transformResponse(baseQueryReturnValue: PaginatedResponse<IVolume>) {
         const totalItems = baseQueryReturnValue['hydra:totalItems'];
-        const formattedData = (baseQueryReturnValue['hydra:member'] as (IVolume & { titles?: Record<AvailableLanguage, string>; descriptions?: Record<AvailableLanguage, string>; vol_year?: number; papers: IArticle[] })[]).map((volume) => ({
+        const formattedData = (baseQueryReturnValue['hydra:member'] as (IVolume & { titles?: Record<AvailableLanguage, string>; descriptions?: Record<AvailableLanguage, string>; vol_year?: number; papers: PartialVolumeArticle[] })[]).map((volume) => ({
           ...volume,
           title: volume['titles'],
           description: volume['descriptions'],
@@ -39,9 +39,22 @@ export const volumeApi = createApi({
         }
       },
     }),
+    fetchVolume: build.query<IVolume, { vid: string }>({
+      query: ({ vid } :{ vid: string; }) => `volumes/${vid}`,
+      transformResponse(baseQueryReturnValue: IVolume & { titles?: Record<AvailableLanguage, string>; descriptions?: Record<AvailableLanguage, string>; vol_year?: number; papers: PartialVolumeArticle[] }) {
+        return {
+          ...baseQueryReturnValue,
+          title: baseQueryReturnValue['titles'],
+          description: baseQueryReturnValue['descriptions'],
+          year: baseQueryReturnValue['vol_year'],
+          articles: baseQueryReturnValue['papers']
+        };
+      }
+    }),
   }),
 })
 
 export const {
   useFetchVolumesQuery,
+  useFetchVolumeQuery
 } = volumeApi

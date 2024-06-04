@@ -9,7 +9,8 @@ export const PATHS = {
   sections: '/sections',
   about: '/about',
   news: '/news',
-  statistics: '/statistics'
+  statistics: '/statistics',
+  forAuthors: '/for-authors'
 }
 
 export type PathKeys = keyof typeof PATHS;

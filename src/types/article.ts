@@ -1,3 +1,13 @@
+interface IPartialArticle {
+  '@id': string;
+  '@type': string;
+  paperid: number;
+}
+
+export type PartialSectionArticle = IPartialArticle;
+export type PartialVolumeArticle = IPartialArticle;
+
+// TODO: improve
 export interface IArticle {
   id: number;
   title: string;

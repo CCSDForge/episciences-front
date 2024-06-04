@@ -1,0 +1,81 @@
+.forAuthors {
+  &-title {
+    margin-bottom: 70px;
+  }
+
+  &-content {
+    display: flex;
+
+    &-body {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      padding-left: 60px;
+
+      &-section {
+        display: block;
+
+        &-hidden {
+          * {
+            display: none;
+          }
+        }
+
+        h2, h3 {
+          scroll-margin: 120px;
+        }
+
+        &-subtitle {
+          display: flex;
+          justify-content: space-between;
+          padding: 0px 15px 8px 0px;
+          margin: 20px 0px 20px 0px;
+          border-bottom: 1px solid var(--red);
+          cursor: pointer;
+
+          &-text, &-caret {
+            display: block;
+          }
+        }
+
+        &-cards {
+          &-card {
+            display: flex;
+            padding: 25px;
+            border: 1px solid var(--grey);
+            border-bottom: 4px solid var(--red);
+            margin-bottom: 15px;
+
+            &-hidden {
+              * {
+                display: none;
+              }
+            }
+
+            &-index {
+              padding-right: 25px;
+              color: var(--black);
+              font-size: 40px;
+              font-weight: 900;
+            }
+
+            &-content {
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+              border-left: 1px solid var(--grey-light);
+              padding-left: 25px;
+
+              &-title {
+                color: var(--black);
+                font-size: 18px;
+                font-weight: bold;
+                margin: 0px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

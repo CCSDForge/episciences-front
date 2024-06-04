@@ -79,7 +79,7 @@ export default function Header(): JSX.Element {
               )}
           </div>
           <Link to={PATHS.boards}>Boards</Link>
-          <Link to='/'>For authors</Link>
+          <Link to={PATHS.forAuthors}>For authors</Link>
         </div>
         <div className={`header-postheader-search ${isReduced && 'header-postheader-search-reduced'}`}>
           <div className='header-postheader-search-delimiter'></div>

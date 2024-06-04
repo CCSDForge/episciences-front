@@ -6,7 +6,10 @@ import { INewsState } from './news.type'
 const newsSlice = createSlice({
   name: 'news',
   initialState: {
-    news: []
+    news: {
+      data: [],
+      totalItems: 0
+    }
   } as INewsState,
   reducers: {},
   extraReducers: (builder) => {

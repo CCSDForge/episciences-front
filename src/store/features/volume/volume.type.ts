@@ -1,5 +1,8 @@
 import { IVolume } from '../../../types/volume'
 
 export interface IVolumeState {
-  volumes: IVolume[]
+  volumes: {
+    data: IVolume[];
+    totalItems: number;
+  }
 }
