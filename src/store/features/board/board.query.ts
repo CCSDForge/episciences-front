@@ -22,18 +22,32 @@ export const boardApi = createApi({
         const formattedBoardMembers = (baseQueryReturnValue.boards).map((board) => {
           const roles = board.roles.length > 0 ? board.roles[0].map(role => role.replace(/_/g, '-')) : []
 
+          let twitter, mastodon;
+          if (board.additionalProfileInformation?.socialMedias) {
+            console.log(board.additionalProfileInformation.socialMedias)
+            const atCount = (board.additionalProfileInformation?.socialMedias.match(/@/g) || []).length;
+            
+            if (atCount === 1) {
+              twitter = `${import.meta.env.VITE_TWITTER_HOMEPAGE}/${board.additionalProfileInformation?.socialMedias.slice(1)}`;
+            }
+            else if (atCount > 1) {
+              const parts = board.additionalProfileInformation?.socialMedias.split('@');
+              mastodon = `https://${parts[2]}/@${parts[1]}`;
+            }
+          }
+
           return {
             ...board,
             biography: board.additionalProfileInformation?.biography,
             roles,
-            rolesLabels: roles.filter(role => !boardTypes.includes(role)),
             affiliations: board.additionalProfileInformation?.affiliations ?? [],
             assignedSections: board.assignedSections ? board.assignedSections.map((assignedSection: { sid: number, titles: Record<AvailableLanguage, string> }) => ({
               ...assignedSection,
               title: assignedSection.titles
             })): [],
-            socialMedias: board.additionalProfileInformation?.socialMedias,
-            websites: board.additionalProfileInformation?.webSites ?? []
+            twitter,
+            mastodon,
+            website: board.additionalProfileInformation?.webSites ? board.additionalProfileInformation.webSites[0] : undefined
           }
         })
         

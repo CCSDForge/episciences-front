@@ -3,13 +3,12 @@ import { Link } from 'react-router-dom';
 import at from '/icons/at.svg';
 import orcid from '/icons/orcid.svg';
 import externalLink from '/icons/external-link-red.svg';
-import linkedin from '/icons/linkedin.svg';
 import twitter from '/icons/twitter.svg';
 import mastodon from '/icons/mastodon.svg';
 import user from '/icons/user.svg';
 import { IBoardMember } from "../../../../types/board";
 import { AvailableLanguage } from '../../../../utils/i18n';
-import { defaultBoardRole, getBoardRole } from '../../../../utils/types';
+import { defaultBoardRole, getBoardRoles } from '../../../../utils/types';
 import './BoardCard.scss'
 
 interface IBoardCardProps {
@@ -42,8 +41,8 @@ export default function BoardCard({ language, member, fullCard, blurCard, setFul
                   </Link>
                 )}
               </div>
-              {member.rolesLabels.length > 0 ? (
-                <div className='boardCard-full-initial-person-title-role'>{getBoardRole(member.rolesLabels[0])}</div>
+              {member.roles.length > 0 ? (
+                <div className='boardCard-full-initial-person-title-role'>{getBoardRoles(member.roles)}</div>
               ) : (
                 <div className='boardCard-full-initial-person-title-role'>{defaultBoardRole.label}</div>
               )}
@@ -61,21 +60,22 @@ export default function BoardCard({ language, member, fullCard, blurCard, setFul
           </Link>
           <div className='boardCard-full-expanded-biography'>{member.biography}</div>
           <div className='boardCard-full-expanded-social'>
-            {member.socialMedias && (
+            {(member.twitter || member.mastodon) && (
               <div className='boardCard-full-expanded-social-networks'>
-                <Link to={`${import.meta.env.VITE_LINKEDIN_HOMEPAGE}/${member.socialMedias}`} title={member.socialMedias} target='_blank' onClick={(e) => e.stopPropagation()}>
-                  <img className='boardCard-full-expanded-social-networks-icon' src={linkedin} alt='Linkedin icon' />
-                </Link>
-                <Link to={`${import.meta.env.VITE_TWITTER_HOMEPAGE}/${member.socialMedias}`} title={member.socialMedias} target='_blank' onClick={(e) => e.stopPropagation()}>
-                <img className='boardCard-full-expanded-social-networks-icon' src={twitter} alt='Twitter icon' />
-                </Link>
-                <Link to={`${import.meta.env.VITE_MASTODON_HOMEPAGE}/${member.socialMedias}`} title={member.socialMedias} target='_blank' onClick={(e) => e.stopPropagation()}>
-                <img className='boardCard-full-expanded-social-networks-icon' src={mastodon} alt='Mastodon icon' />
-                </Link>
+                {member.twitter && (
+                  <Link to={member.twitter} title={member.twitter} target='_blank' onClick={(e) => e.stopPropagation()}>
+                    <img className='boardCard-full-expanded-social-networks-icon' src={twitter} alt='Twitter icon' />
+                  </Link>
+                )}
+                {member.mastodon && (
+                  <Link to={member.mastodon} title={member.mastodon} target='_blank' onClick={(e) => e.stopPropagation()}>
+                    <img className='boardCard-full-expanded-social-networks-icon' src={mastodon} alt='Mastodon icon' />
+                  </Link>
+                )}
               </div>
             )}
-            {member.websites.length > 0 && (
-              <Link to={member.websites[0]} title={member.websites[0]} target='_blank' onClick={(e) => e.stopPropagation()}>
+            {member.website && (
+              <Link to={member.website} title={member.website} target='_blank' onClick={(e) => e.stopPropagation()}>
                 <div className='boardCard-full-expanded-social-website'>
                   <div>Website</div>
                   <img className='boardCard-full-expanded-social-website-img' src={externalLink} alt='Website link icon' />
@@ -107,8 +107,8 @@ export default function BoardCard({ language, member, fullCard, blurCard, setFul
               </Link>
             )}
           </div>
-          {member.rolesLabels.length > 0 ? (
-            <div className='boardCard-person-title-role'>{getBoardRole(member.rolesLabels[0])}</div>
+          {member.roles.length > 0 ? (
+            <div className='boardCard-person-title-role'>{getBoardRoles(member.roles)}</div>
           ) : (
             <div className='boardCard-person-title-role'>{defaultBoardRole.label}</div>
           )}

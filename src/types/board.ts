@@ -20,11 +20,11 @@ export interface IBoardMember {
   email: string;
   biography?: string;
   roles: string[];
-  rolesLabels: string[];
   affiliations: IBoardMemberAffiliation[];
   assignedSections: IBoardMemberAssignedSection[];
-  socialMedias?: string;
-  websites: string[];
+  twitter?: string;
+  mastodon?: string;
+  website?: string;
   orcid?: string;
   picture?: string;
 }

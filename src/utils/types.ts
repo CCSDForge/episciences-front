@@ -35,11 +35,18 @@ export const sectionTypes: { label: string; value: string; }[] = [
 export const defaultBoardRole = { key: 'member', label: 'Member' }
 
 // TODO: translate
-export const getBoardRole = (roleKey: string): string => {
-  const roles = [
-    { key: 'author', label: 'Author' },
-    { key: 'reviewer', label: 'Reviewer' },
+export const getBoardRoles = (roles: string[]): string => {
+
+  const rolesWithLabels = [
+    { key: 'technical-board', label: 'Technical board' },
+    { key: 'editorial-board', label: 'Editorial board' },
+    { key: 'scientific-board', label: 'Scientific board' },
+    { key: 'former-member', label: 'Former member' },
+    { key: 'guest-editor', label: 'Guest editor' },
+    { key: 'editor', label: 'Editor' },
+    { key: 'chief-editor', label: 'Chief editor' },
+    { key: 'secretary', label: 'Secretary' }
   ]
 
-  return roles.find(role => role.key === roleKey)?.label ?? defaultBoardRole.label
+  return rolesWithLabels.filter(roleWithLabel => roles.includes(roleWithLabel.key)).map(roleWithLabel => roleWithLabel.label).join(', ')
 }
