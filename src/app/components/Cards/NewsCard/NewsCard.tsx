@@ -26,8 +26,7 @@ export default function NewsCard({ language, mode, fullCard, blurCard, setFullNe
         <div className='newsCard newsCard-tile newsCard-tile-full' onClick={setFullNewsIndexCallback}>
           <div className='newsCard-tile-full-initial'>
             <div className='newsCard-content'>
-              <div className='newsCard-content-title'>{news.title[language]}</div>
-              <div className='newsCard-content-author newsCard-content-author-tile'>{news.author}</div>
+              <div className='newsCard-content-title newsCard-content-title-tile'>{news.title[language]}</div>
               <div className='newsCard-tile-anchor'>
                 <div className='newsCard-publicationDate newsCard-publicationDate-tile'>{formatDate(news.publicationDate, language)}</div>
               </div>
@@ -51,8 +50,7 @@ export default function NewsCard({ language, mode, fullCard, blurCard, setFullNe
     return (
       <div className={blurCard ? 'newsCard newsCard-tile newsCard-tile-blur' : 'newsCard newsCard-tile'} onClick={setFullNewsIndexCallback}>
         <div className='newsCard-content'>
-          <div className='newsCard-content-title'>{news.title[language]}</div>
-          <div className='newsCard-content-author newsCard-content-author-tile'>{news.author}</div>
+          <div className='newsCard-content-title newsCard-content-title-tile'>{news.title[language]}</div>
           <div className='newsCard-tile-anchor'>
             <div className='newsCard-publicationDate newsCard-publicationDate-tile'>{formatDate(news.publicationDate, language)}</div>
             {news.link && (
@@ -74,7 +72,6 @@ export default function NewsCard({ language, mode, fullCard, blurCard, setFullNe
       <div className='newsCard-publicationDate'>{formatDate(news.publicationDate, language)}</div>
       <div className='newsCard-content'>
         <div className='newsCard-content-title'>{news.title[language]}</div>
-        <div className='newsCard-content-author'>{news.author}</div>
         {news.content && <div className='newsCard-content-content'>{news.content[language]}</div>}
         {news.link && (
           <div className='newsCard-content-read'>
