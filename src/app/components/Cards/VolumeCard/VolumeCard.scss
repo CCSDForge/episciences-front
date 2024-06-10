@@ -5,12 +5,12 @@
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--red);
 
-  &-title {
-    width: 260px;
+  &-resume {
+    min-width: 190px;
     padding-right: 50px;
     border-right: 1px solid var(--grey-light);
 
-    &-text {
+    &-id {
       color: var(--red);
       font-size: 24px;
       font-weight: bold;
@@ -41,6 +41,55 @@
   }
 
   &-content {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    padding-left: 18px;
 
+    &-special {
+      color: var(--red);
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    &-title {
+      color: var(--black);
+      font-size: 21px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    &-description {
+      margin-bottom: 25px;
+  
+      &-title {
+        display: flex;
+        gap: 8px;
+        border-bottom: 1px solid var(--red);
+        cursor: pointer;
+  
+        &-closed {
+          width: 100px;
+        }
+  
+        &-text {
+          font-size: 16px;
+          font-weight: bold;
+          color: var(--red);
+        }
+      }
+  
+      &-content {
+        display: none;
+        font-size: 16px;
+        margin-top: 8px;
+  
+        &-opened {
+          display: block;
+        }
+      }
+    }
   }
 }

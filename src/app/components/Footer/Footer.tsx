@@ -4,12 +4,29 @@ import logo from '/logo.svg';
 import logoJpeSmall from '/icons/logo-jpe-small.svg';
 import { useAppSelector } from '../../../hooks/store';
 import './Footer.scss'
+import { PATHS } from '../../../config/paths';
 
 export default function Footer(): JSX.Element {
-  const settings = useAppSelector(state => state.journalReducer.currentJournal?.settings);
+  const currentJournal = useAppSelector(state => state.journalReducer.currentJournal);
+
+  const getContact = (): string | undefined => {
+    const code = currentJournal?.code
+
+    if (!code) return;
+
+    return `mailto:${code}${import.meta.env.VITE_EMAILS_SUFFIX}`
+  }
 
   const getISSN = (): string | undefined => {
-    return settings?.find((setting) => setting.setting === "ISSN")?.value
+    return currentJournal?.settings?.find((setting) => setting.setting === "ISSN")?.value
+  }
+
+  const getRSS = (): string | undefined => {
+    const code = currentJournal?.code
+
+    if (!code) return;
+
+    return `${import.meta.env.VITE_API_ROOT_ENDPOINT}/feed/rss/${code}`
   }
 
   return (
@@ -20,14 +37,14 @@ export default function Footer(): JSX.Element {
           {/* TODO: links */}
           <Link to='/'>See the journal’s notice</Link>
           <div>|</div>
-          <Link to='/'>Contact</Link>
+          {getContact() && <Link to={getContact()!} target='_blank'>Contact</Link>}
           <div>|</div>
-          <Link to='/'>Credits</Link>
+          <Link to={PATHS.credits}>Credits</Link>
         </div>
         <div className='footer-journal-rss'>
           {getISSN() && <div>{`eISSN ${getISSN()}`}</div>}
           {getISSN() && <div>|</div>}
-          <Link to='/'>RSS</Link>
+          {getRSS() && <Link to={getRSS()!} target='_blank'>RSS</Link>}
         </div>
       </div>
       <div className='footer-episciences'>
@@ -37,7 +54,7 @@ export default function Footer(): JSX.Element {
           <div>|</div>
           <Link to={import.meta.env.VITE_EPISCIENCES_ACKNOWLEDGEMENTS_PAGE} target='_blank'>Acknowledgements</Link>
           <div>|</div>
-          <Link to='/'>Publishing policy</Link>
+          <Link to={`${PATHS.about}#publishing-policy`}>Publishing policy</Link>
         </div>
         <div className='footer-episciences-legal'>
           <Link to={import.meta.env.VITE_EPISCIENCES_LEGAL_TERMS_PAGE} target='_blank'>Legal mentions</Link>

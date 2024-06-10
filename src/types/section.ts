@@ -7,3 +7,10 @@ export interface ISection {
   description?: Record<AvailableLanguage, string>;
   articles: PartialSectionArticle[];
 }
+
+export type RawSection = ISection & {
+  sid: number;
+  titles?: Record<AvailableLanguage, string>;
+  descriptions?: Record<AvailableLanguage, string>;
+  papers: PartialSectionArticle[];
+}

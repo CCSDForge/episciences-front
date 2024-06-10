@@ -1,0 +1,20 @@
+.articleDetailsSidebar {
+  min-width: 370px;
+
+  &-links {
+    display: flex;
+    gap: 16px;
+
+    &-link {
+      display: flex;
+      gap: 9px;
+      padding: 8px;
+      border: 1px solid var(--red);
+      border-bottom: 4px solid var(--red);
+
+      &-text {
+        font-size: 14px;
+      }
+    }
+  }
+}

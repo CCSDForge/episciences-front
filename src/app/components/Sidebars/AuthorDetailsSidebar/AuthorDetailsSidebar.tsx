@@ -2,15 +2,15 @@ import { Link } from 'react-router-dom';
 
 import caretRight from '/icons/caret-right-grey.svg';
 import close from '/icons/close-red.svg';
-import { PATHS } from '../../../config/paths';
-import { IAuthor } from "../../../types/author";
-import './AuthorDetails.scss'
+import { PATHS } from '../../../../config/paths';
+import { IAuthor } from "../../../../types/author";
+import './AuthorDetailsSidebar.scss'
 
-export interface IAuthorDetailsProps extends IAuthor {
+export interface IAuthorDetailsSidebarProps extends IAuthor {
   onCloseDetailsCallback: () => void;
 }
 
-export default function AuthorDetails ({ name, onCloseDetailsCallback }: IAuthorDetailsProps): JSX.Element {
+export default function AuthorDetailsSidebar ({ name, onCloseDetailsCallback }: IAuthorDetailsSidebarProps): JSX.Element {
   // TODO: remove mock
   // TODO: type hint in author ?
   const articles = [
@@ -22,22 +22,22 @@ export default function AuthorDetails ({ name, onCloseDetailsCallback }: IAuthor
   ]
 
   return (
-    <div className="authorDetails">
-      <img className='authorDetails-close' src={close} alt='Close icon' onClick={onCloseDetailsCallback} />
-      <div className="authorDetails-content">
-        <div className="authorDetails-content-name">{name}</div>
+    <div className="authorDetailsSidebar">
+      <img className='authorDetailsSidebar-close' src={close} alt='Close icon' onClick={onCloseDetailsCallback} />
+      <div className="authorDetailsSidebar-content">
+        <div className="authorDetailsSidebar-content-name">{name}</div>
         {articles.map((article) => (
-          <div className="authorDetails-content-article">
-            <div className="authorDetails-content-article-title">{article.title}</div>
-            <div className="authorDetails-content-article-publicationDate">{article.publicationDate}</div>
-            <div className="authorDetails-content-article-doi">
-              <div className="authorDetails-content-article-doi-text">DOI :</div>
-              <div className="authorDetails-content-article-doi-link">{article.doi}</div>
+          <div className="authorDetailsSidebar-content-article">
+            <div className="authorDetailsSidebar-content-article-title">{article.title}</div>
+            <div className="authorDetailsSidebar-content-article-publicationDate">{article.publicationDate}</div>
+            <div className="authorDetailsSidebar-content-article-doi">
+              <div className="authorDetailsSidebar-content-article-doi-text">DOI :</div>
+              <div className="authorDetailsSidebar-content-article-doi-link">{article.doi}</div>
             </div>
             <Link to={PATHS.home}>
-              <div className="authorDetails-content-article-seeMore">
-                <div className="authorDetails-content-article-seeMore-text">See more</div>
-                <img className="authorDetails-content-article-seeMore-icon" src={caretRight} alt='Caret right icon' />
+              <div className="authorDetailsSidebar-content-article-seeMore">
+                <div className="authorDetailsSidebar-content-article-seeMore-text">See more</div>
+                <img className="authorDetailsSidebar-content-article-seeMore-icon" src={caretRight} alt='Caret right icon' />
               </div>
             </Link>
           </div>

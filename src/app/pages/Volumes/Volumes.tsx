@@ -21,7 +21,7 @@ import './Volumes.scss';
 type VolumeTypeFilter = 'type' | 'year';
 
 interface IVolumeFilter {
-  type: VolumeTypeFilter,
+  type: VolumeTypeFilter;
   value: string | number;
   label: string | number;
 }

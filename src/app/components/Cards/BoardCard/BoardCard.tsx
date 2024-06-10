@@ -53,10 +53,12 @@ export default function BoardCard({ language, member, fullCard, blurCard, setFul
           {member.assignedSections.length > 0 && <div className='boardCard-full-initial-assignedSections'>{member.assignedSections.map((assignedSection) => assignedSection.title[language]).join(', ')}</div>}
         </div>
         <div className='boardCard-full-expanded'>
-          <div className='boardCard-full-expanded-email'>
-            <img className='boardCard-full-expanded-email-at' src={at} alt={`At ${member.email} icon`}/>
-            <div>{member.email}</div>
-          </div>
+          <Link to={`mailto:${member.email}`} target='_blank' onClick={(e) => e.stopPropagation()}>
+            <div className='boardCard-full-expanded-email'>
+              <img className='boardCard-full-expanded-email-at' src={at} alt={`At ${member.email} icon`}/>
+              <div>{member.email}</div>
+            </div>
+          </Link>
           <div className='boardCard-full-expanded-biography'>{member.biography}</div>
           <div className='boardCard-full-expanded-social'>
             {member.socialMedias && (

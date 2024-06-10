@@ -6,7 +6,7 @@ import AuthorCard, { IAuthorCardProps } from "../../components/Cards/AuthorCard/
 import AuthorsSidebar from "../../components/Sidebars/AuthorsSidebar/AuthorsSidebar";
 import Pagination from "../../components/Pagination/Pagination";
 import './Authors.scss';
-import AuthorDetails from "../../components/AuthorDetails/AuthorDetails";
+import AuthorDetailsSidebar from "../../components/Sidebars/AuthorDetailsSidebar/AuthorDetailsSidebar";
 
 export default function Authors(): JSX.Element {
   const [search, setSearch] = useState('');
@@ -53,14 +53,16 @@ export default function Authors(): JSX.Element {
     },
   ]);
 
-  // const fetchPaginatedAuthors = async (currentPage: number): Promise<PaginatedResults> => {
-  //   // TODO : fetch call
+  const fetchPaginatedAuthors = async (currentPage: number): Promise<PaginatedResults> => {
+    // TODO : fetch call
     
-  //   return {
-  //     data: authors,
-  //     totalPages: 20
-  //   }
-  // }
+    return {
+      data: authors,
+      totalPages: 20
+    }
+  }
+
+  const paginatedItems = authors
 
   const onSearch = (newSearch: string): void => {
     setSearch(newSearch)
@@ -70,16 +72,20 @@ export default function Authors(): JSX.Element {
     setActiveLetter(newActiveLetter !== activeLetter ? newActiveLetter : '')
   }
 
-  // const getExpandedAuthor = (): IAuthor | null => {
-  //   if (expandedAuthorIndex === -1) {
-  //     return null
-  //   }
+  const getExpandedAuthor = (): IAuthor | null => {
+    if (expandedAuthorIndex === -1) {
+      return null
+    }
 
-  //   return paginatedItems.find((_, index) => expandedAuthorIndex === index) as IAuthor
-  // }
+    return paginatedItems.find((_, index) => expandedAuthorIndex === index) as IAuthor
+  }
 
   const onCloseDetails = (): void => {
     setExpandedAuthorIndex(-1)
+  }
+
+  const handlePageClick = (): void => {
+
   }
 
   return (
@@ -91,24 +97,24 @@ export default function Authors(): JSX.Element {
         <AuthorsSidebar onSearchCallback={onSearch} activeLetter={activeLetter} onSetActiveLetterCallback={onSetActiveLetter} />
         <div className='authors-content-results'>
           <div className='authors-content-results-paginationTop'>
-            {/* <Pagination pageCount={pageCount} onPageChange={handlePageClick} /> */}
+            <Pagination itemsPerPage={10} onPageChange={handlePageClick} />
           </div>
           <div className='authors-content-results-cards'>
-            {/* {paginatedItems.map((author, index) => (
+            {paginatedItems.map((author, index) => (
               <AuthorCard
                 key={index}
                 {...author as IAuthorCardProps}
                 expandedCard={expandedAuthorIndex === index}
                 setExpandedAuthorIndexCallback={(): void => expandedAuthorIndex !== index ? setExpandedAuthorIndex(index) : setExpandedAuthorIndex(-1)}
               />
-            ))} */}
+            ))}
           </div>
           <div className='authors-content-results-paginationBottom'>
-            {/* <Pagination pageCount={pageCount} onPageChange={handlePageClick} /> */}
+            <Pagination itemsPerPage={10} onPageChange={handlePageClick} />
           </div>
         </div>
       </div>
-      {/* {expandedAuthorIndex >= 0 && <AuthorDetails {...getExpandedAuthor() as IAuthorCardProps} onCloseDetailsCallback={onCloseDetails} />} */}
+      {expandedAuthorIndex >= 0 && <AuthorDetailsSidebar {...getExpandedAuthor() as IAuthorCardProps} onCloseDetailsCallback={onCloseDetails} />}
     </main>
   )
 }

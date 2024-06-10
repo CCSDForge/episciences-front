@@ -2,19 +2,20 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import { useAppSelector } from "../../../hooks/store";
+import { formatArticle, FetchedArticle } from "../../../utils/article";
 import { useFetchVolumeQuery } from "../../../store/features/volume/volume.query";
-import { IArticle } from "../../../types/article";
+import { RawArticle, IArticle } from "../../../types/article";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from "../../components/Loader/Loader";
+import VolumeArticleCard from "../../components/Cards/VolumeArticleCard/VolumeArticleCard";
 import VolumeDetailsSidebar from "../../components/Sidebars/VolumeDetailsSidebar/VolumeDetailsSidebar";
 import './VolumeDetails.scss';
-import VolumeArticleCard from "../../components/Cards/VolumeArticleCard/VolumeArticleCard";
 
 export default function VolumeDetails(): JSX.Element {
   const language = useAppSelector(state => state.i18nReducer.language)
 
   const [isFetchingArticles, setIsFetchingArticles] = useState(false);
-  const [articles, setArticles] = useState<IArticle[]>([]);
+  const [articles, setArticles] = useState<FetchedArticle[]>([]);
 
   const { id } = useParams();
   const { data: volume, isFetching: isFetchingVolume } = useFetchVolumeQuery({ vid: id! }, { skip: !id });
@@ -23,18 +24,19 @@ export default function VolumeDetails(): JSX.Element {
     if (volume && volume.articles.length > 0) {
       setIsFetchingArticles(true);
 
-      const docIds = volume.articles.map(article => article['@id'].replace(/\D/g, ''));
-      fetchArticles(docIds);
+      const paperIds = volume.articles.map(article => article['@id'].replace(/\D/g, ''));
+      fetchArticles(paperIds);
     }
   }, [volume]);
 
-  const fetchArticles = async (docIds: string[]) => {
-    const requests = docIds.map(docid => 
-      fetch(`${import.meta.env.VITE_API_ROOT_ENDPOINT}/papers/${docid}`)
-        .then(response => response.json())
-    );
+  const fetchArticles = async (paperIds: string[]): Promise<void> => {
+    const articlesRequests: Promise<FetchedArticle>[] = paperIds.map(async (docid) => {
+      const article: RawArticle = await (await fetch(`${import.meta.env.VITE_API_ROOT_ENDPOINT}/papers/${docid}`)).json()
+
+      return formatArticle(article)
+    });
     
-    const fetchedArticles = await Promise.all(requests);
+    const fetchedArticles = await Promise.all(articlesRequests);
 
     setArticles(fetchedArticles);
     setIsFetchingArticles(false);
@@ -55,10 +57,11 @@ export default function VolumeDetails(): JSX.Element {
               <div className='volumeDetails-content-results-content-title'>{volume?.title ? volume?.title[language] : ''}</div>
               <div className='volumeDetails-content-results-content-description'>{volume?.description ? volume?.description[language] : ''}</div>
               <div className='volumeDetails-content-results-content-cards'>
-                {articles?.map((article, index) => (
+                {articles?.filter((article) => article).map((article, index) => (
                   <VolumeArticleCard
                     key={index}
-                    article={article}
+                    language={language}
+                    article={article as IArticle}
                   />
                 ))}
               </div>

@@ -1,9 +1,5 @@
 import { useState, useEffect } from "react";
 
-import listRed from '/icons/list-red.svg';
-import listGrey from '/icons/list-grey.svg';
-import tileRed from '/icons/tile-red.svg';
-import tileGrey from '/icons/tile-grey.svg';
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchSectionsQuery } from '../../../store/features/section/section.query';
 import { sectionTypes } from '../../../utils/types';
@@ -101,7 +97,16 @@ export default function Sections(): JSX.Element {
   return (
     <main className='sections'>
       <Breadcrumb />
-      <h1 className='sections-title'>Sections</h1>
+      <div className='sections-title'>
+        <h1>Sections</h1>
+        <div className='sections-title-count'>
+          {sections && sections.totalItems > 1 ? (
+            <div className='sections-title-count-text'>{sections.totalItems} sections</div>
+          ) : (
+            <div className='sections-title-count-text'>{sections?.totalItems ?? 0} section</div>
+          )}
+        </div>
+      </div>
       <div className="sections-filters">
         <div className="sections-filters-tags">
           {taggedFilters.map((filter, index) => (

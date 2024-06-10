@@ -11,7 +11,7 @@ const aboutSlice = createSlice({
     builder.addMatcher(
       aboutApi.endpoints.fetchAboutPage.matchFulfilled,
       (state, { payload }) => {
-        state.aboutPage = payload
+        state.about = payload
       },
     )
   }
