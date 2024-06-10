@@ -8,3 +8,13 @@ export interface INews {
   author: string;
   link?: string;
 }
+
+export type RawNews = INews & {
+  date_creation: string;
+  creator: {
+    screenName: string;
+  };
+  link?: {
+    und: string;
+  }
+}

@@ -1,210 +1,245 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
+import { useAppSelector } from "../../../hooks/store";
+import { useFetchArticlesQuery } from '../../../store/features/article/article.query';
+import { allYears } from '../../../utils/filter';
+import { articleTypes, articleSections } from '../../../utils/types';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
-import ArticleCard, { IArticleCard } from "../../components/Cards/ArticleCard/ArticleCard";
-import ArticlesSidebar from "../../components/Sidebars/ArticlesSidebar/ArticlesSidebar";
+import Loader from '../../components/Loader/Loader';
+import ArticleCard from "../../components/Cards/ArticleCard/ArticleCard";
+import ArticlesSidebar, { IArticleTypeSelection, IArticleSectionSelection, IArticleYearSelection } from "../../components/Sidebars/ArticlesSidebar/ArticlesSidebar";
 import Pagination from "../../components/Pagination/Pagination";
 import Tag from "../../components/Tag/Tag";
 import './Articles.scss';
 
+type ArticleTypeFilter = 'type' | 'section' | 'year';
+
+interface IArticleFilter {
+  type: ArticleTypeFilter;
+  value: string | number;
+  label: string | number;
+}
+
 export default function Articles(): JSX.Element {
-  // TODO: remove mocks
-  // TODO: type hint filters in src/types ?
-  const [filters, setFilters] = useState([
-    {
-      id: 1,
-      title: 'Types of document',
-      choices: [
-        { id: 1, label: 'Articles', isChecked: false },
-        { id: 2, label: 'Data papers', isChecked: false },
-        { id: 3, label: 'Software', isChecked: false }
-      ]
-    },
-    {
-      id: 2,
-      title: 'Sections',
-      choices: [
-        { id: 1, label: 'Awards', isChecked: false },
-        { id: 2, label: 'Special issues', isChecked: false },
-        { id: 3, label: 'To be published', isChecked: false },
-        { id: 4, label: 'Online first', isChecked: false },
-        { id: 5, label: 'Varia', isChecked: false }
-      ]
-    },
-    // TODO : years from util
-    {
-      id: 3,
-      title: 'Years',
-      choices: [
-        { id: 1, label: '2023', isChecked: false },
-        { id: 2, label: '2022', isChecked: false },
-        { id: 3, label: '2021', isChecked: false }
-      ]
-    },
-  ]);
+  const ARTICLES_PER_PAGE = 10;
 
-  const [articles, setArticles] = useState<IArticleCard[]>([
-    { 
-      id: 1,
-      title: "D’un rêve d'universalité fonctionnelle au libéralisme linguistique : standardisation de la langue tchèque moderne et controverse des années 1990 et 2000",
-      authors: 'Adrien Martin ; Andrea Opreni ; Alessandra Vizzaccaro et al.',
-      openedAbstract: false,
-      abstract: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren.",
-      publicationDate: 'Published on Aug. 18th, 2023',
-      tag: 'Compte-rendu'
-    },
-    { 
-      id: 2,
-      title: "D’un rêve d'universalité fonctionnelle au libéralisme linguistique : standardisation de la langue tchèque moderne et controverse des années 1990 et 2000",
-      authors: 'Adrien Martin ; Andrea Opreni ; Alessandra Vizzaccaro et al.',
-      openedAbstract: false,
-      abstract: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren.",
-      publicationDate: 'Published on Aug. 18th, 2023',
-      tag: 'Compte-rendu'
-    },
-    { 
-      id: 3,
-      title: "D’un rêve d'universalité fonctionnelle au libéralisme linguistique : standardisation de la langue tchèque moderne et controverse des années 1990 et 2000",
-      authors: 'Adrien Martin ; Andrea Opreni ; Alessandra Vizzaccaro et al.',
-      openedAbstract: false,
-      abstract: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren.",
-      publicationDate: 'Published on Aug. 18th, 2023',
-      tag: 'Compte-rendu'
-    },
-    { 
-      id: 4,
-      title: "D’un rêve d'universalité fonctionnelle au libéralisme linguistique : standardisation de la langue tchèque moderne et controverse des années 1990 et 2000",
-      authors: 'Adrien Martin ; Andrea Opreni ; Alessandra Vizzaccaro et al.',
-      openedAbstract: false,
-      abstract: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren.",
-      publicationDate: 'Published on Aug. 18th, 2023',
-      tag: 'Compte-rendu'
-    },
-    { 
-      id: 5,
-      title: "D’un rêve d'universalité fonctionnelle au libéralisme linguistique : standardisation de la langue tchèque moderne et controverse des années 1990 et 2000",
-      authors: 'Adrien Martin ; Andrea Opreni ; Alessandra Vizzaccaro et al.',
-      openedAbstract: false,
-      abstract: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren.",
-      publicationDate: 'Published on Aug. 18th, 2023',
-      tag: 'Compte-rendu'
-    },
-    { 
-      id: 6,
-      title: "D’un rêve d'universalité fonctionnelle au libéralisme linguistique : standardisation de la langue tchèque moderne et controverse des années 1990 et 2000",
-      authors: 'Adrien Martin ; Andrea Opreni ; Alessandra Vizzaccaro et al.',
-      openedAbstract: false,
-      abstract: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren.",
-      publicationDate: 'Published on Aug. 18th, 2023',
-      tag: 'Compte-rendu'
-    },
-  ]);
+  const language = useAppSelector(state => state.i18nReducer.language)
+  const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
 
-  // const fetchPaginatedArticles = async (currentPage: number): Promise<PaginatedResults> => {
-  //   // TODO : fetch call
-    
-  //   return {
-  //     data: articles,
-  //     totalPages: 20
-  //   }
-  // }
+  const [currentPage, setCurrentPage] = useState(1);
+  const [types, setTypes] = useState<IArticleTypeSelection[]>([])
+  const [sections, setSections] = useState<IArticleSectionSelection[]>([]);;
+  const [years, setYears] = useState<IArticleYearSelection[]>([]);
+  const [taggedFilters, setTaggedFilters] = useState<IArticleFilter[]>([]);
 
-  const getActiveFiltersChoices = (): { id: number; label: string; filterId: number }[] => {
-    const activeChoices: { id: number; label: string; filterId: number }[] = [];
+  useEffect(() => {
+    if (types.length === 0) {
+      const initTypes = articleTypes.map((at) => ({
+        label: at.label,
+        value: at.value,
+        isChecked: false
+      }))
 
-    filters.forEach((filter) => {
-      filter.choices.forEach((choice) => {
-        if (choice.isChecked) {
-          activeChoices.push({
-            id: choice.id,
-            label: choice.label,
-            filterId: filter.id
-          })
-        }
-      })
-    });
+      setTypes(initTypes)
+    }
+  }, [types])
 
-    return activeChoices;
-  }
+  useEffect(() => {
+    if (sections.length === 0) {
+      const initSections = articleSections.map((as) => ({
+        label: as.label,
+        value: as.value,
+        isChecked: false
+      }))
 
-  const onCheckFilterChoice = (filterId: number, choiceId: number): void => {
-    const updatedFilters = filters.map((filter) => {
-      if (filter.id === filterId) {
-        const updatedChoices = filter.choices.map((choice) => {
-          if (choice.id === choiceId) {
-            return { ...choice, isChecked: !choice.isChecked };
-          }
+      setSections(initSections)
+    }
+  }, [years])
 
-          return choice;
-        });
+  useEffect(() => {
+    if (years.length === 0) {
+      const initYears = allYears().map((y) => ({
+        year: y,
+        isChecked: false
+      }))
 
-        return { ...filter, choices: updatedChoices };
+      setYears(initYears)
+    }
+  }, [years])
+
+  const { data: articles, isFetching } = useFetchArticlesQuery({ rvcode: rvcode!, page: currentPage, itemsPerPage: ARTICLES_PER_PAGE, type: types.find(t => t.isChecked)?.value, section: sections.find(s => s.isChecked)?.value, year: years.find(y => y.isChecked)?.year }, { skip: !rvcode })
+
+  const handlePageClick = (selectedItem: { selected: number }): void => {
+    setCurrentPage(selectedItem.selected + 1);
+  };
+
+  const onCheckType = (value: string): void => {
+    const updatedTypes = types.map((t) => {
+      if (t.value === value) {
+        return { ...t, isChecked: !t.isChecked };
       }
 
-      return filter;
+      return { ...t, isChecked: false };
     });
 
-    setFilters(updatedFilters);
+    setTypes(updatedTypes);
   }
 
-  const clearActiveFiltersChoices = (): void => {
-    const updatedFilters = filters.map((filter) => {
-      const updatedChoices = filter.choices.map((choice) => {
-        return { ...choice, isChecked: false };
+  const onCheckSection = (value: string): void => {
+    const updatedSections = sections.map((s) => {
+      if (s.value === value) {
+        return { ...s, isChecked: !s.isChecked };
+      }
+
+      return { ...s, isChecked: false };
+    });
+
+    setSections(updatedSections);
+  }
+
+  const onCheckYear = (year: number): void => {
+    const updatedYears = years.map((y) => {
+      if (y.year === year) {
+        return { ...y, isChecked: !y.isChecked };
+      }
+
+      return { ...y, isChecked: false };
+    });
+
+    setYears(updatedYears);
+  }
+
+  const setAllTaggedFilters = (): void => {
+    const initFilters: IArticleFilter[] = []
+
+    types.filter((t) => t.isChecked).forEach((t) => {
+      initFilters.push({
+        type: 'type',
+        value: t.value,
+        label: t.label
+      })
+    })
+
+    sections.filter((s) => s.isChecked).forEach((s) => {
+      initFilters.push({
+        type: 'section',
+        value: s.value,
+        label: s.label
+      })
+    })
+
+    years.filter((y) => y.isChecked).forEach((y) => {
+      initFilters.push({
+        type: 'year',
+        value: y.year,
+        label: y.year
+      })
+    })
+
+    setTaggedFilters(initFilters)
+  }
+
+  const onCloseTaggedFilter = (type: ArticleTypeFilter, value: string | number) => {
+    if (type === 'type') {
+      const updatedTypes = types.map((t) => {
+        if (t.value === value) {
+          return { ...t, isChecked: false };
+        }
+
+        return t;
       });
 
-      return { ...filter, choices: updatedChoices };
-    });
-
-    setFilters(updatedFilters);
+      setTypes(updatedTypes);
+    } else if (type === 'section') {
+      const updatedSections = sections.map((s) => {
+        if (s.value === value) {
+          return { ...s, isChecked: false };
+        }
+  
+        return s;
+      });
+  
+      setSections(updatedSections);
+    } else if (type === 'year') {
+      const updatedYears = years.map((y) => {
+        if (y.year === value) {
+          return { ...y, isChecked: false };
+        }
+  
+        return y;
+      });
+  
+      setYears(updatedYears);
+    }
   }
 
-  const toggleAbstract = (articleId: number): void => {
-    const updatedArticles = articles.map((article) => {
-      if (article.id === articleId) {
-        return { ...article, openedAbstract: !article.openedAbstract };
-      }
-
-      return article;
+  const clearTaggedFilters = (): void => {
+    const updatedTypes = types.map((t) => {
+      return { ...t, isChecked: false };
     });
 
-    setArticles(updatedArticles);
-  }
-
-  const openAllAbstracts = (): void => {
-    const updatedArticles = articles.map((article) => {
-      return { ...article, openedAbstract: true };
+    const updatedSections = sections.map((s) => {
+      return { ...s, isChecked: false };
     });
 
-    setArticles(updatedArticles);
+    const updatedYears = years.map((y) => {
+      return { ...y, isChecked: false };
+    });
+
+    setTypes(updatedTypes);
+    setSections(updatedSections);
+    setYears(updatedYears);
+    setTaggedFilters([]);
   }
+
+  useEffect(() => {
+    setAllTaggedFilters()
+  }, [types])
 
   return (
     <main className='articles'>
       <Breadcrumb />
       <div className='articles-title'>
         <h1>Articles</h1>
-        <div className='articles-title-count'>1550 articles</div>
+        <div className='articles-title-count'>
+          {articles && articles.totalItems > 1 ? (
+            <div className='articles-title-count-text'>{articles.totalItems} articles</div>
+          ) : (
+            <div className='articles-title-count-text'>{articles?.totalItems ?? 0} article</div>
+          )}
+        </div>
       </div>
       <div className="articles-filters">
         <div className="articles-filters-tags">
-          {getActiveFiltersChoices().map((choice, index) => (
-            <Tag key={index} text={choice.label} onCloseCallback={(): void => onCheckFilterChoice(choice.filterId, choice.id)}/>
+          {taggedFilters.map((filter, index) => (
+            <Tag key={index} text={filter.label.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
           ))}
-          <div className="articles-filters-tags-clear" onClick={clearActiveFiltersChoices}>Clear all filters</div>
+          <div className="articles-filters-tags-clear" onClick={clearTaggedFilters}>Clear all filters</div>
         </div>
-        <div className="articles-filters-abstracts" onClick={openAllAbstracts}>Show all abstracts</div>
       </div>
       <div className='articles-content'>
         <div className='articles-content-results'>
-          <ArticlesSidebar filters={filters} onCheckFilterChoiceCallback={onCheckFilterChoice} />
-          <div className='articles-content-results-cards'>
-            {/* {paginatedItems.map((article, index) => (
-              <ArticleCard key={index} {...article as IArticleCard} toggleAbstractCallback={(): void => toggleAbstract(article.id)} />
-            ))} */}
-          </div>
+          <ArticlesSidebar types={types} onCheckTypeCallback={onCheckType} sections={sections} onCheckSectionCallback={onCheckSection} years={years} onCheckYearCallback={onCheckYear} />
+          {isFetching ? (
+            <Loader />
+          ) : (
+            <div className='articles-content-results-cards'>
+              {articles?.data?.filter((article) => article).map((article, index) => (
+                <ArticleCard
+                  key={index}
+                  language={language}
+                  article={article}
+                />
+              ))}
+            </div>
+          )}
         </div>
-        {/* <Pagination pageCount={pageCount} onPageChange={handlePageClick} /> */}
+        <Pagination
+          currentPage={currentPage}
+          itemsPerPage={ARTICLES_PER_PAGE}
+          totalItems={articles?.totalItems}
+          onPageChange={handlePageClick}
+        />
       </div>
     </main>
   )

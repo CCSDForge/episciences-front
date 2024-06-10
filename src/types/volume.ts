@@ -6,5 +6,15 @@ export interface IVolume {
   title?: Record<AvailableLanguage, string>;
   description?: Record<AvailableLanguage, string>;
   year?: number;
+  types?: string[];
   articles: PartialVolumeArticle[];
+}
+
+export type RawVolume = IVolume & {
+  vid: number;
+  titles?: Record<AvailableLanguage, string>;
+  descriptions?: Record<AvailableLanguage, string>;
+  vol_year?: number;
+  vol_type?: string[];
+  papers: PartialVolumeArticle[];
 }

@@ -1,33 +1,28 @@
 .articlesSidebar {
   min-width: 265px;
-  margin-top: -45px;
+  margin-top: -30px;
 
-  &-filter {
-    margin-bottom: 22px;
-    font-size: 16px;
+  &-typesSection-title, &-sectionsSection-title, &-yearsSection-title {
+    font-weight: bold;
+    border-bottom: 1px solid var(--grey-light);
+    padding-bottom: 8px;
+  }
 
-    &-title {
-      font-weight: bold;
-      border-bottom: 1px solid var(--grey-light);
-      padding-bottom: 8px;
-    }
+  &-typesSection-types, &-sectionsSection-sections, &-yearsSection-years {
+    padding: 20px 0px 20px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 
-    &-choices {
-      margin-top: 10px;
-      overflow-y: scroll;
+    &-choice {
+      display: flex;
+      gap: 18px;
 
-      &-choice {
-        display: flex;
-        gap: 15px;
-        margin-bottom: 10px;
-        color: var(--grey);
+      &-label {
+        cursor: pointer;
 
-        &-label {
-          cursor: pointer;
-
-          &-checked {
-            color: var(--grey-dark);
-          }
+        &-checked {
+          color: var(--black);
         }
       }
     }

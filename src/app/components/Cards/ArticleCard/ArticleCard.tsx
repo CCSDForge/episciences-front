@@ -11,6 +11,8 @@ interface IArticleCardProps extends IArticleCard {
   toggleAbstractCallback: () => void;
 }
 
+// TODO: improve
+// TODO: remove abstract toggle etc
 export default function ArticleCard({ title, authors, openedAbstract, abstract, publicationDate, tag, toggleAbstractCallback }: IArticleCardProps): JSX.Element {
   return (
     <div className='articleCard'>

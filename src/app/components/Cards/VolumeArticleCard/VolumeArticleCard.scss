@@ -5,6 +5,7 @@
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--red);
 
+  // TODO
   // &-tag {
   //   width: fit-content;
   //   height: fit-content;
@@ -59,9 +60,26 @@
     }
   }
 
-  // &-publicationDate {
-  //   color: var(--grey-light);
-  //   font-size: 12px;
-  //   font-style: italic;
-  // }
+  &-anchor {
+    display: flex;
+    justify-content: space-between;
+
+    &-publicationDate {
+      color: var(--grey-light);
+      font-size: 14px;
+      font-style: italic;
+    }
+
+    &-icons {
+      &-download {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        flex: 1;
+        gap: 8px;
+        color: var(--red);
+        font-size: 13px;
+      }
+    }
+  }
 }

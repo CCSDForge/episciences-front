@@ -28,3 +28,17 @@ export interface IBoardMember {
   orcid?: string;
   picture?: string;
 }
+
+export type RawBoardMember = IBoardMember & {
+  roles: string[][];
+  assignedSections?: {
+    sid: number;
+    titles: Record<AvailableLanguage, string>
+  }[];
+  additionalProfileInformation?: {
+    biography?: string;
+    affiliations: IBoardMemberAffiliation[];
+    socialMedias?: string;
+    webSites: string[];
+  }
+}

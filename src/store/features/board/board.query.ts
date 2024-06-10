@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import { BoardPage, IBoardMember, IBoardMemberAffiliation } from '../../../types/board'
+import { BoardPage, RawBoardMember, IBoardMember } from '../../../types/board'
 import { boardTypes } from '../../../utils/types'
 import { AvailableLanguage } from '../../../utils/i18n'
 import { createBaseQueryWithJsonAccept } from '../../utils'
@@ -18,8 +18,8 @@ export const boardApi = createApi({
     }),
     fetchBoardMembers: build.query<IBoardMember[], string>({
       query: (rvcode: string) => `journals/boards/${rvcode}`,
-      transformResponse(baseQueryReturnValue: { boards: IBoardMember[] }) {
-        const formattedBoardMembers = (baseQueryReturnValue.boards as (IBoardMember & { roles: string[][]; assignedSections?: { sid: number, titles: Record<AvailableLanguage, string> }[]; additionalProfileInformation?: { biography?: string; affiliations: IBoardMemberAffiliation[]; socialMedias?: string; webSites: string[]; } })[]).map((board) => {
+      transformResponse(baseQueryReturnValue: { boards: RawBoardMember[] }) {
+        const formattedBoardMembers = (baseQueryReturnValue.boards).map((board) => {
           const roles = board.roles.length > 0 ? board.roles[0].map(role => role.replace(/_/g, '-')) : []
 
           return {

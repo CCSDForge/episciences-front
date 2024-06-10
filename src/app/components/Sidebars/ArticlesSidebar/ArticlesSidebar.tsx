@@ -1,40 +1,98 @@
 import Checkbox from '../../Checkbox/Checkbox';
 import './ArticlesSidebar.scss'
 
-interface IArticlesSidebarProps {
-  filters: { id: number; title: string; choices: { id: number; label: string; isChecked: boolean; }[] }[];
-  onCheckFilterChoiceCallback: (filterId: number, choiceId: number) => void;
+export interface IArticleTypeSelection {
+  label: string;
+  value: string;
+  isChecked: boolean;
 }
 
-export default function ArticlesSidebar({ filters, onCheckFilterChoiceCallback }: IArticlesSidebarProps): JSX.Element {
+export interface IArticleSectionSelection {
+  label: string;
+  value: string;
+  isChecked: boolean;
+}
+
+export interface IArticleYearSelection {
+  year: number;
+  isChecked: boolean;
+}
+
+interface IArticlesSidebarProps {
+  types: IArticleTypeSelection[];
+  onCheckTypeCallback: (value: string) => void;
+  sections: IArticleSectionSelection[];
+  onCheckSectionCallback: (value: string) => void;
+  years: IArticleYearSelection[];
+  onCheckYearCallback: (year: number) => void;
+}
+
+export default function ArticlesSidebar({ types, onCheckTypeCallback, sections, onCheckSectionCallback, years, onCheckYearCallback }: IArticlesSidebarProps): JSX.Element {
   return (
     <div className='articlesSidebar'>
-      {filters.map((filter, index) => (
-        <div
-          key={index}
-          className='articlesSidebar-filter'
-        >
-          <div className='articlesSidebar-filter-title'>{filter.title}</div>
-          <div className='articlesSidebar-filter-choices'>
-            {filter.choices.map((choice, index) => (
-              <div
-                key={index}
-                className='articlesSidebar-filter-choices-choice'
-              >
-                <div className='articlesSidebar-filter-choices-choice-checkbox'>
-                  <Checkbox checked={choice.isChecked} onChangeCallback={(): void => onCheckFilterChoiceCallback(filter.id, choice.id )}/>
-                </div>
-                <span
-                  className={`articlesSidebar-filter-choices-choice-label ${choice.isChecked && 'articlesSidebar-filter-choices-choice-label-checked'}`}
-                  onClick={(): void => onCheckFilterChoiceCallback(filter.id, choice.id )}
-                >
-                  {choice.label}
-                </span>
+      <div className='articlesSidebar-typesSection'>
+        <div className='articlesSidebar-typesSection-title'>Types of document</div>
+        <div className='articlesSidebar-typesSection-types'>
+          {types.map((t, index) => (
+            <div
+              key={index}
+              className='articlesSidebar-typesSection-types-choice'
+            >
+              <div className='articlesSidebar-typesSection-types-choice-checkbox'>
+                <Checkbox checked={t.isChecked} onChangeCallback={(): void => onCheckTypeCallback(t.value)}/>
               </div>
-            ))}
-          </div>
+              <span
+                className={`articlesSidebar-typesSection-types-choice-label ${t.isChecked && 'articlesSidebar-typesSection-types-choice-label-checked'}`}
+                onClick={(): void => onCheckTypeCallback(t.value)}
+              >
+                {t.label}
+              </span>
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
+      <div className='articlesSidebar-sectionsSection'>
+        <div className='articlesSidebar-sectionsSection-title'>Sections</div>
+        <div className='articlesSidebar-sectionsSection-sections'>
+          {sections.map((s, index) => (
+            <div
+              key={index}
+              className='articlesSidebar-sectionsSection-sections-choice'
+            >
+              <div className='articlesSidebar-sectionsSection-sections-choice-checkbox'>
+                <Checkbox checked={s.isChecked} onChangeCallback={(): void => onCheckSectionCallback(s.value)}/>
+              </div>
+              <span
+                className={`articlesSidebar-sectionsSection-sections-choice-label ${s.isChecked && 'articlesSidebar-sectionsSection-sections-choice-label-checked'}`}
+                onClick={(): void => onCheckSectionCallback(s.value)}
+              >
+                {s.label}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className='articlesSidebar-yearsSection'>
+        <div className='articlesSidebar-yearsSection-title'>Years</div>
+        <div className='articlesSidebar-yearsSection-years'>
+          {years.map((y, index) => (
+            <div
+              key={index}
+              className='articlesSidebar-yearsSection-years-choice'
+            >
+              <div className='articlesSidebar-yearsSection-years-choice-checkbox'>
+                <Checkbox checked={y.isChecked} onChangeCallback={(): void => onCheckYearCallback(y.year)}/>
+              </div>
+              <span
+                className={`articlesSidebar-yearsSection-years-choice-label ${y.isChecked && 'articlesSidebar-yearsSection-years-choice-label-checked'}`}
+                onClick={(): void => onCheckYearCallback(y.year)}
+              >
+                {y.year}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }

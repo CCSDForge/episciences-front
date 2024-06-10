@@ -1,0 +1,61 @@
+.articleDetails {
+  &-content {
+    display: flex;
+    gap: 60px;
+    flex-direction: row-reverse;
+
+    &-article {
+      width: 100%;
+
+      &-title {
+        color: var(--black);
+        font-size: 24px;
+        margin-bottom: 8px;
+      }
+
+      &-authors {
+        color: var(--grey);
+        font-size: 20px;
+        margin-bottom: 40px;
+      }
+
+      &-section {
+        margin-bottom: 40px;
+    
+        &-title {
+          display: flex;
+          justify-content: space-between;
+          gap: 8px;
+          border-bottom: 1px solid var(--red);
+          cursor: pointer;
+    
+          &-closed {
+            width: 100px;
+          }
+    
+          &-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--red);
+          }
+        }
+    
+        &-content {
+          display: none;
+          font-size: 16px;
+          margin-top: 8px;
+    
+          &-opened {
+            width: 100%;
+            display: block;
+          }
+
+          &-preview {
+            width: 100%;
+            height: 600px;
+          }
+        }
+      }
+    }
+  }
+}
