@@ -5,9 +5,8 @@ import listGrey from '/icons/list-grey.svg';
 import tileRed from '/icons/tile-red.svg';
 import tileGrey from '/icons/tile-grey.svg';
 import { useAppSelector } from "../../../hooks/store";
-import { useFetchNewsQuery } from '../../../store/features/news/news.query';
+import { useFetchNewsQuery, useFetchNewsRangeQuery } from '../../../store/features/news/news.query';
 import { RENDERING_MODE } from '../../../utils/card';
-import { allYears } from '../../../utils/filter';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
 import NewsCard from '../../components/Cards/NewsCard/NewsCard';
@@ -26,18 +25,19 @@ export default function News(): JSX.Element {
   const [years, setYears] = useState<INewsYearSelection[]>([]);
   const [fullNewsIndex, setFullNewsIndex] = useState(-1);
 
-  const { data: news, isFetching } = useFetchNewsQuery({ rvcode: rvcode!, page: currentPage, itemsPerPage: NEWS_PER_PAGE, year: years.find(y => y.isSelected)?.year }, { skip: !rvcode })
+  const { data: news, isFetching: isFetchingNews } = useFetchNewsQuery({ rvcode: rvcode!, page: currentPage, itemsPerPage: NEWS_PER_PAGE, year: years.find(y => y.isSelected)?.year }, { skip: !rvcode })
+  const { data: range, isFetching: isFetchingRange } = useFetchNewsRangeQuery({ rvcode: rvcode! }, { skip: !rvcode })
 
   useEffect(() => {
-    if (years.length === 0) {
-      const initYears = allYears().map((y) => ({
+    if (range && years.length === 0) {
+      const initYears = range.map((y) => ({
         year: y,
         isSelected: false
       }))
 
       setYears(initYears)
     }
-  }, [years])
+  }, [range, years])
 
   const handlePageClick = (selectedItem: { selected: number }): void => {
     setCurrentPage(selectedItem.selected + 1);
@@ -78,7 +78,7 @@ export default function News(): JSX.Element {
       <div className='news-content'>
         <div className='news-content-results'>
           <NewsSidebar years={years} onSelectYearCallback={onSelectYear} />
-          {isFetching ? (
+          {(isFetchingNews || isFetchingRange) ? (
             <Loader />
           ) : (
             <div className={`news-content-results-cards ${mode === RENDERING_MODE.TILE && 'news-content-results-cards-grid'}`}>

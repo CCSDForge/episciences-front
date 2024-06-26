@@ -20,9 +20,11 @@ export default function AuthorCard({ name, articlesCount, university, expandedCa
             <img className='authorCard-title-name-caret' src={caretRightBlack} alt='Caret right icon' />
           )}
         </div>
-        <div className='authorCard-title-count'>{articlesCount > 1 ? `${articlesCount} articles` : `${articlesCount} article`}</div>
+        {/* <div className='authorCard-title-count'>{articlesCount > 1 ? `${articlesCount} articles` : `${articlesCount} article`}</div> */}
+        <div className='authorCard-title-count'>99 articles</div>
       </div>
-      <div className='authorCard-card-university'>{university}</div>
+      {/* <div className='authorCard-university'>{university}</div> */}
+      <div className='authorCard-university'>University of Oxford, United Kingdom</div>
     </div>
   )
 }

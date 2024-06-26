@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import { IJournal } from '../../../types/journal'
+import { RawJournal, IJournal } from '../../../types/journal'
 import { createBaseQueryWithJsonAccept } from '../../utils'
 
 export const journalApi = createApi({
@@ -10,8 +10,11 @@ export const journalApi = createApi({
   endpoints: (build) => ({
     fetchJournals: build.query<IJournal[], null>({
       query: () => 'journals?pagination=false',
-      transformResponse(baseQueryReturnValue: IJournal[]) {
-        return baseQueryReturnValue
+      transformResponse(baseQueryReturnValue: RawJournal[]) {
+        return baseQueryReturnValue.map((journal) => ({
+          ...journal,
+          id: journal.rvid
+        }))
       },
     }),
   }),

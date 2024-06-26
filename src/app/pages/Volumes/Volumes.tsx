@@ -6,14 +6,14 @@ import listGrey from '/icons/list-grey.svg';
 import tileRed from '/icons/tile-red.svg';
 import tileGrey from '/icons/tile-grey.svg';
 import { useAppSelector } from "../../../hooks/store";
-import { useFetchVolumesQuery } from '../../../store/features/volume/volume.query';
+import { useFetchVolumesQuery, useFetchVolumesRangeQuery } from '../../../store/features/volume/volume.query';
 import { RENDERING_MODE } from '../../../utils/card';
-import { allYears } from '../../../utils/filter';
 import { volumeTypes } from '../../../utils/types';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
 import VolumeCard from "../../components/Cards/VolumeCard/VolumeCard";
 import VolumesSidebar, { IVolumeTypeSelection, IVolumeYearSelection } from "../../components/Sidebars/VolumesSidebar/VolumesSidebar";
+import VolumesModal from "../../components/Modals/VolumesModal/VolumesModal";
 import Pagination from "../../components/Pagination/Pagination";
 import Tag from "../../components/Tag/Tag";
 import './Volumes.scss';
@@ -30,6 +30,7 @@ export default function Volumes(): JSX.Element {
   const VOLUMES_PER_PAGE = 10;
 
   const language = useAppSelector(state => state.i18nReducer.language)
+  const rvid = useAppSelector(state => state.journalReducer.currentJournal?.id)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -37,31 +38,39 @@ export default function Volumes(): JSX.Element {
   const [types, setTypes] = useState<IVolumeTypeSelection[]>([]);
   const [years, setYears] = useState<IVolumeYearSelection[]>([]);
   const [taggedFilters, setTaggedFilters] = useState<IVolumeFilter[]>([]);
+  const [openedFiltersModal, setOpenedFiltersModal] = useState(false);
+
+  const { data: volumes, isFetching: isFetchingVolumes } = useFetchVolumesQuery({ rvid: rvid!, page: currentPage, itemsPerPage: VOLUMES_PER_PAGE, year: years.find(y => y.isSelected)?.year, type: types.find(t => t.isChecked)?.value }, { skip: !rvid })
+  const { data: range, isFetching: isFetchingRange } = useFetchVolumesRangeQuery({ rvcode: rvcode! }, { skip: !rvcode })
 
   useEffect(() => {
-    if (types.length === 0) {
-      const initTypes = volumeTypes.map((v) => ({
-        label: v.label,
-        value: v.value,
-        isChecked: false
-      }))
+    if (range && types.length === 0) {
+      const initTypes = range.types
+        .filter((t) => volumeTypes.find((vt) => vt.value === t))
+        .map((t) => {
+        const matchingType = volumeTypes.find((vt) => vt.value === t)
+
+        return {
+          label: matchingType!.label,
+          value: matchingType!.value,
+          isChecked: false
+        }
+      })
 
       setTypes(initTypes)
     }
-  }, [types])
+  }, [range, types])
 
   useEffect(() => {
-    if (years.length === 0) {
-      const initYears = allYears().map((y) => ({
+    if (range && years.length === 0) {
+      const initYears = range.years.map((y) => ({
         year: y,
         isSelected: false
       }))
 
       setYears(initYears)
     }
-  }, [years])
-
-  const { data: volumes, isFetching } = useFetchVolumesQuery({ rvcode: rvcode!, page: currentPage, itemsPerPage: VOLUMES_PER_PAGE, year: years.find(y => y.isSelected)?.year, type: types.find(t => t.isChecked)?.value }, { skip: !rvcode })
+  }, [range, years])
 
   const handlePageClick = (selectedItem: { selected: number }): void => {
     setCurrentPage(selectedItem.selected + 1);
@@ -151,6 +160,12 @@ export default function Volumes(): JSX.Element {
     setTaggedFilters([]);
   }
 
+  const toggleFiltersModal = () => {
+    if (mode === RENDERING_MODE.LIST) return
+
+    setOpenedFiltersModal(!openedFiltersModal)
+  }
+
   useEffect(() => {
     setAllTaggedFilters()
   }, [types, years])
@@ -203,13 +218,16 @@ export default function Volumes(): JSX.Element {
       ) : (
         <div className='volumes-filters volumes-filters-tiles'>
           <div className="volumes-filters-tags">
-          <div className="volumes-filters-tags-filterTile" onClick={(): void => console.log('OOO')}>
-            <img className="volumes-filters-tags-filterTile-icon" src={filter} alt='List icon' />
-            <div className="volumes-filters-tags-filterTile-text">{taggedFilters.length > 0 ? `Editer les filtres (${taggedFilters.length})` : 'Filtrer'}</div>
-          </div>
+            <div className="volumes-filters-tags-filterTile" onClick={(): void => toggleFiltersModal()}>
+              <img className="volumes-filters-tags-filterTile-icon" src={filter} alt='List icon' />
+              <div className="volumes-filters-tags-filterTile-text">{taggedFilters.length > 0 ? `Editer les filtres (${taggedFilters.length})` : 'Filtrer'}</div>
+            </div>
             {taggedFilters.map((filter, index) => (
               <Tag key={index} text={filter.label.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
             ))}
+          </div>
+          <div className="volumes-filters-modal">
+            {openedFiltersModal && <VolumesModal types={types} onCheckTypeCallback={onCheckType} years={years} onSelectYearCallback={onSelectYear} onCloseCallback={(): void => setOpenedFiltersModal(false)}/>}
           </div>
         </div>
       )}
@@ -218,7 +236,7 @@ export default function Volumes(): JSX.Element {
           {mode === RENDERING_MODE.LIST && (
             <VolumesSidebar types={types} onCheckTypeCallback={onCheckType} years={years} onSelectYearCallback={onSelectYear} />
           )}
-          {isFetching ? (
+          {(isFetchingVolumes || isFetchingRange) ? (
             <Loader />
           ) : (
             <div className={`volumes-content-results-cards ${mode === RENDERING_MODE.TILE && 'volumes-content-results-cards-tiles'}`}>
@@ -226,6 +244,7 @@ export default function Volumes(): JSX.Element {
                 <VolumeCard
                   key={index}
                   language={language}
+                  mode={mode}
                   volume={volume}
                 />
               ))}

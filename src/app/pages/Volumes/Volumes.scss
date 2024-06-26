@@ -49,6 +49,7 @@
   }
 
   &-filters {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -78,6 +79,8 @@
         gap: 4px;
         padding-bottom: 4px;
         border-bottom: 1px solid var(--red);
+        margin-top: 17px;
+        cursor: pointer;
 
         &-text {
           color: var(--red);
@@ -85,6 +88,13 @@
           font-weight: bold;
         }
       }
+    }
+
+    &-modal {
+      position: absolute;
+      top: 40px;
+      left: 0;
+      background: var(--white);
     }
   }
 
@@ -104,6 +114,9 @@
         padding-left: 60px;
 
         &-tiles {
+          display: grid;
+          gap: 15px;
+          grid-template-columns: repeat(3, 1fr);
           padding-left: 0px;
         }
       }

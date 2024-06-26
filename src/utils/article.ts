@@ -3,33 +3,36 @@ import { IArticle, RawArticle } from "../types/article";
 export type FetchedArticle = IArticle | undefined;
 
 export const formatArticle = (article: RawArticle): FetchedArticle => {
-  if (article['@id'] && article.document.public_properties.journal) {
-    const articleJournal = article.document.public_properties.journal.journal_article
+  if (article['@id']) {
+    const articleJournal = article.document.public_properties.journal
     const articleDB = article.document.public_properties.database
+    const articleConference = article.document.public_properties.conference
 
-    const abstract = typeof articleJournal.abstract?.value === 'string' ? articleJournal.abstract?.value : articleJournal.abstract?.value.value 
+    const articleContent = articleJournal?.journal_article ?? articleConference.conference_paper
+
+    const abstract = typeof articleContent.abstract?.value === 'string' ? articleContent.abstract?.value : articleContent.abstract?.value.value 
 
     let authors = null;
 
-    if (Array.isArray(articleJournal.contributors.person_name)) {
+    if (Array.isArray(articleContent.contributors.person_name)) {
       const authorOrder = {"first": 1, "additional": 2};
-      const sortedAuthors = articleJournal.contributors.person_name.sort((a, b) => authorOrder[a["@sequence"] as keyof typeof authorOrder] - authorOrder[b["@sequence"] as keyof typeof authorOrder]);
+      const sortedAuthors = articleContent.contributors.person_name.sort((a, b) => authorOrder[a["@sequence"] as keyof typeof authorOrder] - authorOrder[b["@sequence"] as keyof typeof authorOrder]);
       authors = sortedAuthors.map(author => `${author.given_name} ${author.surname}`.trim()).join(", ")
     } else {
-      authors = `${articleJournal.contributors.person_name.given_name} ${articleJournal.contributors.person_name.surname}`.trim()
+      authors = `${articleContent.contributors.person_name.given_name} ${articleContent.contributors.person_name.surname}`.trim()
     }
 
     return {
       ...article,
       id: article.paperid,
-      title: articleJournal.titles.title,
+      title: articleContent.titles.title,
       abstract,
       authors,
       publicationDate: articleDB.current.dates.publication_date,
       pdfLink: articleDB.current.files.link,
       halLink: articleDB.current.repository.paper_url,
-      keywords: articleJournal.keywords,
-      doi: articleJournal.doi_data.resource
+      keywords: articleContent.keywords,
+      doi: articleContent.doi_data.resource
     };
   }
 

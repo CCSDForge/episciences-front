@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
+import { useAppSelector } from "../../../hooks/store";
 import { useFetchArticleQuery } from "../../../store/features/article/article.query";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from "../../components/Loader/Loader";
@@ -16,6 +17,8 @@ enum ARTICLE_SECTION {
 }
 
 export default function ArticleDetails(): JSX.Element {
+  const language = useAppSelector(state => state.i18nReducer.language)
+  
   const { id } = useParams();
   const { data: article, isFetching } = useFetchArticleQuery({ paperid: id! }, { skip: !id });
 
@@ -67,7 +70,7 @@ export default function ArticleDetails(): JSX.Element {
             <h1 className="articleDetails-content-article-title">{article?.title}</h1>
             <div className="articleDetails-content-article-authors">{article?.authors}</div>
             {renderSection(ARTICLE_SECTION.ABSTRACT, 'Abstract', <>{article?.abstract}</>)}
-            {renderSection(ARTICLE_SECTION.KEYWORDS, 'Keywords', <>{article?.keywords?.join(', ')}</>)}
+            {renderSection(ARTICLE_SECTION.KEYWORDS, 'Keywords', <>{article?.keywords ? Array.isArray(article?.keywords) ? article?.keywords?.join(', ') : article.keywords[language] ? article.keywords[language].join(', ') : null : null}</>)}
             {renderSection(ARTICLE_SECTION.PREVIEW, 'Preview', <iframe src={article?.halLink} className="articleDetails-content-article-section-content-preview" />)}
           </div>
         </div>

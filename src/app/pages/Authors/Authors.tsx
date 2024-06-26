@@ -1,92 +1,46 @@
 import { useState } from "react";
 
 import { IAuthor } from "../../../types/author";
+import { useAppSelector } from "../../../hooks/store";
+import { useFetchAuthorsQuery } from "../../../store/features/author/author.query";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import AuthorCard, { IAuthorCardProps } from "../../components/Cards/AuthorCard/AuthorCard";
 import AuthorsSidebar from "../../components/Sidebars/AuthorsSidebar/AuthorsSidebar";
+import AuthorDetailsSidebar from "../../components/Sidebars/AuthorDetailsSidebar/AuthorDetailsSidebar";
+import Loader from '../../components/Loader/Loader';
 import Pagination from "../../components/Pagination/Pagination";
 import './Authors.scss';
-import AuthorDetailsSidebar from "../../components/Sidebars/AuthorDetailsSidebar/AuthorDetailsSidebar";
 
 export default function Authors(): JSX.Element {
+  const AUTHORS_PER_PAGE = 10;
+
+  const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
+
+  const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState('');
   const [activeLetter, setActiveLetter] = useState('');
   const [expandedAuthorIndex, setExpandedAuthorIndex] = useState(-1);
 
-  // TODO: remove mocks
-  const [authors, setAuthors] = useState<IAuthor[]>([
-    { 
-      id: 1,
-      name: 'Baele Stéphane',
-      university: 'University of Oxford, United Kingdom',
-      articlesCount: 2,
-    },
-    { 
-      id: 2,
-      name: 'Baele Stéphane',
-      university: 'University of Oxford, United Kingdom',
-      articlesCount: 2,
-    },
-    { 
-      id: 3,
-      name: 'Baele Stéphane',
-      university: 'University of Oxford, United Kingdom',
-      articlesCount: 2,
-    },
-    { 
-      id: 4,
-      name: 'Baele Stéphane',
-      university: 'University of Oxford, United Kingdom',
-      articlesCount: 2,
-    },
-    { 
-      id: 5,
-      name: 'Baele Stéphane',
-      university: 'University of Oxford, United Kingdom',
-      articlesCount: 2,
-    },
-    { 
-      id: 6,
-      name: 'Baele Stéphane',
-      university: 'University of Oxford, United Kingdom',
-      articlesCount: 2,
-    },
-  ]);
+  const onSearch = (newSearch: string): void => setSearch(newSearch)
+  const onSetActiveLetter = (newActiveLetter: string): void => setActiveLetter(newActiveLetter !== activeLetter ? newActiveLetter : '')
 
-  const fetchPaginatedAuthors = async (currentPage: number): Promise<PaginatedResults> => {
-    // TODO : fetch call
-    
-    return {
-      data: authors,
-      totalPages: 20
-    }
-  }
+  const { data: authors, isFetching } = useFetchAuthorsQuery({ rvcode: rvcode!, page: currentPage, itemsPerPage: AUTHORS_PER_PAGE, search, letter: activeLetter }, { skip: !rvcode })
 
-  const paginatedItems = authors
-
-  const onSearch = (newSearch: string): void => {
-    setSearch(newSearch)
-  }
-
-  const onSetActiveLetter = (newActiveLetter: string): void => {
-    setActiveLetter(newActiveLetter !== activeLetter ? newActiveLetter : '')
-  }
-
-  const getExpandedAuthor = (): IAuthor | null => {
+  const getExpandedAuthor = (): IAuthor | undefined => {
     if (expandedAuthorIndex === -1) {
-      return null
+      return
     }
 
-    return paginatedItems.find((_, index) => expandedAuthorIndex === index) as IAuthor
+    return authors?.data.find((_, index) => expandedAuthorIndex === index)
   }
 
   const onCloseDetails = (): void => {
     setExpandedAuthorIndex(-1)
   }
 
-  const handlePageClick = (): void => {
-
-  }
+  const handlePageClick = (selectedItem: { selected: number }): void => {
+    setCurrentPage(selectedItem.selected + 1);
+  };
 
   return (
     <main className='authors'>
@@ -97,20 +51,34 @@ export default function Authors(): JSX.Element {
         <AuthorsSidebar onSearchCallback={onSearch} activeLetter={activeLetter} onSetActiveLetterCallback={onSetActiveLetter} />
         <div className='authors-content-results'>
           <div className='authors-content-results-paginationTop'>
-            <Pagination itemsPerPage={10} onPageChange={handlePageClick} />
+          <Pagination
+            currentPage={currentPage}
+            itemsPerPage={AUTHORS_PER_PAGE}
+            totalItems={authors?.totalItems}
+            onPageChange={handlePageClick}
+          />
           </div>
-          <div className='authors-content-results-cards'>
-            {paginatedItems.map((author, index) => (
-              <AuthorCard
-                key={index}
-                {...author as IAuthorCardProps}
-                expandedCard={expandedAuthorIndex === index}
-                setExpandedAuthorIndexCallback={(): void => expandedAuthorIndex !== index ? setExpandedAuthorIndex(index) : setExpandedAuthorIndex(-1)}
-              />
-            ))}
-          </div>
+          {isFetching ? (
+            <Loader />
+          ) : (
+            <div className='authors-content-results-cards'>
+              {authors?.data.map((author, index) => (
+                <AuthorCard
+                  key={index}
+                  {...author as IAuthorCardProps}
+                  expandedCard={expandedAuthorIndex === index}
+                  setExpandedAuthorIndexCallback={(): void => expandedAuthorIndex !== index ? setExpandedAuthorIndex(index) : setExpandedAuthorIndex(-1)}
+                />
+              ))}
+            </div>
+          )}
           <div className='authors-content-results-paginationBottom'>
-            <Pagination itemsPerPage={10} onPageChange={handlePageClick} />
+            <Pagination
+              currentPage={currentPage}
+              itemsPerPage={AUTHORS_PER_PAGE}
+              totalItems={authors?.totalItems}
+              onPageChange={handlePageClick}
+            />
           </div>
         </div>
       </div>

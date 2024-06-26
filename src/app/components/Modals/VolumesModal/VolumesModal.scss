@@ -1,6 +1,10 @@
-.volumesSidebar {
-  min-width: 265px;
-  margin-top: -30px;
+.volumesModal {
+  display: flex;
+  gap: 40px;
+  min-width: 420px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
+  border-top: 2px solid var(--red);
+  padding: 24px;
 
   &-typesSection-title, &-yearsSection-title {
     font-weight: bold;
@@ -9,6 +13,10 @@
   }
 
   &-typesSection {
+    &-title {
+      padding-right: 60px;
+    }
+
     &-types {
       padding: 20px 0px 20px 0px;
       display: flex;
@@ -31,13 +39,14 @@
   }
 
   &-yearsSection {
+    flex: 1;
+
     &-years {
-      max-height: 180px;
+      height: 180px;
       padding: 20px 0px 20px 0px;
-      border-bottom: 1px solid var(--grey-light);
 
       &-list {
-        max-height: 180px;
+        height: 100%;
         overflow-y: scroll;
 
         &-year {

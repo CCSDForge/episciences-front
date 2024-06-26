@@ -1,5 +1,6 @@
 import { aboutApi } from '../features/about/about.query'
 import { articleApi } from '../features/article/article.query'
+import { authorApi } from '../features/author/author.query'
 import { boardApi } from '../features/board/board.query'
 import { creditsApi } from '../features/credits/credits.query'
 import { forAuthorApi } from '../features/forAuthor/forAuthor.query'
@@ -12,6 +13,7 @@ import { volumeApi } from '../features/volume/volume.query'
 export const enhancedMiddleware = (getDefaultMiddleware: Function) => getDefaultMiddleware()
   .concat(aboutApi.middleware)
   .concat(articleApi.middleware)
+  .concat(authorApi.middleware)
   .concat(boardApi.middleware)
   .concat(creditsApi.middleware)
   .concat(forAuthorApi.middleware)
