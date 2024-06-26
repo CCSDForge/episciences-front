@@ -20,7 +20,7 @@ export const articleSections: { label: string; value: string; }[] = [
 export const volumeTypes: { label: string; value: string; }[] = [
   { label: 'Volumes', value: 'volume' },
   { label: 'Special Issues', value: 'special_issue' },
-  { label: 'Proceedings', value: 'proceeding' }
+  { label: 'Proceedings', value: 'proceedings' }
 ]
 
 //TODO: translate

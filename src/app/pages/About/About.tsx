@@ -26,8 +26,6 @@ export default function About(): JSX.Element {
 
   const { data: aboutPage, isFetching } = useFetchAboutPageQuery(rvcode!, { skip: !rvcode })
 
-  const content = (): string | undefined => aboutPage?.content[language];
-
   const parseContentSections = (toBeParsed: string | undefined): IAboutSection[] => {
     const tree = unifiedProcessor.parse(toBeParsed);
     const sections = [];
@@ -111,9 +109,11 @@ export default function About(): JSX.Element {
   };
 
   useEffect(() => {
-    setPageSections(parseContentSections(content()))
-    setSidebarHeaders(parseSidebarHeaders(content()));
-  }, [aboutPage]);
+    const content = aboutPage?.content[language];
+
+    setPageSections(parseContentSections(content))
+    setSidebarHeaders(parseSidebarHeaders(content));
+  }, [aboutPage, language]);
 
   return (
     <main className='about'>

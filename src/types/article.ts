@@ -1,3 +1,5 @@
+import { AvailableLanguage } from "../utils/i18n";
+
 export interface IPartialArticle {
   '@id': string;
   '@type': string;
@@ -16,7 +18,7 @@ export interface IArticle {
   tag: string;
   pdfLink: string;
   halLink: string;
-  keywords?: string[];
+  keywords?: string[] | Record<AvailableLanguage, string[]>;
   doi: string;
 }
 
@@ -24,32 +26,7 @@ export type RawArticle = IPartialArticle & IArticle & {
   document: {
     public_properties: {
       journal?: {
-        journal_article: {
-          titles: {
-            title: string;
-          }
-          abstract?: {
-            value: string | {
-              value: string;
-            };
-          }
-          contributors: {
-            person_name: {
-              surname: string;
-              '@sequence': string;
-              given_name: string;
-            } | {
-              surname: string;
-              '@sequence': string;
-              given_name: string;
-            }[]
-          }
-          doi_data: {
-            doi: string;
-            resource: string;
-          }
-          keywords?: string [];
-        }
+        journal_article: IRawArticleContent;
       }
       database: {
         current: {
@@ -65,6 +42,36 @@ export type RawArticle = IPartialArticle & IArticle & {
           }
         }
       }
+      conference: {
+        conference_paper: IRawArticleContent;
+      }
     }
   }
+}
+
+interface IRawArticleContent {
+  titles: {
+    title: string;
+  }
+  abstract?: {
+    value: string | {
+      value: string;
+    };
+  }
+  contributors: {
+    person_name: {
+      surname: string;
+      '@sequence': string;
+      given_name: string;
+    } | {
+      surname: string;
+      '@sequence': string;
+      given_name: string;
+    }[]
+  }
+  doi_data: {
+    doi: string;
+    resource: string;
+  }
+  keywords?: string[] | Record<AvailableLanguage, string[]>;
 }

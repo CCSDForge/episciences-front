@@ -9,6 +9,10 @@ import { PATHS } from '../../../config/paths';
 export default function Footer(): JSX.Element {
   const currentJournal = useAppSelector(state => state.journalReducer.currentJournal);
 
+  const getJournalNotice = (): string | undefined => {
+    return currentJournal?.settings?.find((setting) => setting.setting === "contactJournalNotice")?.value
+  }
+
   const getContact = (): string | undefined => {
     const code = currentJournal?.code
 
@@ -34,8 +38,7 @@ export default function Footer(): JSX.Element {
       <div className='footer-journal'>
         <div className='footer-journal-logo'>
           <img src={logoJpeSmall} alt='Journal logo'/>
-          {/* TODO: links */}
-          <Link to='/'>See the journal’s notice</Link>
+          {getJournalNotice() && <Link to={getJournalNotice()!} target='_blank'>See the journal’s notice</Link>}
           <div>|</div>
           {getContact() && <Link to={getContact()!} target='_blank'>Contact</Link>}
           <div>|</div>

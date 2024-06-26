@@ -26,8 +26,6 @@ export default function Credits(): JSX.Element {
 
   const { data: creditsPage, isFetching } = useFetchCreditsPageQuery(rvcode!, { skip: !rvcode })
 
-  const content = (): string | undefined => creditsPage?.content[language];
-
   const parseContentSections = (toBeParsed: string | undefined): ICreditsSection[] => {
     const tree = unifiedProcessor.parse(toBeParsed);
     const sections = [];
@@ -111,9 +109,11 @@ export default function Credits(): JSX.Element {
   };
 
   useEffect(() => {
-    setPageSections(parseContentSections(content()))
-    setSidebarHeaders(parseSidebarHeaders(content()));
-  }, [creditsPage]);
+    const content = creditsPage?.content[language]
+
+    setPageSections(parseContentSections(content))
+    setSidebarHeaders(parseSidebarHeaders(content));
+  }, [creditsPage, language]);
 
   return (
     <main className='credits'>

@@ -31,23 +31,6 @@ export default function ForAuthors(): JSX.Element {
   const { data: ethicalCharterPage, isFetching: isFetchingEthicalCharter } = useFetchEthicalCharterPageQuery(rvcode!, { skip: !rvcode });
   const { data: prepareSubmissionPage, isFetching: isFetchingPrepareSubmission } = useFetchPrepareSubmissionPageQuery(rvcode!, { skip: !rvcode });
 
-  const content = (): Record<ForAuthorsSectionType, { title: string | undefined; content: string | undefined }> => {
-    return {
-      'editorialWorkflow': {
-        title: editorialWorkflowPage?.title[language],
-        content: editorialWorkflowPage?.content[language]
-      },
-      'ethicalCharter': {
-        title: ethicalCharterPage?.title[language],
-        content: ethicalCharterPage?.content[language]
-      },
-      'prepareSubmission': {
-        title: prepareSubmissionPage?.title[language],
-        content: prepareSubmissionPage?.content[language]
-      },
-    };
-  };
-
   const parseContentSections = (toBeParsed: Record<ForAuthorsSectionType, { title: string | undefined; content: string | undefined }>): IForAuthorsSection[] => {
     const sections: IForAuthorsSection[] = [];
 
@@ -184,9 +167,24 @@ export default function ForAuthors(): JSX.Element {
   };
 
   useEffect(() => {
-    setPageSections(parseContentSections(content()));
-    setSidebarHeaders(parseSidebarHeaders(content()));
-  }, [editorialWorkflowPage, ethicalCharterPage, prepareSubmissionPage]);
+    const content: Record<ForAuthorsSectionType, { title: string | undefined; content: string | undefined }> = {
+      'editorialWorkflow': {
+        title: editorialWorkflowPage?.title[language],
+        content: editorialWorkflowPage?.content[language]
+      },
+      'ethicalCharter': {
+        title: ethicalCharterPage?.title[language],
+        content: ethicalCharterPage?.content[language]
+      },
+      'prepareSubmission': {
+        title: prepareSubmissionPage?.title[language],
+        content: prepareSubmissionPage?.content[language]
+      },
+    };
+
+    setPageSections(parseContentSections(content));
+    setSidebarHeaders(parseSidebarHeaders(content));
+  }, [editorialWorkflowPage, ethicalCharterPage, prepareSubmissionPage, language]);
 
   return (
     <main className='forAuthors'>

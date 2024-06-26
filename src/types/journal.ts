@@ -9,3 +9,7 @@ export interface IJournal {
   name: string;
   settings: IJournalSettings[];
 }
+
+export type RawJournal = IJournal & {
+  rvid: number;
+}

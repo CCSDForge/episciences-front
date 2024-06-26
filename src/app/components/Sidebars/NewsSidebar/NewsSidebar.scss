@@ -9,12 +9,12 @@
   }
 
   &-years {
-    height: 180px;
+    max-height: 180px;
     padding: 20px 0px 20px 0px;
     border-bottom: 1px solid var(--grey-light);
 
     &-list {
-      height: 100%;
+      max-height: 180px;
       overflow-y: scroll;
 
       &-year {

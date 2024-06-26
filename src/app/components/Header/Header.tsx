@@ -21,6 +21,7 @@ export default function Header(): JSX.Element {
   const search = useAppSelector(state => state.searchReducer.search);
   const language = useAppSelector(state => state.i18nReducer.language);
   const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name);
+  const lastVolume = useAppSelector(state => state.volumeReducer.lastVolume);
 
   const [isReduced, setIsReduced] = useState(false);
   const [showDropdown, setShowDropdown] = useState({ content: false, about: false });
@@ -57,7 +58,7 @@ export default function Header(): JSX.Element {
                   <div className='header-postheader-links-dropdown-content-links'>
                     <Link to={PATHS.articles}>All articles</Link>
                     <Link to={PATHS.volumes}>All volumes</Link>
-                    <Link to={PATHS.volumes}>Last volume</Link>
+                    <Link to={`${PATHS.volumes}/${lastVolume?.id}`}>Last volume</Link>
                     <Link to={PATHS.sections}>Sections</Link>
                     <Link to='/'>Special issues</Link>
                     <Link to='/'>Proceedings</Link>

@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate, RouteObject } from "react-router-dom";
 
 import JournalHook from "../hooks/journal";
+import LastVolumeHook from "../hooks/lastVolume";
 import ScrollManager from "../hooks/scrollManager";
 import MainLayout from "../app/layouts/MainLayout/MainLayout";
 import Home from "../app/pages/Home/Home";
@@ -26,6 +27,7 @@ const basicRoute = (path: PathKeys, Component: () => JSX.Element): RouteObject =
     <>
       <ScrollManager />
       <JournalHook />
+      <LastVolumeHook />
       <Component />
     </>
   )
@@ -37,6 +39,7 @@ const crumbedRoute = (path: PathKeys, Component: () => JSX.Element, handle?: { p
     <>
       <ScrollManager />
       <JournalHook />
+      <LastVolumeHook />
       <Component />
     </>
   ),

@@ -26,9 +26,16 @@ export const newsApi = createApi({
         }
       },
     }),
+    fetchNewsRange: build.query<number[], { rvcode: string }>({
+      query: ({ rvcode } :{ rvcode: string }) => `news/range?rvcode=${rvcode}`,
+      transformResponse(baseQueryReturnValue: { years: number[] }) {
+        return baseQueryReturnValue.years;
+      },
+    }),
   }),
 })
 
 export const {
   useFetchNewsQuery,
+  useFetchNewsRangeQuery
 } = newsApi
