@@ -25,6 +25,22 @@
           scroll-margin: 120px;
         }
 
+        h3, h4 {
+          margin: 0;
+        }
+
+        h4 {
+          margin-top: 16px;
+        }
+
+        p {
+          margin: 16px 0px 16px 0px;
+        }
+
+        img {
+          width: 100%;
+        }
+
         &-subtitle {
           display: flex;
           justify-content: space-between;
@@ -33,9 +49,17 @@
           border-bottom: 1px solid var(--red);
           cursor: pointer;
 
+          img, &-caret {
+            width: auto;
+          }
+
           &-text, &-caret {
             display: block;
           }
+        }
+
+        &-link {
+          text-decoration: underline;
         }
       }
     }

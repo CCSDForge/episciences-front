@@ -4,7 +4,12 @@ import remarkStringify from 'remark-stringify'
 import { Node, Root } from 'mdast'
 
 export const generateIdFromText = (text: string): string => {
-  return text.toLowerCase().replace(/\s+/g, '-');
+  return text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\w\s-]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, '-');
 };
 
 export const unifiedProcessor = unified()
@@ -12,3 +17,5 @@ export const unifiedProcessor = unified()
   .use(remarkStringify);
 
 export const serializeMarkdown = (node: Node) => unifiedProcessor.stringify(node as Root);
+
+export const getImageURL = (path: string) => `https://${import.meta.env.VITE_JOURNAL_RVCODE}.episciences.org${path}`

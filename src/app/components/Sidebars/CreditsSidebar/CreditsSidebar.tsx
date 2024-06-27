@@ -24,20 +24,12 @@ export default function CreditsSidebar({ headers, toggleHeaderCallback }: ICredi
           key={index}
           className='creditsSidebar-header'
         >
-          {header.children.length === 0 ? (
+          <div className='creditsSidebar-header-title'>
             <Link to={`#${header.id}`}>
-              <div className='creditsSidebar-header-title'>{header.value}</div>
-            </Link>
-          ) : (
-            <div className='creditsSidebar-header-title' onClick={(): void => toggleHeaderCallback(header.id)}>
               <div className='creditsSidebar-header-title-text'>{header.value}</div>
-              {header.opened ? (
-                <img className='creditsSidebar-header-title-caret' src={caretUp} alt='Caret up icon' />
-              ) : (
-                <img className='creditsSidebar-header-title-caret' src={caretDown} alt='Caret down icon' />
-              )}
-            </div>
-          )}
+            </Link>
+            {header.children.length > 0 && <img className='creditsSidebar-header-title-caret' src={header.opened ? caretUp : caretDown} alt={header.opened ? 'Caret up icon' : 'Caret down icon'} onClick={(): void => toggleHeaderCallback(header.id)} />}
+          </div>
           {header.opened && (
             <div className='creditsSidebar-header-subheaders'>
               {header.children.map((subheader, index) => (

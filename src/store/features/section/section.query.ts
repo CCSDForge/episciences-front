@@ -9,8 +9,8 @@ export const sectionApi = createApi({
   reducerPath: 'section',
   tagTypes: ['Section'],
   endpoints: (build) => ({
-    fetchSections: build.query<{ data: ISection[], totalItems: number }, { rvcode: string, page: number, itemsPerPage: number, type?: string; }>({
-      query: ({ rvcode, page, itemsPerPage, type } :{ rvcode: string, page: number, itemsPerPage: number, type?: string; }) => type ? `sections?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}&year=${type}` : `sections?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`,
+    fetchSections: build.query<{ data: ISection[], totalItems: number }, { rvcode: string, page: number, itemsPerPage: number }>({
+      query: ({ rvcode, page, itemsPerPage } :{ rvcode: string, page: number, itemsPerPage: number }) => `sections?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`,
       transformResponse(baseQueryReturnValue: PaginatedResponse<RawSection>) {
         const totalItems = baseQueryReturnValue['hydra:totalItems'];
         const formattedData = (baseQueryReturnValue['hydra:member']).map((section) => ({

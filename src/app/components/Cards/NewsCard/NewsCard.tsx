@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 
 import externalLink from '/icons/external-link-red.svg';
 import { INews } from '../../../../types/news';
@@ -6,6 +7,8 @@ import { formatDate } from '../../../../utils/date';
 import { RENDERING_MODE } from '../../../../utils/card';
 import { AvailableLanguage } from '../../../../utils/i18n';
 import './NewsCard.scss'
+
+const MAX_CONTENT_LENGTH = 400;
 
 interface INewsCardTile {
   fullCard: boolean;
@@ -25,7 +28,7 @@ export default function NewsCard({ language, mode, fullCard, blurCard, setFullNe
       return (
         <div className='newsCard newsCard-tile newsCard-tile-full' onClick={setFullNewsIndexCallback}>
           <div className='newsCard-tile-full-initial'>
-            <div className='newsCard-content'>
+            <div className='newsCard-content newsCard-content-tile-full'>
               <div className='newsCard-content-title newsCard-content-title-tile'>{news.title[language]}</div>
               <div className='newsCard-tile-anchor'>
                 <div className='newsCard-publicationDate newsCard-publicationDate-tile'>{formatDate(news.publicationDate, language)}</div>
@@ -33,7 +36,11 @@ export default function NewsCard({ language, mode, fullCard, blurCard, setFullNe
             </div>
           </div>
           <div className='newsCard-tile-full-expanded'>
-            {news.content && <div className='newsCard-content-content'>{news.content[language]}</div>}
+            {news.content && news.content[language] && (
+              <div className='newsCard-content-content'>
+                <ReactMarkdown>{`${news.content[language].substring(0, MAX_CONTENT_LENGTH)}...`}</ReactMarkdown>
+              </div>
+            )}
             {news.link && (
               <div className='newsCard-content-read newsCard-content-read-full'>
                 <Link to={news.link} target='_blank' onClick={(e) => e.stopPropagation()}>
@@ -49,7 +56,7 @@ export default function NewsCard({ language, mode, fullCard, blurCard, setFullNe
 
     return (
       <div className={blurCard ? 'newsCard newsCard-tile newsCard-tile-blur' : 'newsCard newsCard-tile'} onClick={setFullNewsIndexCallback}>
-        <div className='newsCard-content'>
+        <div className='newsCard-content newsCard-content-tile'>
           <div className='newsCard-content-title newsCard-content-title-tile'>{news.title[language]}</div>
           <div className='newsCard-tile-anchor'>
             <div className='newsCard-publicationDate newsCard-publicationDate-tile'>{formatDate(news.publicationDate, language)}</div>
@@ -72,7 +79,11 @@ export default function NewsCard({ language, mode, fullCard, blurCard, setFullNe
       <div className='newsCard-publicationDate'>{formatDate(news.publicationDate, language)}</div>
       <div className='newsCard-content'>
         <div className='newsCard-content-title'>{news.title[language]}</div>
-        {news.content && <div className='newsCard-content-content'>{news.content[language]}</div>}
+        {news.content && news.content[language] && (
+          <div className='newsCard-content-content'>
+            <ReactMarkdown>{`${news.content[language].substring(0, MAX_CONTENT_LENGTH)}...`}</ReactMarkdown>
+          </div>
+        )}
         {news.link && (
           <div className='newsCard-content-read'>
             <Link to={news.link} target='_blank' onClick={(e) => e.stopPropagation()}>

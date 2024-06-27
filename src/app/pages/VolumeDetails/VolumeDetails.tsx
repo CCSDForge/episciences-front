@@ -45,25 +45,27 @@ export default function VolumeDetails(): JSX.Element {
   return (
     <main className='volumeDetails'>
       <Breadcrumb />
-      <h1 className='volumeDetails-id'>Volume {id}</h1>
       {isFetchingVolume || isFetchingArticles ? (
         <Loader />
       ) : (
-        <div className="volumeDetails-content">
-          <div className="volumeDetails-content-year">{volume?.year}</div>
-          <div className='volumeDetails-content-results'>
-            <VolumeDetailsSidebar articlesCount={articles.length} />
-            <div className="volumeDetails-content-results-content">
-              <div className='volumeDetails-content-results-content-title'>{volume?.title ? volume?.title[language] : ''}</div>
-              <div className='volumeDetails-content-results-content-description'>{volume?.description ? volume?.description[language] : ''}</div>
-              <div className='volumeDetails-content-results-content-cards'>
-                {articles?.filter((article) => article).map((article, index) => (
-                  <VolumeArticleCard
-                    key={index}
-                    language={language}
-                    article={article as IArticle}
-                  />
-                ))}
+        <div className="volumeDetails-volume">
+          <h1 className='volumeDetails-id'>Volume {volume?.num}</h1>
+          <div className="volumeDetails-content">
+            <div className="volumeDetails-content-year">{volume?.year}</div>
+            <div className='volumeDetails-content-results'>
+              <VolumeDetailsSidebar articlesCount={articles.length} />
+              <div className="volumeDetails-content-results-content">
+                <div className='volumeDetails-content-results-content-title'>{volume?.title ? volume?.title[language] : ''}</div>
+                <div className='volumeDetails-content-results-content-description'>{volume?.description ? volume?.description[language] : ''}</div>
+                <div className='volumeDetails-content-results-content-cards'>
+                  {articles?.filter((article) => article).map((article, index) => (
+                    <VolumeArticleCard
+                      key={index}
+                      language={language}
+                      article={article as IArticle}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>

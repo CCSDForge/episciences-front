@@ -24,20 +24,12 @@ export default function ForAuthorsSidebar({ headers, toggleHeaderCallback }: IFo
           key={index}
           className='forAuthorsSidebar-header'
         >
-          {header.children.length === 0 ? (
+          <div className='forAuthorsSidebar-header-title'>
             <Link to={`#${header.id}`}>
-              <div className='forAuthorsSidebar-header-title'>{header.value}</div>
-            </Link>
-          ) : (
-            <div className='forAuthorsSidebar-header-title' onClick={(): void => toggleHeaderCallback(header.id)}>
               <div className='forAuthorsSidebar-header-title-text'>{header.value}</div>
-              {header.opened ? (
-                <img className='forAuthorsSidebar-header-title-caret' src={caretUp} alt='Caret up icon' />
-              ) : (
-                <img className='forAuthorsSidebar-header-title-caret' src={caretDown} alt='Caret down icon' />
-              )}
-            </div>
-          )}
+            </Link>
+            {header.children.length > 0 && <img className='forAuthorsSidebar-header-title-caret' src={header.opened ? caretUp : caretDown} alt={header.opened ? 'Caret up icon' : 'Caret down icon'} onClick={(): void => toggleHeaderCallback(header.id)} />}
+          </div>
           {header.opened && (
             <div className='forAuthorsSidebar-header-subheaders'>
               {header.children.map((subheader, index) => (

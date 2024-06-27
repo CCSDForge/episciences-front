@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchEditorialWorkflowPageQuery, useFetchEthicalCharterPageQuery, useFetchPrepareSubmissionPageQuery } from "../../../store/features/forAuthor/forAuthor.query";
-import { generateIdFromText, unifiedProcessor, serializeMarkdown } from '../../../utils/markdown';
+import { generateIdFromText, unifiedProcessor, serializeMarkdown, getImageURL } from '../../../utils/markdown';
 import ForAuthorsSidebar, { IForAuthorsHeader } from '../../components/Sidebars/ForAuthorsSidebar/ForAuthorsSidebar';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
@@ -76,9 +77,13 @@ export default function ForAuthors(): JSX.Element {
             currentSection.cards!.push({ id: h3Id, title: h3Title, content: '', index: h3Counter });
           } else if (currentSection.cards && currentSection.cards.length > 0) {
             currentCardContent += serializeMarkdown(node);
+          } else {
+            currentSection.value += serializeMarkdown(node);
+            currentSection.value += '\n'
           }
         } else {
           currentSection.value += serializeMarkdown(node);
+          currentSection.value += '\n'
         }
       });
 
@@ -202,7 +207,9 @@ export default function ForAuthors(): JSX.Element {
                 className={`forAuthors-content-body-section ${!section.opened && 'forAuthors-content-body-section-hidden'}`}
               >
                 <ReactMarkdown
+                  urlTransform={uri => uri.includes('/public/') ? getImageURL(uri) : uri}
                   components={{
+                    a: ({ node, ...props }) => <Link to={props.href!} target='_blank' className='forAuthors-content-body-section-link'>{props.children?.toString()}</Link>,
                     h2: ({ node, ...props }) => {
                       const id = generateIdFromText(props.children?.toString()!);
 

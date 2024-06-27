@@ -45,26 +45,8 @@
   }
 
   &-filters {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin: 0px 0px 15px 325px;
     padding-bottom: 28px;
-
-    &-tags {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-
-      &-clear {
-        height: 32px;
-        align-content: center;
-        font-size: 14px;
-        color: var(--red);
-        text-decoration: underline;
-        cursor: pointer;
-      }
-    }
   }
 
   &-content {

@@ -13,7 +13,10 @@
       border-bottom: 1px solid var(--grey-light);
       font-size: 16px;
       font-weight: bold;
-      cursor: pointer;
+
+      &-text, &-caret {
+        cursor: pointer;
+      }
     }
 
     &-subheaders {

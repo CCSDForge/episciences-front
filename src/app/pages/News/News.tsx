@@ -25,7 +25,9 @@ export default function News(): JSX.Element {
   const [years, setYears] = useState<INewsYearSelection[]>([]);
   const [fullNewsIndex, setFullNewsIndex] = useState(-1);
 
-  const { data: news, isFetching: isFetchingNews } = useFetchNewsQuery({ rvcode: rvcode!, page: currentPage, itemsPerPage: NEWS_PER_PAGE, year: years.find(y => y.isSelected)?.year }, { skip: !rvcode })
+  const getSelectedYears = (): number[] => years.filter(y => y.isSelected).map(y => y.year);
+
+  const { data: news, isFetching: isFetchingNews } = useFetchNewsQuery({ rvcode: rvcode!, page: currentPage, itemsPerPage: NEWS_PER_PAGE, years: getSelectedYears() }, { skip: !rvcode, refetchOnMountOrArgChange: true })
   const { data: range, isFetching: isFetchingRange } = useFetchNewsRangeQuery({ rvcode: rvcode! }, { skip: !rvcode })
 
   useEffect(() => {
@@ -49,7 +51,7 @@ export default function News(): JSX.Element {
         return { ...y, isSelected: !y.isSelected };
       }
 
-      return { ...y, isSelected: false };
+      return { ...y };
     });
 
     setYears(updatedYears);
