@@ -40,7 +40,10 @@ export default function Volumes(): JSX.Element {
   const [taggedFilters, setTaggedFilters] = useState<IVolumeFilter[]>([]);
   const [openedFiltersModal, setOpenedFiltersModal] = useState(false);
 
-  const { data: volumes, isFetching: isFetchingVolumes } = useFetchVolumesQuery({ rvid: rvid!, page: currentPage, itemsPerPage: VOLUMES_PER_PAGE, year: years.find(y => y.isSelected)?.year, type: types.find(t => t.isChecked)?.value }, { skip: !rvid })
+  const getSelectedTypes = (): string[] => types.filter(t => t.isChecked).map(t => t.value);
+  const getSelectedYears = (): number[] => years.filter(y => y.isSelected).map(y => y.year);
+
+  const { data: volumes, isFetching: isFetchingVolumes } = useFetchVolumesQuery({ rvid: rvid!, page: currentPage, itemsPerPage: VOLUMES_PER_PAGE, types: getSelectedTypes(), years: getSelectedYears() }, { skip: !rvid, refetchOnMountOrArgChange: true })
   const { data: range, isFetching: isFetchingRange } = useFetchVolumesRangeQuery({ rvcode: rvcode! }, { skip: !rvcode })
 
   useEffect(() => {
@@ -82,7 +85,7 @@ export default function Volumes(): JSX.Element {
         return { ...t, isChecked: !t.isChecked };
       }
 
-      return { ...t, isChecked: false };
+      return { ...t };
     });
 
     setTypes(updatedTypes);
@@ -94,7 +97,7 @@ export default function Volumes(): JSX.Element {
         return { ...y, isSelected: !y.isSelected };
       }
 
-      return { ...y, isSelected: false };
+      return { ...y };
     });
 
     setYears(updatedYears);

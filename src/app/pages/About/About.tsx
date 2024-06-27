@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown'
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchAboutPageQuery } from "../../../store/features/about/about.query";
-import { generateIdFromText, unifiedProcessor, serializeMarkdown } from '../../../utils/markdown';
+import { generateIdFromText, unifiedProcessor, serializeMarkdown, getImageURL } from '../../../utils/markdown';
 import AboutSidebar, { IAboutHeader } from '../../components/Sidebars/AboutSidebar/AboutSidebar';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
@@ -45,6 +46,7 @@ export default function About(): JSX.Element {
         currentSection.value += serializeMarkdown(node);
       } else {
         currentSection.value += serializeMarkdown(node);
+        currentSection.value += '\n'
       }
     });
   
@@ -131,7 +133,9 @@ export default function About(): JSX.Element {
                 className={`about-content-body-section ${!section.opened && 'about-content-body-section-hidden'}`}
               >
                 <ReactMarkdown
+                  urlTransform={uri => uri.includes('/public/') ? getImageURL(uri) : uri}
                   components={{
+                    a: ({ node, ...props }) => <Link to={props.href!} target='_blank' className='about-content-body-section-link'>{props.children?.toString()}</Link>,
                     h2: ({ node, ...props }) => {
                       const id = generateIdFromText(props.children?.toString()!)
 

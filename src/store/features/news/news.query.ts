@@ -9,8 +9,15 @@ export const newsApi = createApi({
   reducerPath: 'news',
   tagTypes: ['News'],
   endpoints: (build) => ({
-    fetchNews: build.query<{ data: INews[], totalItems: number }, { rvcode: string, page: number, itemsPerPage: number; year?: number }>({
-      query: ({ rvcode, page, itemsPerPage, year } :{ rvcode: string, page: number, itemsPerPage: number; year?: number }) => year ? `news?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}&year=${year}` : `news?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`,
+    fetchNews: build.query<{ data: INews[], totalItems: number }, { rvcode: string, page: number, itemsPerPage: number; years: number[] }>({
+      query: ({ rvcode, page, itemsPerPage, years } :{ rvcode: string, page: number, itemsPerPage: number; years: number[] }) => {
+        if (years && years.length > 0) {
+          const yearsQuery = years.map(year => `year[]=${year}`).join('&')
+          return `news?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}&${yearsQuery}`
+         }
+         
+        return `news?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`
+      },
       transformResponse(baseQueryReturnValue: PaginatedResponse<RawNews>) {
         const totalItems = baseQueryReturnValue['hydra:totalItems'];
         const formattedData = (baseQueryReturnValue['hydra:member']).map((news) => ({
@@ -27,7 +34,7 @@ export const newsApi = createApi({
       },
     }),
     fetchNewsRange: build.query<number[], { rvcode: string }>({
-      query: ({ rvcode } :{ rvcode: string }) => `news/range?rvcode=${rvcode}`,
+      query: ({ rvcode } :{ rvcode: string }) => `news-range?rvcode=${rvcode}`,
       transformResponse(baseQueryReturnValue: { years: number[] }) {
         return baseQueryReturnValue.years;
       },

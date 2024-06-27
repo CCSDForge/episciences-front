@@ -23,15 +23,6 @@ export const volumeTypes: { label: string; value: string; }[] = [
   { label: 'Proceedings', value: 'proceedings' }
 ]
 
-//TODO: translate
-export const sectionTypes: { label: string; value: string; }[] = [
-  { label: 'Compte-rendus', value: 'report' },
-  { label: 'Book reviews', value: 'book_review' },
-  { label: 'Proceedings', value: 'proceeding' },
-  { label: 'Varia', value: 'varia' },
-  { label: 'Symposium', value: 'symposium' }
-]
-
 export const defaultBoardRole = { key: 'member', label: 'Member' }
 
 // TODO: translate

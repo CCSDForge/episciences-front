@@ -10,14 +10,20 @@ export const volumeApi = createApi({
   reducerPath: 'volume',
   tagTypes: ['Volume'],
   endpoints: (build) => ({
-    fetchVolumes: build.query<{ data: IVolume[], totalItems: number }, { rvid: number, page: number, itemsPerPage: number, year?: number, type?: string; }>({
-      query: ({ rvid, page, itemsPerPage, year, type } :{ rvid: number, page: number, itemsPerPage: number; year?: number, type?: string; }) => {
+    fetchVolumes: build.query<{ data: IVolume[], totalItems: number }, { rvid: number, page: number, itemsPerPage: number, years: number[], types: string[] }>({
+      query: ({ rvid, page, itemsPerPage, years, types } :{ rvid: number, page: number, itemsPerPage: number; years: number[]; types: string[]; }) => {
         const baseUrl = `volumes?page=${page}&itemsPerPage=${itemsPerPage}&rvid=${rvid}`
         let queryParams = '';
 
-        if (type) queryParams += `&type=${type}`;
+        if (types && types.length > 0) {
+          const typesQuery = types.map(type => `type[]=${type}`).join('&')
+          queryParams += `&${typesQuery}`;
+        }
         
-        if (year) queryParams += `&year=${year}`;
+        if (years && years.length > 0) {
+          const yearsQuery = years.map(year => `year[]=${year}`).join('&')
+          queryParams += `&${yearsQuery}`;
+        }
         
         return `${baseUrl}${queryParams}`;
       },
@@ -32,7 +38,7 @@ export const volumeApi = createApi({
       },
     }),
     fetchVolumesRange: build.query<{ years: number[], types: string[] }, { rvcode: string }>({
-      query: ({ rvcode } :{ rvcode: string }) => `volumes/range?rvcode=${rvcode}`,
+      query: ({ rvcode } :{ rvcode: string }) => `volumes-range?rvcode=${rvcode}`,
       transformResponse(baseQueryReturnValue: { years: number[], types: string[] }) {
         return baseQueryReturnValue;
       },

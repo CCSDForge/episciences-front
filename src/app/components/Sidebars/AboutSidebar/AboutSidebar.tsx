@@ -24,20 +24,12 @@ export default function AboutSidebar({ headers, toggleHeaderCallback }: IAboutSi
           key={index}
           className='aboutSidebar-header'
         >
-          {header.children.length === 0 ? (
+          <div className='aboutSidebar-header-title'>
             <Link to={`#${header.id}`}>
-              <div className='aboutSidebar-header-title'>{header.value}</div>
-            </Link>
-          ) : (
-            <div className='aboutSidebar-header-title' onClick={(): void => toggleHeaderCallback(header.id)}>
               <div className='aboutSidebar-header-title-text'>{header.value}</div>
-              {header.opened ? (
-                <img className='aboutSidebar-header-title-caret' src={caretUp} alt='Caret up icon' />
-              ) : (
-                <img className='aboutSidebar-header-title-caret' src={caretDown} alt='Caret down icon' />
-              )}
-            </div>
-          )}
+            </Link>
+            {header.children.length > 0 && <img className='aboutSidebar-header-title-caret' src={header.opened ? caretUp : caretDown} alt={header.opened ? 'Caret up icon' : 'Caret down icon'} onClick={(): void => toggleHeaderCallback(header.id)} />}
+          </div>
           {header.opened && (
             <div className='aboutSidebar-header-subheaders'>
               {header.children.map((subheader, index) => (

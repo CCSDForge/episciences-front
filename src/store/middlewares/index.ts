@@ -10,7 +10,7 @@ import { sectionApi } from '../features/section/section.query'
 import { volumeApi } from '../features/volume/volume.query'
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export const enhancedMiddleware = (getDefaultMiddleware: Function) => getDefaultMiddleware()
+export const enhancedMiddleware = (getDefaultMiddleware: Function) => getDefaultMiddleware({ serializableCheck: false })
   .concat(aboutApi.middleware)
   .concat(articleApi.middleware)
   .concat(authorApi.middleware)
