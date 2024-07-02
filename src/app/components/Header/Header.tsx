@@ -85,7 +85,7 @@ export default function Header(): JSX.Element {
         <div className={`header-postheader-search ${isReduced && 'header-postheader-search-reduced'}`}>
           <div className='header-postheader-search-delimiter'></div>
           <div className='header-postheader-search-search'>
-            <SearchInput placeholder='search' onChangeCallback={updateSearch}/>
+            <SearchInput value={search ?? ''} placeholder='search' onChangeCallback={updateSearch}/>
           </div>
           <div className='header-postheader-search-submit'>
             <Button text='Submit' onClickCallback={submitSearch}/>

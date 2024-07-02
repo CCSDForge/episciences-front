@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 import { RawSection, ISection } from '../../../types/section'
-import { PaginatedResponse } from '../../../utils/pagination'
+import { PaginatedResponseWithCount } from '../../../utils/pagination'
 import { createBaseQueryWithLdJsonAccept } from '../../utils'
 
 export const sectionApi = createApi({
@@ -9,9 +9,11 @@ export const sectionApi = createApi({
   reducerPath: 'section',
   tagTypes: ['Section'],
   endpoints: (build) => ({
-    fetchSections: build.query<{ data: ISection[], totalItems: number }, { rvcode: string, page: number, itemsPerPage: number }>({
+    fetchSections: build.query<{ data: ISection[], totalItems: number, articlesCount?: number }, { rvcode: string, page: number, itemsPerPage: number }>({
       query: ({ rvcode, page, itemsPerPage } :{ rvcode: string, page: number, itemsPerPage: number }) => `sections?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`,
-      transformResponse(baseQueryReturnValue: PaginatedResponse<RawSection>) {
+      transformResponse(baseQueryReturnValue: PaginatedResponseWithCount<RawSection>) {
+        const articlesCount = baseQueryReturnValue['hydra:totalPublishedArticles']
+
         const totalItems = baseQueryReturnValue['hydra:totalItems'];
         const formattedData = (baseQueryReturnValue['hydra:member']).map((section) => ({
           ...section,
@@ -23,7 +25,8 @@ export const sectionApi = createApi({
 
         return {
           data: formattedData,
-          totalItems
+          totalItems,
+          articlesCount
         }
       },
     }),

@@ -2,12 +2,12 @@ import { persistReducer, persistStore } from 'redux-persist'
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 
-import rootReducer from './features'
+import rootReducer, { RootReducer } from './features'
 import { enhancedMiddleware } from './middlewares'
 import { persistConfig } from './middlewares/persist'
 
 const store = configureStore({
-  reducer: persistReducer(persistConfig, rootReducer),
+  reducer: persistReducer<RootReducer>(persistConfig, rootReducer),
   middleware: (getDefaultMiddleware) => enhancedMiddleware(getDefaultMiddleware)
 })
 

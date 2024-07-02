@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 import { RawVolume, IVolume } from '../../../types/volume'
-import { PaginatedResponse } from '../../../utils/pagination'
+import { PaginatedResponseWithCount, Range } from '../../../utils/pagination'
 import { formatVolume } from '../../../utils/volume'
 import { createBaseQueryWithLdJsonAccept } from '../../utils'
 
@@ -10,7 +10,7 @@ export const volumeApi = createApi({
   reducerPath: 'volume',
   tagTypes: ['Volume'],
   endpoints: (build) => ({
-    fetchVolumes: build.query<{ data: IVolume[], totalItems: number }, { rvid: number, page: number, itemsPerPage: number, years: number[], types: string[] }>({
+    fetchVolumes: build.query<{ data: IVolume[], totalItems: number, articlesCount?: number, range?: Range }, { rvid: number, page: number, itemsPerPage: number, years: number[], types: string[] }>({
       query: ({ rvid, page, itemsPerPage, years, types } :{ rvid: number, page: number, itemsPerPage: number; years: number[]; types: string[]; }) => {
         const baseUrl = `volumes?page=${page}&itemsPerPage=${itemsPerPage}&rvid=${rvid}`
         let queryParams = '';
@@ -27,20 +27,22 @@ export const volumeApi = createApi({
         
         return `${baseUrl}${queryParams}`;
       },
-      transformResponse(baseQueryReturnValue: PaginatedResponse<RawVolume>) {
+      transformResponse(baseQueryReturnValue: PaginatedResponseWithCount<RawVolume>) {
+        const articlesCount = baseQueryReturnValue['hydra:totalPublishedArticles']
+        const range = (baseQueryReturnValue['hydra:range'] as { year: number[] });
+
         const totalItems = baseQueryReturnValue['hydra:totalItems'];
         const formattedData = (baseQueryReturnValue['hydra:member']).map((volume) => formatVolume(volume))
 
         return {
           data: formattedData,
-          totalItems
+          totalItems,
+          articlesCount,
+          range: {
+            ...range,
+            years: range.year
+          }
         }
-      },
-    }),
-    fetchVolumesRange: build.query<{ years: number[], types: string[] }, { rvcode: string }>({
-      query: ({ rvcode } :{ rvcode: string }) => `volumes-range?rvcode=${rvcode}`,
-      transformResponse(baseQueryReturnValue: { years: number[], types: string[] }) {
-        return baseQueryReturnValue;
       },
     }),
     fetchVolume: build.query<IVolume, { vid: string }>({
@@ -54,6 +56,5 @@ export const volumeApi = createApi({
 
 export const {
   useFetchVolumesQuery,
-  useFetchVolumesRangeQuery,
   useFetchVolumeQuery,
 } = volumeApi

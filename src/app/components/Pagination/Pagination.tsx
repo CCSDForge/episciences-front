@@ -21,6 +21,7 @@ export default function Pagination({ currentPage, itemsPerPage, totalItems, onPa
   return (
     <ReactPaginate
       pageCount={pageCount}
+      forcePage={currentPage -1}
       onPageChange={onPageChange}
       className='pagination'
       pageClassName='pagination-page'

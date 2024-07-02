@@ -50,4 +50,6 @@ const createRootReducer = combineReducers({
   [volumeApi.reducerPath]: volumeApi.reducer
 })
 
+export type RootReducer = ReturnType<typeof createRootReducer>
+
 export default createRootReducer

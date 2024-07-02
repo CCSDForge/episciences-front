@@ -18,13 +18,12 @@ export const boardApi = createApi({
     }),
     fetchBoardMembers: build.query<IBoardMember[], string>({
       query: (rvcode: string) => `journals/boards/${rvcode}`,
-      transformResponse(baseQueryReturnValue: { boards: RawBoardMember[] }) {
-        const formattedBoardMembers = (baseQueryReturnValue.boards).map((board) => {
+      transformResponse(baseQueryReturnValue: RawBoardMember[]) {
+        const formattedBoardMembers = baseQueryReturnValue.map((board) => {
           const roles = board.roles.length > 0 ? board.roles[0].map(role => role.replace(/_/g, '-')) : []
 
           let twitter, mastodon;
           if (board.additionalProfileInformation?.socialMedias) {
-            console.log(board.additionalProfileInformation.socialMedias)
             const atCount = (board.additionalProfileInformation?.socialMedias.match(/@/g) || []).length;
             
             if (atCount === 1) {

@@ -23,17 +23,39 @@ export default function Sections(): JSX.Element {
     setCurrentPage(selectedItem.selected + 1);
   };
 
+  const getSectionsCount = (): JSX.Element | null => {
+    if (sections) {
+      if (sections.totalItems > 1) {
+        return <div className='sections-title-count-text sections-title-count-text-sections'>{sections.totalItems} sections</div>
+      }
+
+      return <div className='sections-title-count-text sections-title-count-text-sections'>{sections.totalItems} section</div>  
+    }
+
+    return null;
+  }
+
+  const getArticlesCount = (): JSX.Element | null => {
+    if (sections && sections.articlesCount) {
+      if (sections.articlesCount > 1) {
+
+        return <div className='sections-title-count-text sections-title-count-text-articles'>{sections.articlesCount} articles</div>
+      }
+
+      return <div className='sections-title-count-text sections-title-count-text-articles'>{sections.articlesCount} article</div>  
+    }
+
+    return null;
+  }
+
   return (
     <main className='sections'>
       <Breadcrumb />
       <div className='sections-title'>
         <h1>Sections</h1>
         <div className='sections-title-count'>
-          {sections && sections.totalItems > 1 ? (
-            <div className='sections-title-count-text'>{sections.totalItems} sections</div>
-          ) : (
-            <div className='sections-title-count-text'>{sections?.totalItems ?? 0} section</div>
-          )}
+          {getSectionsCount()}
+          {getArticlesCount()}
         </div>
       </div>
       <div className="sections-filters"></div>

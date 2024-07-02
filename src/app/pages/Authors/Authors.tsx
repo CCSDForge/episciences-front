@@ -4,7 +4,7 @@ import { IAuthor } from "../../../types/author";
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchAuthorsQuery } from "../../../store/features/author/author.query";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
-import AuthorCard, { IAuthorCardProps } from "../../components/Cards/AuthorCard/AuthorCard";
+import AuthorCard from "../../components/Cards/AuthorCard/AuthorCard";
 import AuthorsSidebar from "../../components/Sidebars/AuthorsSidebar/AuthorsSidebar";
 import AuthorDetailsSidebar from "../../components/Sidebars/AuthorDetailsSidebar/AuthorDetailsSidebar";
 import Loader from '../../components/Loader/Loader';
@@ -14,6 +14,7 @@ import './Authors.scss';
 export default function Authors(): JSX.Element {
   const AUTHORS_PER_PAGE = 10;
 
+  const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,8 +22,15 @@ export default function Authors(): JSX.Element {
   const [activeLetter, setActiveLetter] = useState('');
   const [expandedAuthorIndex, setExpandedAuthorIndex] = useState(-1);
 
-  const onSearch = (newSearch: string): void => setSearch(newSearch)
-  const onSetActiveLetter = (newActiveLetter: string): void => setActiveLetter(newActiveLetter !== activeLetter ? newActiveLetter : '')
+  const onSearch = (newSearch: string): void => {
+    if (activeLetter) setActiveLetter('')
+    setSearch(newSearch)
+  }
+
+  const onSetActiveLetter = (newActiveLetter: string): void => {
+    if (search) setSearch('')
+    setActiveLetter(newActiveLetter !== activeLetter ? newActiveLetter : '')
+  }
 
   const { data: authors, isFetching } = useFetchAuthorsQuery({ rvcode: rvcode!, page: currentPage, itemsPerPage: AUTHORS_PER_PAGE, search, letter: activeLetter }, { skip: !rvcode })
 
@@ -40,32 +48,58 @@ export default function Authors(): JSX.Element {
 
   const handlePageClick = (selectedItem: { selected: number }): void => {
     setCurrentPage(selectedItem.selected + 1);
-  };
+  }
+
+  const getAuthorsCount = (): JSX.Element | null => {
+    if (authors) {
+      if (authors.totalItems > 1) {
+        if (search) return <div className='authors-count'>{authors.totalItems} authors for "{search}"</div>
+        if (activeLetter) return <div className='authors-count'>{authors.totalItems} authors for "{activeLetter}"</div>
+
+        return <div className='authors-count'>{authors.totalItems} authors</div>
+      }
+
+      if (search) return <div className='authors-count'>{authors.totalItems} author for "{search}"</div>
+      if (activeLetter) return <div className='authors-count'>{authors.totalItems} author for "{activeLetter}"</div>
+
+      return <div className='authors-count'>{authors.totalItems} author</div>  
+    }
+
+    return null;
+  }
+
+  const getPagination = (): JSX.Element => {
+    return (
+      <Pagination
+        currentPage={currentPage}
+        itemsPerPage={AUTHORS_PER_PAGE}
+        totalItems={authors?.totalItems}
+        onPageChange={handlePageClick}
+      />
+    )
+  }
 
   return (
     <main className='authors'>
       <Breadcrumb />
       <h1 className='authors-title'>Authors</h1>
-      <div className='authors-count'>17 Authors for B</div>
+      {getAuthorsCount()}
       <div className='authors-content'>
-        <AuthorsSidebar onSearchCallback={onSearch} activeLetter={activeLetter} onSetActiveLetterCallback={onSetActiveLetter} />
+        <AuthorsSidebar search={search} onSearchCallback={onSearch} activeLetter={activeLetter} onSetActiveLetterCallback={onSetActiveLetter} />
         <div className='authors-content-results'>
           <div className='authors-content-results-paginationTop'>
-          <Pagination
-            currentPage={currentPage}
-            itemsPerPage={AUTHORS_PER_PAGE}
-            totalItems={authors?.totalItems}
-            onPageChange={handlePageClick}
-          />
+            {getPagination()}
           </div>
           {isFetching ? (
-            <Loader />
+            <div className='authors-content-loader'>
+              <Loader />
+            </div>
           ) : (
             <div className='authors-content-results-cards'>
               {authors?.data.map((author, index) => (
                 <AuthorCard
                   key={index}
-                  {...author as IAuthorCardProps}
+                  author={author}
                   expandedCard={expandedAuthorIndex === index}
                   setExpandedAuthorIndexCallback={(): void => expandedAuthorIndex !== index ? setExpandedAuthorIndex(index) : setExpandedAuthorIndex(-1)}
                 />
@@ -73,16 +107,11 @@ export default function Authors(): JSX.Element {
             </div>
           )}
           <div className='authors-content-results-paginationBottom'>
-            <Pagination
-              currentPage={currentPage}
-              itemsPerPage={AUTHORS_PER_PAGE}
-              totalItems={authors?.totalItems}
-              onPageChange={handlePageClick}
-            />
+            {getPagination()}
           </div>
         </div>
       </div>
-      {expandedAuthorIndex >= 0 && <AuthorDetailsSidebar {...getExpandedAuthor() as IAuthorCardProps} onCloseDetailsCallback={onCloseDetails} />}
+      {expandedAuthorIndex >= 0 && <AuthorDetailsSidebar language={language} rvcode={rvcode} expandedAuthor={getExpandedAuthor()} onCloseDetailsCallback={onCloseDetails} />}
     </main>
   )
 }

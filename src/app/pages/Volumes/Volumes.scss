@@ -18,6 +18,19 @@
         &-tiles {
           margin: 15px 0px 15px 0px;
         }
+
+        &-volumes {
+          padding-right: 17px;
+          border-right: 1px solid var(--grey-light);
+        }
+
+        &-articles {
+          padding-left: 17px;
+        }
+      }
+
+      &-wrapper {
+        display: flex;
       }
 
       &-icons {

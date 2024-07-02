@@ -6,6 +6,7 @@ import caretDown from '/icons/caret-down-red.svg';
 import download from '/icons/download-red.svg';
 import file from '/icons/file-grey.svg';
 import { PATHS } from '../../../../config/paths';
+import { IJournal } from '../../../../types/journal';
 import { IVolume } from "../../../../types/volume";
 import { RENDERING_MODE } from '../../../../utils/card';
 import { AvailableLanguage } from '../../../../utils/i18n';
@@ -15,18 +16,21 @@ interface IVolumeCardProps {
   language: AvailableLanguage;
   mode: RENDERING_MODE;
   volume: IVolume;
+  currentJournal?: IJournal;
 }
 
-export default function VolumeCard({ language, mode, volume }: IVolumeCardProps): JSX.Element {
+export default function VolumeCard({ language, mode, volume, currentJournal }: IVolumeCardProps): JSX.Element {
   if (mode === RENDERING_MODE.TILE) {
     return (
       <div className='volumeCard volumeCard-tile'>
         <div className="volumeCard-tile-template">
-            <div className="volumeCard-tile-template-jpe">JPE</div>
+            <div className="volumeCard-tile-template-jpe">{currentJournal?.code.toUpperCase()}</div>
             <div className="volumeCard-tile-template-volume">Volume</div>
-            <div className="volumeCard-tile-template-issue">Special Issue</div>
-            <div className="volumeCard-tile-template-number">13.1</div>
-            <div className="volumeCard-tile-template-year">2018</div>
+            {volume.types && volume.types.includes('special_issue') && (
+              <div className="volumeCard-tile-template-issue">Special Issue</div>
+            )}
+            <div className="volumeCard-tile-template-number">{volume.num}</div>
+            <div className="volumeCard-tile-template-year">{volume.year}</div>
           </div>
           <div className="volumeCard-tile-text">
             <Link to={`${PATHS.volumes}/${volume.id}`}>
@@ -67,6 +71,7 @@ export default function VolumeCard({ language, mode, volume }: IVolumeCardProps)
           <div className='volumeCard-content-special'>Special issue</div>
         )}
         <div className='volumeCard-content-title'>{volume.title ? volume.title[language] : ''}</div>
+        {volume.committee.length > 0 && <div className='volumeCard-content-committee'>{volume.committee.map((member) => member.screenName).join(', ')}</div>}
         {volume.description && volume.description[language] && (
           <div className='volumeCard-content-description'>
             <div className={`volumeCard-content-description-title ${!openedDescription && 'volumeCard-content-description-title'}`} onClick={toggleDescription}>
@@ -80,6 +85,10 @@ export default function VolumeCard({ language, mode, volume }: IVolumeCardProps)
             <div className={`volumeCard-content-description-content ${openedDescription && 'volumeCard-content-description-content-opened'}`}>{volume.description[language]}</div>
           </div>
         )}
+        <div className="volumeCard-content-download">
+          <img className="volumeCard-content-download-icon" src={download} alt='Download icon' />
+          <div className="volumeCard-content-download-text">PDF</div>
+        </div>
       </div>
     </div>
   )
