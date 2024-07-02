@@ -8,6 +8,7 @@ export interface IVolume {
   description?: Record<AvailableLanguage, string>;
   year?: number;
   types?: string[];
+  committee: IVolumeCommitteeMember[];
   articles: PartialVolumeArticle[];
 }
 
@@ -19,4 +20,9 @@ export type RawVolume = IVolume & {
   vol_year?: number;
   vol_type?: string[];
   papers: PartialVolumeArticle[];
+}
+
+interface IVolumeCommitteeMember {
+  uuid: string;
+  screenName: string;
 }

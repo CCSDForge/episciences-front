@@ -7,13 +7,21 @@
     &-count {
       width: 100%;
       display: flex;
-      justify-content: space-between;
       padding-left: 195px;
 
       &-text {
         color: var(--grey);
         font-size: 21px;
         font-weight: 300;
+
+        &-sections {
+          padding-right: 17px;
+          border-right: 1px solid var(--grey-light);
+        }
+
+        &-articles {
+          padding-left: 17px;
+        }
       }
 
       &-icons {
