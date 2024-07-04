@@ -34,7 +34,11 @@ export default function VolumeCard({ language, mode, volume, currentJournal }: I
           </div>
           <div className="volumeCard-tile-text">
             <Link to={`${PATHS.volumes}/${volume.id}`}>
-              <div className="volumeCard-tile-text-volume">{`Volume ${volume.num}`}</div>
+              {volume.types && volume.types.includes('special_issue') ? (
+                <div className='volumeCard-tile-text-volume'>{`Volume ${volume.num} - Special issue`}</div>
+              ) : (
+                <div className="volumeCard-tile-text-volume">{`Volume ${volume.num}`}</div>
+              )}
             </Link>
             <div className="volumeCard-tile-text-title">{volume.title ? volume.title[language] : ''}</div>
             <div className="volumeCard-tile-text-year">{volume.year}</div>

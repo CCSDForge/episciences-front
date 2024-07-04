@@ -44,7 +44,7 @@ export default function VolumeDetails(): JSX.Element {
 
   return (
     <main className='volumeDetails'>
-      <Breadcrumb />
+      {volume && <Breadcrumb id={volume?.num} />}
       {isFetchingVolume || isFetchingArticles ? (
         <Loader />
       ) : (
@@ -56,6 +56,7 @@ export default function VolumeDetails(): JSX.Element {
               <VolumeDetailsSidebar articlesCount={articles.length} />
               <div className="volumeDetails-content-results-content">
                 <div className='volumeDetails-content-results-content-title'>{volume?.title ? volume?.title[language] : ''}</div>
+                {volume?.committee && volume.committee.length > 0 && <div className='volumeDetails-content-results-content-committee'>{volume?.committee.map((member) => member.screenName).join(', ')}</div>}
                 <div className='volumeDetails-content-results-content-description'>{volume?.description ? volume?.description[language] : ''}</div>
                 <div className='volumeDetails-content-results-content-cards'>
                   {articles?.filter((article) => article).map((article, index) => (

@@ -4,6 +4,7 @@ import { authorApi } from '../features/author/author.query'
 import { boardApi } from '../features/board/board.query'
 import { creditsApi } from '../features/credits/credits.query'
 import { forAuthorApi } from '../features/forAuthor/forAuthor.query'
+import { indexationApi } from '../features/indexation/indexation.query'
 import { journalApi } from '../features/journal/journal.query'
 import { newsApi } from '../features/news/news.query'
 import { sectionApi } from '../features/section/section.query'
@@ -17,6 +18,7 @@ export const enhancedMiddleware = (getDefaultMiddleware: Function) => getDefault
   .concat(boardApi.middleware)
   .concat(creditsApi.middleware)
   .concat(forAuthorApi.middleware)
+  .concat(indexationApi.middleware)
   .concat(journalApi.middleware)
   .concat(newsApi.middleware)
   .concat(sectionApi.middleware)

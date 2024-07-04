@@ -1,27 +1,48 @@
-import orcid from '/icons/orcid.svg';
+import { Link } from 'react-router-dom';
 
-import { IBoardMember } from '../../../../types/board'
-import './SwiperBoardCard.scss'
+import orcid from '/icons/orcid.svg';
+import user from '/icons/user.svg';
+import { IBoardMember } from '../../../../types/board';
+import { AvailableLanguage } from '../../../../utils/i18n';
+import { defaultBoardRole, getBoardRoles } from '../../../../utils/types';
+import './SwiperBoardCard.scss';
 
 export type SwiperBoardCardProps = IBoardMember
 
-export default function SwiperBoardCard({ picture, name, role, university, skills }: SwiperBoardCardProps): JSX.Element {
+interface ISwiperBoardCardProps {
+  language: AvailableLanguage;
+  member: IBoardMember;
+}
+
+export default function SwiperBoardCard({ language, member }: ISwiperBoardCardProps): JSX.Element {
   return (
     <div className='swiperBoardCard'>
       <div className='swiperBoardCard-person'>
         <div className='swiperBoardCard-person-picture'>
-          <img src={picture} alt={`${name} picture`}/>
+          {member.picture ? (
+            <img src={member.picture} alt={`${member.firstname} ${member.lastname} picture`}/>
+          ) : (
+            <img className='swiperBoardCard-person-picture-placeholder' src={user} alt='User icon' />
+          )}
         </div>
         <div className='swiperBoardCard-person-title'>
           <div className='swiperBoardCard-person-title-name'>
-            <div className='swiperBoardCard-person-title-name-text'>{name}</div>
-            <img className='swiperBoardCard-person-title-name-orcid' src={orcid} alt='Orcid icon' />
+            <div className='swiperBoardCard-person-title-name-text'>{member.firstname} {member.lastname}</div>
+            {member.orcid && member.orcid.length > 0 && (
+              <Link to={`${import.meta.env.VITE_ORCID_HOMEPAGE}/${member.orcid}`} title={member.orcid} target='_blank' onClick={(e) => e.stopPropagation()}>
+                <img className='swiperBoardCard-person-title-name-orcid' src={orcid} alt='Orcid icon' />
+              </Link>
+            )}
           </div>
-          <div className='swiperBoardCard-person-title-role'>{role}</div>
+          {member.roles.length > 0 ? (
+            <div className='swiperBoardCard-person-title-role'>{getBoardRoles(member.roles)}</div>
+          ) : (
+            <div className='swiperBoardCard-person-title-role'>{defaultBoardRole.label}</div>
+          )}
         </div>
       </div>
-      <div className='swiperBoardCard-university'>{university}</div>
-      <div className='swiperBoardCard-skills'>{skills}</div>
+      {member.affiliations.length > 0 && <div className='swiperBoardCard-affiliations'>{member.affiliations[0].label}</div>}
+      {member.assignedSections.length > 0 && <div className='swiperBoardCard-assignedSections'>{member.assignedSections.map((assignedSection) => assignedSection.title[language]).join(', ')}</div>}
     </div>
   )
 }

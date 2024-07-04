@@ -186,10 +186,12 @@
         display: flex;
         justify-content: flex-end;
         align-items: flex-end;
-        flex: 1;
         gap: 8px;
         color: var(--red);
         font-size: 13px;
+        margin-top: auto;
+        padding-top: 8px;
+        border-top: 1px solid var(--grey-light);
       }
     }
   }

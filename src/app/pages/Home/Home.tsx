@@ -4,9 +4,12 @@ import { useTranslation } from 'react-i18next';
 import caretRight from '/icons/caret-right-grey.svg';
 import fakeProfile from '/icons/fake-profile.svg';
 import { PATHS } from '../../../config/paths';
+import { useAppSelector } from "../../../hooks/store";
+import { useFetchBoardMembersQuery } from '../../../store/features/board/board.query';
+import { useFetchIndexationPageQuery } from '../../../store/features/indexation/indexation.query';
+import { useFetchNewsQuery } from '../../../store/features/news/news.query';
 import { IArticle } from '../../../types/article';
 import { IBoardMember } from '../../../types/board';
-import { INews } from '../../../types/news';
 import { IStat } from '../../../types/stat';
 import IssuesSection from '../../components/HomeSections/IssuesSection/IssuesSection';
 import JournalSection from '../../components/HomeSections/JournalSection/JournalSection';
@@ -17,7 +20,14 @@ import Swiper from '../../components/Swiper/Swiper';
 import './Home.scss';
 
 export default function Home(): JSX.Element {
-  const { t } = useTranslation();  
+  const { t } = useTranslation();
+
+  const language = useAppSelector(state => state.i18nReducer.language)
+  const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
+
+  const { data: news } = useFetchNewsQuery({ rvcode: rvcode!, page: 1, itemsPerPage: 3 }, { skip: !rvcode })
+  const { data: members } = useFetchBoardMembersQuery(rvcode!, { skip: !rvcode })
+  const { data: indexation } = useFetchIndexationPageQuery(rvcode!, { skip: !rvcode })
 
   // TODO : remove mocks
   const articles: IArticle[] = [
@@ -41,51 +51,14 @@ export default function Home(): JSX.Element {
     { id: 18, title: "D’un rêve d'universalité fonctionnelle au libéralisme linguistique : standardisation de la langue tchèque moderne et controverse des années 1990 et 2000", authors: 'Adrien Martin ; Andrea Opreni ; Alessandra Vizzaccaro et al.', publicationDate: 'Published on Aug. 18th, 2023', tag: 'Compte-rendu' }
   ]
 
-  const news: INews[] = [
-    { id: 1, title: "Articles scientifiques : nouveaux modèles économiques et nouvelles formes de publication", publicationDate: 'Published on Aug. 18th, 2023'},
-    { id: 2, title: "Episciences Days. Publishing another way: the epic of Episciences and overlay journals", publicationDate: 'Published on Aug. 18th, 2023' },
-    { id: 3, title: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam", publicationDate: 'Published on Aug. 18th, 2023' },
-  ]
-
-  const boards: IBoardMember[] = [
-    { id: 1, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-    { id: 2, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-    { id: 3, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-    { id: 4, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-    { id: 5, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-    { id: 6, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-    { id: 7, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-    { id: 8, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-    { id: 9, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-    { id: 10, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-    { id: 11, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-    { id: 12, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-    { id: 13, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-    { id: 14, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-    { id: 15, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-    { id: 16, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-    { id: 17, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' },
-    { id: 18, picture: fakeProfile, name: 'Laurence Brassart', role: 'Editor in chief', university: 'University of Oxford, United Kingdom', skills: 'micromechanics, multiscale modelling, homogenisation theory, constitutive modelling, multiphysics couplings in materials, computational mechanics' }
-  ]
-
+  // TODO : remove mocks
   const stats: IStat[] = [
     { stat: '62.07%', title: 'Acceptance rate' },
     { stat: '29', title: 'Published articles' },
     { stat: '2 weeks', title: 'Submission-publication time' }
   ]
 
-  // TODO: type hint ?
-  const journals = [
-    [
-      { title: 'Directory of Open Access Journals (DOAJ)', link: 'https://www.episciences.org/fr/accueil' },
-      { title: 'Free Journal Network (FJN)', link: 'https://www.episciences.org/fr/accueil' }
-    ],
-    [
-      { title: 'Directory of Open Access Journals (DOAJ)', link: 'https://www.episciences.org/fr/accueil' },
-      { title: 'Free Journal Network (FJN)', link: 'https://www.episciences.org/fr/accueil' }
-    ],
-  ]
-
+  // TODO : remove mocks
   // TODO: type hint ?
   const issues = [
     { volume: 'Volume 16 - Issue 1', title: "D’un rêve d'universalité fonctionnelle au libéralisme linguistique : standardisation de la langue tchèque moderne et controverse des années 1990 et 2000" },
@@ -105,7 +78,7 @@ export default function Home(): JSX.Element {
           </div>
         </Link>
       </div>
-      <Swiper id='articles-swiper' type='article' slidesPerView={3} cards={articles}/>
+      <Swiper id='articles-swiper' type='article' language={language} slidesPerView={3} cards={articles}/>
       <div className='home-subtitle'>
         <h2>News</h2>
         <Link to={PATHS.news}>
@@ -115,7 +88,7 @@ export default function Home(): JSX.Element {
           </div>
         </Link>
       </div>
-      <NewsSection news={news} />
+      <NewsSection language={language} news={news?.data ?? []} />
       <div className='home-subtitle'>
         <h2>Members</h2>
         <Link to={PATHS.boards}>
@@ -125,10 +98,10 @@ export default function Home(): JSX.Element {
           </div>
         </Link>
       </div>
-      <Swiper id='boards-swiper' type='board' slidesPerView={4} cards={boards}/>
+      <Swiper id='boards-swiper' type='board' language={language} slidesPerView={4} cards={members ?? []}/>
       <StatisticsSection stats={stats} />
       <h2 className='home-subtitle'>Journal indexation</h2>
-      <JournalSection journals={journals} />
+      <JournalSection language={language} content={indexation?.content} />
       <h2 className='home-subtitle'>Special issues</h2>
       <IssuesSection issues={issues} />
     </main>

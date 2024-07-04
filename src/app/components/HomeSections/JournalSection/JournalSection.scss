@@ -1,13 +1,13 @@
 .journalSection {
-  display: flex;
   padding: 12px 24px 12px 24px;
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--red);
 
-  &-column {
-    margin-right: 50px;
+  ul {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
 
-    &-row {
+    li {
       color: var(--red);
       font-size: 14px;
       text-decoration: underline;
