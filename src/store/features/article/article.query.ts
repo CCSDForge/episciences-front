@@ -10,7 +10,7 @@ export const articleApi = createApi({
   reducerPath: 'article',
   tagTypes: ['Article'],
   endpoints: (build) => ({
-    fetchArticles: build.query<{ data: FetchedArticle[], totalItems: number, range?: Range }, { rvcode: string, page: number, itemsPerPage: number, types: string[], years: number[] }>({
+    fetchArticles: build.query<{ data: FetchedArticle[], totalItems: number, range?: Range }, { rvcode: string, page: number, itemsPerPage: number, types?: string[], years?: number[] }>({
       query: ({ rvcode, page, itemsPerPage, types, years }) => {
         const baseUrl = `papers?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`;
         let queryParams = '';
