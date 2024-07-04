@@ -23,11 +23,13 @@ export default function Authors(): JSX.Element {
   const [expandedAuthorIndex, setExpandedAuthorIndex] = useState(-1);
 
   const onSearch = (newSearch: string): void => {
+    setExpandedAuthorIndex(-1)
     if (activeLetter) setActiveLetter('')
     setSearch(newSearch)
   }
 
   const onSetActiveLetter = (newActiveLetter: string): void => {
+    setExpandedAuthorIndex(-1)
     if (search) setSearch('')
     setActiveLetter(newActiveLetter !== activeLetter ? newActiveLetter : '')
   }

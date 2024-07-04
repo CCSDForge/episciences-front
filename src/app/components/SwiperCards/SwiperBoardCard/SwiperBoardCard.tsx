@@ -4,7 +4,7 @@ import orcid from '/icons/orcid.svg';
 import user from '/icons/user.svg';
 import { IBoardMember } from '../../../../types/board';
 import { AvailableLanguage } from '../../../../utils/i18n';
-import { defaultBoardRole, getBoardRoles } from '../../../../utils/types';
+import { defaultBoardRole, getBoardRoles } from '../../../../utils/board';
 import './SwiperBoardCard.scss';
 
 export type SwiperBoardCardProps = IBoardMember

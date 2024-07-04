@@ -29,6 +29,7 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
       abstract,
       authors,
       publicationDate: articleDB.current.dates.publication_date,
+      tag: articleDB.current.type?.title.toLowerCase(),
       pdfLink: articleDB.current.files.link,
       halLink: articleDB.current.repository.paper_url,
       keywords: articleContent.keywords,
@@ -38,3 +39,14 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
 
   return undefined;
 }
+
+export enum ARTICLE_TYPE {
+  ARTICLE = 'article',
+  CONFERENCE = 'conferenceobject',
+}
+
+// TODO: translate
+export const articleTypes: { value: string; label: string; }[] = [
+  { value: ARTICLE_TYPE.ARTICLE, label: 'Article' },
+  { value: ARTICLE_TYPE.CONFERENCE, label: 'Conference paper' },
+]

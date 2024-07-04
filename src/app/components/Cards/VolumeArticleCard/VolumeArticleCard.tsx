@@ -6,6 +6,7 @@ import caretDown from '/icons/caret-down-red.svg';
 import download from '/icons/download-red.svg';
 import { PATHS } from '../../../../config/paths';
 import { IArticle } from '../../../../types/article';
+import { articleTypes } from '../../../../utils/article';
 import { formatDate } from '../../../../utils/date';
 import { AvailableLanguage } from '../../../../utils/i18n';
 import './VolumeArticleCard.scss'
@@ -22,23 +23,24 @@ export default function VolumeArticleCard({ language, article }: IVolumeArticleC
 
   return (
     <div className="volumeArticleCard">
-      {/* TODO */}
-      {/* <div className='volumeArticleCard-tag'>{tag}</div> */}
+      {article.tag && <div className='volumeArticleCard-tag'>{articleTypes.find((tag) => tag.value === article.tag)?.label}</div>}
       <Link to={`/${PATHS.articles}/${article.id}`}>
         <div className='volumeArticleCard-title'>{article.title}</div>
       </Link>
       <div className='volumeArticleCard-authors'>{article.authors}</div>
-      <div className='volumeArticleCard-abstract'>
-        <div className={`volumeArticleCard-abstract-title ${!openedAbstract && 'volumeArticleCard-abstract-title-closed'}`} onClick={toggleAbstract}>
-          <div className='volumeArticleCard-abstract-title-text'>Abstract</div>
-          {openedAbstract ? (
-            <img className='volumeArticleCard-abstract-title-caret' src={caretUp} alt='Caret up icon' />
-          ) : (
-            <img className='volumeArticleCard-abstract-title-caret' src={caretDown} alt='Caret down icon' />
-          )}
+      {article.abstract && (
+        <div className='volumeArticleCard-abstract'>
+          <div className={`volumeArticleCard-abstract-title ${!openedAbstract && 'volumeArticleCard-abstract-title-closed'}`} onClick={toggleAbstract}>
+            <div className='volumeArticleCard-abstract-title-text'>Abstract</div>
+            {openedAbstract ? (
+              <img className='volumeArticleCard-abstract-title-caret' src={caretUp} alt='Caret up icon' />
+            ) : (
+              <img className='volumeArticleCard-abstract-title-caret' src={caretDown} alt='Caret down icon' />
+            )}
+          </div>
+          <div className={`volumeArticleCard-abstract-content ${openedAbstract && 'volumeArticleCard-abstract-content-opened'}`}>{article.abstract}</div>
         </div>
-        <div className={`volumeArticleCard-abstract-content ${openedAbstract && 'volumeArticleCard-abstract-content-opened'}`}>{article.abstract}</div>
-      </div>
+      )}
       <div className='volumeArticleCard-anchor'>
         <div className='volumeArticleCard-anchor-publicationDate'>{formatDate(article.publicationDate, language)}</div>
         <div className="volumeArticleCard-anchor-icons">

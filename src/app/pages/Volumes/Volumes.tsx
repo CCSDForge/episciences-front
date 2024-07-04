@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import queryString from 'query-string';
 
 import filter from '/icons/filter.svg';
 import listRed from '/icons/list-red.svg';
@@ -8,7 +10,7 @@ import tileGrey from '/icons/tile-grey.svg';
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchVolumesQuery } from '../../../store/features/volume/volume.query';
 import { RENDERING_MODE } from '../../../utils/card';
-import { volumeTypes } from '../../../utils/types';
+import { volumeTypes } from '../../../utils/volume';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
 import VolumeCard from "../../components/Cards/VolumeCard/VolumeCard";
@@ -29,6 +31,9 @@ interface IVolumeFilter {
 export default function Volumes(): JSX.Element {
   const VOLUMES_PER_PAGE = 10;
 
+  const location = useLocation();
+  const parsedQuery = queryString.parse(location.search);
+
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvid = useAppSelector(state => state.journalReducer.currentJournal?.id)
   const currentJournal = useAppSelector(state => state.journalReducer.currentJournal)
@@ -39,11 +44,39 @@ export default function Volumes(): JSX.Element {
   const [years, setYears] = useState<IVolumeYearSelection[]>([]);
   const [taggedFilters, setTaggedFilters] = useState<IVolumeFilter[]>([]);
   const [openedFiltersModal, setOpenedFiltersModal] = useState(false);
+  const [initQueryFilters, setInitQueryFilters] = useState(false)
 
   const getSelectedTypes = (): string[] => types.filter(t => t.isChecked).map(t => t.value);
   const getSelectedYears = (): number[] => years.filter(y => y.isSelected).map(y => y.year);
 
   const { data: volumes, isFetching: isFetchingVolumes } = useFetchVolumesQuery({ rvid: rvid!, page: currentPage, itemsPerPage: VOLUMES_PER_PAGE, types: getSelectedTypes(), years: getSelectedYears() }, { skip: !rvid, refetchOnMountOrArgChange: true })
+
+  useEffect(() => {
+    if (types.length > 0 && !initQueryFilters) {
+      setTypes(currentTypes => {
+        const newTypes = currentTypes.map(type => ({
+            ...type,
+            isChecked: parsedQuery.type === type.value
+        }));
+  
+        return newTypes;
+    });
+
+      setInitQueryFilters(true)
+    }
+  }, [types, initQueryFilters])
+
+  useEffect(() => {
+    setTypes(currentTypes => {
+        const newTypes = currentTypes.map(type => ({
+            ...type,
+            isChecked: parsedQuery.type === type.value
+        }));
+
+        const typesChanged = newTypes.some((type, index) => type.isChecked !== currentTypes[index].isChecked);
+        return typesChanged ? newTypes : currentTypes;
+    });
+  }, [parsedQuery.type]); 
 
   useEffect(() => {
     if (volumes?.range && volumes.range.types && types.length === 0) {
@@ -73,7 +106,7 @@ export default function Volumes(): JSX.Element {
       setYears(initYears)
     }
   }, [volumes?.range, volumes?.range?.years, years])
-
+  
   const handlePageClick = (selectedItem: { selected: number }): void => {
     setCurrentPage(selectedItem.selected + 1);
   };

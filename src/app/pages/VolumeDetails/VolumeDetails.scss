@@ -25,9 +25,15 @@
         }
 
         &-committee {
+          display: flex;
+          gap: 5px;
           color: var(--grey-dark);
           margin-bottom: 16px;
           font-size: 20px;
+
+          &-note {
+            text-decoration: underline;
+          }
         }
   
         &-description {

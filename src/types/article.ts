@@ -15,7 +15,7 @@ export interface IArticle {
   abstract?: string;
   authors: string;
   publicationDate: string;
-  tag: string;
+  tag?: string;
   pdfLink: string;
   halLink: string;
   keywords?: string[] | Record<AvailableLanguage, string[]>;
@@ -30,6 +30,9 @@ export type RawArticle = IPartialArticle & IArticle & {
       }
       database: {
         current: {
+          type?: {
+            title: string;
+          }
           dates: {
             publication_date: string;
           }

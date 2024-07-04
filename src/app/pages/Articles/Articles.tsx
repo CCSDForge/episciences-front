@@ -2,22 +2,25 @@ import { useState, useEffect } from "react";
 
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchArticlesQuery } from '../../../store/features/article/article.query';
-import { allYears } from '../../../utils/filter';
-import { articleTypes, articleSections } from '../../../utils/types';
+import { FetchedArticle, articleTypes } from '../../../utils/article';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
-import ArticleCard from "../../components/Cards/ArticleCard/ArticleCard";
-import ArticlesSidebar, { IArticleTypeSelection, IArticleSectionSelection, IArticleYearSelection } from "../../components/Sidebars/ArticlesSidebar/ArticlesSidebar";
+import ArticleCard, { IArticleCard } from "../../components/Cards/ArticleCard/ArticleCard";
+import ArticlesSidebar, { IArticleTypeSelection, IArticleYearSelection } from "../../components/Sidebars/ArticlesSidebar/ArticlesSidebar";
 import Pagination from "../../components/Pagination/Pagination";
 import Tag from "../../components/Tag/Tag";
 import './Articles.scss';
 
-type ArticleTypeFilter = 'type' | 'section' | 'year';
+type ArticleTypeFilter = 'type' | 'year';
 
 interface IArticleFilter {
   type: ArticleTypeFilter;
   value: string | number;
   label: string | number;
+}
+
+type ArticleWithAbstractToggle = FetchedArticle & {
+  openedAbstract: boolean;
 }
 
 export default function Articles(): JSX.Element {
@@ -27,49 +30,48 @@ export default function Articles(): JSX.Element {
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [articlesWithAbstractToggle, setArticlesWithAbstractToggle] = useState<ArticleWithAbstractToggle[]>([])
   const [types, setTypes] = useState<IArticleTypeSelection[]>([])
-  const [sections, setSections] = useState<IArticleSectionSelection[]>([]);;
   const [years, setYears] = useState<IArticleYearSelection[]>([]);
   const [taggedFilters, setTaggedFilters] = useState<IArticleFilter[]>([]);
+  const [showAllAbstracts, setShowAllAbstracts] = useState(false)
+
+  const getSelectedTypes = (): string[] => types.filter(t => t.isChecked).map(t => t.value);
+  const getSelectedYears = (): number[] => years.filter(y => y.isChecked).map(y => y.year);
+
+  const { data: articles, isFetching: isFetchingArticles } = useFetchArticlesQuery({ rvcode: rvcode!, page: currentPage, itemsPerPage: ARTICLES_PER_PAGE, types: getSelectedTypes(), years: getSelectedYears() }, { skip: !rvcode, refetchOnMountOrArgChange: true })
 
   useEffect(() => {
-    if (types.length === 0) {
-      const initTypes = articleTypes.map((at) => ({
-        label: at.label,
-        value: at.value,
-        isChecked: false
-      }))
+    if (articles?.range && articles.range.types && types.length === 0) {
+      const initTypes = articles.range.types
+        .filter((t) => articleTypes.find((at) => at.value === t))
+        .map((t) => {
+        const matchingType = articleTypes.find((at) => at.value === t)
+
+        return {
+          label: matchingType!.label,
+          value: matchingType!.value,
+          isChecked: false
+        }
+      })
 
       setTypes(initTypes)
     }
-  }, [types])
+  }, [articles?.range, articles?.range?.types, types])
 
   useEffect(() => {
-    if (sections.length === 0) {
-      const initSections = articleSections.map((as) => ({
-        label: as.label,
-        value: as.value,
-        isChecked: false
-      }))
-
-      setSections(initSections)
-    }
-  }, [years])
-
-  useEffect(() => {
-    if (years.length === 0) {
-      const initYears = allYears().map((y) => ({
+    if (articles?.range && articles.range.years && years.length === 0) {
+      const initYears = articles.range.years.map((y) => ({
         year: y,
         isChecked: false
       }))
 
       setYears(initYears)
     }
-  }, [years])
-
-  const { data: articles, isFetching } = useFetchArticlesQuery({ rvcode: rvcode!, page: currentPage, itemsPerPage: ARTICLES_PER_PAGE, type: types.find(t => t.isChecked)?.value, section: sections.find(s => s.isChecked)?.value, year: years.find(y => y.isChecked)?.year }, { skip: !rvcode })
+  }, [articles?.range, articles?.range?.years, years])
 
   const handlePageClick = (selectedItem: { selected: number }): void => {
+    setArticlesWithAbstractToggle([]);
     setCurrentPage(selectedItem.selected + 1);
   };
 
@@ -79,22 +81,10 @@ export default function Articles(): JSX.Element {
         return { ...t, isChecked: !t.isChecked };
       }
 
-      return { ...t, isChecked: false };
+      return { ...t };
     });
 
     setTypes(updatedTypes);
-  }
-
-  const onCheckSection = (value: string): void => {
-    const updatedSections = sections.map((s) => {
-      if (s.value === value) {
-        return { ...s, isChecked: !s.isChecked };
-      }
-
-      return { ...s, isChecked: false };
-    });
-
-    setSections(updatedSections);
   }
 
   const onCheckYear = (year: number): void => {
@@ -103,7 +93,7 @@ export default function Articles(): JSX.Element {
         return { ...y, isChecked: !y.isChecked };
       }
 
-      return { ...y, isChecked: false };
+      return { ...y };
     });
 
     setYears(updatedYears);
@@ -117,14 +107,6 @@ export default function Articles(): JSX.Element {
         type: 'type',
         value: t.value,
         label: t.label
-      })
-    })
-
-    sections.filter((s) => s.isChecked).forEach((s) => {
-      initFilters.push({
-        type: 'section',
-        value: s.value,
-        label: s.label
       })
     })
 
@@ -150,16 +132,6 @@ export default function Articles(): JSX.Element {
       });
 
       setTypes(updatedTypes);
-    } else if (type === 'section') {
-      const updatedSections = sections.map((s) => {
-        if (s.value === value) {
-          return { ...s, isChecked: false };
-        }
-  
-        return s;
-      });
-  
-      setSections(updatedSections);
     } else if (type === 'year') {
       const updatedYears = years.map((y) => {
         if (y.year === value) {
@@ -178,23 +150,58 @@ export default function Articles(): JSX.Element {
       return { ...t, isChecked: false };
     });
 
-    const updatedSections = sections.map((s) => {
-      return { ...s, isChecked: false };
-    });
-
     const updatedYears = years.map((y) => {
       return { ...y, isChecked: false };
     });
 
     setTypes(updatedTypes);
-    setSections(updatedSections);
     setYears(updatedYears);
     setTaggedFilters([]);
   }
 
   useEffect(() => {
     setAllTaggedFilters()
-  }, [types])
+  }, [types, years])
+
+  useEffect(() => {
+    if (articles?.data && articlesWithAbstractToggle.length === 0) {
+      const displayedArticles = articles.data.filter((article) => article?.title).map((article) => {
+        return { ...article, openedAbstract: false };
+      });
+
+      setArticlesWithAbstractToggle(displayedArticles)
+    }
+
+  }, [articles, articles?.data])
+
+  const toggleAbstract = (articleId?: number): void => {
+    if (!articleId) return
+
+    const updatedArticles = articlesWithAbstractToggle.map((article) => {
+      if (article?.id === articleId) {
+        return {
+          ...article,
+          openedAbstract: !article.openedAbstract
+        }
+      }
+
+      return { ...article };
+    });
+
+    setArticlesWithAbstractToggle(updatedArticles)
+  }
+
+  const toggleAllAbstracts = (): void => {
+    const isShown = !showAllAbstracts
+
+    const updatedArticles = articlesWithAbstractToggle.map((article) => ({
+      ...article,
+      openedAbstract: isShown
+    }));
+
+    setArticlesWithAbstractToggle(updatedArticles)
+    setShowAllAbstracts(isShown)
+  }
 
   return (
     <main className='articles'>
@@ -216,19 +223,23 @@ export default function Articles(): JSX.Element {
           ))}
           <div className="articles-filters-tags-clear" onClick={clearTaggedFilters}>Clear all filters</div>
         </div>
+        <div className="articles-filters-abstracts" onClick={toggleAllAbstracts}>
+          {`${showAllAbstracts ? 'Hide all abstracts' : 'Show all abstracts'}`}
+        </div>
       </div>
       <div className='articles-content'>
         <div className='articles-content-results'>
-          <ArticlesSidebar types={types} onCheckTypeCallback={onCheckType} sections={sections} onCheckSectionCallback={onCheckSection} years={years} onCheckYearCallback={onCheckYear} />
-          {isFetching ? (
+          <ArticlesSidebar types={types} onCheckTypeCallback={onCheckType} years={years} onCheckYearCallback={onCheckYear} />
+          {isFetchingArticles ? (
             <Loader />
           ) : (
             <div className='articles-content-results-cards'>
-              {articles?.data?.filter((article) => article).map((article, index) => (
+              {articlesWithAbstractToggle.map((article, index) => (
                 <ArticleCard
                   key={index}
                   language={language}
-                  article={article}
+                  article={article as IArticleCard}
+                  toggleAbstractCallback={(): void => toggleAbstract(article?.id)}
                 />
               ))}
             </div>

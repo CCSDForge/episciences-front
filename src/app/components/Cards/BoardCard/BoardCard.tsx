@@ -8,7 +8,7 @@ import mastodon from '/icons/mastodon.svg';
 import user from '/icons/user.svg';
 import { IBoardMember } from "../../../../types/board";
 import { AvailableLanguage } from '../../../../utils/i18n';
-import { defaultBoardRole, getBoardRoles } from '../../../../utils/types';
+import { defaultBoardRole, getBoardRoles } from '../../../../utils/board';
 import './BoardCard.scss'
 
 interface IBoardCardProps {

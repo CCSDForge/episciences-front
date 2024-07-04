@@ -54,6 +54,12 @@ export default function SectionDetails(): JSX.Element {
             <SectionDetailsSidebar articlesCount={articles.length} />
             <div className="sectionDetails-content-results-content">
               <div className='sectionDetails-content-results-content-title'>{section?.title ? section?.title[language] : ''}</div>
+              {section?.committee && section.committee.length > 0 && (
+                <div className='sectionDetails-content-results-content-committee'>
+                  {section?.committee.map((member) => member.screenName).join(', ')}
+                  <span className="sectionDetails-content-results-content-committee-note">(comité du volume)</span>
+                </div>
+              )}
               <div className='sectionDetails-content-results-content-description'>{section?.description ? section?.description[language] : ''}</div>
               <div className='sectionDetails-content-results-content-cards'>
                 {articles?.filter((article) => article).map((article, index) => (

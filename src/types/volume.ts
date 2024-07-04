@@ -8,7 +8,7 @@ export interface IVolume {
   description?: Record<AvailableLanguage, string>;
   year?: number;
   types?: string[];
-  committee: IVolumeCommitteeMember[];
+  committee?: IVolumeCommitteeMember[];
   articles: PartialVolumeArticle[];
 }
 

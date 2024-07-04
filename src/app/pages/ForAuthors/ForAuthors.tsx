@@ -209,8 +209,8 @@ export default function ForAuthors(): JSX.Element {
                 <ReactMarkdown
                   urlTransform={uri => uri.includes('/public/') ? getImageURL(uri) : uri}
                   components={{
-                    a: ({ node, ...props }) => <Link to={props.href!} target='_blank' className='forAuthors-content-body-section-link'>{props.children?.toString()}</Link>,
-                    h2: ({ node, ...props }) => {
+                    a: ({ ...props }) => <Link to={props.href!} target='_blank' className='forAuthors-content-body-section-link'>{props.children?.toString()}</Link>,
+                    h2: ({ ...props }) => {
                       const id = generateIdFromText(props.children?.toString()!);
 
                       return (
@@ -224,7 +224,7 @@ export default function ForAuthors(): JSX.Element {
                         </div>
                       );
                     },
-                    h3: ({ node, ...props }) => <h3 id={generateIdFromText(props.children?.toString()!)} {...props} />,
+                    h3: ({ ...props }) => <h3 id={generateIdFromText(props.children?.toString()!)} {...props} />,
                   }}
                 >
                   {section.value}
