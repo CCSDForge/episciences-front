@@ -8,11 +8,16 @@
     padding: 24px;
     border: 1px solid var(--grey);
     border-bottom: 4px solid var(--red);
+    min-width: 850px;
     max-width: 850px;
 
     &-content {
       font-size: 18px;
       flex: 1;
+
+      p {
+        margin: 16px 0px 16px 0px;
+      }
     }
 
     &-seeMore {
@@ -58,15 +63,17 @@
       flex: 1;
     }
 
-    &-about {
+    &-seeMore {
       display: flex;
+      align-items: center;
+      justify-content: flex-end;
       gap: 8px;
-      color: var(--red);
-      text-decoration: underline;
-      font-weight: bold;
+      color: var(--grey);
+      font-size: 16px;
+      font-style: italic;
 
-      &-text {
-        padding-bottom: 3px;
+      &-icon {
+        height: 11px;
       }
     }
   }

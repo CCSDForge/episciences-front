@@ -17,5 +17,5 @@ export default function Card({ type, language, content }: ISwiperCardProps): JSX
     return <SwiperBoardCard language={language} member={content as SwiperBoardCardProps} />
   }
 
-  return <SwiperArticleCard {...content as SwiperArticleCardProps} />
+  return <SwiperArticleCard language={language} article={content as SwiperArticleCardProps} />
 }
