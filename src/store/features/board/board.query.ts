@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 import { BoardPage, RawBoardMember, IBoardMember } from '../../../types/board'
-import { boardTypes } from '../../../utils/types'
+import { BOARD_TYPE, boardTypes } from '../../../utils/board'
 import { AvailableLanguage } from '../../../utils/i18n'
 import { createBaseQueryWithJsonAccept } from '../../utils'
 
@@ -13,7 +13,7 @@ export const boardApi = createApi({
     fetchBoardPages: build.query<BoardPage[], string>({
       query: (rvcode: string) => `pages?pagination=false&rvcode=${rvcode}`,
       transformResponse(baseQueryReturnValue) {
-        return (baseQueryReturnValue as BoardPage[]).filter((page) => boardTypes.includes(page.page_code))
+        return (baseQueryReturnValue as BoardPage[]).filter((page) => boardTypes.includes(page.page_code as BOARD_TYPE))
       },
     }),
     fetchBoardMembers: build.query<IBoardMember[], string>({

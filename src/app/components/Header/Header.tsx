@@ -7,6 +7,7 @@ import logoJpeSmall from '/icons/logo-jpe-small.svg';
 import { PATHS } from '../../../config/paths'
 import { useAppDispatch, useAppSelector } from '../../../hooks/store';
 import { setSearch } from '../../../store/features/search/search.slice';
+import { VOLUME_TYPE } from '../../../utils/volume';
 import Button from '../Button/Button';
 import LanguageDropdown from '../LanguageDropdown/LanguageDropdown';
 import SearchInput from '../SearchInput/SearchInput';
@@ -60,8 +61,8 @@ export default function Header(): JSX.Element {
                     <Link to={PATHS.volumes}>All volumes</Link>
                     <Link to={`${PATHS.volumes}/${lastVolume?.id}`}>Last volume</Link>
                     <Link to={PATHS.sections}>Sections</Link>
-                    <Link to='/'>Special issues</Link>
-                    <Link to='/'>Proceedings</Link>
+                    <Link to={`${PATHS.volumes}?type=${VOLUME_TYPE.SPECIAL_ISSUE}`}>Special issues</Link>
+                    <Link to={`${PATHS.volumes}?type=${VOLUME_TYPE.PROCEEDINGS}`}>Proceedings</Link>
                     <Link to={PATHS.authors}>Authors</Link>
                   </div>
                 </div>

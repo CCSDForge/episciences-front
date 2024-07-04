@@ -10,6 +10,7 @@ import { IJournal } from '../../../../types/journal';
 import { IVolume } from "../../../../types/volume";
 import { RENDERING_MODE } from '../../../../utils/card';
 import { AvailableLanguage } from '../../../../utils/i18n';
+import { VOLUME_TYPE } from '../../../../utils/volume';
 import './VolumeCard.scss'
 
 interface IVolumeCardProps {
@@ -26,7 +27,7 @@ export default function VolumeCard({ language, mode, volume, currentJournal }: I
         <div className="volumeCard-tile-template">
             <div className="volumeCard-tile-template-jpe">{currentJournal?.code.toUpperCase()}</div>
             <div className="volumeCard-tile-template-volume">Volume</div>
-            {volume.types && volume.types.includes('special_issue') && (
+            {volume.types && volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE) && (
               <div className="volumeCard-tile-template-issue">Special Issue</div>
             )}
             <div className="volumeCard-tile-template-number">{volume.num}</div>
@@ -34,7 +35,7 @@ export default function VolumeCard({ language, mode, volume, currentJournal }: I
           </div>
           <div className="volumeCard-tile-text">
             <Link to={`${PATHS.volumes}/${volume.id}`}>
-              {volume.types && volume.types.includes('special_issue') ? (
+              {volume.types && volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE) ? (
                 <div className='volumeCard-tile-text-volume'>{`Volume ${volume.num} - Special issue`}</div>
               ) : (
                 <div className="volumeCard-tile-text-volume">{`Volume ${volume.num}`}</div>
@@ -71,7 +72,7 @@ export default function VolumeCard({ language, mode, volume, currentJournal }: I
         </div>
       </div>
       <div className='volumeCard-content'>
-        {volume.types && volume.types.includes('special_issue') && (
+        {volume.types && volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE) && (
           <div className='volumeCard-content-special'>Special issue</div>
         )}
         <div className='volumeCard-content-title'>{volume.title ? volume.title[language] : ''}</div>

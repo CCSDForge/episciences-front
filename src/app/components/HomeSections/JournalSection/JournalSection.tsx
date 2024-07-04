@@ -16,7 +16,7 @@ export default function JournalSection({ content, language }: IJournalSectionPro
         {content && (
           <ReactMarkdown
             components={{
-              a: ({ node, ...props }) => (
+              a: ({ ...props }) => (
                 <Link to={props.href!} target='_blank'>
                   <span>{props.children?.toString()}</span>
                   <img src={externalLink} alt='Journal link icon' />

@@ -5,6 +5,17 @@
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--red);
 
+  &-tag {
+    width: fit-content;
+    height: fit-content;
+    padding: 4px 8px 4px 8px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    background: var(--red);
+    color: var(--white);
+  }
+
   &-title {
     color: var(--black);
     font-size: 21px;

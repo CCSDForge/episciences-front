@@ -16,7 +16,7 @@ export default function Breadcrumb({ id }: IBreadcrumbProps): JSX.Element {
   const handle = match?.handle as { parent?: { path: string; label: string; }, crumb?: string | ((id: string) => string) } | undefined
 
   if (handle && handle.parent && handle.crumb) {
-    let crumbLabel = typeof handle.crumb === 'function' ? id ? handle.crumb(id) : handle.crumb(params['id']!) : handle.crumb;
+    const crumbLabel = typeof handle.crumb === 'function' ? id ? handle.crumb(id) : handle.crumb(params['id']!) : handle.crumb;
 
     return (
       <div className="breadcrumb">

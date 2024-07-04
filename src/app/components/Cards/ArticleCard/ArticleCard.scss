@@ -17,6 +17,7 @@
   }
 
   &-title {
+    color: var(--black);
     font-size: 21px;
     font-weight: 600;
     margin-bottom: 8px;
@@ -58,9 +59,26 @@
     }
   }
 
-  &-publicationDate {
-    font-size: 14px;
-    color: var(--grey-light);
-    font-style: italic;
+  &-anchor {
+    display: flex;
+    justify-content: space-between;
+
+    &-publicationDate {
+      font-size: 14px;
+      color: var(--grey-light);
+      font-style: italic;
+    }
+
+    &-icons {
+      &-download {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        flex: 1;
+        gap: 8px;
+        color: var(--red);
+        font-size: 13px;
+      }
+    }
   }
 }

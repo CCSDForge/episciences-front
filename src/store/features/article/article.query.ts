@@ -2,7 +2,7 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 
 import { IPartialArticle, RawArticle } from '../../../types/article'
 import { FetchedArticle, formatArticle } from '../../../utils/article'
-import { PaginatedResponse } from '../../../utils/pagination'
+import { PaginatedResponseWithRange, Range } from '../../../utils/pagination'
 import { createBaseQueryWithLdJsonAccept } from '../../utils'
 
 export const articleApi = createApi({
@@ -10,20 +10,26 @@ export const articleApi = createApi({
   reducerPath: 'article',
   tagTypes: ['Article'],
   endpoints: (build) => ({
-    fetchArticles: build.query<{ data: FetchedArticle[], totalItems: number }, { rvcode: string, page: number, itemsPerPage: number, type?: string, section?: string, year?: number }>({
-      query: ({ rvcode, page, itemsPerPage, type, section, year }) => {
+    fetchArticles: build.query<{ data: FetchedArticle[], totalItems: number, range?: Range }, { rvcode: string, page: number, itemsPerPage: number, types: string[], years: number[] }>({
+      query: ({ rvcode, page, itemsPerPage, types, years }) => {
         const baseUrl = `papers?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`;
         let queryParams = '';
 
-        if (type) queryParams += `&type=${type}`;
+        if (types && types.length > 0) {
+          const typesQuery = types.map(type => `type[]=${type}`).join('&')
+          queryParams += `&${typesQuery}`;
+        }
         
-        if (section) queryParams += `&section=${section}`;
-        
-        if (year) queryParams += `&year=${year}`;
+        if (years && years.length > 0) {
+          const yearsQuery = years.map(year => `year[]=${year}`).join('&')
+          queryParams += `&${yearsQuery}`;
+        }
         
         return `${baseUrl}${queryParams}`;
       },
-      transformResponse: (baseQueryReturnValue: PaginatedResponse<IPartialArticle>) => {
+      transformResponse: (baseQueryReturnValue: PaginatedResponseWithRange<IPartialArticle>) => {
+        const range = (baseQueryReturnValue['hydra:range'] as { publicationYears: number[] });
+
         const totalItems = baseQueryReturnValue['hydra:totalItems'];
         const formattedData = baseQueryReturnValue['hydra:member'].map(partialArticle => ({
           id: partialArticle.paperid,
@@ -32,18 +38,25 @@ export const articleApi = createApi({
 
         return {
           data: formattedData,
-          totalItems
+          totalItems,
+          range: {
+            ...range,
+            years: range.publicationYears
+          }
         }
       },
-      onQueryStarted: async ({ rvcode, page, itemsPerPage, type, section, year }, { queryFulfilled, dispatch }) => {
+      onQueryStarted: async ({ rvcode, page, itemsPerPage, types, years }, { queryFulfilled, dispatch }) => {
         const { data: articles } = await queryFulfilled;
-        const fullArticles = await Promise.all(
+        const fullArticles: FetchedArticle[] = await Promise.all(
           articles.data.map(async (article: FetchedArticle) => {
             const rawArticle: RawArticle = await (await fetch(`${import.meta.env.VITE_API_ROOT_ENDPOINT}/papers/${article?.id}`)).json();
             return formatArticle(rawArticle);
           })
         );
-        dispatch(articleApi.util.updateQueryData('fetchArticles', { rvcode, page, itemsPerPage, type, section, year }, _ => fullArticles));
+
+        dispatch(articleApi.util.updateQueryData('fetchArticles', { rvcode, page, itemsPerPage, types, years }, (draftedData) => {
+          Object.assign(draftedData.data, fullArticles)
+        }));
       },
     }),
     fetchArticle: build.query<FetchedArticle, { paperid: string }>({
