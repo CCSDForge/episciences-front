@@ -9,8 +9,8 @@ export const newsApi = createApi({
   reducerPath: 'news',
   tagTypes: ['News'],
   endpoints: (build) => ({
-    fetchNews: build.query<{ data: INews[], totalItems: number, range?: Range }, { rvcode: string, page: number, itemsPerPage: number; years: number[] }>({
-      query: ({ rvcode, page, itemsPerPage, years } :{ rvcode: string, page: number, itemsPerPage: number; years: number[] }) => {
+    fetchNews: build.query<{ data: INews[], totalItems: number, range?: Range }, { rvcode: string, page: number, itemsPerPage: number; years?: number[] }>({
+      query: ({ rvcode, page, itemsPerPage, years } :{ rvcode: string, page: number, itemsPerPage: number; years?: number[] }) => {
         if (years && years.length > 0) {
           const yearsQuery = years.map(year => `year[]=${year}`).join('&')
           return `news?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}&${yearsQuery}`

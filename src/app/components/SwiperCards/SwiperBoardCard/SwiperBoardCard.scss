@@ -1,4 +1,5 @@
 .swiperBoardCard {
+  min-height: 216px;
   display: flex;
   flex-direction: column;
   padding: 30px 30px 20px 30px;
@@ -26,16 +27,33 @@
         color: var(--black);
       }
     }
+
+    &-picture {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 64px;
+      max-width: 64px;
+      min-height: 64px;
+      max-height: 64px;
+      background: var(--red);
+      border-radius: 50%;
+
+      &-placeholder {
+        width: 44px;
+        height: 40px;
+      }
+    }
   }
 
-  &-university {
+  &-affiliations {
     color: var(--red);
     font-size: 12px;
     font-weight: bold;
     margin-bottom: 15px;
   }
 
-  &-skills {
+  &-assignedSections {
     font-size: 12px;
     color: var(--grey);
   }
