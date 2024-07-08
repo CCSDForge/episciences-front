@@ -1,6 +1,9 @@
+import { MouseEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 
+import minus from '/icons/minus-circle.svg';
+import plus from '/icons/plus-circle.svg';
 import externalLink from '/icons/external-link-red.svg';
 import { INews } from '../../../../types/news';
 import { formatDate } from '../../../../utils/date';
@@ -23,6 +26,31 @@ interface INewsCardProps extends INewsCardTile {
 }
 
 export default function NewsCard({ language, mode, fullCard, blurCard, setFullNewsIndexCallback, news }: INewsCardProps): JSX.Element {
+  const [showFullContent, setShowFullContent] = useState(false);
+
+  const toggleFullContent = (e: MouseEvent): void => {
+    e.stopPropagation()
+    setShowFullContent(!showFullContent)
+  }
+
+  const renderContent = (): JSX.Element | null => {
+    if (!news.content || !news.content[language]) return null
+    
+    return (
+      <div className='newsCard-content-content'>
+        {showFullContent ?(
+          <ReactMarkdown>{news.content[language]}</ReactMarkdown>
+        ) : (
+          <ReactMarkdown>{`${news.content[language].substring(0, MAX_CONTENT_LENGTH)}...`}</ReactMarkdown>
+        )}
+        <button onClick={(e): void => toggleFullContent(e)} className='newsCard-content-content-toggle'>
+          {showFullContent ? 'Read less' : 'Read more'}
+          {showFullContent ? <img src={minus} /> : <img src={plus} />}
+        </button>
+      </div>
+    )
+  }
+
   if (mode === RENDERING_MODE.TILE) {
     if (fullCard) {
       return (
@@ -36,11 +64,7 @@ export default function NewsCard({ language, mode, fullCard, blurCard, setFullNe
             </div>
           </div>
           <div className='newsCard-tile-full-expanded'>
-            {news.content && news.content[language] && (
-              <div className='newsCard-content-content'>
-                <ReactMarkdown>{`${news.content[language].substring(0, MAX_CONTENT_LENGTH)}...`}</ReactMarkdown>
-              </div>
-            )}
+            {renderContent()}
             {news.link && (
               <div className='newsCard-content-read newsCard-content-read-full'>
                 <Link to={news.link} target='_blank' onClick={(e) => e.stopPropagation()}>
@@ -79,11 +103,7 @@ export default function NewsCard({ language, mode, fullCard, blurCard, setFullNe
       <div className='newsCard-publicationDate'>{formatDate(news.publicationDate, language)}</div>
       <div className='newsCard-content'>
         <div className='newsCard-content-title'>{news.title[language]}</div>
-        {news.content && news.content[language] && (
-          <div className='newsCard-content-content'>
-            <ReactMarkdown>{`${news.content[language].substring(0, MAX_CONTENT_LENGTH)}...`}</ReactMarkdown>
-          </div>
-        )}
+        {renderContent()}
         {news.link && (
           <div className='newsCard-content-read'>
             <Link to={news.link} target='_blank' onClick={(e) => e.stopPropagation()}>

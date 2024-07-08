@@ -78,6 +78,17 @@
       color: var(--black);
       font-size: 16px;
       white-space: pre-wrap;
+
+      &-toggle {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--white);
+        border: 1px solid var(--grey-light);
+        padding: 6px;
+        margin-top: 20px;
+        cursor: pointer;
+      }
     }
 
     &-read {

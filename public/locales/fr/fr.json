@@ -1,8 +1,80 @@
 {
-  "components": {},
+  "components": {
+    "header": {
+      "journal": "Revues en libre accès",
+      "content": "Contenu",
+      "about": "À propos",
+      "links": {
+        "articles": "Tous les articles",
+        "volumes": "Tous les volumes",
+        "lastVolume": "Dernier volume",
+        "sections": "Rubriques",
+        "specialIssues": "Volumes spéciaux",
+        "proceedings": "Actes de conférence",
+        "authors": "Auteurs",
+        "about": "La revue",
+        "news": "Actualités",
+        "statistics": "Statistiques",
+        "boards": "Comités",
+        "forAuthors": "Pour les auteurs"
+      },
+      "search": "rechercher",
+      "submit": "Envoyer"
+    },
+    "footer": {
+      "links": {
+        "notice": "Voir l'avis de la revue",
+        "contact": "Contact",
+        "credits": "Crédits",
+        "rss": "RSS",
+        "documentation": "Documentation",
+        "acknowledgements": "Remerciements",
+        "publishingPolicy": "Politique de publication",
+        "legalMentions": "Mentions légales",
+        "privacyStatement": "Déclaration de confidentialité",
+        "termsOfUse": "Termes d'utilisation"
+      }
+    }
+  },
   "pages": {
     "home": {
-      "title": "Accueil"
+      "title": "Accueil",
+      "blocks": {
+        "articles": {
+          "subtitle": "Derniers articles",
+          "see": "Voir tous les articles"
+        },
+        "news": {
+          "subtitle": "Actualités",
+          "see": "Voir toutes les actualités"
+        },
+        "members": {
+          "subtitle": "Membres",
+          "see": "Voir tous les membres"
+        },
+        "indexation": {
+          "subtitle": "Indexation de la revue"
+        },
+        "specialIssues": {
+          "subtitle": "Volume spéciaux",
+          "see": "Voir tous les volumes spéciaux"
+        }
+      }
+    },
+    "about": {
+      "title": "La revue"
+    },
+    "news": {
+      "title": "Actualités"
+    },
+    "boards": {
+      "title": "Comités"
+    },
+    "forAuthors": {
+      "title": "Pour les auteurs"
+    },
+    "credits": {
+      "title": "Crédits"
     }
   }
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import logoText from '/icons/logo-text.svg';
 import logoJpeBig from '/icons/logo-jpe-big.svg';
@@ -14,6 +15,8 @@ import SearchInput from '../SearchInput/SearchInput';
 import './Header.scss'
 
 export default function Header(): JSX.Element {
+  const { t } = useTranslation();
+
   const reducedScrollPosition = 100;
 
   const navigate = useNavigate();
@@ -53,43 +56,43 @@ export default function Header(): JSX.Element {
       <div className='header-postheader'>
         <div className='header-postheader-links'>
           <div className='header-postheader-links-dropdown' onMouseEnter={() => toggleDropdown('content')} onMouseLeave={() => toggleDropdown('content')}>
-            <div>Content</div>
+            <div>{t('components.header.content')}</div>
             {showDropdown.content && (
                 <div className='header-postheader-links-dropdown-content'>
                   <div className='header-postheader-links-dropdown-content-links'>
-                    <Link to={PATHS.articles}>All articles</Link>
-                    <Link to={PATHS.volumes}>All volumes</Link>
-                    <Link to={`${PATHS.volumes}/${lastVolume?.id}`}>Last volume</Link>
-                    <Link to={PATHS.sections}>Sections</Link>
-                    <Link to={`${PATHS.volumes}?type=${VOLUME_TYPE.SPECIAL_ISSUE}`}>Special issues</Link>
-                    <Link to={`${PATHS.volumes}?type=${VOLUME_TYPE.PROCEEDINGS}`}>Proceedings</Link>
-                    <Link to={PATHS.authors}>Authors</Link>
+                    <Link to={PATHS.articles}>{t('components.header.links.articles')}</Link>
+                    <Link to={PATHS.volumes}>{t('components.header.links.volumes')}</Link>
+                    <Link to={`${PATHS.volumes}/${lastVolume?.id}`}>{t('components.header.links.lastVolume')}</Link>
+                    <Link to={PATHS.sections}>{t('components.header.links.sections')}</Link>
+                    <Link to={`${PATHS.volumes}?type=${VOLUME_TYPE.SPECIAL_ISSUE}`}>{t('components.header.links.specialIssues')}</Link>
+                    <Link to={`${PATHS.volumes}?type=${VOLUME_TYPE.PROCEEDINGS}`}>{t('components.header.links.proceedings')}</Link>
+                    <Link to={PATHS.authors}>{t('components.header.links.authors')}</Link>
                   </div>
                 </div>
               )}
           </div>
           <div className='header-postheader-links-dropdown' onMouseEnter={() => toggleDropdown('about')} onMouseLeave={() => toggleDropdown('about')}>
-            <div>About</div>
+            <div>{t('components.header.about')}</div>
             {showDropdown.about && (
                 <div className='header-postheader-links-dropdown-content'>
                   <div className='header-postheader-links-dropdown-content-links'>
-                    <Link to={PATHS.about}>The journal</Link>
-                    <Link to={PATHS.news}>News</Link>
-                    <Link to={PATHS.statistics}>Statistics</Link>
+                    <Link to={PATHS.about}>{t('components.header.links.about')}</Link>
+                    <Link to={PATHS.news}>{t('components.header.links.news')}</Link>
+                    <Link to={PATHS.statistics}>{t('components.header.links.statistics')}</Link>
                   </div>
                 </div>
               )}
           </div>
-          <Link to={PATHS.boards}>Boards</Link>
-          <Link to={PATHS.forAuthors}>For authors</Link>
+          <Link to={PATHS.boards}>{t('components.header.links.boards')}</Link>
+          <Link to={PATHS.forAuthors}>{t('components.header.links.forAuthors')}</Link>
         </div>
         <div className={`header-postheader-search ${isReduced && 'header-postheader-search-reduced'}`}>
           <div className='header-postheader-search-delimiter'></div>
           <div className='header-postheader-search-search'>
-            <SearchInput value={search ?? ''} placeholder='search' onChangeCallback={updateSearch}/>
+            <SearchInput value={search ?? ''} placeholder={t('components.header.search')} onChangeCallback={updateSearch}/>
           </div>
           <div className='header-postheader-search-submit'>
-            <Button text='Submit' onClickCallback={submitSearch}/>
+            <Button text={t('components.header.submit')} onClickCallback={submitSearch}/>
           </div>
         </div>
       </div>
@@ -131,7 +134,7 @@ export default function Header(): JSX.Element {
         </div>
         <div className='header-preheader-links'>
           <div className='header-preheader-links-access'>
-            <Link to={language === 'fr' ? import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_FR : import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_EN} target='_blank'>Open Access journals</Link>
+            <Link to={language === 'fr' ? import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_FR : import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_EN} target='_blank'>{t('components.header.journal')}</Link>
           </div>
           <LanguageDropdown />
         </div>

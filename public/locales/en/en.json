@@ -1,8 +1,80 @@
 {
-  "components": {},
+  "components": {
+    "header": {
+      "journal": "Open Access journals",
+      "content": "Content",
+      "about": "About",
+      "links": {
+        "articles": "All articles",
+        "volumes": "All volumes",
+        "lastVolume": "Last volume",
+        "sections": "Sections",
+        "specialIssues": "Special issues",
+        "proceedings": "Proceedings",
+        "authors": "Authors",
+        "about": "The journal",
+        "news": "News",
+        "statistics": "Statistics",
+        "boards": "Boards",
+        "forAuthors": "For authors"
+      },
+      "search": "search",
+      "submit": "Submit"
+    },
+    "footer": {
+      "links": {
+        "notice": "See the journal’s notice",
+        "contact": "Contact",
+        "credits": "Credits",
+        "rss": "RSS",
+        "documentation": "Documentation",
+        "acknowledgements": "Acknowledgements",
+        "publishingPolicy": "Publishing policy",
+        "legalMentions": "Legal mentions",
+        "privacyStatement": "Privacy statement",
+        "termsOfUse": "Terms of use"
+      }
+    }
+  },
   "pages": {
     "home": {
-      "title": "Home"
+      "title": "Home",
+      "blocks": {
+        "articles": {
+          "subtitle": "Latest articles",
+          "see": "See all articles"
+        },
+        "news": {
+          "subtitle": "News",
+          "see": "See all news"
+        },
+        "members": {
+          "subtitle": "Members",
+          "see": "See all members"
+        },
+        "indexation": {
+          "subtitle": "Journal indexation"
+        },
+        "specialIssues": {
+          "subtitle": "Special issues",
+          "see": "See all issues"
+        }
+      }
+    },
+    "about": {
+      "title": "The journal"
+    },
+    "news": {
+      "title": "News"
+    },
+    "boards": {
+      "title": "Boards"
+    },
+    "forAuthors": {
+      "title": "For authors"
+    },
+    "credits": {
+      "title": "Credits"
     }
   }
 }

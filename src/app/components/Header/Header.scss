@@ -129,7 +129,7 @@
           &-links {
             display: flex;
             flex-direction: column;
-            width: 152px;
+            min-width: 152px;
             gap: 10px;
             padding: 7px 30px 10px 9px;
             background: var(--white);
