@@ -10,6 +10,8 @@ import { useFetchArticlesQuery } from '../../../store/features/article/article.q
 import { useFetchBoardMembersQuery } from '../../../store/features/board/board.query';
 import { useFetchIndexationPageQuery } from '../../../store/features/indexation/indexation.query';
 import { useFetchNewsQuery } from '../../../store/features/news/news.query';
+import { useFetchVolumesQuery } from '../../../store/features/volume/volume.query';
+import { VOLUME_TYPE } from '../../../utils/volume';
 import IssuesSection from '../../components/HomeSections/IssuesSection/IssuesSection';
 import JournalSection from '../../components/HomeSections/JournalSection/JournalSection';
 import NewsSection from '../../components/HomeSections/NewsSection/NewsSection';
@@ -17,8 +19,6 @@ import PresentationSection from '../../components/HomeSections/PresentationSecti
 import StatisticsSection from '../../components/HomeSections/StatisticsSection/StatisticsSection';
 import Swiper from '../../components/Swiper/Swiper';
 import './Home.scss';
-import { useFetchVolumesQuery } from '../../../store/features/volume/volume.query';
-import { VOLUME_TYPE } from '../../../utils/volume';
 
 export default function Home(): JSX.Element {
   const { t } = useTranslation();
@@ -43,10 +43,10 @@ export default function Home(): JSX.Element {
       {getBlockRendering(HOMEPAGE_BLOCK.LATEST_ARTICLES_CAROUSEL)?.render && (
         <>
           <div className='home-subtitle'>
-            <h2>Latest articles</h2>
+            <h2>{t('pages.home.blocks.articles.subtitle')}</h2>
             <Link to={PATHS.articles}>
               <div className='home-subtitle-all'>
-                <div className='home-subtitle-all-text'>See all articles</div>
+                <div className='home-subtitle-all-text'>{t('pages.home.blocks.articles.see')}</div>
                 <img src={caretRight} alt='Caret right icon' />
               </div>
             </Link>
@@ -57,10 +57,10 @@ export default function Home(): JSX.Element {
       {getBlockRendering(HOMEPAGE_BLOCK.LATEST_NEWS_CAROUSEL)?.render && (
         <>
           <div className='home-subtitle'>
-            <h2>News</h2>
+            <h2>{t('pages.home.blocks.news.subtitle')}</h2>
             <Link to={PATHS.news}>
               <div className='home-subtitle-all'>
-                <div className='home-subtitle-all-text'>See all news</div>
+                <div className='home-subtitle-all-text'>{t('pages.home.blocks.news.see')}</div>
                 <img src={caretRight} alt='Caret right icon' />
               </div>
             </Link>
@@ -71,10 +71,10 @@ export default function Home(): JSX.Element {
       {getBlockRendering(HOMEPAGE_BLOCK.MEMBERS_CAROUSEL)?.render && (
         <>
           <div className='home-subtitle'>
-            <h2>Members</h2>
+            <h2>{t('pages.home.blocks.members.subtitle')}</h2>
             <Link to={PATHS.boards}>
               <div className='home-subtitle-all'>
-                <div className='home-subtitle-all-text'>See all members</div>
+                <div className='home-subtitle-all-text'>{t('pages.home.blocks.members.see')}</div>
                 <img src={caretRight} alt='Caret right icon' />
               </div>
             </Link>
@@ -87,17 +87,17 @@ export default function Home(): JSX.Element {
       )}
       {getBlockRendering(HOMEPAGE_BLOCK.JOURNAL_INDEXATION)?.render && (
         <>
-          <h2 className='home-subtitle'>Journal indexation</h2>
+          <h2 className='home-subtitle'>{t('pages.home.blocks.indexation.subtitle')}</h2>
           <JournalSection language={language} content={indexation?.content} />
         </>
       )}
       {getBlockRendering(HOMEPAGE_BLOCK.SPECIAL_ISSUES)?.render && (
         <>
           <div className='home-subtitle'>
-            <h2>Special issues</h2>
+            <h2>{t('pages.home.blocks.specialIssues.subtitle')}</h2>
             <Link to={`${PATHS.volumes}?type=${VOLUME_TYPE.SPECIAL_ISSUE}`}>
               <div className='home-subtitle-all'>
-                <div className='home-subtitle-all-text'>See all issues</div>
+                <div className='home-subtitle-all-text'>{t('pages.home.blocks.specialIssues.see')}</div>
                 <img src={caretRight} alt='Caret right icon' />
               </div>
             </Link>

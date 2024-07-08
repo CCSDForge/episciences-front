@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
+import { useTranslation } from 'react-i18next';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -22,6 +23,8 @@ interface IForAuthorsSection {
 }
 
 export default function ForAuthors(): JSX.Element {
+  const { t } = useTranslation();
+
   const language = useAppSelector(state => state.i18nReducer.language);
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code);
 
@@ -194,7 +197,7 @@ export default function ForAuthors(): JSX.Element {
   return (
     <main className='forAuthors'>
       <Breadcrumb />
-      <h1 className='forAuthors-title'>For authors</h1>
+      <h1 className='forAuthors-title'>{t('pages.forAuthors.title')}</h1>
       {isFetchingEditorialWorkflow || isFetchingEthicalCharter || isFetchingPrepareSubmission ? (
         <Loader />
       ) : (

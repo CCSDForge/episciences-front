@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown'
+import { useTranslation } from 'react-i18next';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -19,6 +20,8 @@ interface IBoardPerTitle {
 }
 
 export default function Boards(): JSX.Element {
+  const { t } = useTranslation();
+
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
 
@@ -73,7 +76,7 @@ export default function Boards(): JSX.Element {
     <main className='boards'>
       <Breadcrumb />
       <div className='boards-title'>
-        <h1>Boards</h1>
+        <h1>{t('pages.boards.title')}</h1>
         {members && members.length > 0 && (
           members.length > 1 ? (
             <div className='boards-title-count'>{members.length} members</div>

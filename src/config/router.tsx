@@ -58,6 +58,7 @@ const router = createBrowserRouter([
       basicRoute("home", Home),
       crumbedRoute("boards", Boards, { parent: { path: 'home', label : 'Home > ' }, crumb: 'Boards'}),
       crumbedRoute("forAuthors", ForAuthors, { parent: { path: 'home', label : 'Home > ' }, crumb: 'For authors'}),
+      crumbedRoute("credits", Credits, { parent: { path: 'home', label : 'Home > ' }, crumb: 'Credits'}),
       crumbedRoute("search", Search, { parent: { path: 'home', label : 'Home > ' }, crumb: 'Search'}),
       crumbedRoute("articles", Articles, { parent: { path: 'home', label : 'Home > Content > ' }, crumb: 'Articles'}),
       crumbedRoute("articleDetails", ArticleDetails, { parent: { path: 'home', label : 'Home > Content > Article > ' }, crumb: (id: string) => `Article ${id}`}),
@@ -67,7 +68,6 @@ const router = createBrowserRouter([
       crumbedRoute("sections", Sections, { parent: { path: 'home', label : 'Home > Content > ' }, crumb: 'Sections'}),
       crumbedRoute("sectionDetails", SectionDetails, { parent: { path: 'home', label : 'Home > Content > Section > ' }, crumb: (id: string) => `Section ${id}`}),
       crumbedRoute("about", About, { parent: { path: 'home', label : 'Home > About > ' }, crumb: 'The journal'}),
-      crumbedRoute("credits", Credits, { parent: { path: 'home', label : 'Home > Credits > ' }, crumb: 'Credits'}),
       crumbedRoute("news", News, { parent: { path: 'home', label : 'Home > About > ' }, crumb: 'News'}),
       crumbedRoute("statistics", Statistics, { parent: { path: 'home', label : 'Home > About > ' }, crumb: 'Statistics'}),
     ]

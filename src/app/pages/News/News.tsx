@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import listRed from '/icons/list-red.svg';
 import listGrey from '/icons/list-grey.svg';
@@ -15,6 +16,8 @@ import Pagination from "../../components/Pagination/Pagination";
 import './News.scss'
 
 export default function News(): JSX.Element {
+  const { t } = useTranslation();
+
   const NEWS_PER_PAGE = 10;
 
   const language = useAppSelector(state => state.i18nReducer.language)
@@ -60,7 +63,7 @@ export default function News(): JSX.Element {
     <main className='news'>
       <Breadcrumb />
       <div className='news-title'>
-        <h1>News</h1>
+        <h1>{t('pages.news.title')}</h1>
         <div className='news-title-icons'>
           <div className='news-title-icons-icon' onClick={(): void => setMode(RENDERING_MODE.TILE)}>
             <div className={`${mode === RENDERING_MODE.TILE ? 'news-title-icons-icon-row-red' : 'news-title-icons-icon-row'}`}>

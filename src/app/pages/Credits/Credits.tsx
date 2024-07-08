@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown'
+import { useTranslation } from 'react-i18next';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -19,6 +20,8 @@ interface ICreditsSection {
 }
 
 export default function Credits(): JSX.Element {
+  const { t } = useTranslation();
+
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
 
@@ -120,7 +123,7 @@ export default function Credits(): JSX.Element {
   return (
     <main className='credits'>
       <Breadcrumb />
-      <h1 className='credits-title'>Credits</h1>
+      <h1 className='credits-title'>{t('pages.credits.title')}</h1>
       {isFetching ? (
         <Loader />
       ) : (
