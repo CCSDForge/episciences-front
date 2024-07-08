@@ -9,8 +9,9 @@ export const formatVolume = (volume: RawVolume): IVolume => {
     description: volume['descriptions'],
     year: volume['vol_year'],
     types: volume['vol_type'],
-    articles: volume['papers']
-  };
+    articles: volume['papers'],
+    downloadLink: `https://${import.meta.env.VITE_JOURNAL_RVCODE}.episciences.org/volumes/${volume['vid']}/${volume['vid']}.pdf`
+  }
 }
 
 export enum VOLUME_TYPE {

@@ -17,7 +17,7 @@ export interface IBoardMember {
   id: number;
   firstname: string;
   lastname: string;
-  email: string;
+  email?: string;
   biography?: string;
   roles: string[];
   affiliations: IBoardMemberAffiliation[];

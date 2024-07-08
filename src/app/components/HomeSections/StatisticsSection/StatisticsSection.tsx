@@ -9,9 +9,12 @@ export default function StatisticsSection({ stats }: IStatisticsSectionProps): J
   return (
     <div className="statisticsSection">
       {stats.map((singleStat, index) => (
-        <div key={index} className={`statisticsSection-row ${index !== stats.length - 1 && 'statisticsSection-row-bordered'}`}>
-          <div className="statisticsSection-row-stat">{singleStat.stat}</div>
-          <div className="statisticsSection-row-title">{singleStat.title}</div>
+        <div key={index} className='statisticsSection-row'>
+          <div className='statisticsSection-row-content'>
+            <div className="statisticsSection-row-content-stat">{singleStat.stat}</div>
+            <div className="statisticsSection-row-content-title">{singleStat.title}</div>
+          </div>
+          <div className={`${index !== stats.length - 1 && 'statisticsSection-row-border'}`}></div>
         </div>
       ))}
     </div>

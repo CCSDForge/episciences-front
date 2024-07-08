@@ -10,6 +10,7 @@ export interface IVolume {
   types?: string[];
   committee?: IVolumeCommitteeMember[];
   articles: PartialVolumeArticle[];
+  downloadLink: string;
 }
 
 export type RawVolume = IVolume & {
