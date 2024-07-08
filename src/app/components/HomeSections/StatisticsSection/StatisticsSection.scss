@@ -1,26 +1,32 @@
 .statisticsSection {
   display: flex;
-  justify-content: space-around;
+  gap: 60px;
+  justify-content: center;
   margin: 45px 45px 5px 45px;
 
   &-row {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
 
-    &-bordered {
+    &-border {
       padding-right: 120px;
       border-right: 4px solid var(--red);
     }
 
-    &-stat {
-      font-size: 40px;
-      color: var(--red);
-    }
+    &-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 5px;
 
-    &-title {
-      font-size: 22px;
+      &-stat {
+        font-size: 40px;
+        color: var(--red);
+      }
+
+      &-title {
+        font-size: 22px;
+      }
     }
   }
 }

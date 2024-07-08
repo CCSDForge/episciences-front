@@ -21,6 +21,43 @@ interface IVolumeCardProps {
 }
 
 export default function VolumeCard({ language, mode, volume, currentJournal }: IVolumeCardProps): JSX.Element {
+  const renderVolumeTileSpecial = (): JSX.Element => {
+    let text = `Volume ${volume.num}`
+
+    if (volume.types && volume.types.length) {
+      if (volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE) && volume.types.includes(VOLUME_TYPE.PROCEEDINGS)) {
+        text += ` - Special issue, Proceeding`
+      } else if (volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE)) {
+        text += ` - Special issue`
+      } else if (volume.types.includes(VOLUME_TYPE.PROCEEDINGS)) {
+        text += ` - Proceeding`
+      }
+    }
+
+    return (
+      <Link to={`${PATHS.volumes}/${volume.id}`}>
+        <div className='volumeCard-tile-text-volume'>{text}</div>
+      </Link>
+    )
+  }
+
+  const renderVolumeListSpecial = (): JSX.Element | null => {
+    let text = ''
+
+    if (volume.types && volume.types.length) {
+      if (volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE) && volume.types.includes(VOLUME_TYPE.PROCEEDINGS)) {
+        text += `Special issue, Proceeding`
+      } else if (volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE)) {
+        text += `Special issue`
+      } else if (volume.types.includes(VOLUME_TYPE.PROCEEDINGS)) {
+        text += `Proceeding`
+      }
+    }
+
+    return text ? <div className='volumeCard-content-special'>{text}</div> : null
+  }
+
+
   if (mode === RENDERING_MODE.TILE) {
     return (
       <div className='volumeCard volumeCard-tile'>
@@ -34,23 +71,17 @@ export default function VolumeCard({ language, mode, volume, currentJournal }: I
             <div className="volumeCard-tile-template-year">{volume.year}</div>
           </div>
           <div className="volumeCard-tile-text">
-            <Link to={`${PATHS.volumes}/${volume.id}`}>
-              {volume.types && volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE) ? (
-                <div className='volumeCard-tile-text-volume'>{`Volume ${volume.num} - Special issue`}</div>
-              ) : (
-                <div className="volumeCard-tile-text-volume">{`Volume ${volume.num}`}</div>
-              )}
-            </Link>
+            {renderVolumeTileSpecial()}
             <div className="volumeCard-tile-text-title">{volume.title ? volume.title[language] : ''}</div>
             <div className="volumeCard-tile-text-year">{volume.year}</div>
             <div className="volumeCard-tile-text-count">
               <img className="volumeCard-tile-text-count-icon" src={file} alt='File icon' />
               <div className="volumeCard-tile-text-count-text">{volume.articles.length > 1 ? `${volume.articles.length} articles`: `${volume.articles.length} article`}</div>
             </div>
-            <div className="volumeCard-tile-text-download">
+            <Link to={volume.downloadLink} target='_blank' className="volumeCard-tile-text-download">
               <img className="volumeCard-tile-text-download-icon" src={download} alt='Download icon' />
               <div className="volumeCard-tile-text-download-text">PDF</div>
-            </div>
+            </Link>
           </div>
       </div>
     )
@@ -72,11 +103,9 @@ export default function VolumeCard({ language, mode, volume, currentJournal }: I
         </div>
       </div>
       <div className='volumeCard-content'>
-        {volume.types && volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE) && (
-          <div className='volumeCard-content-special'>Special issue</div>
-        )}
+        {renderVolumeListSpecial()}
         <div className='volumeCard-content-title'>{volume.title ? volume.title[language] : ''}</div>
-        {volume.committee.length > 0 && <div className='volumeCard-content-committee'>{volume.committee.map((member) => member.screenName).join(', ')}</div>}
+        {volume.committee && volume.committee.length > 0 && <div className='volumeCard-content-committee'>{volume.committee.map((member) => member.screenName).join(', ')}</div>}
         {volume.description && volume.description[language] && (
           <div className='volumeCard-content-description'>
             <div className={`volumeCard-content-description-title ${!openedDescription && 'volumeCard-content-description-title'}`} onClick={toggleDescription}>
@@ -90,10 +119,10 @@ export default function VolumeCard({ language, mode, volume, currentJournal }: I
             <div className={`volumeCard-content-description-content ${openedDescription && 'volumeCard-content-description-content-opened'}`}>{volume.description[language]}</div>
           </div>
         )}
-        <div className="volumeCard-content-download">
+        <Link to={volume.downloadLink} target='_blank' className="volumeCard-content-download">
           <img className="volumeCard-content-download-icon" src={download} alt='Download icon' />
           <div className="volumeCard-content-download-text">PDF</div>
-        </div>
+        </Link>
       </div>
     </div>
   )

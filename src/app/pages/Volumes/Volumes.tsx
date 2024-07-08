@@ -35,7 +35,7 @@ export default function Volumes(): JSX.Element {
   const parsedQuery = queryString.parse(location.search);
 
   const language = useAppSelector(state => state.i18nReducer.language)
-  const rvid = useAppSelector(state => state.journalReducer.currentJournal?.id)
+  const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
   const currentJournal = useAppSelector(state => state.journalReducer.currentJournal)
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -49,7 +49,7 @@ export default function Volumes(): JSX.Element {
   const getSelectedTypes = (): string[] => types.filter(t => t.isChecked).map(t => t.value);
   const getSelectedYears = (): number[] => years.filter(y => y.isSelected).map(y => y.year);
 
-  const { data: volumes, isFetching: isFetchingVolumes } = useFetchVolumesQuery({ rvid: rvid!, page: currentPage, itemsPerPage: VOLUMES_PER_PAGE, types: getSelectedTypes(), years: getSelectedYears() }, { skip: !rvid, refetchOnMountOrArgChange: true })
+  const { data: volumes, isFetching: isFetchingVolumes } = useFetchVolumesQuery({ rvcode: rvcode!, page: currentPage, itemsPerPage: VOLUMES_PER_PAGE, types: getSelectedTypes(), years: getSelectedYears() }, { skip: !rvcode, refetchOnMountOrArgChange: true })
 
   useEffect(() => {
     if (types.length > 0 && !initQueryFilters) {

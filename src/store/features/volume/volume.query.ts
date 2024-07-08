@@ -10,9 +10,9 @@ export const volumeApi = createApi({
   reducerPath: 'volume',
   tagTypes: ['Volume'],
   endpoints: (build) => ({
-    fetchVolumes: build.query<{ data: IVolume[], totalItems: number, articlesCount?: number, range?: Range }, { rvid: number, page: number, itemsPerPage: number, years: number[], types: string[] }>({
-      query: ({ rvid, page, itemsPerPage, years, types } :{ rvid: number, page: number, itemsPerPage: number; years: number[]; types: string[]; }) => {
-        const baseUrl = `volumes?page=${page}&itemsPerPage=${itemsPerPage}&rvid=${rvid}`
+    fetchVolumes: build.query<{ data: IVolume[], totalItems: number, articlesCount?: number, range?: Range }, { rvcode: string, page: number, itemsPerPage: number, years?: number[], types?: string[] }>({
+      query: ({ rvcode, page, itemsPerPage, years, types } :{ rvcode: string, page: number, itemsPerPage: number; years?: number[]; types?: string[]; }) => {
+        const baseUrl = `volumes?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`
         let queryParams = '';
 
         if (types && types.length > 0) {

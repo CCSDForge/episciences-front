@@ -9,7 +9,7 @@ function LastVolumeHook (): null {
   const currentJournal = useAppSelector(state => state.journalReducer.currentJournal);
   const lastVolume = useAppSelector(state => state.volumeReducer.lastVolume);
 
-  const { data: volumes } = useFetchVolumesQuery({ rvid: currentJournal?.id!, page: 1, itemsPerPage: 1 }, { skip: !currentJournal?.id });
+  const { data: volumes } = useFetchVolumesQuery({ rvcode: currentJournal?.code!, page: 1, itemsPerPage: 1 }, { skip: !currentJournal?.code });
 
   useEffect(() => {
     if (volumes && volumes.data.length > 0 && currentJournal && !lastVolume) {

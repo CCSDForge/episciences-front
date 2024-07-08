@@ -23,9 +23,6 @@ export default function AuthorCard({ author, expandedCard, setExpandedAuthorInde
         </div>
         <div className='authorCard-title-count'>{author.count > 1 ? `${author.count} articles` : `${author.count} article`}</div>
       </div>
-      {/* <div className='authorCard-university'>{university}</div> */}
-      {/* TODO: university */}
-      <div className='authorCard-university'>University of Oxford, United Kingdom</div>
     </div>
   )
 }
