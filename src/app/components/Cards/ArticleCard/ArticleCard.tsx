@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -21,9 +22,11 @@ interface IArticleCardProps {
 }
 
 export default function ArticleCard({ language, article, toggleAbstractCallback }: IArticleCardProps): JSX.Element {
+  const { t } = useTranslation();
+
   return (
     <div className="articleCard">
-      {article.tag && <div className='articleCard-tag'>{articleTypes.find((tag) => tag.value === article.tag)?.label}</div>}
+      {article.tag && <div className='articleCard-tag'>{articleTypes().find((tag) => tag.value === article.tag)?.label}</div>}
       <Link to={`/${PATHS.articles}/${article.id}`}>
         <div className='articleCard-title'>{article.title}</div>
       </Link>
@@ -31,7 +34,7 @@ export default function ArticleCard({ language, article, toggleAbstractCallback 
       {article.abstract && (
         <div className='articleCard-abstract'>
           <div className={`articleCard-abstract-title ${!article.openedAbstract && 'articleCard-abstract-title-closed'}`} onClick={toggleAbstractCallback}>
-            <div className='articleCard-abstract-title-text'>Abstract</div>
+            <div className='articleCard-abstract-title-text'>{t('common.abstract')}</div>
             {article.openedAbstract ? (
               <img className='articleCard-abstract-title-caret' src={caretUp} alt='Caret up icon' />
             ) : (
@@ -47,7 +50,7 @@ export default function ArticleCard({ language, article, toggleAbstractCallback 
           <Link to={article.pdfLink} target='_blank'>
             <div className="articleCard-anchor-icons-download">
               <img className="articleCard-anchor-icons-download-download-icon" src={download} alt='Download icon' />
-              <div className="articleCard-anchor-icons-download-text">PDF</div>
+              <div className="articleCard-anchor-icons-download-text">{t('common.pdf')}</div>
             </div>
           </Link>
         </div>

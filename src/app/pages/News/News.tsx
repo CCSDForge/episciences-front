@@ -68,13 +68,13 @@ export default function News(): JSX.Element {
           <div className='news-title-icons-icon' onClick={(): void => setMode(RENDERING_MODE.TILE)}>
             <div className={`${mode === RENDERING_MODE.TILE ? 'news-title-icons-icon-row-red' : 'news-title-icons-icon-row'}`}>
               <img src={mode === RENDERING_MODE.TILE ? tileRed : tileGrey} alt='Tile icon' />
-              <span>Tile</span>
+              <span>{t('common.renderingMode.tile')}</span>
             </div>
           </div>
           <div className='news-title-icons-icon' onClick={(): void => setMode(RENDERING_MODE.LIST)}>
             <div className={`${mode === RENDERING_MODE.LIST ? 'news-title-icons-icon-row-red' : 'news-title-icons-icon-row'}`}>
               <img src={mode === RENDERING_MODE.LIST ? listRed : listGrey} alt='List icon' />
-              <span>List</span>
+              <span>{t('common.renderingMode.list')}</span>
             </div>
           </div>
         </div>

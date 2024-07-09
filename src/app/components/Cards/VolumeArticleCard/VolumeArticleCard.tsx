@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -17,13 +18,15 @@ interface IVolumeArticleCardProps {
 }
 
 export default function VolumeArticleCard({ language, article }: IVolumeArticleCardProps): JSX.Element {
+  const { t } = useTranslation();
+
   const [openedAbstract, setOpenedAbstract] = useState(false)
 
   const toggleAbstract = (): void => setOpenedAbstract(!openedAbstract)
 
   return (
     <div className="volumeArticleCard">
-      {article.tag && <div className='volumeArticleCard-tag'>{articleTypes.find((tag) => tag.value === article.tag)?.label}</div>}
+      {article.tag && <div className='volumeArticleCard-tag'>{articleTypes().find((tag) => tag.value === article.tag)?.label}</div>}
       <Link to={`/${PATHS.articles}/${article.id}`}>
         <div className='volumeArticleCard-title'>{article.title}</div>
       </Link>
@@ -31,7 +34,7 @@ export default function VolumeArticleCard({ language, article }: IVolumeArticleC
       {article.abstract && (
         <div className='volumeArticleCard-abstract'>
           <div className={`volumeArticleCard-abstract-title ${!openedAbstract && 'volumeArticleCard-abstract-title-closed'}`} onClick={toggleAbstract}>
-            <div className='volumeArticleCard-abstract-title-text'>Abstract</div>
+            <div className='volumeArticleCard-abstract-title-text'>{t('common.abstract')}</div>
             {openedAbstract ? (
               <img className='volumeArticleCard-abstract-title-caret' src={caretUp} alt='Caret up icon' />
             ) : (
@@ -47,7 +50,7 @@ export default function VolumeArticleCard({ language, article }: IVolumeArticleC
           <Link to={article.pdfLink} target='_blank'>
             <div className="volumeArticleCard-anchor-icons-download">
               <img className="volumeArticleCard-anchor-icons-download-download-icon" src={download} alt='Download icon' />
-              <div className="volumeArticleCard-anchor-icons-download-text">PDF</div>
+              <div className="volumeArticleCard-anchor-icons-download-text">{t('common.pdf')}</div>
             </div>
           </Link>
         </div>

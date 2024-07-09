@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchArticlesQuery } from '../../../store/features/article/article.query';
@@ -24,7 +25,11 @@ type ArticleWithAbstractToggle = FetchedArticle & {
 }
 
 export default function Articles(): JSX.Element {
+  const { t } = useTranslation();
+
   const ARTICLES_PER_PAGE = 10;
+
+  const translatedArticleTypes = articleTypes();
 
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
@@ -44,9 +49,9 @@ export default function Articles(): JSX.Element {
   useEffect(() => {
     if (articles?.range && articles.range.types && types.length === 0) {
       const initTypes = articles.range.types
-        .filter((t) => articleTypes.find((at) => at.value === t))
+        .filter((t) => translatedArticleTypes.find((at) => at.value === t))
         .map((t) => {
-        const matchingType = articleTypes.find((at) => at.value === t)
+        const matchingType = translatedArticleTypes.find((at) => at.value === t)
 
         return {
           label: matchingType!.label,
@@ -207,12 +212,12 @@ export default function Articles(): JSX.Element {
     <main className='articles'>
       <Breadcrumb />
       <div className='articles-title'>
-        <h1>Articles</h1>
+        <h1>{t('pages.articles.title')}</h1>
         <div className='articles-title-count'>
           {articles && articles.totalItems > 1 ? (
-            <div className='articles-title-count-text'>{articles.totalItems} articles</div>
+            <div className='articles-title-count-text'>{articles.totalItems} {t('common.articles')}</div>
           ) : (
-            <div className='articles-title-count-text'>{articles?.totalItems ?? 0} article</div>
+            <div className='articles-title-count-text'>{articles?.totalItems ?? 0} {t('common.article')}</div>
           )}
         </div>
       </div>
@@ -221,10 +226,10 @@ export default function Articles(): JSX.Element {
           {taggedFilters.map((filter, index) => (
             <Tag key={index} text={filter.label.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
           ))}
-          <div className="articles-filters-tags-clear" onClick={clearTaggedFilters}>Clear all filters</div>
+          <div className="articles-filters-tags-clear" onClick={clearTaggedFilters}>{t('common.filters.clearAll')}</div>
         </div>
         <div className="articles-filters-abstracts" onClick={toggleAllAbstracts}>
-          {`${showAllAbstracts ? 'Hide all abstracts' : 'Show all abstracts'}`}
+          {`${showAllAbstracts ? t('common.toggleAbstracts.hideAll') : t('common.toggleAbstracts.showAll')}`}
         </div>
       </div>
       <div className='articles-content'>

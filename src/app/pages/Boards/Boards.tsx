@@ -76,12 +76,12 @@ export default function Boards(): JSX.Element {
     <main className='boards'>
       <Breadcrumb />
       <div className='boards-title'>
-        <h1>{t('pages.boards.title')}</h1>
+        <h1 className='boards-title-text'>{t('pages.boards.title')}</h1>
         {members && members.length > 0 && (
           members.length > 1 ? (
-            <div className='boards-title-count'>{members.length} members</div>
+            <div className='boards-title-count'>{members.length} {t('common.members')}</div>
         ) : (
-            <div className='boards-title-count'>{members.length} member</div>
+            <div className='boards-title-count'>{members.length} {t('common.member')}</div>
         ))}
       </div>
       {isFetchingPages || isFetchingMembers ? (

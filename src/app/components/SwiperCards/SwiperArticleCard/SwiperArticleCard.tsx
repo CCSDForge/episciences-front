@@ -17,7 +17,7 @@ interface ISwiperArticleCardProps {
 export default function SwiperArticleCard({ language, article }: ISwiperArticleCardProps): JSX.Element {
   return (
     <div className='swiperArticleCard'>
-      {article?.tag && <div className='swiperArticleCard-tag'>{articleTypes.find((tag) => tag.value === article.tag)?.label}</div>}
+      {article?.tag && <div className='swiperArticleCard-tag'>{articleTypes().find((tag) => tag.value === article.tag)?.label}</div>}
       <Link to={`/${PATHS.articles}/${article?.id}`}>
         <div className='swiperArticleCard-title'>{article?.title}</div>
       </Link>

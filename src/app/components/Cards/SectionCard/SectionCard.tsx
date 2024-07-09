@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -14,6 +15,8 @@ interface ISectionCardProps {
 }
 
 export default function SectionCard({ language, section }: ISectionCardProps): JSX.Element {
+  const { t } = useTranslation();
+  
   const [openedDescription, setOpenedDescription] = useState(false)
 
   const toggleDescription = (): void => setOpenedDescription(!openedDescription)
@@ -24,12 +27,12 @@ export default function SectionCard({ language, section }: ISectionCardProps): J
         <Link to={`${PATHS.sections}/${section.id}`}>
           <div className='sectionCard-title-text'>{section.title ? section.title[language] : ''}</div>
         </Link>
-        <div className='sectionCard-title-count'>{section.articles.length > 1 ? `${section.articles.length} articles`: `${section.articles.length} article`}</div>
+        <div className='sectionCard-title-count'>{section.articles.length > 1 ? `${section.articles.length} ${t('common.articles')}`: `${section.articles.length} ${t('common.article')}`}</div>
       </div>
       {section.description && section.description[language] && (
         <div className='sectionCard-description'>
           <div className={`sectionCard-description-title ${!openedDescription && 'sectionCard-description-title-closed'}`} onClick={toggleDescription}>
-            <div className='sectionCard-description-title-text'>About</div>
+            <div className='sectionCard-description-title-text'>{t('common.about')}</div>
             {openedDescription ? (
               <img className='sectionCard-description-title-caret' src={caretUp} alt='Caret up icon' />
             ) : (

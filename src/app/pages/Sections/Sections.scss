@@ -4,10 +4,14 @@
     align-items: center;
     margin-bottom: 10px;
 
+    &-text {
+      min-width: 265px;
+    }
+
     &-count {
       width: 100%;
       display: flex;
-      padding-left: 195px;
+      padding-left: 60px;
 
       &-text {
         color: var(--grey);

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import caretRight from '/icons/caret-right-grey.svg';
 import close from '/icons/close-red.svg';
@@ -17,6 +18,8 @@ export interface IAuthorDetailsSidebarProps {
 }
 
 export default function AuthorDetailsSidebar ({ language, rvcode, expandedAuthor, onCloseDetailsCallback }: IAuthorDetailsSidebarProps): JSX.Element {
+  const { t } = useTranslation();
+
   const { data: articles } = useFetchAuthorArticlesQuery({ rvcode: rvcode!, fullname: expandedAuthor?.name! }, { skip: !rvcode })
 
   return (
@@ -36,7 +39,7 @@ export default function AuthorDetailsSidebar ({ language, rvcode, expandedAuthor
             )}
             <Link to={`/${PATHS.articles}/${article.id}`} target='_blank'>
               <div className="authorDetailsSidebar-content-article-seeMore">
-                <div className="authorDetailsSidebar-content-article-seeMore-text">See more</div>
+                <div className="authorDetailsSidebar-content-article-seeMore-text">{t('common.seeMore')}</div>
                 <img className="authorDetailsSidebar-content-article-seeMore-icon" src={caretRight} alt='Caret right icon' />
               </div>
             </Link>

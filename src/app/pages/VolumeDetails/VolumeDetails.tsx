@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 import { useAppSelector } from "../../../hooks/store";
 import { formatArticle, FetchedArticle } from "../../../utils/article";
@@ -12,6 +13,8 @@ import VolumeDetailsSidebar from "../../components/Sidebars/VolumeDetailsSidebar
 import './VolumeDetails.scss';
 
 export default function VolumeDetails(): JSX.Element {
+  const { t } = useTranslation();
+  
   const language = useAppSelector(state => state.i18nReducer.language)
 
   const [isFetchingArticles, setIsFetchingArticles] = useState(false);
@@ -49,7 +52,7 @@ export default function VolumeDetails(): JSX.Element {
         <Loader />
       ) : (
         <div className="volumeDetails-volume">
-          <h1 className='volumeDetails-id'>Volume {volume?.num}</h1>
+          <h1 className='volumeDetails-id'>{t('pages.volumeDetails.title')} {volume?.num}</h1>
           <div className="volumeDetails-content">
             <div className="volumeDetails-content-year">{volume?.year}</div>
             <div className='volumeDetails-content-results'>
@@ -59,7 +62,7 @@ export default function VolumeDetails(): JSX.Element {
                 {volume?.committee && volume.committee.length > 0 && (
                   <div className='volumeDetails-content-results-content-committee'>
                     {volume?.committee.map((member) => member.screenName).join(', ')}
-                    <span className="volumeDetails-content-results-content-committee-note">(comité du volume)</span>
+                    <span className="volumeDetails-content-results-content-committee-note">{t('common.volumeCommittee')}</span>
                   </div>
                 )}
                 <div className='volumeDetails-content-results-content-description'>{volume?.description ? volume?.description[language] : ''}</div>

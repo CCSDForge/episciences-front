@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -17,13 +18,15 @@ interface ISectionArticleCardProps {
 }
 
 export default function SectionArticleCard({ language, article }: ISectionArticleCardProps): JSX.Element {
+  const { t } = useTranslation();
+
   const [openedAbstract, setOpenedAbstract] = useState(false)
 
   const toggleAbstract = (): void => setOpenedAbstract(!openedAbstract)
 
   return (
     <div className="sectionArticleCard">
-      {article.tag && <div className='volumeArticleCard-tag'>{articleTypes.find((tag) => tag.value === article.tag)?.label}</div>}
+      {article.tag && <div className='volumeArticleCard-tag'>{articleTypes().find((tag) => tag.value === article.tag)?.label}</div>}
       <Link to={`/${PATHS.articles}/${article.id}`}>
         <div className='sectionArticleCard-title'>{article.title}</div>
       </Link>
@@ -31,7 +34,7 @@ export default function SectionArticleCard({ language, article }: ISectionArticl
       {article.abstract && (
         <div className='sectionArticleCard-abstract'>
           <div className={`sectionArticleCard-abstract-title ${!openedAbstract && 'sectionArticleCard-abstract-title-closed'}`} onClick={toggleAbstract}>
-            <div className='sectionArticleCard-abstract-title-text'>Abstract</div>
+            <div className='sectionArticleCard-abstract-title-text'>{t('common.abstract')}</div>
             {openedAbstract ? (
               <img className='sectionArticleCard-abstract-title-caret' src={caretUp} alt='Caret up icon' />
             ) : (
@@ -47,7 +50,7 @@ export default function SectionArticleCard({ language, article }: ISectionArticl
           <Link to={article.pdfLink} target='_blank'>
             <div className="sectionArticleCard-anchor-icons-download">
               <img className="sectionArticleCard-anchor-icons-download-download-icon" src={download} alt='Download icon' />
-              <div className="sectionArticleCard-anchor-icons-download-text">PDF</div>
+              <div className="sectionArticleCard-anchor-icons-download-text">{t('common.pdf')}</div>
             </div>
           </Link>
         </div>

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown'
+import { useTranslation } from 'react-i18next';
 
 import caretRight from '/icons/caret-right-grey.svg';
 import { PATHS } from '../../../../config/paths';
@@ -18,6 +19,8 @@ interface IPresentationSectionProps {
 }
 
 export default function PresentationSection({ language, aboutContent, lastNews }: IPresentationSectionProps): JSX.Element {
+  const { t } = useTranslation();
+
   return (
     <div className="presentationSection">
       {aboutContent && aboutContent[language] && (
@@ -27,7 +30,7 @@ export default function PresentationSection({ language, aboutContent, lastNews }
             </div>
           <Link to={PATHS.about}>
             <div className='presentationSection-about-seeMore'>
-              <div className='presentationSection-about-seeMore-text'>See more</div>
+              <div className='presentationSection-about-seeMore-text'>{t('common.seeMore')}</div>
               <img className='presentationSection-about-seeMore-icon' src={caretRight} alt='Caret right icon' />
             </div>
           </Link>
@@ -42,7 +45,7 @@ export default function PresentationSection({ language, aboutContent, lastNews }
           {lastNews.content && <div className='presentationSection-new-description'>{`${lastNews.content[language].substring(0, MAX_NEWS_CONTENT_LENGTH)}...`}</div>}
           <Link to={PATHS.news}>
             <div className='presentationSection-new-seeMore'>
-              <div className='presentationSection-new-seeMore-text'>See more</div>
+              <div className='presentationSection-new-seeMore-text'>{t('common.seeMore')}</div>
               <img className='presentationSection-new-seeMore-icon' src={caretRight} alt='Caret right icon' />
             </div>
           </Link>

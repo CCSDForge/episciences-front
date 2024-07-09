@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from 'react-i18next';
 
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchSectionsQuery } from '../../../store/features/section/section.query';
@@ -10,6 +11,8 @@ import Pagination from "../../components/Pagination/Pagination";
 import './Sections.scss';
 
 export default function Sections(): JSX.Element {
+  const { t } = useTranslation();
+  
   const SECTIONS_PER_PAGE = 10;
 
   const language = useAppSelector(state => state.i18nReducer.language)
@@ -26,10 +29,10 @@ export default function Sections(): JSX.Element {
   const getSectionsCount = (): JSX.Element | null => {
     if (sections) {
       if (sections.totalItems > 1) {
-        return <div className='sections-title-count-text sections-title-count-text-sections'>{sections.totalItems} sections</div>
+        return <div className='sections-title-count-text sections-title-count-text-sections'>{sections.totalItems} {t('common.sections')}</div>
       }
 
-      return <div className='sections-title-count-text sections-title-count-text-sections'>{sections.totalItems} section</div>  
+      return <div className='sections-title-count-text sections-title-count-text-sections'>{sections.totalItems} {t('common.section')}</div>  
     }
 
     return null;
@@ -39,10 +42,10 @@ export default function Sections(): JSX.Element {
     if (sections && sections.articlesCount) {
       if (sections.articlesCount > 1) {
 
-        return <div className='sections-title-count-text sections-title-count-text-articles'>{sections.articlesCount} articles</div>
+        return <div className='sections-title-count-text sections-title-count-text-articles'>{sections.articlesCount} {t('common.articles')}</div>
       }
 
-      return <div className='sections-title-count-text sections-title-count-text-articles'>{sections.articlesCount} article</div>  
+      return <div className='sections-title-count-text sections-title-count-text-articles'>{sections.articlesCount} {t('common.article')}</div>  
     }
 
     return null;
@@ -52,7 +55,7 @@ export default function Sections(): JSX.Element {
     <main className='sections'>
       <Breadcrumb />
       <div className='sections-title'>
-        <h1>Sections</h1>
+        <h1 className='sections-title-text'>{t('pages.sections.title')}</h1>
         <div className='sections-title-count'>
           {getSectionsCount()}
           {getArticlesCount()}

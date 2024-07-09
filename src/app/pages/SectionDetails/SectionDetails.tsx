@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchSectionQuery } from "../../../store/features/section/section.query";
@@ -12,6 +13,8 @@ import SectionDetailsSidebar from "../../components/Sidebars/SectionDetailsSideb
 import './SectionDetails.scss';
 
 export default function SectionDetails(): JSX.Element {
+  const { t } = useTranslation();
+
   const language = useAppSelector(state => state.i18nReducer.language)
 
   const [isFetchingArticles, setIsFetchingArticles] = useState(false);
@@ -45,7 +48,7 @@ export default function SectionDetails(): JSX.Element {
   return (
     <main className='sectionDetails'>
       <Breadcrumb />
-      <h1 className='sectionDetails-id'>Section {id}</h1>
+      <h1 className='sectionDetails-id'>{t('pages.sectionDetails.title')} {id}</h1>
       {isFetchingSection || isFetchingArticles ? (
         <Loader />
       ) : (
@@ -57,7 +60,7 @@ export default function SectionDetails(): JSX.Element {
               {section?.committee && section.committee.length > 0 && (
                 <div className='sectionDetails-content-results-content-committee'>
                   {section?.committee.map((member) => member.screenName).join(', ')}
-                  <span className="sectionDetails-content-results-content-committee-note">(comité du volume)</span>
+                  <span className="sectionDetails-content-results-content-committee-note">{t('common.volumeCommittee')}</span>
                 </div>
               )}
               <div className='sectionDetails-content-results-content-description'>{section?.description ? section?.description[language] : ''}</div>

@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import Checkbox from '../../Checkbox/Checkbox';
 import './ArticlesSidebar.scss'
 
@@ -20,10 +22,12 @@ interface IArticlesSidebarProps {
 }
 
 export default function ArticlesSidebar({ types, onCheckTypeCallback, years, onCheckYearCallback }: IArticlesSidebarProps): JSX.Element {
+  const { t } = useTranslation();
+
   return (
     <div className='articlesSidebar'>
       <div className='articlesSidebar-typesSection'>
-        <div className='articlesSidebar-typesSection-title'>Types of document</div>
+        <div className='articlesSidebar-typesSection-title'>{t('common.filters.documentTypes')}</div>
         <div className='articlesSidebar-typesSection-types'>
           {types.map((t, index) => (
             <div
@@ -44,7 +48,7 @@ export default function ArticlesSidebar({ types, onCheckTypeCallback, years, onC
         </div>
       </div>
       <div className='articlesSidebar-yearsSection'>
-        <div className='articlesSidebar-yearsSection-title'>Years</div>
+        <div className='articlesSidebar-yearsSection-title'>{t('common.filters.years')}</div>
         <div className='articlesSidebar-yearsSection-years'>
           <div className='articlesSidebar-yearsSection-years-list'>
             {years.map((y, index) => (

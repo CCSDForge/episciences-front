@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import { IArticle, RawArticle } from "../types/article";
 
 export type FetchedArticle = IArticle | undefined;
@@ -45,8 +47,11 @@ export enum ARTICLE_TYPE {
   CONFERENCE = 'conferenceobject',
 }
 
-// TODO: translate
-export const articleTypes: { value: string; label: string; }[] = [
-  { value: ARTICLE_TYPE.ARTICLE, label: 'Article' },
-  { value: ARTICLE_TYPE.CONFERENCE, label: 'Conference paper' },
-]
+export const articleTypes = (): { value: string; label: string; }[] => {
+  const { t } = useTranslation();
+
+  return [
+    { value: ARTICLE_TYPE.ARTICLE, label: t('pages.articles.types.article') },
+    { value: ARTICLE_TYPE.CONFERENCE, label: t('pages.articles.types.conference') },
+  ]
+}
