@@ -83,7 +83,7 @@ export default function Home(): JSX.Element {
         </>
       )}
       {getBlockRendering(HOMEPAGE_BLOCK.STATS)?.render && (
-        <StatisticsSection stats={getBlockRendering(HOMEPAGE_BLOCK.STATS)?.stats ?? []} />
+        <StatisticsSection stats={getBlockRendering(HOMEPAGE_BLOCK.STATS)?.stats?.[language] ?? []} />
       )}
       {getBlockRendering(HOMEPAGE_BLOCK.JOURNAL_INDEXATION)?.render && (
         <>

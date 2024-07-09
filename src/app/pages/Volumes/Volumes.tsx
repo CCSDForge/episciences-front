@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import queryString from 'query-string';
 
 import filter from '/icons/filter.svg';
@@ -29,10 +30,13 @@ interface IVolumeFilter {
 }
 
 export default function Volumes(): JSX.Element {
+  const { t } = useTranslation();
+
   const VOLUMES_PER_PAGE = 10;
 
   const location = useLocation();
   const parsedQuery = queryString.parse(location.search);
+  const translatedVolumeTypes = volumeTypes();
 
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
@@ -81,9 +85,9 @@ export default function Volumes(): JSX.Element {
   useEffect(() => {
     if (volumes?.range && volumes.range.types && types.length === 0) {
       const initTypes = volumes.range.types
-        .filter((t) => volumeTypes.find((vt) => vt.value === t))
+        .filter((t) => translatedVolumeTypes.find((vt) => vt.value === t))
         .map((t) => {
-        const matchingType = volumeTypes.find((vt) => vt.value === t)
+        const matchingType = translatedVolumeTypes.find((vt) => vt.value === t)
 
         return {
           label: matchingType!.label,
@@ -114,10 +118,10 @@ export default function Volumes(): JSX.Element {
   const getVolumesCount = (mode: RENDERING_MODE): JSX.Element | null => {
     if (volumes) {
       if (volumes.totalItems > 1) {
-        return <div className={`volumes-title-count-text volumes-title-count-text-volumes ${mode === RENDERING_MODE.TILE && 'volumes-title-count-text-tiles'}`}>{volumes.totalItems} volumes</div>
+        return <div className={`volumes-title-count-text volumes-title-count-text-volumes ${mode === RENDERING_MODE.TILE && 'volumes-title-count-text-tiles'}`}>{volumes.totalItems} {t('common.volumes')}</div>
       }
     
-      return <div className={`volumes-title-count-text volumes-title-count-text-volumes ${mode === RENDERING_MODE.TILE && 'volumes-title-count-text-tiles'}`}>{volumes?.totalItems ?? 0} volume</div>
+      return <div className={`volumes-title-count-text volumes-title-count-text-volumes ${mode === RENDERING_MODE.TILE && 'volumes-title-count-text-tiles'}`}>{volumes?.totalItems ?? 0} {t('common.volume')}</div>
     }
 
     return null
@@ -126,10 +130,10 @@ export default function Volumes(): JSX.Element {
   const getArticlesCount = (mode: RENDERING_MODE): JSX.Element | null => {
     if (volumes) {
       if (volumes.articlesCount && volumes.articlesCount > 1) {
-        return <div className={`volumes-title-count-text volumes-title-count-text-articles ${mode === RENDERING_MODE.TILE && 'volumes-title-count-text-tiles'}`}>{volumes.articlesCount} articles</div>
+        return <div className={`volumes-title-count-text volumes-title-count-text-articles ${mode === RENDERING_MODE.TILE && 'volumes-title-count-text-tiles'}`}>{volumes.articlesCount} {t('common.articles')}</div>
       }
 
-      return <div className={`volumes-title-count-text volumes-title-count-text-articles ${mode === RENDERING_MODE.TILE && 'volumes-title-count-text-tiles'}`}>{volumes.articlesCount} article</div>  
+      return <div className={`volumes-title-count-text volumes-title-count-text-articles ${mode === RENDERING_MODE.TILE && 'volumes-title-count-text-tiles'}`}>{volumes.articlesCount} {t('common.article')}</div>  
     }
 
     return null;
@@ -233,7 +237,7 @@ export default function Volumes(): JSX.Element {
     <main className='volumes'>
       <Breadcrumb />
       <div className='volumes-title'>
-        <h1>Volumes</h1>
+        <h1>{t('pages.volumes.title')}</h1>
         <div className='volumes-title-count'>
           {mode === RENDERING_MODE.LIST ? (
             <div className='volumes-title-count-wrapper'>
@@ -245,13 +249,13 @@ export default function Volumes(): JSX.Element {
             <div className='volumes-title-count-icons-icon' onClick={(): void => setMode(RENDERING_MODE.TILE)}>
               <div className={`${mode === RENDERING_MODE.TILE ? 'volumes-title-count-icons-icon-row-red' : 'volumes-title-count-icons-icon-row'}`}>
                 <img src={mode === RENDERING_MODE.TILE ? tileRed : tileGrey} alt='Tile icon' />
-                <span>Tile</span>
+                <span>{t('common.renderingMode.tile')}</span>
               </div>
             </div>
             <div className='volumes-title-count-icons-icon' onClick={(): void => setMode(RENDERING_MODE.LIST)}>
               <div className={`${mode === RENDERING_MODE.LIST ? 'volumes-title-count-icons-icon-row-red' : 'volumes-title-count-icons-icon-row'}`}>
                 <img src={mode === RENDERING_MODE.LIST ? listRed : listGrey} alt='List icon' />
-                <span>List</span>
+                <span>{t('common.renderingMode.list')}</span>
               </div>
             </div>
           </div>
@@ -269,7 +273,7 @@ export default function Volumes(): JSX.Element {
             {taggedFilters.map((filter, index) => (
               <Tag key={index} text={filter.label.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
             ))}
-            <div className="volumes-filters-tags-clear" onClick={clearTaggedFilters}>Clear all filters</div>
+            <div className="volumes-filters-tags-clear" onClick={clearTaggedFilters}>{t('common.filters.clearAll')}</div>
           </div>
         </div>
       ) : (
@@ -277,7 +281,7 @@ export default function Volumes(): JSX.Element {
           <div className="volumes-filters-tags">
             <div className="volumes-filters-tags-filterTile" onClick={(): void => toggleFiltersModal()}>
               <img className="volumes-filters-tags-filterTile-icon" src={filter} alt='List icon' />
-              <div className="volumes-filters-tags-filterTile-text">{taggedFilters.length > 0 ? `Editer les filtres (${taggedFilters.length})` : 'Filtrer'}</div>
+              <div className="volumes-filters-tags-filterTile-text">{taggedFilters.length > 0 ? `${t('common.filters.editFilters')} (${taggedFilters.length})` : `${t('common.filters.filter')}`}</div>
             </div>
             {taggedFilters.map((filter, index) => (
               <Tag key={index} text={filter.label.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>

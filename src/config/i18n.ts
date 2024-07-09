@@ -10,7 +10,8 @@ i18next
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    supportedLngs: availableLanguages,
+    fallbackLng: 'en',
+    supportedLngs: [...availableLanguages],
     debug: true,
     backend: {
       loadPath: '/locales/{{lng}}/{{lng}}.json',

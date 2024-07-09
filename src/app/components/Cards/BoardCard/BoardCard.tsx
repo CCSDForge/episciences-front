@@ -44,7 +44,7 @@ export default function BoardCard({ language, member, fullCard, blurCard, setFul
               {member.roles.length > 0 ? (
                 <div className='boardCard-full-initial-person-title-role'>{getBoardRoles(member.roles)}</div>
               ) : (
-                <div className='boardCard-full-initial-person-title-role'>{defaultBoardRole.label}</div>
+                <div className='boardCard-full-initial-person-title-role'>{defaultBoardRole().label}</div>
               )}
             </div>
           </div>
@@ -112,7 +112,7 @@ export default function BoardCard({ language, member, fullCard, blurCard, setFul
           {member.roles.length > 0 ? (
             <div className='boardCard-person-title-role'>{getBoardRoles(member.roles)}</div>
           ) : (
-            <div className='boardCard-person-title-role'>{defaultBoardRole.label}</div>
+            <div className='boardCard-person-title-role'>{defaultBoardRole().label}</div>
           )}
         </div>
       </div>

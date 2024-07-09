@@ -1,4 +1,47 @@
 {
+  "common": {
+    "article": "article",
+    "articles": "articles",
+    "volume": "volume",
+    "volumes": "volumes",
+    "section": "rubrique",
+    "sections": "rubriques",
+    "author": "auteur",
+    "authorFor": "auteur pour",
+    "authors": "auteurs",
+    "authorsFor": "auteurs pour",
+    "member": "membre",
+    "members": "membres",
+    "about": "À propos",
+    "read": "Lire",
+    "readMore": "Lire plus",
+    "readLess": "Lire moins",
+    "seeMore": "En savoir plus",
+    "pdf": "PDF",
+    "abstract": "Abstract",
+    "toggleAbstracts": {
+      "hideAll": "Cacher tous les abstracts",
+      "showAll": "Afficher tous les abstracts"
+    },
+    "volumeCommittee": "(comité du volume)",
+    "volumeCard": {
+      "volume": "Volume",
+      "specialIssue": "Volume spécial",
+      "proceeding": "Acte de conférence"
+    },
+    "renderingMode": {
+      "tile": "Tuile",
+      "list": "Liste"
+    },
+    "filters": {
+      "filter": "Filtrer",
+      "editFilters": "Éditer les filtres",
+      "clearAll": "Effacer tous les filtres",
+      "years": "Années",
+      "documentTypes": "Types de document",
+      "volumeTypes": "Types de volume"
+    }
+  },
   "components": {
     "header": {
       "journal": "Revues en libre accès",
@@ -56,10 +99,37 @@
           "subtitle": "Indexation de la revue"
         },
         "specialIssues": {
-          "subtitle": "Volume spéciaux",
+          "subtitle": "Volumes spéciaux",
           "see": "Voir tous les volumes spéciaux"
         }
       }
+    },
+    "articles": {
+      "title": "Articles",
+      "types": {
+        "article": "Article",
+        "conference": "Communication dans un congrès"
+      }
+    },
+    "volumes": {
+      "title": "Volumes",
+      "types": {
+        "specialIssues": "Volumes spéciaux",
+        "proceedings": "Actes de conférence"
+      }
+    },
+    "volumeDetails": {
+      "title": "Volume"
+    },
+    "sections": {
+      "title": "Rubriques"
+    },
+    "sectionDetails": {
+      "title": "Rubrique"
+    },
+    "authors": {
+      "title": "Auteurs",
+      "searchName": "rechercher un nom"
     },
     "about": {
       "title": "La revue"
@@ -68,7 +138,22 @@
       "title": "Actualités"
     },
     "boards": {
-      "title": "Comités"
+      "title": "Comités",
+      "tableOfContents": "Table des matières",
+      "types": {
+        "technicalBoard": "Comité technique",
+        "editorialBoard": "Comité éditorial",
+        "scientificAdvisoryBoard": "Comité scientifique",
+        "formerMember": "Ancien membre"
+      },
+      "roles": {
+        "member": "Membre",
+        "guestEditor": "Rédacteur invité",
+        "editor": "Rédacteur",
+        "chiefEditor": "Rédacteur en chef",
+        "secretary": "Secrétaire",
+        "formerMember": "Ancien membre"
+      }
     },
     "forAuthors": {
       "title": "Pour les auteurs"

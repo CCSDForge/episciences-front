@@ -4,11 +4,15 @@
     align-items: center;
     margin-bottom: 30px;
 
+    &-text {
+      min-width: 265px;
+    }
+
     &-count {
       color: var(--grey);
       font-size: 21px;
       font-weight: 300;
-      padding-left: 220px;
+      padding-left: 60px;
     }
   }
 

@@ -1,4 +1,47 @@
 {
+  "common": {
+    "article": "article",
+    "articles": "articles",
+    "volume": "volume",
+    "volumes": "volumes",
+    "section": "section",
+    "sections": "sections",
+    "author": "author",
+    "authorFor": "author for",
+    "authors": "authors",
+    "authorsFor": "authors for",
+    "member": "member",
+    "members": "members",
+    "about": "About",
+    "read": "Read",
+    "readMore": "Read more",
+    "readLess": "Read less",
+    "seeMore": "See more",
+    "pdf": "PDF",
+    "abstract": "Abstract",
+    "toggleAbstracts": {
+      "hideAll": "Hide all abstracts",
+      "showAll": "Show all abstracts"
+    },
+    "volumeCommittee": "(volume committee)",
+    "volumeCard": {
+      "volume": "Volume",
+      "specialIssue": "Special issue",
+      "proceeding": "Proceeding"
+    },
+    "renderingMode": {
+      "tile": "Tile",
+      "list": "List"
+    },
+    "filters": {
+      "filter": "Filter",
+      "editFilters": "Edit filters",
+      "clearAll": "Clear all filters",
+      "years": "Years",
+      "documentTypes": "Types of document",
+      "volumeTypes": "Types of volume"
+    }
+  },
   "components": {
     "header": {
       "journal": "Open Access journals",
@@ -61,6 +104,33 @@
         }
       }
     },
+    "articles": {
+      "title": "Articles",
+      "types": {
+        "article": "Article",
+        "conference": "Conference paper"
+      }
+    },
+    "volumes": {
+      "title": "Volumes",
+      "types": {
+        "specialIssues": "Special issues",
+        "proceedings": "Proceedings"
+      }
+    },
+    "volumeDetails": {
+      "title": "Volume"
+    },
+    "sections": {
+      "title": "Sections"
+    },
+    "sectionDetails": {
+      "title": "Section"
+    },
+    "authors": {
+      "title": "Authors",
+      "searchName": "search a name"
+    },
     "about": {
       "title": "The journal"
     },
@@ -68,7 +138,22 @@
       "title": "News"
     },
     "boards": {
-      "title": "Boards"
+      "title": "Boards",
+      "tableOfContents": "Table of contents",
+      "types": {
+        "technicalBoard": "Technical board",
+        "editorialBoard": "Editorial board",
+        "scientificAdvisoryBoard": "Scientific advisory board",
+        "formerMember": "Former member"
+      },
+      "roles": {
+        "member": "Member",
+        "guestEditor": "Guest editor",
+        "editor": "Editor",
+        "chiefEditor": "Chief editor",
+        "secretary": "Secretary",
+        "formerMember": "Former member"
+      }
     },
     "forAuthors": {
       "title": "For authors"

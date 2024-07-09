@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from 'react-i18next';
 
 import { IAuthor } from "../../../types/author";
 import { useAppSelector } from "../../../hooks/store";
@@ -12,6 +13,8 @@ import Pagination from "../../components/Pagination/Pagination";
 import './Authors.scss';
 
 export default function Authors(): JSX.Element {
+  const { t } = useTranslation();
+
   const AUTHORS_PER_PAGE = 10;
 
   const language = useAppSelector(state => state.i18nReducer.language)
@@ -55,16 +58,16 @@ export default function Authors(): JSX.Element {
   const getAuthorsCount = (): JSX.Element | null => {
     if (authors) {
       if (authors.totalItems > 1) {
-        if (search) return <div className='authors-count'>{authors.totalItems} authors for "{search}"</div>
-        if (activeLetter) return <div className='authors-count'>{authors.totalItems} authors for "{activeLetter}"</div>
+        if (search) return <div className='authors-count'>{authors.totalItems} {t('common.authorsFor')} "{search}"</div>
+        if (activeLetter) return <div className='authors-count'>{authors.totalItems} {t('common.authorsFor')} "{activeLetter}"</div>
 
-        return <div className='authors-count'>{authors.totalItems} authors</div>
+        return <div className='authors-count'>{authors.totalItems} {t('common.authors')}</div>
       }
 
-      if (search) return <div className='authors-count'>{authors.totalItems} author for "{search}"</div>
-      if (activeLetter) return <div className='authors-count'>{authors.totalItems} author for "{activeLetter}"</div>
+      if (search) return <div className='authors-count'>{authors.totalItems} {t('common.authorFor')} "{search}"</div>
+      if (activeLetter) return <div className='authors-count'>{authors.totalItems} {t('common.authorFor')} "{activeLetter}"</div>
 
-      return <div className='authors-count'>{authors.totalItems} author</div>  
+      return <div className='authors-count'>{authors.totalItems} {t('common.author')}</div>  
     }
 
     return null;
@@ -84,7 +87,7 @@ export default function Authors(): JSX.Element {
   return (
     <main className='authors'>
       <Breadcrumb />
-      <h1 className='authors-title'>Authors</h1>
+      <h1 className='authors-title'>{t('pages.authors.title')}</h1>
       {getAuthorsCount()}
       <div className='authors-content'>
         <AuthorsSidebar search={search} onSearchCallback={onSearch} activeLetter={activeLetter} onSetActiveLetterCallback={onSetActiveLetter} />

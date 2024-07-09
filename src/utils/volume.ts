@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import { IVolume, RawVolume } from "../types/volume";
 
 export const formatVolume = (volume: RawVolume): IVolume => {
@@ -19,8 +21,11 @@ export enum VOLUME_TYPE {
   PROCEEDINGS = 'proceedings'
 }
 
-// TODO: translate
-export const volumeTypes: { label: string; value: string; }[] = [
-  { label: 'Special Issues', value: VOLUME_TYPE.SPECIAL_ISSUE },
-  { label: 'Proceedings', value: VOLUME_TYPE.PROCEEDINGS }
-]
+export const volumeTypes = (): { label: string; value: string; }[] => {
+  const { t } = useTranslation();
+
+  return [
+    { label: t('pages.volumes.types.specialIssues'), value: VOLUME_TYPE.SPECIAL_ISSUE },
+    { label: t('pages.volumes.types.proceedings'), value: VOLUME_TYPE.PROCEEDINGS }
+  ]
+}

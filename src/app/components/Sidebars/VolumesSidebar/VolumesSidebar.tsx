@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import Checkbox from '../../Checkbox/Checkbox';
 import './VolumesSidebar.scss'
 
@@ -20,10 +22,12 @@ interface IVolumesSidebarProps {
 }
 
 export default function VolumesSidebar({ types, onCheckTypeCallback, years, onSelectYearCallback }: IVolumesSidebarProps): JSX.Element {
+  const { t } = useTranslation();
+
   return (
     <div className='volumesSidebar'>
       <div className='volumesSidebar-typesSection'>
-        <div className='volumesSidebar-typesSection-title'>Types of volume</div>
+        <div className='volumesSidebar-typesSection-title'>{t('common.filters.volumeTypes')}</div>
         <div className='volumesSidebar-typesSection-types'>
           {types.map((t, index) => (
             <div
@@ -44,7 +48,7 @@ export default function VolumesSidebar({ types, onCheckTypeCallback, years, onSe
         </div>
       </div>
       <div className='volumesSidebar-yearsSection'>
-        <div className='volumesSidebar-yearsSection-title'>Years</div>
+        <div className='volumesSidebar-yearsSection-title'>{t('common.filters.years')}</div>
         <div className='volumesSidebar-yearsSection-years'>
           <div className='volumesSidebar-yearsSection-years-list'>
             {years.map((y) => (

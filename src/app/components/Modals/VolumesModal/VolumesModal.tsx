@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Checkbox from '../../Checkbox/Checkbox';
 import './VolumesModal.scss'
@@ -23,6 +24,8 @@ interface IVolumesModalProps {
 }
 
 export default function VolumesModal({ types, onCheckTypeCallback, years, onSelectYearCallback, onCloseCallback }: IVolumesModalProps): JSX.Element {
+  const { t } = useTranslation();
+
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -41,7 +44,7 @@ export default function VolumesModal({ types, onCheckTypeCallback, years, onSele
   return (
     <div className='volumesModal' ref={modalRef}>
       <div className='volumesModal-typesSection'>
-        <div className='volumesModal-typesSection-title'>Types of volume</div>
+        <div className='volumesModal-typesSection-title'>{t('common.filters.volumeTypes')}</div>
         <div className='volumesModal-typesSection-types'>
           {types.map((t, index) => (
             <div
@@ -62,7 +65,7 @@ export default function VolumesModal({ types, onCheckTypeCallback, years, onSele
         </div>
       </div>
       <div className='volumesModal-yearsSection'>
-        <div className='volumesModal-yearsSection-title'>Years</div>
+        <div className='volumesModal-yearsSection-title'>{t('common.filters.years')}</div>
         <div className='volumesModal-yearsSection-years'>
           <div className='volumesModal-yearsSection-years-list'>
             {years.map((y) => (

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import download from '/icons/download-red.svg';
 import file from '/icons/file-grey.svg';
@@ -15,30 +16,32 @@ interface IIssuesSectionProps {
 }
 
 export default function IssuesSection({ language, issues, currentJournal }: IIssuesSectionProps): JSX.Element {
+  const { t } = useTranslation();
+
   return (
     <div className="issuesSection">
       {issues.map((issue, index) => (
         <div key={index} className='issuesSection-card'>
           <div className="issuesSection-card-template">
             <div className="issuesSection-card-template-jpe">{currentJournal?.code.toUpperCase()}</div>
-            <div className="issuesSection-card-template-volume">Volume</div>
-            <div className="issuesSection-card-template-volume">Special Issue</div>
+            <div className="issuesSection-card-template-volume">{t('common.volumeCard.volume')}</div>
+            <div className="issuesSection-card-template-volume">{t('common.volumeCard.specialIssue')}</div>
             <div className="issuesSection-card-template-number">{issue.num}</div>
             <div className="issuesSection-card-template-year">{issue.year}</div>
           </div>
           <div className="issuesSection-card-text">
             <Link to={`${PATHS.volumes}/${issue.id}`}>
-              <div className='issuesSection-card-text-volume'>{`Volume ${issue.num} - Special issue`}</div>
+              <div className='issuesSection-card-text-volume'>{`${t('common.volumeCard.volume')} ${issue.num} - ${t('common.volumeCard.specialIssue')}`}</div>
             </Link>
             <div className="issuesSection-card-text-title">{issue.title ? issue.title[language] : ''}</div>
             <div className="issuesSection-card-text-year">{issue.year}</div>
             <div className="issuesSection-card-text-count">
               <img className="issuesSection-card-text-count-icon" src={file} alt='File icon' />
-              <div className="issuesSection-card-text-count-text">{issue.articles.length > 1 ? `${issue.articles.length} articles`: `${issue.articles.length} article`}</div>
+              <div className="issuesSection-card-text-count-text">{issue.articles.length > 1 ? `${issue.articles.length} ${t('common.articles')}`: `${issue.articles.length} ${t('common.article')}`}</div>
             </div>
             <Link to={issue.downloadLink} target='_blank' className="issuesSection-card-text-download">
               <img className="issuesSection-card-text-download-icon" src={download} alt='Download icon' />
-              <div className="issuesSection-card-text-download-text">PDF</div>
+              <div className="issuesSection-card-text-download-text">{t('common.pdf')}</div>
             </Link>
           </div>
         </div>

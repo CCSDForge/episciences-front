@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import './BoardsSidebar.scss'
 
 interface IBoardsSidebarProps {
@@ -7,9 +9,11 @@ interface IBoardsSidebarProps {
 }
 
 export default function BoardsSidebar({ groups, activeGroupIndex, onSetActiveGroupCallback }: IBoardsSidebarProps): JSX.Element {
+  const { t } = useTranslation();
+
   return (
     <div className='boardsSidebar'>
-      <div className='boardsSidebar-resume'>Table of contents</div>
+      <div className='boardsSidebar-resume'>{t('pages.boards.tableOfContents')}</div>
       <div className='boardsSidebar-links'>
         {groups.map((group, index) => (
           <div

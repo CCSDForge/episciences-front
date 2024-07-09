@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -21,16 +22,18 @@ interface IVolumeCardProps {
 }
 
 export default function VolumeCard({ language, mode, volume, currentJournal }: IVolumeCardProps): JSX.Element {
+  const { t } = useTranslation();
+
   const renderVolumeTileSpecial = (): JSX.Element => {
-    let text = `Volume ${volume.num}`
+    let text = `${t('common.volumeCard.volume')} ${volume.num}`
 
     if (volume.types && volume.types.length) {
       if (volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE) && volume.types.includes(VOLUME_TYPE.PROCEEDINGS)) {
-        text += ` - Special issue, Proceeding`
+        text += ` - ${t('common.volumeCard.specialIssue')}, ${t('common.volumeCard.proceeding')}`
       } else if (volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE)) {
-        text += ` - Special issue`
+        text += ` - ${t('common.volumeCard.specialIssue')}`
       } else if (volume.types.includes(VOLUME_TYPE.PROCEEDINGS)) {
-        text += ` - Proceeding`
+        text += ` - ${t('common.volumeCard.proceeding')}`
       }
     }
 
@@ -46,11 +49,11 @@ export default function VolumeCard({ language, mode, volume, currentJournal }: I
 
     if (volume.types && volume.types.length) {
       if (volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE) && volume.types.includes(VOLUME_TYPE.PROCEEDINGS)) {
-        text += `Special issue, Proceeding`
+        text += `${t('common.volumeCard.specialIssue')}, ${t('common.volumeCard.proceeding')}`
       } else if (volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE)) {
-        text += `Special issue`
+        text += `${t('common.volumeCard.specialIssue')}`
       } else if (volume.types.includes(VOLUME_TYPE.PROCEEDINGS)) {
-        text += `Proceeding`
+        text += `${t('common.volumeCard.proceeding')}`
       }
     }
 
@@ -63,9 +66,9 @@ export default function VolumeCard({ language, mode, volume, currentJournal }: I
       <div className='volumeCard volumeCard-tile'>
         <div className="volumeCard-tile-template">
             <div className="volumeCard-tile-template-jpe">{currentJournal?.code.toUpperCase()}</div>
-            <div className="volumeCard-tile-template-volume">Volume</div>
+            <div className="volumeCard-tile-template-volume">{t('common.volumeCard.volume')}</div>
             {volume.types && volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE) && (
-              <div className="volumeCard-tile-template-issue">Special Issue</div>
+              <div className="volumeCard-tile-template-issue">{t('common.volumeCard.specialIssue')}</div>
             )}
             <div className="volumeCard-tile-template-number">{volume.num}</div>
             <div className="volumeCard-tile-template-year">{volume.year}</div>
@@ -76,11 +79,11 @@ export default function VolumeCard({ language, mode, volume, currentJournal }: I
             <div className="volumeCard-tile-text-year">{volume.year}</div>
             <div className="volumeCard-tile-text-count">
               <img className="volumeCard-tile-text-count-icon" src={file} alt='File icon' />
-              <div className="volumeCard-tile-text-count-text">{volume.articles.length > 1 ? `${volume.articles.length} articles`: `${volume.articles.length} article`}</div>
+              <div className="volumeCard-tile-text-count-text">{volume.articles.length > 1 ? `${volume.articles.length} ${t('common.articles')}`: `${volume.articles.length} ${t('common.article')}`}</div>
             </div>
             <Link to={volume.downloadLink} target='_blank' className="volumeCard-tile-text-download">
               <img className="volumeCard-tile-text-download-icon" src={download} alt='Download icon' />
-              <div className="volumeCard-tile-text-download-text">PDF</div>
+              <div className="volumeCard-tile-text-download-text">{t('common.pdf')}</div>
             </Link>
           </div>
       </div>
@@ -94,12 +97,12 @@ export default function VolumeCard({ language, mode, volume, currentJournal }: I
     <div className='volumeCard'>
       <div className='volumeCard-resume'>
         <Link to={`${PATHS.volumes}/${volume.id}`}>
-          <div className='volumeCard-resume-id'>{`Volume ${volume.num}`}</div>
+          <div className='volumeCard-resume-id'>{`${t('common.volumeCard.volume')} ${volume.num}`}</div>
         </Link>
         <div className='volumeCard-resume-year'>{volume.year}</div>
         <div className='volumeCard-resume-count'>
           <img className='volumeCard-resume-count-icon' src={file} alt='File icon' />
-          <span className='volumeCard-resume-count-text'>{volume.articles.length > 1 ? `${volume.articles.length} articles`: `${volume.articles.length} article`}</span>
+          <span className='volumeCard-resume-count-text'>{volume.articles.length > 1 ? `${volume.articles.length} ${t('common.articles')}`: `${volume.articles.length} ${t('common.article')}`}</span>
         </div>
       </div>
       <div className='volumeCard-content'>
@@ -109,7 +112,7 @@ export default function VolumeCard({ language, mode, volume, currentJournal }: I
         {volume.description && volume.description[language] && (
           <div className='volumeCard-content-description'>
             <div className={`volumeCard-content-description-title ${!openedDescription && 'volumeCard-content-description-title'}`} onClick={toggleDescription}>
-              <div className='volumeCard-content-description-title-text'>About</div>
+              <div className='volumeCard-content-description-title-text'>{t('common.about')}</div>
               {openedDescription ? (
                 <img className='volumeCard-content-description-title-caret' src={caretUp} alt='Caret up icon' />
               ) : (
@@ -121,7 +124,7 @@ export default function VolumeCard({ language, mode, volume, currentJournal }: I
         )}
         <Link to={volume.downloadLink} target='_blank' className="volumeCard-content-download">
           <img className="volumeCard-content-download-icon" src={download} alt='Download icon' />
-          <div className="volumeCard-content-download-text">PDF</div>
+          <div className="volumeCard-content-download-text">{t('common.pdf')}</div>
         </Link>
       </div>
     </div>

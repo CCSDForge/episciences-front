@@ -1,6 +1,7 @@
 import { MouseEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
+import { useTranslation } from 'react-i18next';
 
 import minus from '/icons/minus-circle.svg';
 import plus from '/icons/plus-circle.svg';
@@ -26,6 +27,8 @@ interface INewsCardProps extends INewsCardTile {
 }
 
 export default function NewsCard({ language, mode, fullCard, blurCard, setFullNewsIndexCallback, news }: INewsCardProps): JSX.Element {
+  const { t } = useTranslation();
+
   const [showFullContent, setShowFullContent] = useState(false);
 
   const toggleFullContent = (e: MouseEvent): void => {
@@ -44,7 +47,7 @@ export default function NewsCard({ language, mode, fullCard, blurCard, setFullNe
           <ReactMarkdown>{`${news.content[language].substring(0, MAX_CONTENT_LENGTH)}...`}</ReactMarkdown>
         )}
         <button onClick={(e): void => toggleFullContent(e)} className='newsCard-content-content-toggle'>
-          {showFullContent ? 'Read less' : 'Read more'}
+          {showFullContent ? t('common.readLess') : t('common.readMore')}
           {showFullContent ? <img src={minus} /> : <img src={plus} />}
         </button>
       </div>
@@ -69,7 +72,7 @@ export default function NewsCard({ language, mode, fullCard, blurCard, setFullNe
               <div className='newsCard-content-read newsCard-content-read-full'>
                 <Link to={news.link} target='_blank' onClick={(e) => e.stopPropagation()}>
                   <img src={externalLink} alt='External link icon' />
-                  <div className='newsCard-content-read-text'>Read</div>
+                  <div className='newsCard-content-read-text'>{t('common.read')}</div>
                 </Link>
               </div>
             )}
@@ -88,7 +91,7 @@ export default function NewsCard({ language, mode, fullCard, blurCard, setFullNe
               <div className='newsCard-content-read'>
                 <Link to={news.link} target='_blank' onClick={(e) => e.stopPropagation()}>
                   <img src={externalLink} alt='External link icon' />
-                  <div className='newsCard-content-read-text'>Read</div>
+                  <div className='newsCard-content-read-text'>{t('common.read')}</div>
                 </Link>
               </div>
             )}
@@ -108,7 +111,7 @@ export default function NewsCard({ language, mode, fullCard, blurCard, setFullNe
           <div className='newsCard-content-read'>
             <Link to={news.link} target='_blank' onClick={(e) => e.stopPropagation()}>
               <img src={externalLink} alt='External link icon' />
-              <div className='newsCard-content-read-text'>Read</div>
+              <div className='newsCard-content-read-text'>{t('common.read')}</div>
             </Link>
           </div>
         )}

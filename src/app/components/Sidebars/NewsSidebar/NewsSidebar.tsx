@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import './NewsSidebar.scss'
 
 export interface INewsYearSelection {
@@ -11,9 +13,11 @@ interface INewsSidebarProps {
 }
 
 export default function NewsSidebar({ years, onSelectYearCallback }: INewsSidebarProps): JSX.Element {
+  const { t } = useTranslation();
+
   return (
     <div className='newsSidebar'>
-      <div className='newsSidebar-title'>Years</div>
+      <div className='newsSidebar-title'>{t('common.filters.years')}</div>
       <div className='newsSidebar-years'>
         <div className='newsSidebar-years-list'>
           {years.map((y) => (

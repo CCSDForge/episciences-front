@@ -37,7 +37,7 @@ export default function SwiperBoardCard({ language, member }: ISwiperBoardCardPr
           {member.roles.length > 0 ? (
             <div className='swiperBoardCard-person-title-role'>{getBoardRoles(member.roles)}</div>
           ) : (
-            <div className='swiperBoardCard-person-title-role'>{defaultBoardRole.label}</div>
+            <div className='swiperBoardCard-person-title-role'>{defaultBoardRole().label}</div>
           )}
         </div>
       </div>
