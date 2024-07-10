@@ -196,7 +196,7 @@ export default function ForAuthors(): JSX.Element {
 
   return (
     <main className='forAuthors'>
-      <Breadcrumb />
+      <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} >` }} crumbLabel={t('pages.forAuthors.title')} />
       <h1 className='forAuthors-title'>{t('pages.forAuthors.title')}</h1>
       {isFetchingEditorialWorkflow || isFetchingEthicalCharter || isFetchingPrepareSubmission ? (
         <Loader />
