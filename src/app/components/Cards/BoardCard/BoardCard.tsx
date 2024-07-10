@@ -1,3 +1,4 @@
+import { TFunction } from 'i18next';
 import { Link } from 'react-router-dom';
 
 import at from '/icons/at.svg';
@@ -13,13 +14,14 @@ import './BoardCard.scss'
 
 interface IBoardCardProps {
   language: AvailableLanguage;
+  t: TFunction<"translation", undefined>
   member: IBoardMember;
   fullCard: boolean;
   blurCard: boolean;
   setFullMemberIndexCallback: () => void;
 }
 
-export default function BoardCard({ language, member, fullCard, blurCard, setFullMemberIndexCallback }: IBoardCardProps): JSX.Element {
+export default function BoardCard({ language, t, member, fullCard, blurCard, setFullMemberIndexCallback }: IBoardCardProps): JSX.Element {
   if (fullCard) {
     return (
       <div className='boardCard boardCard-full' onClick={setFullMemberIndexCallback}>
@@ -42,9 +44,9 @@ export default function BoardCard({ language, member, fullCard, blurCard, setFul
                 )}
               </div>
               {member.roles.length > 0 ? (
-                <div className='boardCard-full-initial-person-title-role'>{getBoardRoles(member.roles)}</div>
+                <div className='boardCard-full-initial-person-title-role'>{getBoardRoles(t, member.roles)}</div>
               ) : (
-                <div className='boardCard-full-initial-person-title-role'>{defaultBoardRole().label}</div>
+                <div className='boardCard-full-initial-person-title-role'>{defaultBoardRole(t).label}</div>
               )}
             </div>
           </div>
@@ -110,9 +112,9 @@ export default function BoardCard({ language, member, fullCard, blurCard, setFul
             )}
           </div>
           {member.roles.length > 0 ? (
-            <div className='boardCard-person-title-role'>{getBoardRoles(member.roles)}</div>
+            <div className='boardCard-person-title-role'>{getBoardRoles(t, member.roles)}</div>
           ) : (
-            <div className='boardCard-person-title-role'>{defaultBoardRole().label}</div>
+            <div className='boardCard-person-title-role'>{defaultBoardRole(t).label}</div>
           )}
         </div>
       </div>

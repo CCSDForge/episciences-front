@@ -25,7 +25,7 @@ export default function SectionArticleCard({ language, t, article }: ISectionArt
 
   return (
     <div className="sectionArticleCard">
-      {article.tag && <div className='volumeArticleCard-tag'>{articleTypes().find((tag) => tag.value === article.tag)?.label}</div>}
+      {article.tag && <div className='volumeArticleCard-tag'>{t(articleTypes.find((tag) => tag.value === article.tag)?.labelPath!)}</div>}
       <Link to={`/${PATHS.articles}/${article.id}`}>
         <div className='sectionArticleCard-title'>{article.title}</div>
       </Link>

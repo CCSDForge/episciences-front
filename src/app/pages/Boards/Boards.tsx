@@ -109,6 +109,7 @@ export default function Boards(): JSX.Element {
                       <BoardCard
                         key={index}
                         language={language}
+                        t={t}
                         member={member}
                         fullCard={fullMemberIndex === index}
                         blurCard={fullMemberIndex !== -1 && fullMemberIndex !== index}

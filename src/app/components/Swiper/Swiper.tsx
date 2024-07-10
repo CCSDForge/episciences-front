@@ -1,3 +1,4 @@
+import { TFunction } from 'i18next';
 import { Swiper as SwiperReactLib, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -11,11 +12,12 @@ interface ISwiperProps {
   id: string;
   type: SwiperCardType;
   language: AvailableLanguage;
+  t: TFunction<"translation", undefined>
   slidesPerView: number;
   cards: SwiperCardContent[];
 }
 
-export default function Swiper({ id, type, language, slidesPerView, cards }: ISwiperProps): JSX.Element {
+export default function Swiper({ id, type, language, t, slidesPerView, cards }: ISwiperProps): JSX.Element {
   return (
     <>
       <SwiperReactLib
@@ -45,7 +47,7 @@ export default function Swiper({ id, type, language, slidesPerView, cards }: ISw
       >
         {cards.map((content: SwiperCardContent, key: number) => (
           <SwiperSlide key={key}>
-            <Card language={language} type={type} content={content} />
+            <Card language={language} t={t} type={type} content={content} />
           </SwiperSlide>
         ))}
       </SwiperReactLib>

@@ -4,7 +4,7 @@ import Checkbox from '../../Checkbox/Checkbox';
 import './VolumesSidebar.scss'
 
 export interface IVolumeTypeSelection {
-  label: string;
+  labelPath: string;
   value: string;
   isChecked: boolean;
 }
@@ -28,19 +28,19 @@ export default function VolumesSidebar({ t, types, onCheckTypeCallback, years, o
       <div className='volumesSidebar-typesSection'>
         <div className='volumesSidebar-typesSection-title'>{t('common.filters.volumeTypes')}</div>
         <div className='volumesSidebar-typesSection-types'>
-          {types.map((t, index) => (
+          {types.map((type, index) => (
             <div
               key={index}
               className='volumesSidebar-typesSection-types-choice'
             >
               <div className='volumesSidebar-typesSection-types-choice-checkbox'>
-                <Checkbox checked={t.isChecked} onChangeCallback={(): void => onCheckTypeCallback(t.value)}/>
+                <Checkbox checked={type.isChecked} onChangeCallback={(): void => onCheckTypeCallback(type.value)}/>
               </div>
               <span
-                className={`volumesSidebar-typesSection-types-choice-label ${t.isChecked && 'volumesSidebar-typesSection-types-choice-label-checked'}`}
-                onClick={(): void => onCheckTypeCallback(t.value)}
+                className={`volumesSidebar-typesSection-types-choice-label ${type.isChecked && 'volumesSidebar-typesSection-types-choice-label-checked'}`}
+                onClick={(): void => onCheckTypeCallback(type.value)}
               >
-                {t.label}
+                {t(type.labelPath)}
               </span>
             </div>
           ))}

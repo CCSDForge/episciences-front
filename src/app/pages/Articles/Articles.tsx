@@ -17,7 +17,8 @@ type ArticleTypeFilter = 'type' | 'year';
 interface IArticleFilter {
   type: ArticleTypeFilter;
   value: string | number;
-  label: string | number;
+  label?: number;
+  labelPath?: string;
 }
 
 type ArticleWithAbstractToggle = FetchedArticle & {
@@ -28,8 +29,6 @@ export default function Articles(): JSX.Element {
   const { t } = useTranslation();
 
   const ARTICLES_PER_PAGE = 10;
-
-  const translatedArticleTypes = articleTypes();
 
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
@@ -49,12 +48,12 @@ export default function Articles(): JSX.Element {
   useEffect(() => {
     if (articles?.range && articles.range.types && types.length === 0) {
       const initTypes = articles.range.types
-        .filter((t) => translatedArticleTypes.find((at) => at.value === t))
+        .filter((t) => articleTypes.find((at) => at.value === t))
         .map((t) => {
-        const matchingType = translatedArticleTypes.find((at) => at.value === t)
+        const matchingType = articleTypes.find((at) => at.value === t)
 
         return {
-          label: matchingType!.label,
+          labelPath: matchingType!.labelPath,
           value: matchingType!.value,
           isChecked: false
         }
@@ -111,7 +110,7 @@ export default function Articles(): JSX.Element {
       initFilters.push({
         type: 'type',
         value: t.value,
-        label: t.label
+        labelPath: t.labelPath
       })
     })
 
@@ -169,8 +168,8 @@ export default function Articles(): JSX.Element {
   }, [types, years])
 
   useEffect(() => {
-    if (articles?.data && articlesWithAbstractToggle.length === 0) {
-      const displayedArticles = articles.data.filter((article) => article?.title).map((article) => {
+    if (articles) {
+      const displayedArticles = articles?.data.filter((article) => article?.title).map((article) => {
         return { ...article, openedAbstract: false };
       });
 
@@ -224,7 +223,7 @@ export default function Articles(): JSX.Element {
       <div className="articles-filters">
         <div className="articles-filters-tags">
           {taggedFilters.map((filter, index) => (
-            <Tag key={index} text={filter.label.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
+            <Tag key={index} text={filter.labelPath ? t(filter.labelPath) : filter.label!.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
           ))}
           <div className="articles-filters-tags-clear" onClick={clearTaggedFilters}>{t('common.filters.clearAll')}</div>
         </div>

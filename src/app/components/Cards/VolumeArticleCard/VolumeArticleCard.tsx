@@ -25,7 +25,7 @@ export default function VolumeArticleCard({ language, t, article }: IVolumeArtic
 
   return (
     <div className="volumeArticleCard">
-      {article.tag && <div className='volumeArticleCard-tag'>{articleTypes().find((tag) => tag.value === article.tag)?.label}</div>}
+      {article.tag && <div className='volumeArticleCard-tag'>{t(articleTypes.find((tag) => tag.value === article.tag)?.labelPath!)}</div>}
       <Link to={`/${PATHS.articles}/${article.id}`}>
         <div className='volumeArticleCard-title'>{article.title}</div>
       </Link>
