@@ -47,7 +47,7 @@ export default function VolumeDetails(): JSX.Element {
 
   return (
     <main className='volumeDetails'>
-      {volume && <Breadcrumb id={volume?.num} />}
+      {volume && <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} > ${t('pages.volumeDetails.title')} >` }} crumbLabel={`${t('pages.volumeDetails.title')} ${volume?.num}`} />}
       {isFetchingVolume || isFetchingArticles ? (
         <Loader />
       ) : (

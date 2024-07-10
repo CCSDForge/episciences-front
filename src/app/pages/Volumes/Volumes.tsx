@@ -235,7 +235,7 @@ export default function Volumes(): JSX.Element {
 
   return (
     <main className='volumes'>
-      <Breadcrumb />
+      <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }} crumbLabel={t('pages.volumes.title')} />
       <div className='volumes-title'>
         <h1>{t('pages.volumes.title')}</h1>
         <div className='volumes-title-count'>

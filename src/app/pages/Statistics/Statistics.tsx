@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next';
 
 import { IStat } from '../../../types/stat';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
@@ -10,7 +11,10 @@ interface IStatisticsPerTitle {
   statistics: IStat[]
 }
 
+// TODO: translate
 export default function Statistics(): JSX.Element {
+  const { t } = useTranslation();
+
     // TODO: remove mocks
   // TODO: type hint filters in src/types ?
   const [filters, setFilters] = useState([
@@ -67,7 +71,7 @@ export default function Statistics(): JSX.Element {
 
   return (
     <main className='statistics'>
-      <Breadcrumb />
+      <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} > ${t('common.about')} >` }} crumbLabel={t('pages.statistics.title')} />
       <div className='statistics-title'>
         <h1>Statistics</h1>
         <div className='statistics-title-year'>2023</div>

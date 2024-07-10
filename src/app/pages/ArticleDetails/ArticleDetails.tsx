@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -16,7 +17,11 @@ enum ARTICLE_SECTION {
   PREVIEW = 'preview'
 }
 
+// TODO: improve file
+// TODO: translate
 export default function ArticleDetails(): JSX.Element {
+  const { t } = useTranslation();
+
   const language = useAppSelector(state => state.i18nReducer.language)
   
   const { id } = useParams();
@@ -60,7 +65,7 @@ export default function ArticleDetails(): JSX.Element {
 
   return (
     <main className='articleDetails'>
-      <Breadcrumb />
+      <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} > ${t('pages.articleDetails.title')} >` }} crumbLabel={`${t('pages.articleDetails.title')} ${id}`} />
       {isFetching ? (
         <Loader />
       ) : (

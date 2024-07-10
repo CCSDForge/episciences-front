@@ -86,7 +86,7 @@ export default function Authors(): JSX.Element {
 
   return (
     <main className='authors'>
-      <Breadcrumb />
+      <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }} crumbLabel={t('pages.authors.title')} />
       <h1 className='authors-title'>{t('pages.authors.title')}</h1>
       {getAuthorsCount()}
       <div className='authors-content'>

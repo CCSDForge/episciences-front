@@ -47,7 +47,7 @@ export default function SectionDetails(): JSX.Element {
 
   return (
     <main className='sectionDetails'>
-      <Breadcrumb />
+      <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} > ${t('pages.sectionDetails.title')} >` }} crumbLabel={`${t('pages.sectionDetails.title')} ${id}`} />
       <h1 className='sectionDetails-id'>{t('pages.sectionDetails.title')} {id}</h1>
       {isFetchingSection || isFetchingArticles ? (
         <Loader />

@@ -210,7 +210,7 @@ export default function Articles(): JSX.Element {
 
   return (
     <main className='articles'>
-      <Breadcrumb />
+      <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }} crumbLabel={t('pages.articles.title')} />
       <div className='articles-title'>
         <h1>{t('pages.articles.title')}</h1>
         <div className='articles-title-count'>
