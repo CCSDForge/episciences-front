@@ -1,19 +1,18 @@
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
 import { alphabet } from '../../../../utils/filter';
 import SearchInput from '../../SearchInput/SearchInput';
 import './AuthorsSidebar.scss'
 
 interface IAuthorsSidebarProps {
+  t: TFunction<"translation", undefined>
   search: string;
   onSearchCallback: (search: string) => void;
   activeLetter: string;
   onSetActiveLetterCallback: (letter: string) => void;
 }
 
-export default function AuthorsSidebar({ search, onSearchCallback, activeLetter, onSetActiveLetterCallback }: IAuthorsSidebarProps): JSX.Element {
-  const { t } = useTranslation();
-
+export default function AuthorsSidebar({ t, search, onSearchCallback, activeLetter, onSetActiveLetterCallback }: IAuthorsSidebarProps): JSX.Element {
   return (
     <div className='authorsSidebar'>
       <div className='authorsSidebar-search'>

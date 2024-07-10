@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
 import download from '/icons/download-red.svg';
 import file from '/icons/file-grey.svg';
@@ -11,13 +11,12 @@ import './IssuesSection.scss'
 
 interface IIssuesSectionProps {
   language: AvailableLanguage;
+  t: TFunction<"translation", undefined>
   issues: IVolume[];
   currentJournal?: IJournal;
 }
 
-export default function IssuesSection({ language, issues, currentJournal }: IIssuesSectionProps): JSX.Element {
-  const { t } = useTranslation();
-
+export default function IssuesSection({ language, t, issues, currentJournal }: IIssuesSectionProps): JSX.Element {
   return (
     <div className="issuesSection">
       {issues.map((issue, index) => (

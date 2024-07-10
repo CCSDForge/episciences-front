@@ -1,7 +1,7 @@
 import { MouseEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
 import minus from '/icons/minus-circle.svg';
 import plus from '/icons/plus-circle.svg';
@@ -22,13 +22,12 @@ interface INewsCardTile {
 
 interface INewsCardProps extends INewsCardTile {
   language: AvailableLanguage;
+  t: TFunction<"translation", undefined>
   mode: RENDERING_MODE;
   news: INews;
 }
 
-export default function NewsCard({ language, mode, fullCard, blurCard, setFullNewsIndexCallback, news }: INewsCardProps): JSX.Element {
-  const { t } = useTranslation();
-
+export default function NewsCard({ language, t, mode, fullCard, blurCard, setFullNewsIndexCallback, news }: INewsCardProps): JSX.Element {
   const [showFullContent, setShowFullContent] = useState(false);
 
   const toggleFullContent = (e: MouseEvent): void => {

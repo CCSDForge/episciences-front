@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
 import Checkbox from '../../Checkbox/Checkbox';
 import './VolumesSidebar.scss'
@@ -15,15 +15,14 @@ export interface IVolumeYearSelection {
 }
 
 interface IVolumesSidebarProps {
+  t: TFunction<"translation", undefined>
   types: IVolumeTypeSelection[];
   onCheckTypeCallback: (value: string) => void;
   years: IVolumeYearSelection[];
   onSelectYearCallback: (year: number) => void;
 }
 
-export default function VolumesSidebar({ types, onCheckTypeCallback, years, onSelectYearCallback }: IVolumesSidebarProps): JSX.Element {
-  const { t } = useTranslation();
-
+export default function VolumesSidebar({ t, types, onCheckTypeCallback, years, onSelectYearCallback }: IVolumesSidebarProps): JSX.Element {
   return (
     <div className='volumesSidebar'>
       <div className='volumesSidebar-typesSection'>

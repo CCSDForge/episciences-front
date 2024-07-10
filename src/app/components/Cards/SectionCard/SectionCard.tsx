@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -11,12 +11,11 @@ import './SectionCard.scss'
 
 interface ISectionCardProps {
   language: AvailableLanguage;
+  t: TFunction<"translation", undefined>
   section: ISection;
 }
 
-export default function SectionCard({ language, section }: ISectionCardProps): JSX.Element {
-  const { t } = useTranslation();
-  
+export default function SectionCard({ language, t, section }: ISectionCardProps): JSX.Element {  
   const [openedDescription, setOpenedDescription] = useState(false)
 
   const toggleDescription = (): void => setOpenedDescription(!openedDescription)

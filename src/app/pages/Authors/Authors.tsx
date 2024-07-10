@@ -90,7 +90,7 @@ export default function Authors(): JSX.Element {
       <h1 className='authors-title'>{t('pages.authors.title')}</h1>
       {getAuthorsCount()}
       <div className='authors-content'>
-        <AuthorsSidebar search={search} onSearchCallback={onSearch} activeLetter={activeLetter} onSetActiveLetterCallback={onSetActiveLetter} />
+        <AuthorsSidebar t={t} search={search} onSearchCallback={onSearch} activeLetter={activeLetter} onSetActiveLetterCallback={onSetActiveLetter} />
         <div className='authors-content-results'>
           <div className='authors-content-results-paginationTop'>
             {getPagination()}
@@ -104,6 +104,7 @@ export default function Authors(): JSX.Element {
               {authors?.data.map((author, index) => (
                 <AuthorCard
                   key={index}
+                  t={t}
                   author={author}
                   expandedCard={expandedAuthorIndex === index}
                   setExpandedAuthorIndexCallback={(): void => expandedAuthorIndex !== index ? setExpandedAuthorIndex(index) : setExpandedAuthorIndex(-1)}
@@ -116,7 +117,7 @@ export default function Authors(): JSX.Element {
           </div>
         </div>
       </div>
-      {expandedAuthorIndex >= 0 && <AuthorDetailsSidebar language={language} rvcode={rvcode} expandedAuthor={getExpandedAuthor()} onCloseDetailsCallback={onCloseDetails} />}
+      {expandedAuthorIndex >= 0 && <AuthorDetailsSidebar language={language} t={t} rvcode={rvcode} expandedAuthor={getExpandedAuthor()} onCloseDetailsCallback={onCloseDetails} />}
     </main>
   )
 }

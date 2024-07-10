@@ -88,7 +88,7 @@ export default function Boards(): JSX.Element {
         <Loader />
       ) : (
         <div className='boards-content'>
-          <BoardsSidebar groups={getPagesLabels()} activeGroupIndex={activeGroupIndex} onSetActiveGroupCallback={handleGroupToggle} />
+          <BoardsSidebar t={t} groups={getPagesLabels()} activeGroupIndex={activeGroupIndex} onSetActiveGroupCallback={handleGroupToggle} />
           <div className='boards-content-groups'>
             {getBoardsPerTitle().map((boardPerTitle, index) => (
               <div key={index} className='boards-content-groups-group'>

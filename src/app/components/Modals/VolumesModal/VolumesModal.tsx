@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
 import Checkbox from '../../Checkbox/Checkbox';
 import './VolumesModal.scss'
@@ -16,6 +16,7 @@ export interface IVolumeYearSelection {
 }
 
 interface IVolumesModalProps {
+  t: TFunction<"translation", undefined>
   types: IVolumeTypeSelection[];
   onCheckTypeCallback: (value: string) => void;
   years: IVolumeYearSelection[];
@@ -23,9 +24,7 @@ interface IVolumesModalProps {
   onCloseCallback: () => void;
 }
 
-export default function VolumesModal({ types, onCheckTypeCallback, years, onSelectYearCallback, onCloseCallback }: IVolumesModalProps): JSX.Element {
-  const { t } = useTranslation();
-
+export default function VolumesModal({ t, types, onCheckTypeCallback, years, onSelectYearCallback, onCloseCallback }: IVolumesModalProps): JSX.Element {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

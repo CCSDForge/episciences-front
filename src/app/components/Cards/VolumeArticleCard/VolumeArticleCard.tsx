@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -14,12 +14,11 @@ import './VolumeArticleCard.scss'
 
 interface IVolumeArticleCardProps {
   language: AvailableLanguage;
+  t: TFunction<"translation", undefined>
   article: IArticle;
 }
 
-export default function VolumeArticleCard({ language, article }: IVolumeArticleCardProps): JSX.Element {
-  const { t } = useTranslation();
-
+export default function VolumeArticleCard({ language, t, article }: IVolumeArticleCardProps): JSX.Element {
   const [openedAbstract, setOpenedAbstract] = useState(false)
 
   const toggleAbstract = (): void => setOpenedAbstract(!openedAbstract)

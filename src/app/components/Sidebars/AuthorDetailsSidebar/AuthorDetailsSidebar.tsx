@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
 import caretRight from '/icons/caret-right-grey.svg';
 import close from '/icons/close-red.svg';
@@ -12,14 +12,13 @@ import './AuthorDetailsSidebar.scss'
 
 export interface IAuthorDetailsSidebarProps {
   language: AvailableLanguage;
+  t: TFunction<"translation", undefined>
   rvcode?: string;
   expandedAuthor?: IAuthor;
   onCloseDetailsCallback: () => void;
 }
 
-export default function AuthorDetailsSidebar ({ language, rvcode, expandedAuthor, onCloseDetailsCallback }: IAuthorDetailsSidebarProps): JSX.Element {
-  const { t } = useTranslation();
-
+export default function AuthorDetailsSidebar ({ language, t, rvcode, expandedAuthor, onCloseDetailsCallback }: IAuthorDetailsSidebarProps): JSX.Element {
   const { data: articles } = useFetchAuthorArticlesQuery({ rvcode: rvcode!, fullname: expandedAuthor?.name! }, { skip: !rvcode })
 
   return (

@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
 import Checkbox from '../../Checkbox/Checkbox';
 import './ArticlesSidebar.scss'
@@ -15,15 +15,14 @@ export interface IArticleYearSelection {
 }
 
 interface IArticlesSidebarProps {
+  t: TFunction<"translation", undefined>
   types: IArticleTypeSelection[];
   onCheckTypeCallback: (value: string) => void;
   years: IArticleYearSelection[];
   onCheckYearCallback: (year: number) => void;
 }
 
-export default function ArticlesSidebar({ types, onCheckTypeCallback, years, onCheckYearCallback }: IArticlesSidebarProps): JSX.Element {
-  const { t } = useTranslation();
-
+export default function ArticlesSidebar({ t, types, onCheckTypeCallback, years, onCheckYearCallback }: IArticlesSidebarProps): JSX.Element {
   return (
     <div className='articlesSidebar'>
       <div className='articlesSidebar-typesSection'>

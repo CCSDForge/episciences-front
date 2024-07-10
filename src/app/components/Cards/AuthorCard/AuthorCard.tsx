@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
 import caretRightBlack from '/icons/caret-right-black.svg';
 import caretRightRed from '/icons/caret-right-red.svg';
@@ -6,14 +6,13 @@ import { IAuthor } from "../../../../types/author";
 import './AuthorCard.scss'
 
 export interface IAuthorCardProps {
+  t: TFunction<"translation", undefined>
   author: IAuthor;
   expandedCard: boolean;
   setExpandedAuthorIndexCallback: () => void;
 }
 
-export default function AuthorCard({ author, expandedCard, setExpandedAuthorIndexCallback }: IAuthorCardProps): JSX.Element {
-  const { t } = useTranslation();
-
+export default function AuthorCard({ t, author, expandedCard, setExpandedAuthorIndexCallback }: IAuthorCardProps): JSX.Element {
   return (
     <div className='authorCard'>
       <div className='authorCard-title'>
