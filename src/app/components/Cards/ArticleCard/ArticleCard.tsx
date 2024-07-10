@@ -25,7 +25,7 @@ interface IArticleCardProps {
 export default function ArticleCard({ language, t, article, toggleAbstractCallback }: IArticleCardProps): JSX.Element {
   return (
     <div className="articleCard">
-      {article.tag && <div className='articleCard-tag'>{articleTypes().find((tag) => tag.value === article.tag)?.label}</div>}
+      {article.tag && <div className='articleCard-tag'>{t(articleTypes.find((tag) => tag.value === article.tag)?.labelPath!)}</div>}
       <Link to={`/${PATHS.articles}/${article.id}`}>
         <div className='articleCard-title'>{article.title}</div>
       </Link>

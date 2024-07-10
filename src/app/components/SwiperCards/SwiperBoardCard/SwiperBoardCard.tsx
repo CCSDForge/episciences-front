@@ -1,3 +1,4 @@
+import { TFunction } from 'i18next';
 import { Link } from 'react-router-dom';
 
 import orcid from '/icons/orcid.svg';
@@ -11,10 +12,11 @@ export type SwiperBoardCardProps = IBoardMember
 
 interface ISwiperBoardCardProps {
   language: AvailableLanguage;
+  t: TFunction<"translation", undefined>
   member: IBoardMember;
 }
 
-export default function SwiperBoardCard({ language, member }: ISwiperBoardCardProps): JSX.Element {
+export default function SwiperBoardCard({ language, t, member }: ISwiperBoardCardProps): JSX.Element {
   return (
     <div className='swiperBoardCard'>
       <div className='swiperBoardCard-person'>
@@ -35,9 +37,9 @@ export default function SwiperBoardCard({ language, member }: ISwiperBoardCardPr
             )}
           </div>
           {member.roles.length > 0 ? (
-            <div className='swiperBoardCard-person-title-role'>{getBoardRoles(member.roles)}</div>
+            <div className='swiperBoardCard-person-title-role'>{getBoardRoles(t, member.roles)}</div>
           ) : (
-            <div className='swiperBoardCard-person-title-role'>{defaultBoardRole().label}</div>
+            <div className='swiperBoardCard-person-title-role'>{defaultBoardRole(t).label}</div>
           )}
         </div>
       </div>

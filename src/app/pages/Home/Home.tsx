@@ -51,7 +51,7 @@ export default function Home(): JSX.Element {
               </div>
             </Link>
           </div>
-          <Swiper id='articles-swiper' type='article' language={language} slidesPerView={3} cards={articles?.data.filter(article => article?.title) ?? []}/>
+          <Swiper id='articles-swiper' type='article' language={language} t={t} slidesPerView={3} cards={articles?.data.filter(article => article?.title) ?? []}/>
         </>
       )}
       {getBlockRendering(HOMEPAGE_BLOCK.LATEST_NEWS_CAROUSEL)?.render && (
@@ -79,7 +79,7 @@ export default function Home(): JSX.Element {
               </div>
             </Link>
           </div>
-        <Swiper id='boards-swiper' type='board' language={language} slidesPerView={4} cards={members ?? []}/>
+        <Swiper id='boards-swiper' type='board' language={language} t={t} slidesPerView={4} cards={members ?? []}/>
         </>
       )}
       {getBlockRendering(HOMEPAGE_BLOCK.STATS)?.render && (

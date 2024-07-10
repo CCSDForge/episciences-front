@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { TFunction } from 'i18next';
 
 import { PATHS } from '../../../../config/paths';
 import { FetchedArticle } from '../../../../utils/article';
@@ -11,13 +12,14 @@ export type SwiperArticleCardProps = FetchedArticle;
 
 interface ISwiperArticleCardProps {
   language: AvailableLanguage;
+  t: TFunction<"translation", undefined>
   article: FetchedArticle;
 }
 
-export default function SwiperArticleCard({ language, article }: ISwiperArticleCardProps): JSX.Element {
+export default function SwiperArticleCard({ language, t, article }: ISwiperArticleCardProps): JSX.Element {
   return (
     <div className='swiperArticleCard'>
-      {article?.tag && <div className='swiperArticleCard-tag'>{articleTypes().find((tag) => tag.value === article.tag)?.label}</div>}
+      {article?.tag && <div className='swiperArticleCard-tag'>{t(articleTypes.find((tag) => tag.value === article.tag)?.labelPath!)}</div>}
       <Link to={`/${PATHS.articles}/${article?.id}`}>
         <div className='swiperArticleCard-title'>{article?.title}</div>
       </Link>

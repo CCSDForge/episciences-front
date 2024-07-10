@@ -4,7 +4,7 @@ import Checkbox from '../../Checkbox/Checkbox';
 import './ArticlesSidebar.scss'
 
 export interface IArticleTypeSelection {
-  label: string;
+  labelPath: string;
   value: string;
   isChecked: boolean;
 }
@@ -28,19 +28,19 @@ export default function ArticlesSidebar({ t, types, onCheckTypeCallback, years, 
       <div className='articlesSidebar-typesSection'>
         <div className='articlesSidebar-typesSection-title'>{t('common.filters.documentTypes')}</div>
         <div className='articlesSidebar-typesSection-types'>
-          {types.map((t, index) => (
+          {types.map((type, index) => (
             <div
               key={index}
               className='articlesSidebar-typesSection-types-choice'
             >
               <div className='articlesSidebar-typesSection-types-choice-checkbox'>
-                <Checkbox checked={t.isChecked} onChangeCallback={(): void => onCheckTypeCallback(t.value)}/>
+                <Checkbox checked={type.isChecked} onChangeCallback={(): void => onCheckTypeCallback(type.value)}/>
               </div>
               <span
-                className={`articlesSidebar-typesSection-types-choice-label ${t.isChecked && 'articlesSidebar-typesSection-types-choice-label-checked'}`}
-                onClick={(): void => onCheckTypeCallback(t.value)}
+                className={`articlesSidebar-typesSection-types-choice-label ${type.isChecked && 'articlesSidebar-typesSection-types-choice-label-checked'}`}
+                onClick={(): void => onCheckTypeCallback(type.value)}
               >
-                {t.label}
+                {t(type.labelPath)}
               </span>
             </div>
           ))}

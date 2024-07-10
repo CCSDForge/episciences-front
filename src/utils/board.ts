@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
 export enum BOARD_TYPE {
   EDITORIAL_BOARD = 'editorial-board',
@@ -23,18 +23,14 @@ export enum BOARD_ROLE {
   FORMER_MEMBER = 'former-member'
 }
 
-export const defaultBoardRole = () => {
-  const { t } = useTranslation();
-
+export const defaultBoardRole = (t: TFunction<"translation", undefined>) => {
   return {
     key: BOARD_ROLE.MEMBER,
     label: t('pages.boards.roles.member')
   }
 }
 
-export const getBoardRoles = (roles: string[]): string => {
-  const { t } = useTranslation();
-
+export const getBoardRoles = (t: TFunction<"translation", undefined>, roles: string[]): string => {
   const rolesWithLabels = [
     { key: BOARD_TYPE.TECHNICAL_BOARD, label: t('pages.boards.types.technicalBoard') },
     { key: BOARD_TYPE.EDITORIAL_BOARD, label: t('pages.boards.types.editorialBoard') },

@@ -26,7 +26,8 @@ type VolumeTypeFilter = 'type' | 'year';
 interface IVolumeFilter {
   type: VolumeTypeFilter;
   value: string | number;
-  label: string | number;
+  label?: number;
+  labelPath?: string;
 }
 
 export default function Volumes(): JSX.Element {
@@ -36,7 +37,6 @@ export default function Volumes(): JSX.Element {
 
   const location = useLocation();
   const parsedQuery = queryString.parse(location.search);
-  const translatedVolumeTypes = volumeTypes();
 
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
@@ -85,12 +85,12 @@ export default function Volumes(): JSX.Element {
   useEffect(() => {
     if (volumes?.range && volumes.range.types && types.length === 0) {
       const initTypes = volumes.range.types
-        .filter((t) => translatedVolumeTypes.find((vt) => vt.value === t))
+        .filter((t) => volumeTypes.find((vt) => vt.value === t))
         .map((t) => {
-        const matchingType = translatedVolumeTypes.find((vt) => vt.value === t)
+        const matchingType = volumeTypes.find((vt) => vt.value === t)
 
         return {
-          label: matchingType!.label,
+          labelPath: matchingType!.labelPath,
           value: matchingType!.value,
           isChecked: false
         }
@@ -166,11 +166,11 @@ export default function Volumes(): JSX.Element {
   const setAllTaggedFilters = (): void => {
     const initFilters: IVolumeFilter[] = []
 
-    types.filter((t) => t.isChecked).forEach((t) => {
+    types.filter((type) => type.isChecked).forEach((type) => {
       initFilters.push({
         type: 'type',
-        value: t.value,
-        label: t.label
+        value: type.value,
+        labelPath: type.labelPath
       })
     })
 
@@ -271,7 +271,7 @@ export default function Volumes(): JSX.Element {
         <div className='volumes-filters'>
           <div className="volumes-filters-tags">
             {taggedFilters.map((filter, index) => (
-              <Tag key={index} text={filter.label.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
+              <Tag key={index} text={filter.labelPath ? t(filter.labelPath) : filter.label!.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
             ))}
             <div className="volumes-filters-tags-clear" onClick={clearTaggedFilters}>{t('common.filters.clearAll')}</div>
           </div>
@@ -284,7 +284,7 @@ export default function Volumes(): JSX.Element {
               <div className="volumes-filters-tags-filterTile-text">{taggedFilters.length > 0 ? `${t('common.filters.editFilters')} (${taggedFilters.length})` : `${t('common.filters.filter')}`}</div>
             </div>
             {taggedFilters.map((filter, index) => (
-              <Tag key={index} text={filter.label.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
+              <Tag key={index} text={filter.labelPath ? t(filter.labelPath) : filter.label!.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
             ))}
           </div>
           <div className="volumes-filters-modal">
