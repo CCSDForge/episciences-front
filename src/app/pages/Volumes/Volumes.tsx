@@ -288,14 +288,14 @@ export default function Volumes(): JSX.Element {
             ))}
           </div>
           <div className="volumes-filters-modal">
-            {openedFiltersModal && <VolumesModal types={types} onCheckTypeCallback={onCheckType} years={years} onSelectYearCallback={onSelectYear} onCloseCallback={(): void => setOpenedFiltersModal(false)}/>}
+            {openedFiltersModal && <VolumesModal t={t} types={types} onCheckTypeCallback={onCheckType} years={years} onSelectYearCallback={onSelectYear} onCloseCallback={(): void => setOpenedFiltersModal(false)}/>}
           </div>
         </div>
       )}
       <div className='volumes-content'>
         <div className='volumes-content-results'>
           {mode === RENDERING_MODE.LIST && (
-            <VolumesSidebar types={types} onCheckTypeCallback={onCheckType} years={years} onSelectYearCallback={onSelectYear} />
+            <VolumesSidebar t={t} types={types} onCheckTypeCallback={onCheckType} years={years} onSelectYearCallback={onSelectYear} />
           )}
           {isFetchingVolumes ? (
             <Loader />
@@ -305,6 +305,7 @@ export default function Volumes(): JSX.Element {
                 <VolumeCard
                   key={index}
                   language={language}
+                  t={t}
                   mode={mode}
                   volume={volume}
                   currentJournal={currentJournal}

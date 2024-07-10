@@ -71,6 +71,7 @@ export default function VolumeDetails(): JSX.Element {
                     <VolumeArticleCard
                       key={index}
                       language={language}
+                      t={t}
                       article={article as IArticle}
                     />
                   ))}

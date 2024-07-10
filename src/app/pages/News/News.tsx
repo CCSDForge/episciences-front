@@ -81,7 +81,7 @@ export default function News(): JSX.Element {
       </div>
       <div className='news-content'>
         <div className='news-content-results'>
-          <NewsSidebar years={years} onSelectYearCallback={onSelectYear} />
+          <NewsSidebar t={t} years={years} onSelectYearCallback={onSelectYear} />
           {isFetching ? (
             <Loader />
           ) : (
@@ -90,6 +90,7 @@ export default function News(): JSX.Element {
                 <NewsCard
                   key={index}
                   language={language}
+                  t={t}
                   mode={mode}
                   fullCard={mode === RENDERING_MODE.TILE && fullNewsIndex === index}
                   blurCard={mode === RENDERING_MODE.TILE && fullNewsIndex !== -1 && fullNewsIndex !== index}

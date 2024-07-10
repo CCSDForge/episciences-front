@@ -1,16 +1,15 @@
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
 import './BoardsSidebar.scss'
 
 interface IBoardsSidebarProps {
+  t: TFunction<"translation", undefined>
   groups: string[];
   activeGroupIndex: number;
   onSetActiveGroupCallback: (index: number) => void;
 }
 
-export default function BoardsSidebar({ groups, activeGroupIndex, onSetActiveGroupCallback }: IBoardsSidebarProps): JSX.Element {
-  const { t } = useTranslation();
-
+export default function BoardsSidebar({ t, groups, activeGroupIndex, onSetActiveGroupCallback }: IBoardsSidebarProps): JSX.Element {
   return (
     <div className='boardsSidebar'>
       <div className='boardsSidebar-resume'>{t('pages.boards.tableOfContents')}</div>

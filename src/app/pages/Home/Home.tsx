@@ -39,7 +39,7 @@ export default function Home(): JSX.Element {
   return (
     <main className='home'>
       <h1 className='home-title'>{t('pages.home.title')}</h1>
-      <PresentationSection language={language} aboutContent={aboutPage?.content} lastNews={getBlockRendering(HOMEPAGE_BLOCK.LAST_NEWS)?.render && news?.data && news.data.length ? news.data[0] : undefined} />
+      <PresentationSection language={language} t={t} aboutContent={aboutPage?.content} lastNews={getBlockRendering(HOMEPAGE_BLOCK.LAST_NEWS)?.render && news?.data && news.data.length ? news.data[0] : undefined} />
       {getBlockRendering(HOMEPAGE_BLOCK.LATEST_ARTICLES_CAROUSEL)?.render && (
         <>
           <div className='home-subtitle'>
@@ -102,7 +102,7 @@ export default function Home(): JSX.Element {
               </div>
             </Link>
           </div>
-          <IssuesSection language={language} issues={issues?.data ?? []} currentJournal={currentJournal} />
+          <IssuesSection language={language} t={t} issues={issues?.data ?? []} currentJournal={currentJournal} />
         </>
       )}
     </main>

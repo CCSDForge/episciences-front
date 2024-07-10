@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -17,13 +17,12 @@ export interface IArticleCard extends IArticle {
 
 interface IArticleCardProps {
   language: AvailableLanguage;
+  t: TFunction<"translation", undefined>
   article: IArticleCard;
   toggleAbstractCallback: () => void;
 }
 
-export default function ArticleCard({ language, article, toggleAbstractCallback }: IArticleCardProps): JSX.Element {
-  const { t } = useTranslation();
-
+export default function ArticleCard({ language, t, article, toggleAbstractCallback }: IArticleCardProps): JSX.Element {
   return (
     <div className="articleCard">
       {article.tag && <div className='articleCard-tag'>{articleTypes().find((tag) => tag.value === article.tag)?.label}</div>}

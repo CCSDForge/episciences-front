@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
 import './NewsSidebar.scss'
 
@@ -8,13 +8,12 @@ export interface INewsYearSelection {
 }
 
 interface INewsSidebarProps {
+  t: TFunction<"translation", undefined>
   years: INewsYearSelection[];
   onSelectYearCallback: (year: number) => void;
 }
 
-export default function NewsSidebar({ years, onSelectYearCallback }: INewsSidebarProps): JSX.Element {
-  const { t } = useTranslation();
-
+export default function NewsSidebar({ t, years, onSelectYearCallback }: INewsSidebarProps): JSX.Element {
   return (
     <div className='newsSidebar'>
       <div className='newsSidebar-title'>{t('common.filters.years')}</div>

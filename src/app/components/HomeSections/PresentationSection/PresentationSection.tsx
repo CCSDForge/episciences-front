@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown'
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
 import caretRight from '/icons/caret-right-grey.svg';
 import { PATHS } from '../../../../config/paths';
@@ -14,13 +14,12 @@ const MAX_NEWS_CONTENT_LENGTH = 200;
 
 interface IPresentationSectionProps {
   language: AvailableLanguage;
+  t: TFunction<"translation", undefined>
   aboutContent?: Record<AvailableLanguage, string>;
   lastNews?: INews;
 }
 
-export default function PresentationSection({ language, aboutContent, lastNews }: IPresentationSectionProps): JSX.Element {
-  const { t } = useTranslation();
-
+export default function PresentationSection({ language, t, aboutContent, lastNews }: IPresentationSectionProps): JSX.Element {
   return (
     <div className="presentationSection">
       {aboutContent && aboutContent[language] && (

@@ -73,6 +73,7 @@ export default function Sections(): JSX.Element {
                 <SectionCard
                   key={index}
                   language={language}
+                  t={t}
                   section={section}
                 />
               ))}

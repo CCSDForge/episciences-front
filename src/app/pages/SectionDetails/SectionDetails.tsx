@@ -54,7 +54,7 @@ export default function SectionDetails(): JSX.Element {
       ) : (
         <div className="sectionDetails-content">
           <div className='sectionDetails-content-results'>
-            <SectionDetailsSidebar articlesCount={articles.length} />
+            <SectionDetailsSidebar t={t} articlesCount={articles.length} />
             <div className="sectionDetails-content-results-content">
               <div className='sectionDetails-content-results-content-title'>{section?.title ? section?.title[language] : ''}</div>
               {section?.committee && section.committee.length > 0 && (
@@ -69,6 +69,7 @@ export default function SectionDetails(): JSX.Element {
                   <SectionArticleCard
                     key={index}
                     language={language}
+                    t={t}
                     article={article as IArticle}
                   />
                 ))}

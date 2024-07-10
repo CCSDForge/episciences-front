@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -16,14 +16,13 @@ import './VolumeCard.scss'
 
 interface IVolumeCardProps {
   language: AvailableLanguage;
+  t: TFunction<"translation", undefined>
   mode: RENDERING_MODE;
   volume: IVolume;
   currentJournal?: IJournal;
 }
 
-export default function VolumeCard({ language, mode, volume, currentJournal }: IVolumeCardProps): JSX.Element {
-  const { t } = useTranslation();
-
+export default function VolumeCard({ language, t, mode, volume, currentJournal }: IVolumeCardProps): JSX.Element {
   const renderVolumeTileSpecial = (): JSX.Element => {
     let text = `${t('common.volumeCard.volume')} ${volume.num}`
 

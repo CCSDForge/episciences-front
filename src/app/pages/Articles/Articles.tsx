@@ -234,7 +234,7 @@ export default function Articles(): JSX.Element {
       </div>
       <div className='articles-content'>
         <div className='articles-content-results'>
-          <ArticlesSidebar types={types} onCheckTypeCallback={onCheckType} years={years} onCheckYearCallback={onCheckYear} />
+          <ArticlesSidebar t={t} types={types} onCheckTypeCallback={onCheckType} years={years} onCheckYearCallback={onCheckYear} />
           {isFetchingArticles ? (
             <Loader />
           ) : (
@@ -243,6 +243,7 @@ export default function Articles(): JSX.Element {
                 <ArticleCard
                   key={index}
                   language={language}
+                  t={t}
                   article={article as IArticleCard}
                   toggleAbstractCallback={(): void => toggleAbstract(article?.id)}
                 />
