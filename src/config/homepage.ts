@@ -1,6 +1,3 @@
-import { IStat } from "../types/stat"
-import { AvailableLanguage } from "../utils/i18n"
-
 export enum HOMEPAGE_BLOCK {
   LAST_NEWS = 'last-news',
   LATEST_ARTICLES_CAROUSEL = 'latest-articles-carousel',
@@ -12,7 +9,7 @@ export enum HOMEPAGE_BLOCK {
 }
 
 
-export const blocksConfiguration = (): { key: HOMEPAGE_BLOCK, render: boolean, stats?: Record<AvailableLanguage, IStat[]> }[] => [
+export const blocksConfiguration = (): { key: HOMEPAGE_BLOCK, render: boolean }[] => [
   {
     key: HOMEPAGE_BLOCK.LAST_NEWS,
     render: true
@@ -31,19 +28,7 @@ export const blocksConfiguration = (): { key: HOMEPAGE_BLOCK, render: boolean, s
   },
   {
     key: HOMEPAGE_BLOCK.STATS,
-    render: true,
-    stats: {
-      'en': [
-        { stat: '62.07%', title: 'Acceptance rate' },
-        { stat: '29', title: 'Published articles' },
-        { stat: '2 weeks', title: 'Submission-publication time' }
-      ],
-      'fr': [
-        { stat: '62.07%', title: "Taux d'acceptation" },
-        { stat: '29', title: 'Articles publiés' },
-        { stat: '2 semaines', title: 'Délai de soumission et de publication' }
-      ]
-    }
+    render: true
   },
   {
     key: HOMEPAGE_BLOCK.JOURNAL_INDEXATION,

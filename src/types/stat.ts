@@ -1,4 +1,5 @@
 export interface IStat {
-  stat: string;
-  title: string;
+  name: string;
+  value: number;
+  unit?: string;
 }

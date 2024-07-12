@@ -53,7 +53,7 @@ export default function Volumes(): JSX.Element {
   const getSelectedTypes = (): string[] => types.filter(t => t.isChecked).map(t => t.value);
   const getSelectedYears = (): number[] => years.filter(y => y.isSelected).map(y => y.year);
 
-  const { data: volumes, isFetching: isFetchingVolumes } = useFetchVolumesQuery({ rvcode: rvcode!, page: currentPage, itemsPerPage: VOLUMES_PER_PAGE, types: getSelectedTypes(), years: getSelectedYears() }, { skip: !rvcode, refetchOnMountOrArgChange: true })
+  const { data: volumes, isFetching: isFetchingVolumes } = useFetchVolumesQuery({ rvcode: rvcode!, language: language, page: currentPage, itemsPerPage: VOLUMES_PER_PAGE, types: getSelectedTypes(), years: getSelectedYears() }, { skip: !rvcode, refetchOnMountOrArgChange: true })
 
   useEffect(() => {
     if (types.length > 0 && !initQueryFilters) {

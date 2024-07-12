@@ -1,6 +1,21 @@
-import { IVolume, RawVolume } from "../types/volume";
+import { IVolume, IVolumeMetadata, RawVolume, RawVolumeMetadata } from "../types/volume";
+import { AvailableLanguage } from "./i18n";
 
-export const formatVolume = (volume: RawVolume): IVolume => {
+export const formatVolume = (language: AvailableLanguage, volume: RawVolume): IVolume => {
+  let metadatas: IVolumeMetadata[]  = [];
+  let tileImageURL = undefined;
+  
+  if (volume['metadata'] && volume['metadata'].length) {
+    metadatas = volume['metadata'].map((meta) => formatVolumeMetadata(meta))
+
+    if (metadatas.length > 0) {
+      const tileFile = metadatas.find(metadata => metadata['file'] && metadata['title'] && metadata['title'][language] === 'tile')?.file
+      if (tileFile) {
+        tileImageURL = `https://${import.meta.env.VITE_JOURNAL_RVCODE}.episciences.org/public/volumes/${volume['vid']}/${tileFile}`
+      }
+    }
+  }
+
   return {
     ...volume,
     id: volume['vid'],
@@ -10,7 +25,18 @@ export const formatVolume = (volume: RawVolume): IVolume => {
     year: volume['vol_year'],
     types: volume['vol_type'],
     articles: volume['papers'],
-    downloadLink: `https://${import.meta.env.VITE_JOURNAL_RVCODE}.episciences.org/volumes/${volume['vid']}/${volume['vid']}.pdf`
+    downloadLink: `https://${import.meta.env.VITE_JOURNAL_RVCODE}.episciences.org/volumes/${volume['vid']}/${volume['vid']}.pdf`,
+    metadatas: metadatas,
+    tileImageURL
+  }
+}
+
+export const formatVolumeMetadata = (metadata: RawVolumeMetadata): IVolumeMetadata => {
+  return {
+    ...metadata,
+    title: metadata['titles'],
+    content: metadata['content'],
+    file: metadata['file'],
   }
 }
 

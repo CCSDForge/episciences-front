@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 import { RawVolume, IVolume } from '../../../types/volume'
+import { AvailableLanguage } from '../../../utils/i18n'
 import { PaginatedResponseWithCount, Range } from '../../../utils/pagination'
 import { formatVolume } from '../../../utils/volume'
 import { createBaseQueryWithLdJsonAccept } from '../../utils'
@@ -10,7 +11,7 @@ export const volumeApi = createApi({
   reducerPath: 'volume',
   tagTypes: ['Volume'],
   endpoints: (build) => ({
-    fetchVolumes: build.query<{ data: IVolume[], totalItems: number, articlesCount?: number, range?: Range }, { rvcode: string, page: number, itemsPerPage: number, years?: number[], types?: string[] }>({
+    fetchVolumes: build.query<{ data: IVolume[], totalItems: number, articlesCount?: number, range?: Range }, { rvcode: string, language: AvailableLanguage, page: number, itemsPerPage: number, years?: number[], types?: string[] }>({
       query: ({ rvcode, page, itemsPerPage, years, types } :{ rvcode: string, page: number, itemsPerPage: number; years?: number[]; types?: string[]; }) => {
         const baseUrl = `volumes?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`
         let queryParams = '';
@@ -27,12 +28,12 @@ export const volumeApi = createApi({
         
         return `${baseUrl}${queryParams}`;
       },
-      transformResponse(baseQueryReturnValue: PaginatedResponseWithCount<RawVolume>) {
+      transformResponse(baseQueryReturnValue: PaginatedResponseWithCount<RawVolume>, _, { language }) {
         const articlesCount = baseQueryReturnValue['hydra:totalPublishedArticles']
         const range = (baseQueryReturnValue['hydra:range'] as { year: number[] });
 
         const totalItems = baseQueryReturnValue['hydra:totalItems'];
-        const formattedData = (baseQueryReturnValue['hydra:member']).map((volume) => formatVolume(volume))
+        const formattedData = (baseQueryReturnValue['hydra:member']).map((volume) => formatVolume(language, volume))
 
         return {
           data: formattedData,
@@ -45,10 +46,10 @@ export const volumeApi = createApi({
         }
       },
     }),
-    fetchVolume: build.query<IVolume, { vid: string }>({
-      query: ({ vid } :{ vid: string; }) => `volumes/${vid}`,
-      transformResponse(baseQueryReturnValue: RawVolume) {
-        return formatVolume(baseQueryReturnValue);
+    fetchVolume: build.query<IVolume, { vid: string; language: AvailableLanguage }>({
+      query: ({ vid } :{ vid: string }) => `volumes/${vid}`,
+      transformResponse(baseQueryReturnValue: RawVolume, _, { language }) {
+        return formatVolume(language, baseQueryReturnValue);
       }
     }),
   }),

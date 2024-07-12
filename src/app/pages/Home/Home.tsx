@@ -10,6 +10,7 @@ import { useFetchArticlesQuery } from '../../../store/features/article/article.q
 import { useFetchBoardMembersQuery } from '../../../store/features/board/board.query';
 import { useFetchIndexationPageQuery } from '../../../store/features/indexation/indexation.query';
 import { useFetchNewsQuery } from '../../../store/features/news/news.query';
+import { useFetchStatsQuery } from '../../../store/features/stat/stat.query';
 import { useFetchVolumesQuery } from '../../../store/features/volume/volume.query';
 import { VOLUME_TYPE } from '../../../utils/volume';
 import IssuesSection from '../../components/HomeSections/IssuesSection/IssuesSection';
@@ -21,7 +22,7 @@ import Swiper from '../../components/Swiper/Swiper';
 import './Home.scss';
 
 export default function Home(): JSX.Element {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
@@ -31,8 +32,9 @@ export default function Home(): JSX.Element {
   const { data: articles } = useFetchArticlesQuery({ rvcode: rvcode!, page: 1, itemsPerPage: 20 }, { skip: !rvcode })
   const { data: news } = useFetchNewsQuery({ rvcode: rvcode!, page: 1, itemsPerPage: 3 }, { skip: !rvcode })
   const { data: members } = useFetchBoardMembersQuery(rvcode!, { skip: !rvcode })
+  const { data: stats } = useFetchStatsQuery({ rvcode: rvcode!, page: 1, itemsPerPage: 3 }, { skip: !rvcode })
   const { data: indexation } = useFetchIndexationPageQuery(rvcode!, { skip: !rvcode })
-  const { data: issues } = useFetchVolumesQuery({ rvcode: rvcode!, page: 1, itemsPerPage: 2, types: [VOLUME_TYPE.SPECIAL_ISSUE] }, { skip: !rvcode })
+  const { data: issues } = useFetchVolumesQuery({ rvcode: rvcode!, language: language, page: 1, itemsPerPage: 2, types: [VOLUME_TYPE.SPECIAL_ISSUE] }, { skip: !rvcode })
 
   const getBlockRendering = (blockKey: HOMEPAGE_BLOCK) => blocksConfiguration().find((config) => config.key === blockKey)
 
@@ -83,7 +85,7 @@ export default function Home(): JSX.Element {
         </>
       )}
       {getBlockRendering(HOMEPAGE_BLOCK.STATS)?.render && (
-        <StatisticsSection stats={getBlockRendering(HOMEPAGE_BLOCK.STATS)?.stats?.[language] ?? []} />
+        <StatisticsSection t={t} i18n={i18n} stats={stats?.data ?? []} />
       )}
       {getBlockRendering(HOMEPAGE_BLOCK.JOURNAL_INDEXATION)?.render && (
         <>

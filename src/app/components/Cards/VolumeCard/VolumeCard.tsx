@@ -63,7 +63,10 @@ export default function VolumeCard({ language, t, mode, volume, currentJournal }
   if (mode === RENDERING_MODE.TILE) {
     return (
       <div className='volumeCard volumeCard-tile'>
-        <div className="volumeCard-tile-template">
+        {volume.tileImageURL ? (
+          <img className='volumeCard-tile-img' src={volume.tileImageURL} alt='Volume tile' />
+        ) : (
+          <div className="volumeCard-tile-template">
             <div className="volumeCard-tile-template-jpe">{currentJournal?.code.toUpperCase()}</div>
             <div className="volumeCard-tile-template-volume">{t('common.volumeCard.volume')}</div>
             {volume.types && volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE) && (
@@ -72,19 +75,20 @@ export default function VolumeCard({ language, t, mode, volume, currentJournal }
             <div className="volumeCard-tile-template-number">{volume.num}</div>
             <div className="volumeCard-tile-template-year">{volume.year}</div>
           </div>
-          <div className="volumeCard-tile-text">
-            {renderVolumeTileSpecial()}
-            <div className="volumeCard-tile-text-title">{volume.title ? volume.title[language] : ''}</div>
-            <div className="volumeCard-tile-text-year">{volume.year}</div>
-            <div className="volumeCard-tile-text-count">
-              <img className="volumeCard-tile-text-count-icon" src={file} alt='File icon' />
-              <div className="volumeCard-tile-text-count-text">{volume.articles.length > 1 ? `${volume.articles.length} ${t('common.articles')}`: `${volume.articles.length} ${t('common.article')}`}</div>
-            </div>
-            <Link to={volume.downloadLink} target='_blank' className="volumeCard-tile-text-download">
-              <img className="volumeCard-tile-text-download-icon" src={download} alt='Download icon' />
-              <div className="volumeCard-tile-text-download-text">{t('common.pdf')}</div>
-            </Link>
+        )}
+        <div className="volumeCard-tile-text">
+          {renderVolumeTileSpecial()}
+          <div className="volumeCard-tile-text-title">{volume.title ? volume.title[language] : ''}</div>
+          <div className="volumeCard-tile-text-year">{volume.year}</div>
+          <div className="volumeCard-tile-text-count">
+            <img className="volumeCard-tile-text-count-icon" src={file} alt='File icon' />
+            <div className="volumeCard-tile-text-count-text">{volume.articles.length > 1 ? `${volume.articles.length} ${t('common.articles')}`: `${volume.articles.length} ${t('common.article')}`}</div>
           </div>
+          <Link to={volume.downloadLink} target='_blank' className="volumeCard-tile-text-download">
+            <img className="volumeCard-tile-text-download-icon" src={download} alt='Download icon' />
+            <div className="volumeCard-tile-text-download-text">{t('common.pdf')}</div>
+          </Link>
+        </div>
       </div>
     )
   }
