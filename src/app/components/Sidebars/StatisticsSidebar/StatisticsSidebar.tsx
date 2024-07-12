@@ -1,32 +1,35 @@
+import { TFunction } from 'i18next';
+
 import './StatisticsSidebar.scss'
 
-interface IStatisticsSidebarProps {
-  filters: { id: number; title: string; choices: { id: number; label: string; isSelected: boolean; }[] }[];
-  onSelectFilterChoiceCallback: (filterId: number, choiceId: number) => void;
+export interface IStatisticsYearSelection {
+  year: number;
+  isSelected: boolean;
 }
 
-export default function StatisticsSidebar({ filters, onSelectFilterChoiceCallback }: IStatisticsSidebarProps): JSX.Element {
+interface IStatisticsSidebarProps {
+  t: TFunction<"translation", undefined>
+  years: IStatisticsYearSelection[];
+  onSelectYearCallback: (year: number) => void;
+}
+
+export default function StatisticsSidebar({ t, years, onSelectYearCallback }: IStatisticsSidebarProps): JSX.Element {
   return (
     <div className='statisticsSidebar'>
-      {filters.map((filter, index) => (
-        <div
-          key={index}
-          className='statisticsSidebar-filter'
-        >
-          <div className='statisticsSidebar-filter-title'>{filter.title}</div>
-          <div className='statisticsSidebar-filter-choices'>
-            {filter.choices.map((choice, index) => (
-              <div
-                key={index}
-                className={`statisticsSidebar-filter-choices-choice ${choice.isSelected && 'statisticsSidebar-filter-choices-choice-selected'}`}
-                onClick={(): void => onSelectFilterChoiceCallback(filter.id, choice.id )}
-              >
-                {choice.label}
-              </div>
-            ))}
-          </div>
+      <div className='statisticsSidebar-title'>{t('common.filters.years')}</div>
+      <div className='statisticsSidebar-years'>
+        <div className='statisticsSidebar-years-list'>
+          {years.map((y) => (
+            <div
+              key={y.year}
+              className={`statisticsSidebar-years-list-year ${y.isSelected && 'statisticsSidebar-years-list-year-selected'}`}
+              onClick={(): void => onSelectYearCallback(y.year)}
+            >
+              {y.year}
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   )
 }

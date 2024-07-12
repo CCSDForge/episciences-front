@@ -1,3 +1,5 @@
+import { IStat } from "../types/stat";
+
 export enum STAT_TYPE {
   NB_SUBMISSIONS = 'nb-submissions',
   ACCEPTANCE_RATE = 'acceptance-rate',
@@ -11,3 +13,14 @@ export const statTypes: { labelPath: string; value: string; }[] = [
   { labelPath: 'pages.statistics.types.medianSubmissionPublication', value: STAT_TYPE.MEDIAN_SUBMISSION_PUBLICATION },
   { labelPath: 'pages.statistics.types.medianSubmissionAcceptance', value: STAT_TYPE.MEDIAN_SUBMISSION_ACCEPTANCE }
 ]
+
+export enum STAT_LABEL {
+  GLANCE = 'glance',
+  EVALUATION_PUBLICATION = 'evaluation-publication'
+}
+
+export interface IStatisticsPerLabel {
+  labelPath: string;
+  labelKey: STAT_LABEL;
+  statistics: IStat[];
+}
