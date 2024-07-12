@@ -8,6 +8,7 @@ import { indexationApi } from '../features/indexation/indexation.query'
 import { journalApi } from '../features/journal/journal.query'
 import { newsApi } from '../features/news/news.query'
 import { sectionApi } from '../features/section/section.query'
+import { statApi } from '../features/stat/stat.query'
 import { volumeApi } from '../features/volume/volume.query'
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -22,4 +23,5 @@ export const enhancedMiddleware = (getDefaultMiddleware: Function) => getDefault
   .concat(journalApi.middleware)
   .concat(newsApi.middleware)
   .concat(sectionApi.middleware)
+  .concat(statApi.middleware)
   .concat(volumeApi.middleware)

@@ -18,6 +18,7 @@
     "readLess": "Lire moins",
     "seeMore": "En savoir plus",
     "pdf": "PDF",
+    "week": "semaine",
     "content": "Contenu",
     "abstract": "Abstract",
     "toggleAbstracts": {
@@ -137,6 +138,15 @@
     },
     "news": {
       "title": "Actualités"
+    },
+    "statistics": {
+      "title": "Statistiques",
+      "types": {
+        "nbSubmissions": "Soumissions",
+        "acceptanceRate": "Taux d'acceptation",
+        "medianSubmissionPublication": "Temps médian entre la soumission et la publication",
+        "medianSubmissionAcceptance": "Temps médian entre la soumission et l'acceptation"
+      }
     },
     "boards": {
       "title": "Comités",

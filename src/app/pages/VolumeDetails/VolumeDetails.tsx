@@ -21,7 +21,7 @@ export default function VolumeDetails(): JSX.Element {
   const [articles, setArticles] = useState<FetchedArticle[]>([]);
 
   const { id } = useParams();
-  const { data: volume, isFetching: isFetchingVolume } = useFetchVolumeQuery({ vid: id! }, { skip: !id });
+  const { data: volume, isFetching: isFetchingVolume } = useFetchVolumeQuery({ vid: id!, language: language }, { skip: !id });
 
   useEffect(() => {
     if (volume && volume.articles.length > 0) {

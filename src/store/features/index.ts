@@ -12,6 +12,7 @@ import journalReducer from './journal/journal.slice'
 import newsReducer from './news/news.slice'
 import searchReducer from './search/search.slice'
 import sectionReducer from './section/section.slice'
+import statReducer from './stat/stat.slice'
 import volumeReducer from './volume/volume.slice'
 import { aboutApi } from './about/about.query'
 import { articleApi } from './article/article.query'
@@ -23,6 +24,7 @@ import { indexationApi } from './indexation/indexation.query'
 import { journalApi } from './journal/journal.query'
 import { newsApi } from './news/news.query'
 import { sectionApi } from './section/section.query'
+import { statApi } from './stat/stat.query'
 import { volumeApi } from './volume/volume.query'
 
 const createRootReducer = combineReducers({
@@ -39,6 +41,7 @@ const createRootReducer = combineReducers({
   newsReducer,
   searchReducer,
   sectionReducer,
+  statReducer,
   volumeReducer,
   // RTK Query's
   [aboutApi.reducerPath]: aboutApi.reducer,
@@ -51,6 +54,7 @@ const createRootReducer = combineReducers({
   [journalApi.reducerPath]: journalApi.reducer,
   [newsApi.reducerPath]: newsApi.reducer,
   [sectionApi.reducerPath]: sectionApi.reducer,
+  [statApi.reducerPath]: statApi.reducer,
   [volumeApi.reducerPath]: volumeApi.reducer
 })
 

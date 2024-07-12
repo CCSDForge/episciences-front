@@ -12,6 +12,10 @@
     border: 1px solid var(--grey);
     border-bottom: 4px solid var(--red);
 
+    &-tile {
+      width: 120px;
+    }
+
     &-template {
       min-width: 90px;
       max-width: 90px;

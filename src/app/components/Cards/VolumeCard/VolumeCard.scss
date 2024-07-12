@@ -112,6 +112,10 @@
     justify-content: flex-start;
     gap: 20px;
 
+    &-img {
+      width: 120px;
+    }
+
     &-template {
       min-width: 90px;
       max-width: 90px;
