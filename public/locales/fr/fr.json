@@ -141,6 +141,10 @@
     },
     "statistics": {
       "title": "Statistiques",
+      "labels": {
+        "glance": "En un coup d'oeil",
+        "evaluationPublication": "Évaluation et publication"
+      },
       "types": {
         "nbSubmissions": "Soumissions",
         "acceptanceRate": "Taux d'acceptation",

@@ -9,8 +9,14 @@ export const statApi = createApi({
   reducerPath: 'stat',
   tagTypes: ['Stat'],
   endpoints: (build) => ({
-    fetchStats: build.query<{ data: IStat[], totalItems: number, range?: Range }, { rvcode: string, page: number, itemsPerPage: number }>({
-      query: ({ rvcode, page, itemsPerPage } :{ rvcode: string, page: number, itemsPerPage: number; }) => `statistics?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`,
+    fetchStats: build.query<{ data: IStat[], totalItems: number, range?: Range }, { rvcode: string, page: number, itemsPerPage: number; year?: number }>({
+      query: ({ rvcode, page, itemsPerPage, year } :{ rvcode: string, page: number, itemsPerPage: number; year?: number }) => {
+        if (year) {
+          return `statistics?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}&year=${year}`
+         }
+
+        return `statistics?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`;
+      },
       transformResponse: (baseQueryReturnValue: PaginatedResponseWithRange<IStat>) => {
         return {
           data: baseQueryReturnValue['hydra:member'],

@@ -141,6 +141,10 @@
     },
     "statistics": {
       "title": "Statistics",
+      "labels": {
+        "glance": "At a glance",
+        "evaluationPublication": "Evaluation and publication"
+      },
       "types": {
         "nbSubmissions": "Submissions",
         "acceptanceRate": "Acceptance rate",
