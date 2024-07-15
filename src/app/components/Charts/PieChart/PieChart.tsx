@@ -15,7 +15,33 @@ interface IPieChartProps {
 }
 
 export default function PieChart({ t, data }: IPieChartProps): JSX.Element {
-  const COLORS = ['#9A312C', '#C9605B', '#FF9994', '#FFC9C7'];
+  const CHART_COLORS = ['#9A312C', '#C9605B', '#FF9994', '#FFC9C7'];
+
+  const getLegend = (): JSX.Element => {
+    const notBeingToPublishStatuses = data.filter(singleData => !singleData.isBeingToPublishStatus)
+    const beingToPublishStatuses = data.filter(singleData => singleData.isBeingToPublishStatus)
+
+    return (
+      <div className='pieChart-legend'>
+        <div className='pieChart-legend-rows'>
+          {notBeingToPublishStatuses.map((singleData, index) => getLegendRow(singleData, index, CHART_COLORS.slice(0, 2)))}
+        </div>
+        <div className='pieChart-legend-category'>{t('pages.statistics.statuses.beingPublished')}</div>
+        <div className='pieChart-legend-rows'>
+          {beingToPublishStatuses.map((singleData, index) => getLegendRow(singleData, index, CHART_COLORS.slice(2, 4)))}
+        </div>
+      </div>
+    )
+  }
+
+  const getLegendRow = (singleData: IStatValueDetailsAsPieChart, index: number, colors: string[]): JSX.Element => {
+    return (
+      <div key={index} className='pieChart-legend-rows-row'>
+        <div className='pieChart-legend-rows-row-square' style={{ backgroundColor: colors[index % colors.length]}}></div>
+        <div>{`${singleData.count} ${t(`pages.statistics.statuses.${singleData.status}`)}`}</div>
+      </div>
+    )
+  }
 
   return (
     <div className='pieChart'>
@@ -25,20 +51,13 @@ export default function PieChart({ t, data }: IPieChartProps): JSX.Element {
             {data.map((_, index) => (
               <Cell
                 key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
+                fill={CHART_COLORS[index % CHART_COLORS.length]}
               />
             ))}
           </Pie>
         </RechartsPieChart>
       </ResponsiveContainer>
-      <div className='pieChart-legend'>
-        {data.map((d, index) => (
-          <div key={index} className='pieChart-legend-row'>
-            <div className='pieChart-legend-row-square' style={{ backgroundColor: COLORS[index % COLORS.length]}}></div>
-            <div>{`${d.count} ${t(`pages.statistics.statuses.${d.status}`)}`}</div>
-          </div>
-        ))}
-      </div>
+      {getLegend()}
     </div>
   )
 }

@@ -4,7 +4,7 @@ import { AvailableLanguage } from "../../../utils/i18n";
 import SwiperArticleCard, { SwiperArticleCardProps } from "./SwiperArticleCard/SwiperArticleCard";
 import SwiperBoardCard, { SwiperBoardCardProps } from "./SwiperBoardCard/SwiperBoardCard";
 
-export type SwiperCardType = 'article' | 'board';
+export type SwiperCardType = 'article' | 'board' | 'article-accepted';
 
 export type SwiperCardContent = SwiperArticleCardProps | SwiperBoardCardProps;
 
@@ -20,5 +20,5 @@ export default function Card({ type, language, t, content }: ISwiperCardProps): 
     return <SwiperBoardCard language={language} t={t} member={content as SwiperBoardCardProps} />
   }
 
-  return <SwiperArticleCard language={language} t={t} article={content as SwiperArticleCardProps} />
+  return <SwiperArticleCard language={language} t={t} type={type} article={content as SwiperArticleCardProps} />
 }

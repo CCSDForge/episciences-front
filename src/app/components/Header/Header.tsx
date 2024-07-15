@@ -61,6 +61,7 @@ export default function Header(): JSX.Element {
                 <div className='header-postheader-links-dropdown-content'>
                   <div className='header-postheader-links-dropdown-content-links'>
                     <Link to={PATHS.articles}>{t('components.header.links.articles')}</Link>
+                    <Link to={PATHS.articlesAccepted}>{t('components.header.links.articlesAccepted')}</Link>
                     <Link to={PATHS.volumes}>{t('components.header.links.volumes')}</Link>
                     <Link to={`${PATHS.volumes}/${lastVolume?.id}`}>{t('components.header.links.lastVolume')}</Link>
                     <Link to={PATHS.sections}>{t('components.header.links.sections')}</Link>

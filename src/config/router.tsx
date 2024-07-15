@@ -8,6 +8,7 @@ import Home from "../app/pages/Home/Home";
 import About from "../app/pages/About/About";
 import Articles from "../app/pages/Articles/Articles";
 import ArticleDetails from "../app/pages/ArticleDetails/ArticleDetails";
+import ArticlesAccepted from "../app/pages/ArticlesAccepted/ArticlesAccepted";
 import Authors from "../app/pages/Authors/Authors";
 import Boards from "../app/pages/Boards/Boards";
 import Credits from "../app/pages/Credits/Credits";
@@ -49,6 +50,7 @@ const router = createBrowserRouter([
       basicRoute("search", Search),
       basicRoute("articles", Articles),
       basicRoute("articleDetails", ArticleDetails),
+      basicRoute("articlesAccepted", ArticlesAccepted),
       basicRoute("authors", Authors),
       basicRoute("volumes", Volumes),
       basicRoute("volumeDetails", VolumeDetails),

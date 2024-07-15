@@ -51,6 +51,7 @@
       "about": "À propos",
       "links": {
         "articles": "Tous les articles",
+        "articlesAccepted": "Tous les articles acceptés",
         "volumes": "Tous les volumes",
         "lastVolume": "Dernier volume",
         "sections": "Rubriques",
@@ -103,6 +104,10 @@
         "specialIssues": {
           "subtitle": "Volumes spéciaux",
           "see": "Voir tous les volumes spéciaux"
+        },
+        "articlesAccepted": {
+          "subtitle": "Derniers articles acceptés",
+          "see": "Voir tous les articles acceptés"
         }
       }
     },
@@ -151,11 +156,15 @@
         "acceptanceRate": "Taux d'acceptation",
         "medianSubmissionPublication": "Temps médian entre la soumission et la publication",
         "medianSubmissionAcceptance": "Temps médian entre la soumission et l'acceptation",
-        "nbSubmissionsDetails": "Répartition des soumissions"
+        "nbSubmissionsDetails": "Répartition des soumissions",
+        "medianReviewsNumber": "Nombre médian de revues d'articles de recherche",
+        "reviewsReceived": "Revues reçues",
+        "reviewsRequested": "Revues demandées"
       },
       "statuses": {
         "published": "Articles publiés",
         "refused": "Articles refusés",
+        "beingPublished": "En cours de publication",
         "accepted": "Articles acceptés",
         "other-status": "Autre statut"
       }

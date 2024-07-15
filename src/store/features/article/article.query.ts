@@ -10,10 +10,14 @@ export const articleApi = createApi({
   reducerPath: 'article',
   tagTypes: ['Article'],
   endpoints: (build) => ({
-    fetchArticles: build.query<{ data: FetchedArticle[], totalItems: number, range?: Range }, { rvcode: string, page: number, itemsPerPage: number, types?: string[], years?: number[] }>({
-      query: ({ rvcode, page, itemsPerPage, types, years }) => {
+    fetchArticles: build.query<{ data: FetchedArticle[], totalItems: number, range?: Range }, { rvcode: string, page: number, itemsPerPage: number, types?: string[], years?: number[], onlyAccepted?: boolean }>({
+      query: ({ rvcode, page, itemsPerPage, types, years, onlyAccepted }) => {
         const baseUrl = `papers?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`;
         let queryParams = '';
+
+        if (onlyAccepted) {
+          queryParams += `&only_accepted=true`;
+        }
 
         if (types && types.length > 0) {
           const typesQuery = types.map(type => `type[]=${type}`).join('&')
@@ -45,7 +49,7 @@ export const articleApi = createApi({
           }
         }
       },
-      onQueryStarted: async ({ rvcode, page, itemsPerPage, types, years }, { queryFulfilled, dispatch }) => {
+      onQueryStarted: async ({ rvcode, page, itemsPerPage, types, years, onlyAccepted }, { queryFulfilled, dispatch }) => {
         const { data: articles } = await queryFulfilled;
         const fullArticles: FetchedArticle[] = await Promise.all(
           articles.data.map(async (article: FetchedArticle) => {
@@ -54,7 +58,7 @@ export const articleApi = createApi({
           })
         );
 
-        dispatch(articleApi.util.updateQueryData('fetchArticles', { rvcode, page, itemsPerPage, types, years }, (draftedData) => {
+        dispatch(articleApi.util.updateQueryData('fetchArticles', { rvcode, page, itemsPerPage, types, years, onlyAccepted }, (draftedData) => {
           Object.assign(draftedData.data, fullArticles)
         }));
       },

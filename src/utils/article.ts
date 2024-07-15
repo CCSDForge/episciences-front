@@ -32,6 +32,7 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
       tag: articleDB.current.type?.title.toLowerCase(),
       pdfLink: articleDB.current.files.link,
       halLink: articleDB.current.repository.paper_url,
+      docLink: articleDB.current.repository.doc_url,
       keywords: articleContent.keywords,
       doi: articleContent.doi_data.resource
     };
