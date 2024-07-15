@@ -1,8 +1,11 @@
 .swiper {
   width: 100%;
 
-  &-wrapper {
-    margin-bottom: 40px;
+  &-page-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0px -40px 20px -40px;
   }
 
   &-pagination {
@@ -15,5 +18,14 @@
         background: var(--red);
       }
     }
+  }
+
+  &-button-prev, &-button-next {
+    width: 22px;
+    height: 40px;
+    position: relative;
+    left: 0;
+    right: 0;
+    color: var(--red);
   }
 }

@@ -1,8 +1,9 @@
 import { TFunction } from 'i18next';
 import { Swiper as SwiperReactLib, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
+import { Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 import { AvailableLanguage } from '../../../utils/i18n';
 import Card, { SwiperCardType, SwiperCardContent } from '../SwiperCards/SwiperCard'
@@ -20,42 +21,31 @@ interface ISwiperProps {
 export default function Swiper({ id, type, language, t, slidesPerView, cards }: ISwiperProps): JSX.Element {
   return (
     <>
-      <SwiperReactLib
-        slidesPerView={slidesPerView}
-        slidesPerGroup={3}
-        spaceBetween={15}
-        modules={[Pagination]}
-        pagination={{
-          el: `.${id}-pagination`
-        }}
-        onSlideChange={(swiper) => {
-          const index = Math.floor(swiper.activeIndex / 3);
-          const paginationContainer = document.querySelector(`.${id}-pagination`);
-
-          if (paginationContainer) {
-            const dots = paginationContainer.querySelectorAll('.swiper-pagination-bullet');
-
-            dots.forEach((dot, i) => {
-              if (i === index) {
-                dot.classList.add('swiper-pagination-bullet-active');
-              } else {
-                dot.classList.remove('swiper-pagination-bullet-active');
-              }
-            });
-          }
-        }}
-      >
-        {cards.map((content: SwiperCardContent, key: number) => (
-          <SwiperSlide key={key}>
-            <Card language={language} t={t} type={type} content={content} />
-          </SwiperSlide>
-        ))}
-      </SwiperReactLib>
-      <div className={`${id}-pagination swiper-pagination`}>
-        {Array.from({ length: 6 }).map((_, index) => (
-          <span key={index} className={`swiper-pagination-bullet ${index === 0 ? 'swiper-pagination-bullet-active' : ''}`}></span>
-        ))}
+      <div className='swiper-page-wrapper'>
+        <div className={`${id}-button-prev swiper-button-prev`}></div>
+        <SwiperReactLib
+          slidesPerView={slidesPerView}
+          slidesPerGroup={3}
+          spaceBetween={15}
+          modules={[Pagination, Navigation]}
+          pagination={{
+            el: `.${id}-pagination`,
+            clickable: true
+          }}
+          navigation={{
+            prevEl: `.${id}-button-prev`,
+            nextEl: `.${id}-button-next`,
+          }}
+        >
+          {cards.map((content: SwiperCardContent, key: number) => (
+            <SwiperSlide key={key}>
+              <Card language={language} t={t} type={type} content={content} />
+            </SwiperSlide>
+          ))}
+        </SwiperReactLib>
+        <div className={`${id}-button-next swiper-button-next`}></div>
       </div>
-  </>
+      <div className={`${id}-pagination swiper-pagination`}></div>
+    </>
   )
 }

@@ -1,0 +1,29 @@
+.pieChart {
+  display: flex;
+  justify-content: space-between;
+
+  .recharts-responsive-container {
+    width: 100%;
+    height: 100%;
+
+    .recharts-wrapper {
+      pointer-events: none;
+    }
+  }
+
+  &-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    &-row {
+      display: flex;
+      gap: 12px;
+
+      &-square {
+        width: 12px;
+        height: 12px;
+      }
+    }
+  }
+}

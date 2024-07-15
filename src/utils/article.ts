@@ -43,9 +43,11 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
 export enum ARTICLE_TYPE {
   ARTICLE = 'article',
   CONFERENCE = 'conferenceobject',
+  PRE_PRINT = 'preprint'
 }
 
 export const articleTypes: { labelPath: string; value: string; }[] = [
   { labelPath: 'pages.articles.types.article', value: ARTICLE_TYPE.ARTICLE },
   { labelPath: 'pages.articles.types.conference', value: ARTICLE_TYPE.CONFERENCE },
+  { labelPath: 'pages.articles.types.preprint', value: ARTICLE_TYPE.PRE_PRINT },
 ]

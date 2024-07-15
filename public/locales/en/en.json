@@ -110,7 +110,8 @@
       "title": "Articles",
       "types": {
         "article": "Article",
-        "conference": "Conference paper"
+        "conference": "Conference paper",
+        "preprint": "Preprint"
       }
     },
     "volumes": {
@@ -149,7 +150,14 @@
         "nbSubmissions": "Submissions",
         "acceptanceRate": "Acceptance rate",
         "medianSubmissionPublication": "Median Time submission-publication",
-        "medianSubmissionAcceptance": "Median Time submission-acceptance"
+        "medianSubmissionAcceptance": "Median Time submission-acceptance",
+        "nbSubmissionsDetails": "Submissions details"
+      },
+      "statuses": {
+        "published": "Published articles",
+        "refused": "Refused articles",
+        "accepted": "Accepted articles",
+        "other-status": "Other status"
       }
     },
     "boards": {
