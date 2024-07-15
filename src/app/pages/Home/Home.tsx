@@ -35,6 +35,7 @@ export default function Home(): JSX.Element {
   const { data: stats } = useFetchStatsQuery({ rvcode: rvcode!, page: 1, itemsPerPage: 3 }, { skip: !rvcode })
   const { data: indexation } = useFetchIndexationPageQuery(rvcode!, { skip: !rvcode })
   const { data: issues } = useFetchVolumesQuery({ rvcode: rvcode!, language: language, page: 1, itemsPerPage: 2, types: [VOLUME_TYPE.SPECIAL_ISSUE] }, { skip: !rvcode })
+  const { data: acceptedArticles } = useFetchArticlesQuery({ rvcode: rvcode!, page: 1, itemsPerPage: 20, onlyAccepted: true }, { skip: !rvcode })
 
   const getBlockRendering = (blockKey: HOMEPAGE_BLOCK) => blocksConfiguration().find((config) => config.key === blockKey)
 
@@ -105,6 +106,20 @@ export default function Home(): JSX.Element {
             </Link>
           </div>
           <IssuesSection language={language} t={t} issues={issues?.data ?? []} currentJournal={currentJournal} />
+        </>
+      )}
+      {getBlockRendering(HOMEPAGE_BLOCK.LATEST_ACCEPTED_ARTICLES_CAROUSEL)?.render && (
+        <>
+          <div className='home-subtitle'>
+            <h2>{t('pages.home.blocks.articlesAccepted.subtitle')}</h2>
+            <Link to={PATHS.articlesAccepted}>
+              <div className='home-subtitle-all'>
+                <div className='home-subtitle-all-text'>{t('pages.home.blocks.articlesAccepted.see')}</div>
+                <img src={caretRight} alt='Caret right icon' />
+              </div>
+            </Link>
+          </div>
+          <Swiper id='articles-accepted-swiper' type='article-accepted' language={language} t={t} slidesPerView={3} cards={acceptedArticles?.data.filter(article => article?.title) ?? []}/>
         </>
       )}
     </main>

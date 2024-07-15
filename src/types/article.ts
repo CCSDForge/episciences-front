@@ -18,6 +18,7 @@ export interface IArticle {
   tag?: string;
   pdfLink: string;
   halLink: string;
+  docLink: string;
   keywords?: string[] | Record<AvailableLanguage, string[]>;
   doi: string;
 }

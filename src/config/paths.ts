@@ -4,6 +4,7 @@ export const PATHS = {
   search: '/search',
   articles: 'articles',
   articleDetails: '/articles/:id',
+  articlesAccepted: 'articles-accepted',
   authors: '/authors',
   volumes: '/volumes',
   volumeDetails: '/volumes/:id',

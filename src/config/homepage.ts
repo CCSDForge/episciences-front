@@ -5,7 +5,8 @@ export enum HOMEPAGE_BLOCK {
   MEMBERS_CAROUSEL = 'members-carousel',
   STATS = 'stats',
   JOURNAL_INDEXATION = 'journal-indexation',
-  SPECIAL_ISSUES = 'special-issues'
+  SPECIAL_ISSUES = 'special-issues',
+  LATEST_ACCEPTED_ARTICLES_CAROUSEL = 'latest-accepted-articles-carousel',
 }
 
 
@@ -36,6 +37,10 @@ export const blocksConfiguration = (): { key: HOMEPAGE_BLOCK, render: boolean }[
   },
   {
     key: HOMEPAGE_BLOCK.SPECIAL_ISSUES,
+    render: true
+  },
+  {
+    key: HOMEPAGE_BLOCK.LATEST_ACCEPTED_ARTICLES_CAROUSEL,
     render: true
   }
 ]

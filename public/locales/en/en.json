@@ -51,6 +51,7 @@
       "about": "About",
       "links": {
         "articles": "All articles",
+        "articlesAccepted": "All accepted articles",
         "volumes": "All volumes",
         "lastVolume": "Last volume",
         "sections": "Sections",
@@ -103,6 +104,10 @@
         "specialIssues": {
           "subtitle": "Special issues",
           "see": "See all issues"
+        },
+        "articlesAccepted": {
+          "subtitle": "Latest accepted articles",
+          "see": "See all accepted articles"
         }
       }
     },
@@ -151,11 +156,15 @@
         "acceptanceRate": "Acceptance rate",
         "medianSubmissionPublication": "Median Time submission-publication",
         "medianSubmissionAcceptance": "Median Time submission-acceptance",
-        "nbSubmissionsDetails": "Submissions details"
+        "nbSubmissionsDetails": "Submissions details",
+        "medianReviewsNumber": "Median number of reviews for research articles",
+        "reviewsReceived": "Reviews received",
+        "reviewsRequested": "Reviews requested"
       },
       "statuses": {
         "published": "Published articles",
         "refused": "Refused articles",
+        "beingPublished": "Being published",
         "accepted": "Accepted articles",
         "other-status": "Other status"
       }

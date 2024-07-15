@@ -1,10 +1,14 @@
 .pieChart {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: 60px;
+  width: 100%;
+  height: 100%;
 
   .recharts-responsive-container {
-    width: 100%;
-    height: 100%;
+    width: 150px !important;
+    height: 150px !important;
 
     .recharts-wrapper {
       pointer-events: none;
@@ -14,16 +18,31 @@
   &-legend {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 14px;
+    text-align: start;
+    font-size: 12px;
 
-    &-row {
+    &-rows {
       display: flex;
-      gap: 12px;
+      flex-direction: column;
+      gap: 8px;
 
-      &-square {
-        width: 12px;
-        height: 12px;
+      &-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+  
+        &-square {
+          width: 12px;
+          height: 12px;
+        }
       }
+    }
+
+    &-category {
+      font-style: italic;
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--grey-light);
     }
   }
 }
