@@ -110,7 +110,8 @@
       "title": "Articles",
       "types": {
         "article": "Article",
-        "conference": "Communication dans un congrès"
+        "conference": "Communication dans un congrès",
+        "preprint": "Pré-publication"
       }
     },
     "volumes": {
@@ -149,7 +150,14 @@
         "nbSubmissions": "Soumissions",
         "acceptanceRate": "Taux d'acceptation",
         "medianSubmissionPublication": "Temps médian entre la soumission et la publication",
-        "medianSubmissionAcceptance": "Temps médian entre la soumission et l'acceptation"
+        "medianSubmissionAcceptance": "Temps médian entre la soumission et l'acceptation",
+        "nbSubmissionsDetails": "Répartition des soumissions"
+      },
+      "statuses": {
+        "published": "Articles publiés",
+        "refused": "Articles refusés",
+        "accepted": "Articles acceptés",
+        "other-status": "Autre statut"
       }
     },
     "boards": {

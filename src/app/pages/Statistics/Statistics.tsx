@@ -3,9 +3,11 @@ import { useTranslation } from 'react-i18next';
 
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchStatsQuery } from '../../../store/features/stat/stat.query';
+import { getFormattedStatsAsPieChart, isIStatValueDetails } from '../../../types/stat';
 import { STAT_TYPE, IStatisticsPerLabel, STAT_LABEL, statTypes } from '../../../utils/stat';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
+import PieChart from '../../components/Charts/PieChart/PieChart';
 import StatisticsSidebar, { IStatisticsYearSelection } from '../../components/Sidebars/StatisticsSidebar/StatisticsSidebar';
 import './Statistics.scss'
 
@@ -49,7 +51,7 @@ export default function Statistics(): JSX.Element {
 
   useEffect(() => {
     if (stats) {
-      const glanceStatTypes = [STAT_TYPE.ACCEPTANCE_RATE, STAT_TYPE.NB_SUBMISSIONS]
+      const glanceStatTypes = [STAT_TYPE.ACCEPTANCE_RATE, STAT_TYPE.NB_SUBMISSIONS, STAT_TYPE.NB_SUBMISSIONS_DETAILS]
       const evaluationPublicationStatTypes = [STAT_TYPE.MEDIAN_SUBMISSION_PUBLICATION]
 
       const glanceStats = stats.data.filter((stat) => glanceStatTypes.includes(stat.name as STAT_TYPE))
@@ -65,7 +67,7 @@ export default function Statistics(): JSX.Element {
       setStatisticsPerLabel(updatedStatisticsPerLabel)
     }
 
-  }, [stats, stats?.data, statisticsPerLabel])
+  }, [stats, stats?.data])
 
   return (
     <main className='statistics'>
@@ -87,12 +89,18 @@ export default function Statistics(): JSX.Element {
                   <div className="statistics-content-results-cards-row-stats">
                     {statisticPerLabel.statistics.map((statistic, index) => (
                       <div key={index} className={`statistics-content-results-cards-row-stats-row ${index !== statisticPerLabel.statistics.length - 1 && 'statistics-content-results-cards-row-stats-row-bordered'}`}>
-                        {statistic.unit ? (
-                          <div className="statistics-content-results-cards-row-stats-row-stat">{statistic.value} {i18n.exists(`common.${statistic.unit}`) ? t(`common.${statistic.unit}`) : statistic.unit}</div>
+                        {isIStatValueDetails(statistic.value) ? (
+                          <PieChart t={t} data={getFormattedStatsAsPieChart(statistic.value)} />
                         ) : (
-                          <div className="statistics-content-results-cards-row-stats-row-stat">{statistic.value}</div>
+                          <>
+                            {statistic.unit ? (
+                              <div className="statistics-content-results-cards-row-stats-row-stat">{statistic.value} {i18n.exists(`common.${statistic.unit}`) ? t(`common.${statistic.unit}`) : statistic.unit}</div>
+                            ) : (
+                              <div className="statistics-content-results-cards-row-stats-row-stat">{statistic.value}</div>
+                            )}
+                            <div className="statistics-content-results-cards-row-stats-row-title">{t(statTypes.find(stat => stat.value === statistic.name)?.labelPath!)}</div>
+                          </>
                         )}
-                        <div className="statistics-content-results-cards-row-stats-row-title">{t(statTypes.find(stat => stat.value === statistic.name)?.labelPath!)}</div>
                       </div>
                     ))}
                   </div>
