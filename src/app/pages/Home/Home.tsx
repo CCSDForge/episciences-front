@@ -68,7 +68,7 @@ export default function Home(): JSX.Element {
               </div>
             </Link>
           </div>
-          <NewsSection language={language} news={news?.data ?? []} />
+          <NewsSection language={language} t={t} news={news?.data ?? []} />
         </>
       )}
       {getBlockRendering(HOMEPAGE_BLOCK.MEMBERS_CAROUSEL)?.render && (

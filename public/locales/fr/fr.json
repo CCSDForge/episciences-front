@@ -2,6 +2,8 @@
   "common": {
     "article": "article",
     "articles": "articles",
+    "articleAccepted": "article accepté",
+    "articlesAccepted": "articles acceptés",
     "volume": "volume",
     "volumes": "volumes",
     "section": "rubrique",
@@ -20,6 +22,8 @@
     "pdf": "PDF",
     "week": "semaine",
     "content": "Contenu",
+    "publishedOn": "Publié le",
+    "acceptedOn": "Accepté le",
     "abstract": "Abstract",
     "toggleAbstracts": {
       "hideAll": "Cacher tous les abstracts",
@@ -118,6 +122,12 @@
         "conference": "Communication dans un congrès",
         "preprint": "Pré-publication"
       }
+    },
+    "articleDetails": {
+      "title": "Article"
+    },
+    "articlesAccepted": {
+      "title": "Articles"
     },
     "volumes": {
       "title": "Volumes",

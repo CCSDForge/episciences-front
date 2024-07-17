@@ -44,7 +44,7 @@ export default function ArticleCard({ language, t, article, toggleAbstractCallba
         </div>
       )}
       <div className='articleCard-anchor'>
-        <div className='articleCard-anchor-publicationDate'>{formatDate(article.publicationDate, language)}</div>
+        <div className='articleCard-anchor-publicationDate'>{`${t('common.publishedOn')} ${formatDate(article?.publicationDate!, language)}`}</div>
         <div className="articleCard-anchor-icons">
           <Link to={article.pdfLink} target='_blank'>
             <div className="articleCard-anchor-icons-download">

@@ -2,6 +2,8 @@
   "common": {
     "article": "article",
     "articles": "articles",
+    "articleAccepted": "article accepted",
+    "articlesAccepted": "articles accepted",
     "volume": "volume",
     "volumes": "volumes",
     "section": "section",
@@ -20,6 +22,8 @@
     "pdf": "PDF",
     "week": "week",
     "content": "Content",
+    "publishedOn": "Published on",
+    "acceptedOn": "Accepted on",
     "abstract": "Abstract",
     "toggleAbstracts": {
       "hideAll": "Hide all abstracts",
@@ -118,6 +122,12 @@
         "conference": "Conference paper",
         "preprint": "Preprint"
       }
+    },
+    "articleDetails": {
+      "title": "Article"
+    },
+    "articlesAccepted": {
+      "title": "Articles"
     },
     "volumes": {
       "title": "Volumes",
