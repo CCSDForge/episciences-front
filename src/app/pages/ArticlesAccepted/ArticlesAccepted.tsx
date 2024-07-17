@@ -6,48 +6,43 @@ import { useFetchArticlesQuery } from '../../../store/features/article/article.q
 import { FetchedArticle, articleTypes } from '../../../utils/article';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
-import ArticleCard, { IArticleCard } from "../../components/Cards/ArticleCard/ArticleCard";
-import ArticlesSidebar, { IArticleTypeSelection, IArticleYearSelection } from "../../components/Sidebars/ArticlesSidebar/ArticlesSidebar";
+import ArticleAcceptedCard, { IArticleAcceptedCard } from "../../components/Cards/ArticleAcceptedCard/ArticleAcceptedCard";
+import ArticlesAcceptedSidebar, { IArticleTypeSelection } from "../../components/Sidebars/ArticlesAcceptedSidebar/ArticlesAcceptedSidebar";
 import Pagination from "../../components/Pagination/Pagination";
 import Tag from "../../components/Tag/Tag";
 import './ArticlesAccepted.scss';
 
-type ArticleTypeFilter = 'type' | 'year';
-
-interface IArticleFilter {
-  type: ArticleTypeFilter;
+interface IArticleAcceptedFilter {
   value: string | number;
   label?: number;
   labelPath?: string;
 }
 
-type ArticleWithAbstractToggle = FetchedArticle & {
+type ArticleAcceptedWithAbstractToggle = FetchedArticle & {
   openedAbstract: boolean;
 }
 
-export default function Articles(): JSX.Element {
+export default function ArticlesAccepted(): JSX.Element {
   const { t } = useTranslation();
 
-  const ARTICLES_PER_PAGE = 10;
+  const ARTICLES_ACCEPTED_PER_PAGE = 10;
 
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [articlesWithAbstractToggle, setArticlesWithAbstractToggle] = useState<ArticleWithAbstractToggle[]>([])
+  const [articlesAcceptedWithAbstractToggle, setArticlesAcceptedWithAbstractToggle] = useState<ArticleAcceptedWithAbstractToggle[]>([])
   const [types, setTypes] = useState<IArticleTypeSelection[]>([])
-  const [years, setYears] = useState<IArticleYearSelection[]>([]);
-  const [taggedFilters, setTaggedFilters] = useState<IArticleFilter[]>([]);
+  const [taggedFilters, setTaggedFilters] = useState<IArticleAcceptedFilter[]>([]);
   const [showAllAbstracts, setShowAllAbstracts] = useState(false)
 
   const getSelectedTypes = (): string[] => types.filter(t => t.isChecked).map(t => t.value);
-  const getSelectedYears = (): number[] => years.filter(y => y.isChecked).map(y => y.year);
 
-  const { data: articles, isFetching: isFetchingArticles } = useFetchArticlesQuery({ rvcode: rvcode!, page: currentPage, itemsPerPage: ARTICLES_PER_PAGE, types: getSelectedTypes(), years: getSelectedYears() }, { skip: !rvcode, refetchOnMountOrArgChange: true })
+  const { data: articlesAccepted, isFetching: isFetchingArticlesAccepted } = useFetchArticlesQuery({ rvcode: rvcode!, page: currentPage, itemsPerPage: ARTICLES_ACCEPTED_PER_PAGE, onlyAccepted: true, types: getSelectedTypes() }, { skip: !rvcode, refetchOnMountOrArgChange: true })
 
   useEffect(() => {
-    if (articles?.range && articles.range.types && types.length === 0) {
-      const initTypes = articles.range.types
+    if (articlesAccepted?.range && articlesAccepted.range.types && types.length === 0) {
+      const initTypes = articlesAccepted.range.types
         .filter((t) => articleTypes.find((at) => at.value === t))
         .map((t) => {
         const matchingType = articleTypes.find((at) => at.value === t)
@@ -61,21 +56,10 @@ export default function Articles(): JSX.Element {
 
       setTypes(initTypes)
     }
-  }, [articles?.range, articles?.range?.types, types])
-
-  useEffect(() => {
-    if (articles?.range && articles.range.years && years.length === 0) {
-      const initYears = articles.range.years.map((y) => ({
-        year: y,
-        isChecked: false
-      }))
-
-      setYears(initYears)
-    }
-  }, [articles?.range, articles?.range?.years, years])
+  }, [articlesAccepted?.range, articlesAccepted?.range?.types, types])
 
   const handlePageClick = (selectedItem: { selected: number }): void => {
-    setArticlesWithAbstractToggle([]);
+    setArticlesAcceptedWithAbstractToggle([]);
     setCurrentPage(selectedItem.selected + 1);
   };
 
@@ -91,97 +75,58 @@ export default function Articles(): JSX.Element {
     setTypes(updatedTypes);
   }
 
-  const onCheckYear = (year: number): void => {
-    const updatedYears = years.map((y) => {
-      if (y.year === year) {
-        return { ...y, isChecked: !y.isChecked };
-      }
-
-      return { ...y };
-    });
-
-    setYears(updatedYears);
-  }
-
   const setAllTaggedFilters = (): void => {
-    const initFilters: IArticleFilter[] = []
+    const initFilters: IArticleAcceptedFilter[] = []
 
     types.filter((t) => t.isChecked).forEach((t) => {
       initFilters.push({
-        type: 'type',
         value: t.value,
         labelPath: t.labelPath
-      })
-    })
-
-    years.filter((y) => y.isChecked).forEach((y) => {
-      initFilters.push({
-        type: 'year',
-        value: y.year,
-        label: y.year
       })
     })
 
     setTaggedFilters(initFilters)
   }
 
-  const onCloseTaggedFilter = (type: ArticleTypeFilter, value: string | number) => {
-    if (type === 'type') {
-      const updatedTypes = types.map((t) => {
-        if (t.value === value) {
-          return { ...t, isChecked: false };
-        }
+  const onCloseTaggedFilter = (value: string | number) => {
+    const updatedTypes = types.map((t) => {
+      if (t.value === value) {
+        return { ...t, isChecked: false };
+      }
 
-        return t;
-      });
+      return t;
+    });
 
-      setTypes(updatedTypes);
-    } else if (type === 'year') {
-      const updatedYears = years.map((y) => {
-        if (y.year === value) {
-          return { ...y, isChecked: false };
-        }
-  
-        return y;
-      });
-  
-      setYears(updatedYears);
-    }
+    setTypes(updatedTypes);
   }
 
   const clearTaggedFilters = (): void => {
     const updatedTypes = types.map((t) => {
       return { ...t, isChecked: false };
     });
-
-    const updatedYears = years.map((y) => {
-      return { ...y, isChecked: false };
-    });
-
     setTypes(updatedTypes);
-    setYears(updatedYears);
     setTaggedFilters([]);
   }
 
   useEffect(() => {
     setAllTaggedFilters()
-  }, [types, years])
+  }, [types])
 
   useEffect(() => {
-    if (articles) {
-      const displayedArticles = articles?.data.filter((article) => article?.title).map((article) => {
+    if (articlesAccepted) {
+      const displayedArticlesAccepted = articlesAccepted?.data.filter((article) => article?.title).map((article) => {
         return { ...article, openedAbstract: false };
       });
 
-      setArticlesWithAbstractToggle(displayedArticles)
+      setArticlesAcceptedWithAbstractToggle(displayedArticlesAccepted)
     }
 
-  }, [articles, articles?.data])
+  }, [articlesAccepted, articlesAccepted?.data])
 
   const toggleAbstract = (articleId?: number): void => {
     if (!articleId) return
 
-    const updatedArticles = articlesWithAbstractToggle.map((article) => {
+    const updatedArticlesAccepted = articlesAcceptedWithAbstractToggle.map((article) => {
       if (article?.id === articleId) {
         return {
           ...article,
@@ -192,58 +137,58 @@ export default function Articles(): JSX.Element {
       return { ...article };
     });
 
-    setArticlesWithAbstractToggle(updatedArticles)
+    setArticlesAcceptedWithAbstractToggle(updatedArticlesAccepted)
   }
 
   const toggleAllAbstracts = (): void => {
     const isShown = !showAllAbstracts
 
-    const updatedArticles = articlesWithAbstractToggle.map((article) => ({
+    const updatedArticlesAccepted = articlesAcceptedWithAbstractToggle.map((article) => ({
       ...article,
       openedAbstract: isShown
     }));
 
-    setArticlesWithAbstractToggle(updatedArticles)
+    setArticlesAcceptedWithAbstractToggle(updatedArticlesAccepted)
     setShowAllAbstracts(isShown)
   }
 
   return (
-    <main className='articles'>
+    <main className='articlesAccepted'>
       <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }} crumbLabel={t('pages.articlesAccepted.title')} />
-      {/* <div className='articles-title'>
-        <h1>{t('pages.articles.title')}</h1>
-        <div className='articles-title-count'>
-          {articles && articles.totalItems > 1 ? (
-            <div className='articles-title-count-text'>{articles.totalItems} {t('common.articles')}</div>
+      <div className='articlesAccepted-title'>
+        <h1>{t('pages.articlesAccepted.title')}</h1>
+        <div className='articlesAccepted-title-count'>
+          {articlesAccepted && articlesAccepted.totalItems > 1 ? (
+            <div className='articlesAccepted-title-count-text'>{articlesAccepted.totalItems} {t('common.articlesAccepted')}</div>
           ) : (
-            <div className='articles-title-count-text'>{articles?.totalItems ?? 0} {t('common.article')}</div>
+            <div className='articlesAccepted-title-count-text'>{articlesAccepted?.totalItems ?? 0} {t('common.articleAccepted')}</div>
           )}
         </div>
       </div>
-      <div className="articles-filters">
-        <div className="articles-filters-tags">
+      <div className="articlesAccepted-filters">
+        <div className="articlesAccepted-filters-tags">
           {taggedFilters.map((filter, index) => (
-            <Tag key={index} text={filter.labelPath ? t(filter.labelPath) : filter.label!.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
+            <Tag key={index} text={filter.labelPath ? t(filter.labelPath) : filter.label!.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.value)}/>
           ))}
-          <div className="articles-filters-tags-clear" onClick={clearTaggedFilters}>{t('common.filters.clearAll')}</div>
+          <div className="articlesAccepted-filters-tags-clear" onClick={clearTaggedFilters}>{t('common.filters.clearAll')}</div>
         </div>
-        <div className="articles-filters-abstracts" onClick={toggleAllAbstracts}>
+        <div className="articlesAccepted-filters-abstracts" onClick={toggleAllAbstracts}>
           {`${showAllAbstracts ? t('common.toggleAbstracts.hideAll') : t('common.toggleAbstracts.showAll')}`}
         </div>
       </div>
-      <div className='articles-content'>
-        <div className='articles-content-results'>
-          <ArticlesSidebar t={t} types={types} onCheckTypeCallback={onCheckType} years={years} onCheckYearCallback={onCheckYear} />
-          {isFetchingArticles ? (
+      <div className='articlesAccepted-content'>
+        <div className='articlesAccepted-content-results'>
+          <ArticlesAcceptedSidebar t={t} types={types} onCheckTypeCallback={onCheckType} />
+          {isFetchingArticlesAccepted ? (
             <Loader />
           ) : (
-            <div className='articles-content-results-cards'>
-              {articlesWithAbstractToggle.map((article, index) => (
-                <ArticleCard
+            <div className='articlesAccepted-content-results-cards'>
+              {articlesAcceptedWithAbstractToggle.map((article, index) => (
+                <ArticleAcceptedCard
                   key={index}
                   language={language}
                   t={t}
-                  article={article as IArticleCard}
+                  article={article as IArticleAcceptedCard}
                   toggleAbstractCallback={(): void => toggleAbstract(article?.id)}
                 />
               ))}
@@ -252,11 +197,11 @@ export default function Articles(): JSX.Element {
         </div>
         <Pagination
           currentPage={currentPage}
-          itemsPerPage={ARTICLES_PER_PAGE}
-          totalItems={articles?.totalItems}
+          itemsPerPage={ARTICLES_ACCEPTED_PER_PAGE}
+          totalItems={articlesAccepted?.totalItems}
           onPageChange={handlePageClick}
         />
-      </div> */}
+      </div>
     </main>
   )
 }

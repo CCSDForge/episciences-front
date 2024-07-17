@@ -29,7 +29,7 @@ export default function AuthorDetailsSidebar ({ language, t, rvcode, expandedAut
         {articles?.data.map((article, index) => (
           <div key={index} className="authorDetailsSidebar-content-article">
             <div className="authorDetailsSidebar-content-article-title">{article.title}</div>
-            <div className="authorDetailsSidebar-content-article-publicationDate">{formatDate(article.publicationDate, language)}</div>
+            <div className="authorDetailsSidebar-content-article-publicationDate">{`${t('common.publishedOn')} ${formatDate(article.publicationDate, language)}`}</div>
             {article.doi && (
                 <div className="authorDetailsSidebar-content-article-doi">
                   <div className="authorDetailsSidebar-content-article-doi-text">DOI :</div>

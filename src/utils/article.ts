@@ -12,6 +12,8 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
 
     const abstract = typeof articleContent.abstract?.value === 'string' ? articleContent.abstract?.value : articleContent.abstract?.value.value 
 
+    const acceptanceDate = `${articleJournal?.journal_article.acceptance_date.year}-${articleJournal?.journal_article.acceptance_date.month}-${articleJournal?.journal_article.acceptance_date.day}`
+
     let authors = null;
 
     if (Array.isArray(articleContent.contributors.person_name)) {
@@ -29,16 +31,28 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
       abstract,
       authors,
       publicationDate: articleDB.current.dates.publication_date,
+      acceptanceDate,
       tag: articleDB.current.type?.title.toLowerCase(),
       pdfLink: articleDB.current.files.link,
       halLink: articleDB.current.repository.paper_url,
       docLink: articleDB.current.repository.doc_url,
+      repositoryIdentifier: articleDB.current.identifiers.repository_identifier,
       keywords: articleContent.keywords,
       doi: articleContent.doi_data.resource
     };
   }
 
   return undefined;
+}
+
+export const formatArticleAuthors = (article: FetchedArticle): string => {
+  const splitAuthors = article?.authors.split(',') ?? []
+
+  if (splitAuthors.length > 3) {
+    return `${splitAuthors.splice(0, 3).join(',')} et al`
+  }
+
+  return splitAuthors.join(',')
 }
 
 export enum ARTICLE_TYPE {
