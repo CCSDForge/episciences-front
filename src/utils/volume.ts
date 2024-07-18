@@ -1,4 +1,4 @@
-import { IVolume, IVolumeMetadata, RawVolume, RawVolumeMetadata } from "../types/volume";
+import { IVolume, IVolumeMetadata, IVolumeSettingsProceeding, RawVolume, RawVolumeMetadata } from "../types/volume";
 import { AvailableLanguage } from "./i18n";
 
 export const formatVolume = (language: AvailableLanguage, volume: RawVolume): IVolume => {
@@ -16,6 +16,11 @@ export const formatVolume = (language: AvailableLanguage, volume: RawVolume): IV
     }
   }
 
+  let settingsProceeding: IVolumeSettingsProceeding[] = []
+  if (volume['settings_proceeding'] && volume['settings_proceeding'].length) {
+    settingsProceeding = volume['settings_proceeding']
+  }
+
   return {
     ...volume,
     id: volume['vid'],
@@ -27,7 +32,8 @@ export const formatVolume = (language: AvailableLanguage, volume: RawVolume): IV
     articles: volume['papers'],
     downloadLink: `https://${import.meta.env.VITE_JOURNAL_RVCODE}.episciences.org/volumes/${volume['vid']}/${volume['vid']}.pdf`,
     metadatas: metadatas,
-    tileImageURL
+    tileImageURL,
+    settingsProceeding: settingsProceeding
   }
 }
 
@@ -37,6 +43,8 @@ export const formatVolumeMetadata = (metadata: RawVolumeMetadata): IVolumeMetada
     title: metadata['titles'],
     content: metadata['content'],
     file: metadata['file'],
+    createdAt: metadata['date_creation'],
+    updatedAt: metadata['date_updated']
   }
 }
 

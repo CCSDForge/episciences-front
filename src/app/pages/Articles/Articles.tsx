@@ -209,7 +209,9 @@ export default function Articles(): JSX.Element {
 
   return (
     <main className='articles'>
-      <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }} crumbLabel={t('pages.articles.title')} />
+      <Breadcrumb parents={[
+        { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }
+      ]} crumbLabel={t('pages.articles.title')} />
       <div className='articles-title'>
         <h1>{t('pages.articles.title')}</h1>
         <div className='articles-title-count'>
@@ -225,7 +227,11 @@ export default function Articles(): JSX.Element {
           {taggedFilters.map((filter, index) => (
             <Tag key={index} text={filter.labelPath ? t(filter.labelPath) : filter.label!.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
           ))}
-          <div className="articles-filters-tags-clear" onClick={clearTaggedFilters}>{t('common.filters.clearAll')}</div>
+          {taggedFilters.length > 0 ? (
+            <div className="articles-filters-tags-clear" onClick={clearTaggedFilters}>{t('common.filters.clearAll')}</div>
+          ) : (
+            <div className="articles-filters-tags-clear"></div>
+          )}
         </div>
         <div className="articles-filters-abstracts" onClick={toggleAllAbstracts}>
           {`${showAllAbstracts ? t('common.toggleAbstracts.hideAll') : t('common.toggleAbstracts.showAll')}`}

@@ -61,7 +61,9 @@ export default function News(): JSX.Element {
 
   return (
     <main className='news'>
-      <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} > ${t('common.about')} >` }} crumbLabel={t('pages.news.title')} />
+      <Breadcrumb parents={[
+        { path: 'home', label: `${t('pages.home.title')} > ${t('common.about')} >` }
+      ]} crumbLabel={t('pages.news.title')} />
       <div className='news-title'>
         <h1>{t('pages.news.title')}</h1>
         <div className='news-title-icons'>

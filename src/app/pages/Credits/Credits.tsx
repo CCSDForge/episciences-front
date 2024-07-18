@@ -122,7 +122,9 @@ export default function Credits(): JSX.Element {
 
   return (
     <main className='credits'>
-      <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} >` }} crumbLabel={t('pages.credits.title')} />
+      <Breadcrumb parents={[
+        { path: 'home', label: `${t('pages.home.title')} >` }
+      ]} crumbLabel={t('pages.credits.title')} />
       <h1 className='credits-title'>{t('pages.credits.title')}</h1>
       {isFetching ? (
         <Loader />

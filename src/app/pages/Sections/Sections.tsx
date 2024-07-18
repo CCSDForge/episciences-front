@@ -53,7 +53,9 @@ export default function Sections(): JSX.Element {
 
   return (
     <main className='sections'>
-      <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }} crumbLabel={t('pages.sections.title')} />
+      <Breadcrumb parents={[
+        { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }
+      ]} crumbLabel={t('pages.sections.title')} />
       <div className='sections-title'>
         <h1 className='sections-title-text'>{t('pages.sections.title')}</h1>
         <div className='sections-title-count'>

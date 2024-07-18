@@ -122,7 +122,9 @@ export default function About(): JSX.Element {
 
   return (
     <main className='about'>
-      <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} > ${t('common.about')} >` }} crumbLabel={t('pages.about.title')} />
+      <Breadcrumb parents={[
+        { path: 'home', label: `${t('pages.home.title')} > ${t('common.about')} >` }
+      ]} crumbLabel={t('pages.about.title')} />
       <h1 className='about-title'>{t('pages.about.title')}</h1>
       {isFetching ? (
         <Loader />

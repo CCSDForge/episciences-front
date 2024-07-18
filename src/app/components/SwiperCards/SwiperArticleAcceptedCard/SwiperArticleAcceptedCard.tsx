@@ -23,7 +23,11 @@ export default function SwiperArticleAcceptedCard({ language, t, article }: ISwi
         <div className='swiperArticleAcceptedCard-title'>{article?.title}</div>
       </Link>
       <div className='swiperArticleAcceptedCard-authors'>{formatArticleAuthors(article)}</div>
-      <div className='swiperArticleAcceptedCard-acceptanceDate'>{`${t('common.acceptedOn')} ${formatDate(article?.acceptanceDate!, language, { month: 'short' })}`}</div>
+      {article?.acceptanceDate ? (
+        <div className='swiperArticleAcceptedCard-acceptanceDate'>{`${t('common.acceptedOn')} ${formatDate(article?.acceptanceDate, language, { month: 'short' })}`}</div>
+      ) : (
+        <div className='swiperArticleAcceptedCard-acceptanceDate'></div>
+      )}
     </div>
   )
 }

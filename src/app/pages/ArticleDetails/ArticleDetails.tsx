@@ -65,7 +65,10 @@ export default function ArticleDetails(): JSX.Element {
 
   return (
     <main className='articleDetails'>
-      <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} > ${t('pages.articleDetails.title')} >` }} crumbLabel={`${t('pages.articleDetails.title')} ${id}`} />
+      <Breadcrumb parents={[
+        { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` },
+        { path: 'articles', label: `${t('pages.articles.title')} >` }
+      ]} crumbLabel={`${t('pages.articleDetails.title')} ${id}`} />
       {isFetching ? (
         <Loader />
       ) : (

@@ -1,20 +1,16 @@
 .newsSection {
   display: flex;
-  justify-content: space-between;
+  gap: 24px;
   padding: 24px;
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--red);
 
   &-row {
+    min-width: 400px;
+    max-width: 400px;
     display: flex;
-    justify-content: space-between;
     flex-direction: column;
     gap: 25px;
-    padding-right: 25px;
-
-    &-bordered {
-      border-right: 2px solid var(--red);
-    }
 
     &-title {
       width: 375px;
@@ -26,6 +22,11 @@
       color: var(--grey-light);
       font-size: 12px;
       font-style: italic;
+      margin-top: auto;
     }
+  }
+
+  &-divider {
+    border-right: 2px solid var(--red);
   }
 }

@@ -74,7 +74,9 @@ export default function Boards(): JSX.Element {
 
   return (
     <main className='boards'>
-      <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} >` }} crumbLabel={t('pages.boards.title')} />
+      <Breadcrumb parents={[
+        { path: 'home', label: `${t('pages.home.title')} >` }
+      ]} crumbLabel={t('pages.boards.title')} />
       <div className='boards-title'>
         <h1 className='boards-title-text'>{t('pages.boards.title')}</h1>
         {members && members.length > 0 && (

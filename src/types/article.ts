@@ -15,7 +15,7 @@ export interface IArticle {
   abstract?: string;
   authors: string;
   publicationDate: string;
-  acceptanceDate: string;
+  acceptanceDate?: string;
   tag?: string;
   pdfLink: string;
   halLink: string;
@@ -41,7 +41,9 @@ export type RawArticle = IPartialArticle & IArticle & {
           }
           files: {
             link: string;
-          }
+          } | {
+            link: string;
+          }[]
           repository: {
             doc_url: string;
             paper_url: string;
@@ -83,7 +85,7 @@ interface IRawArticleContent {
     resource: string;
   }
   keywords?: string[] | Record<AvailableLanguage, string[]>;
-  acceptance_date: {
+  acceptance_date?: {
     day: string;
     month: string;
     year: string;

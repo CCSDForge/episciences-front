@@ -235,7 +235,9 @@ export default function Volumes(): JSX.Element {
 
   return (
     <main className='volumes'>
-      <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }} crumbLabel={t('pages.volumes.title')} />
+      <Breadcrumb parents={[
+        { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }
+      ]} crumbLabel={t('pages.volumes.title')} />
       <div className='volumes-title'>
         <h1>{t('pages.volumes.title')}</h1>
         <div className='volumes-title-count'>
@@ -273,7 +275,11 @@ export default function Volumes(): JSX.Element {
             {taggedFilters.map((filter, index) => (
               <Tag key={index} text={filter.labelPath ? t(filter.labelPath) : filter.label!.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
             ))}
-            <div className="volumes-filters-tags-clear" onClick={clearTaggedFilters}>{t('common.filters.clearAll')}</div>
+            {taggedFilters.length > 0 ? (
+              <div className="volumes-filters-tags-clear" onClick={clearTaggedFilters}>{t('common.filters.clearAll')}</div>
+            ) : (
+              <div className="volumes-filters-tags-clear"></div>
+            )}
           </div>
         </div>
       ) : (

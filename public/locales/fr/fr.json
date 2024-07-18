@@ -60,7 +60,7 @@
         "lastVolume": "Dernier volume",
         "sections": "Rubriques",
         "specialIssues": "Volumes spéciaux",
-        "proceedings": "Actes de conférence",
+        "proceedings": "Actes de conférences",
         "authors": "Auteurs",
         "about": "La revue",
         "news": "Actualités",
@@ -107,7 +107,7 @@
         },
         "specialIssues": {
           "subtitle": "Volumes spéciaux",
-          "see": "Voir tous les volumes spéciaux"
+          "see": "Voir tous les volumes"
         },
         "articlesAccepted": {
           "subtitle": "Derniers articles acceptés",
@@ -133,11 +133,21 @@
       "title": "Volumes",
       "types": {
         "specialIssues": "Volumes spéciaux",
-        "proceedings": "Actes de conférence"
+        "proceedings": "Actes de conférences"
       }
     },
     "volumeDetails": {
-      "title": "Volume"
+      "title": "Volume",
+      "titleSpecialIssue": "Volume spécial",
+      "titleProceeding": "Acte de conférence",
+      "actions": {
+        "downloadAll": "Télécharger tous les articles"
+      },
+      "relatedVolumes": {
+        "volumes": "Liste des volumes",
+        "specialIssues": "Liste des volumes spéciaux",
+        "proceedings": "Liste des actes de conférences"
+      }
     },
     "sections": {
       "title": "Rubriques"

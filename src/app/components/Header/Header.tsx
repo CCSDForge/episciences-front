@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import logoText from '/icons/logo-text.svg';
@@ -20,6 +20,7 @@ export default function Header(): JSX.Element {
   const reducedScrollPosition = 100;
 
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
 
   const search = useAppSelector(state => state.searchReducer.search);
@@ -35,8 +36,8 @@ export default function Header(): JSX.Element {
     setIsReduced(position > reducedScrollPosition);
   };
 
-  const toggleDropdown = (menu: string): void => {
-    setShowDropdown(prev => ({ ...prev, [menu]: !prev[menu as keyof typeof prev] }));
+  const toggleDropdown = (menu: string, opened: boolean): void => {
+    setShowDropdown(prev => ({ ...prev, [menu]: opened }));
   };
 
   const updateSearch = (updatedSearch: string): void => {
@@ -55,10 +56,10 @@ export default function Header(): JSX.Element {
     return (
       <div className='header-postheader'>
         <div className='header-postheader-links'>
-          <div className='header-postheader-links-dropdown' onMouseEnter={() => toggleDropdown('content')} onMouseLeave={() => toggleDropdown('content')}>
+          <div className='header-postheader-links-dropdown' onMouseEnter={(): void => toggleDropdown('content', true)}>
             <div>{t('components.header.content')}</div>
             {showDropdown.content && (
-                <div className='header-postheader-links-dropdown-content'>
+                <div className='header-postheader-links-dropdown-content' onMouseLeave={(): void => toggleDropdown('content', false)}>
                   <div className='header-postheader-links-dropdown-content-links'>
                     <Link to={PATHS.articles}>{t('components.header.links.articles')}</Link>
                     <Link to={PATHS.articlesAccepted}>{t('components.header.links.articlesAccepted')}</Link>
@@ -72,10 +73,10 @@ export default function Header(): JSX.Element {
                 </div>
               )}
           </div>
-          <div className='header-postheader-links-dropdown' onMouseEnter={() => toggleDropdown('about')} onMouseLeave={() => toggleDropdown('about')}>
+          <div className='header-postheader-links-dropdown' onMouseEnter={(): void => toggleDropdown('about', true)}>
             <div>{t('components.header.about')}</div>
             {showDropdown.about && (
-                <div className='header-postheader-links-dropdown-content'>
+                <div className='header-postheader-links-dropdown-content' onMouseLeave={(): void => toggleDropdown('about', false)}>
                   <div className='header-postheader-links-dropdown-content-links'>
                     <Link to={PATHS.about}>{t('components.header.links.about')}</Link>
                     <Link to={PATHS.news}>{t('components.header.links.news')}</Link>
@@ -105,6 +106,10 @@ export default function Header(): JSX.Element {
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    setShowDropdown({ content: false, about: false });
+  }, [location]);
 
   if (isReduced) {
     return (

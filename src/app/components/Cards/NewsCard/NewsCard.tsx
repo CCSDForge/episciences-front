@@ -10,6 +10,7 @@ import { INews } from '../../../../types/news';
 import { formatDate } from '../../../../utils/date';
 import { RENDERING_MODE } from '../../../../utils/card';
 import { AvailableLanguage } from '../../../../utils/i18n';
+import { generateIdFromText } from '../../../../utils/markdown';
 import './NewsCard.scss'
 
 const MAX_CONTENT_LENGTH = 400;
@@ -53,10 +54,12 @@ export default function NewsCard({ language, t, mode, fullCard, blurCard, setFul
     )
   }
 
+  const cardId = (): string => generateIdFromText(news.id.toString())
+
   if (mode === RENDERING_MODE.TILE) {
     if (fullCard) {
       return (
-        <div className='newsCard newsCard-tile newsCard-tile-full' onClick={setFullNewsIndexCallback}>
+        <div id={cardId()} className='newsCard newsCard-tile newsCard-tile-full' onClick={setFullNewsIndexCallback}>
           <div className='newsCard-tile-full-initial'>
             <div className='newsCard-content newsCard-content-tile-full'>
               <div className='newsCard-content-title newsCard-content-title-tile'>{news.title[language]}</div>
@@ -81,7 +84,7 @@ export default function NewsCard({ language, t, mode, fullCard, blurCard, setFul
     }
 
     return (
-      <div className={blurCard ? 'newsCard newsCard-tile newsCard-tile-blur' : 'newsCard newsCard-tile'} onClick={setFullNewsIndexCallback}>
+      <div id={cardId()} className={blurCard ? 'newsCard newsCard-tile newsCard-tile-blur' : 'newsCard newsCard-tile'} onClick={setFullNewsIndexCallback}>
         <div className='newsCard-content newsCard-content-tile'>
           <div className='newsCard-content-title newsCard-content-title-tile'>{news.title[language]}</div>
           <div className='newsCard-tile-anchor'>
@@ -101,7 +104,7 @@ export default function NewsCard({ language, t, mode, fullCard, blurCard, setFul
   }
 
   return (
-    <div className='newsCard'>
+    <div id={cardId()} className='newsCard'>
       <div className='newsCard-publicationDate'>{formatDate(news.publicationDate, language)}</div>
       <div className='newsCard-content'>
         <div className='newsCard-content-title'>{news.title[language]}</div>
