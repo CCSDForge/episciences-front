@@ -13,6 +13,7 @@ export interface IVolume {
   downloadLink: string;
   metadatas?: IVolumeMetadata[];
   tileImageURL?: string;
+  settingsProceeding?: IVolumeSettingsProceeding[];
 }
 
 export type RawVolume = IVolume & {
@@ -24,6 +25,7 @@ export type RawVolume = IVolume & {
   vol_type?: string[];
   papers: PartialVolumeArticle[];
   metadata?: RawVolumeMetadata[];
+  settings_proceeding?: IVolumeSettingsProceeding[];
 }
 
 interface IVolumeCommitteeMember {
@@ -35,8 +37,17 @@ export interface IVolumeMetadata {
   title?: Record<AvailableLanguage, string>;
   content?: Record<AvailableLanguage, string>;
   file?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export type RawVolumeMetadata = IVolumeMetadata & {
   titles?: Record<AvailableLanguage, string>;
+  date_creation?: string;
+  date_updated?: string;
+}
+
+export interface IVolumeSettingsProceeding {
+  setting?: string;
+  value?: string;
 }

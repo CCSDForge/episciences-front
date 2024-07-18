@@ -137,7 +137,17 @@
       }
     },
     "volumeDetails": {
-      "title": "Volume"
+      "title": "Volume",
+      "titleSpecialIssue": "Special issue",
+      "titleProceeding": "Proceeding",
+      "actions": {
+        "downloadAll": "Download all articles"
+      },
+      "relatedVolumes": {
+        "volumes": "List of volumes",
+        "specialIssues": "List of special issues",
+        "proceedings": "List of proceedings"
+      }
     },
     "sections": {
       "title": "Sections"

@@ -43,7 +43,11 @@ export default function ArticleAcceptedCard({ language, t, article, toggleAbstra
         </div>
       )}
       <div className='articleAcceptedCard-anchor'>
-        <div className='articleAcceptedCard-anchor-acceptanceDate'>{`${t('common.acceptedOn')} ${formatDate(article.acceptanceDate!, language)}`}</div>
+        {article.acceptanceDate ? (
+          <div className='articleAcceptedCard-anchor-acceptanceDate'>{`${t('common.acceptedOn')} ${formatDate(article.acceptanceDate, language)}`}</div>
+        ) : (
+          <div className='articleAcceptedCard-anchor-acceptanceDate'></div>
+        )}
         <div className="articleAcceptedCard-anchor-icons">
           <Link to={article.docLink} target='_blank'>
             <div className="articleAcceptedCard-anchor-icons-download">

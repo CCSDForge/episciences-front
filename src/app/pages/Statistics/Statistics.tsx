@@ -123,7 +123,9 @@ export default function Statistics(): JSX.Element {
 
   return (
     <main className='statistics'>
-      <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} > ${t('common.about')} >` }} crumbLabel={t('pages.statistics.title')} />
+      <Breadcrumb parents={[
+        { path: 'home', label: `${t('pages.home.title')} > ${t('common.about')} >` }
+      ]} crumbLabel={t('pages.statistics.title')} />
       <div className='statistics-title'>
         <h1 className='statistics-title-text'>{t('pages.statistics.title')}</h1>
         <div className='statistics-title-year'>{getSelectedYear()}</div>

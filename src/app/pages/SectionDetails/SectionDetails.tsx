@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+import ReactMarkdown from 'react-markdown';
 
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchSectionQuery } from "../../../store/features/section/section.query";
@@ -14,6 +15,8 @@ import './SectionDetails.scss';
 
 export default function SectionDetails(): JSX.Element {
   const { t } = useTranslation();
+
+  const SECTION_TITLE_BREADCRUMB_LENGTH = 20;
 
   const language = useAppSelector(state => state.i18nReducer.language)
 
@@ -47,8 +50,11 @@ export default function SectionDetails(): JSX.Element {
 
   return (
     <main className='sectionDetails'>
-      <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} > ${t('pages.sectionDetails.title')} >` }} crumbLabel={`${t('pages.sectionDetails.title')} ${id}`} />
-      <h1 className='sectionDetails-id'>{t('pages.sectionDetails.title')} {id}</h1>
+      <Breadcrumb parents={[
+        { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` },
+        { path: 'sections', label: `${t('pages.sections.title')} >`}
+      ]} crumbLabel={section?.title && section.title[language] ? `${section.title[language].substring(0, SECTION_TITLE_BREADCRUMB_LENGTH)}...` : ''} />
+      <h1 className='sectionDetails-id'>{t('pages.sectionDetails.title')}</h1>
       {isFetchingSection || isFetchingArticles ? (
         <Loader />
       ) : (
@@ -63,7 +69,9 @@ export default function SectionDetails(): JSX.Element {
                   <span className="sectionDetails-content-results-content-committee-note">{t('common.volumeCommittee')}</span>
                 </div>
               )}
-              <div className='sectionDetails-content-results-content-description'>{section?.description ? section?.description[language] : ''}</div>
+              <div className='sectionDetails-content-results-content-description'>{section?.description ? (
+                <ReactMarkdown>{section?.description[language]}</ReactMarkdown>
+              ) : ''}</div>
               <div className='sectionDetails-content-results-content-cards'>
                 {articles?.filter((article) => article).map((article, index) => (
                   <SectionArticleCard

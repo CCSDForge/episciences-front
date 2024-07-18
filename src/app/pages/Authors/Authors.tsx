@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 
 import { IAuthor } from "../../../types/author";
@@ -10,7 +10,15 @@ import AuthorsSidebar from "../../components/Sidebars/AuthorsSidebar/AuthorsSide
 import AuthorDetailsSidebar from "../../components/Sidebars/AuthorDetailsSidebar/AuthorDetailsSidebar";
 import Loader from '../../components/Loader/Loader';
 import Pagination from "../../components/Pagination/Pagination";
+import Tag from "../../components/Tag/Tag";
 import './Authors.scss';
+
+type AuthorTypeFilter = 'search' | 'activeLetter';
+
+interface IAuthorFilter {
+  type: AuthorTypeFilter;
+  value: string;
+}
 
 export default function Authors(): JSX.Element {
   const { t } = useTranslation();
@@ -23,17 +31,24 @@ export default function Authors(): JSX.Element {
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState('');
   const [activeLetter, setActiveLetter] = useState('');
+  const [taggedFilters, setTaggedFilters] = useState<IAuthorFilter[]>([]);
   const [expandedAuthorIndex, setExpandedAuthorIndex] = useState(-1);
 
   const onSearch = (newSearch: string): void => {
+    setCurrentPage(1)
     setExpandedAuthorIndex(-1)
+
     if (activeLetter) setActiveLetter('')
+
     setSearch(newSearch)
   }
 
   const onSetActiveLetter = (newActiveLetter: string): void => {
+    setCurrentPage(1)
     setExpandedAuthorIndex(-1)
+
     if (search) setSearch('')
+
     setActiveLetter(newActiveLetter !== activeLetter ? newActiveLetter : '')
   }
 
@@ -84,11 +99,63 @@ export default function Authors(): JSX.Element {
     )
   }
 
+  const setAllTaggedFilters = (): void => {
+    const initFilters: IAuthorFilter[] = []
+
+    if (activeLetter) {
+      initFilters.push({
+        type: 'activeLetter',
+        value: activeLetter
+      })
+    }
+
+    if (search) {
+      initFilters.push({
+        type: 'search',
+        value: search
+      })
+    }
+
+    setTaggedFilters(initFilters)
+  }
+
+  const onCloseTaggedFilter = (type: AuthorTypeFilter) => {
+    if (type === 'search') {
+      setSearch('')
+    } else if (type === 'activeLetter') {
+      setActiveLetter('')
+    }
+  }
+
+  const clearTaggedFilters = (): void => {
+    setSearch('');
+    setActiveLetter('');
+    setTaggedFilters([]);
+  }
+
+  useEffect(() => {
+    setAllTaggedFilters()
+  }, [activeLetter, search])
+
   return (
     <main className='authors'>
-      <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }} crumbLabel={t('pages.authors.title')} />
+      <Breadcrumb parents={[
+        { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }
+      ]} crumbLabel={t('pages.authors.title')} />
       <h1 className='authors-title'>{t('pages.authors.title')}</h1>
       {getAuthorsCount()}
+      <div className='authors-filters'>
+          <div className="authors-filters-tags">
+            {taggedFilters.map((filter, index) => (
+              <Tag key={index} text={filter.value} onCloseCallback={(): void => onCloseTaggedFilter(filter.type)}/>
+            ))}
+            {taggedFilters.length > 0 ? (
+              <div className="authors-filters-tags-clear" onClick={clearTaggedFilters}>{t('common.filters.clearAll')}</div>
+            ) : (
+              <div className="authors-filters-tags-clear"></div>
+            )}
+          </div>
+        </div>
       <div className='authors-content'>
         <AuthorsSidebar t={t} search={search} onSearchCallback={onSearch} activeLetter={activeLetter} onSetActiveLetterCallback={onSetActiveLetter} />
         <div className='authors-content-results'>

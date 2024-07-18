@@ -12,7 +12,12 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
 
     const abstract = typeof articleContent.abstract?.value === 'string' ? articleContent.abstract?.value : articleContent.abstract?.value.value 
 
-    const acceptanceDate = `${articleJournal?.journal_article.acceptance_date.year}-${articleJournal?.journal_article.acceptance_date.month}-${articleJournal?.journal_article.acceptance_date.day}`
+    const pdfLink = Array.isArray(articleDB.current.files) ? articleDB.current.files[0].link : articleDB.current.files.link
+
+    let acceptanceDate = undefined;
+    if (articleJournal?.journal_article.acceptance_date) {
+      acceptanceDate = `${articleJournal?.journal_article.acceptance_date.year}-${articleJournal?.journal_article.acceptance_date.month}-${articleJournal?.journal_article.acceptance_date.day}`
+    }
 
     let authors = null;
 
@@ -33,7 +38,7 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
       publicationDate: articleDB.current.dates.publication_date,
       acceptanceDate,
       tag: articleDB.current.type?.title.toLowerCase(),
-      pdfLink: articleDB.current.files.link,
+      pdfLink,
       halLink: articleDB.current.repository.paper_url,
       docLink: articleDB.current.repository.doc_url,
       repositoryIdentifier: articleDB.current.identifiers.repository_identifier,

@@ -44,7 +44,7 @@ export default function VolumeArticleCard({ language, t, article }: IVolumeArtic
         </div>
       )}
       <div className='volumeArticleCard-anchor'>
-        <div className='volumeArticleCard-anchor-publicationDate'>{formatDate(article.publicationDate, language)}</div>
+        <div className='volumeArticleCard-anchor-publicationDate'>{`${t('common.publishedOn')} ${formatDate(article?.publicationDate!, language)}`}</div>
         <div className="volumeArticleCard-anchor-icons">
           <Link to={article.pdfLink} target='_blank'>
             <div className="volumeArticleCard-anchor-icons-download">

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TFunction } from 'i18next';
+import ReactMarkdown from 'react-markdown';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -38,7 +39,9 @@ export default function SectionCard({ language, t, section }: ISectionCardProps)
               <img className='sectionCard-description-title-caret' src={caretDown} alt='Caret down icon' />
             )}
           </div>
-          <div className={`sectionCard-description-content ${openedDescription && 'sectionCard-description-content-opened'}`}>{section.description[language]}</div>
+          <div className={`sectionCard-description-content ${openedDescription && 'sectionCard-description-content-opened'}`}>
+            <ReactMarkdown>{section.description[language]}</ReactMarkdown>
+          </div>
         </div>
       )}
     </div>

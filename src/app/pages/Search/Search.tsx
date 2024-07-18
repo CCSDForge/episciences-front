@@ -23,7 +23,9 @@ export default function Search(): JSX.Element {
   // TODO: translate
   return (
     <main className="search">
-      <Breadcrumb parent={{ path: 'home', label: `${t('pages.home.title')} >` }} crumbLabel={t('pages.search.title')} />
+      <Breadcrumb parents={[
+        { path: 'home', label: `${t('pages.home.title')} >` }
+      ]} crumbLabel={t('pages.search.title')} />
       <div className='search-title'>
         <h1>Search</h1>
         <div className='search-title-count'>{`58 results for "${search}"`}</div>
