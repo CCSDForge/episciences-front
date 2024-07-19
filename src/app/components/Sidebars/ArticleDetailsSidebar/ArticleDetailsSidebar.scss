@@ -1,9 +1,11 @@
 .articleDetailsSidebar {
   min-width: 370px;
+  max-width: 370px;
 
   &-links {
     display: flex;
     gap: 16px;
+    margin-bottom: 30px;
 
     &-link {
       display: flex;
@@ -14,6 +16,90 @@
 
       &-text {
         font-size: 14px;
+      }
+    }
+  }
+
+  &-publicationDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-bottom: 32px;
+
+    &-title {
+      display: flex;
+      justify-content: space-between;
+
+      &-text {
+        font-size: 16px;
+        font-weight: bold;
+      }
+    }
+
+    &-content {
+      display: none;
+
+      &-opened {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      &-row {
+        display: flex;
+        justify-content: space-between;
+        color: var(--grey);
+        font-size: 14px;
+
+        &-publicationDate {
+          color: var(--black);
+
+          &-value {
+            color: var(--grey-dark);
+          }
+        }
+      }
+    }
+  }
+
+  &-volumeDetails {
+    &-number {
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    &-special {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    &-number, &-special {
+      color: var(--red);
+      margin-bottom: 4px;
+    }
+
+    &-title, &-doi, &-licence {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    &-title {
+      margin-bottom: 40px;
+    }
+
+    &-doi {
+      margin-bottom: 16px;
+    }
+
+    &-doi, &-licence {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      &-content {
+        color: var(--red);
+        font-size: 14px;
+        font-weight: normal;
       }
     }
   }

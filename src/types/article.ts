@@ -16,13 +16,30 @@ export interface IArticle {
   authors: string;
   publicationDate: string;
   acceptanceDate?: string;
+  submissionDate?: string;
   tag?: string;
   pdfLink: string;
   halLink: string;
   docLink: string;
   repositoryIdentifier: string;
-  keywords?: string[] | Record<AvailableLanguage, string[]>;
+  keywords?: string[] | IArticleKeywords;
   doi: string;
+  volumeId?: number;
+  citations?: IArticleCitation[];
+  relatedItems?: string[];
+}
+
+export type IArticleRecordKeywords = {
+  [language in AvailableLanguage]: string[];
+};
+
+export interface IArticleKeywords extends IArticleRecordKeywords {
+  [index: number]: string;
+}
+
+export interface IArticleCitation {
+  doi?: string;
+  citation: string;
 }
 
 export type RawArticle = IPartialArticle & IArticle & {
@@ -38,6 +55,7 @@ export type RawArticle = IPartialArticle & IArticle & {
           }
           dates: {
             publication_date: string;
+            first_submission_date: string;
           }
           files: {
             link: string;
@@ -50,6 +68,9 @@ export type RawArticle = IPartialArticle & IArticle & {
           }
           identifiers: {
             repository_identifier: string;
+          }
+          volume?: {
+            id: number;
           }
         }
       }
@@ -80,11 +101,28 @@ interface IRawArticleContent {
       given_name: string;
     }[]
   }
+  program?: {
+    related_item?: {
+      inter_work_relation?: {
+        value: string;
+      }
+    } | {
+      inter_work_relation?: {
+        value: string;
+      }
+    }[]
+  }
+  citation_list?: {
+    citation?: {
+      doi: string;
+      unstructured_citation: string;
+    }[]
+  }
   doi_data: {
     doi: string;
     resource: string;
   }
-  keywords?: string[] | Record<AvailableLanguage, string[]>;
+  keywords?: string[] | IArticleKeywords;
   acceptance_date?: {
     day: string;
     month: string;

@@ -15,6 +15,8 @@
     "member": "membre",
     "members": "membres",
     "about": "À propos",
+    "resultsFor": "résultats pour",
+    "resultFor": "résultat pour",
     "read": "Lire",
     "readMore": "Lire plus",
     "readLess": "Lire moins",
@@ -124,10 +126,35 @@
       }
     },
     "articleDetails": {
-      "title": "Article"
+      "title": "Article",
+      "sections": {
+        "abstract": "Abstract",
+        "keywords": "Mots-clés",
+        "linkedPublications": "Publications liées -  jeux de données - logiciel",
+        "citedBy": "Cité par",
+        "preview": "Aperçu"
+      },
+      "actions": {
+        "download": "Télécharger l'article",
+        "openHAL": "Ouvrir sur HAL"
+      },
+      "publicationDetails": {
+        "title": "Détails de publication",
+        "publishedOn": "Publié le",
+        "acceptedOn": "Accepté le",
+        "submittedOn": "Soumis le"
+      },
+      "volumeDetails": {
+        "title": "Volume",
+        "specialIssue": "Volume spécial",
+        "proceeding": "Acte de conférence"
+      }
     },
     "articlesAccepted": {
       "title": "Articles"
+    },
+    "search": {
+      "title": "Rechercher"
     },
     "volumes": {
       "title": "Volumes",
