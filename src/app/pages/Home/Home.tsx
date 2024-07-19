@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import caretRight from '/icons/caret-right-grey.svg';
-import { HOMEPAGE_BLOCK, blocksConfiguration } from '../../../config/homepage';
+import { HOMEPAGE_BLOCK, HOMEPAGE_LAST_INFORMATION_BLOCK, blocksConfiguration, lastInformationBlockConfiguration } from '../../../config/homepage';
 import { PATHS } from '../../../config/paths';
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchAboutPageQuery } from '../../../store/features/about/about.query';
@@ -12,6 +12,8 @@ import { useFetchIndexationPageQuery } from '../../../store/features/indexation/
 import { useFetchNewsQuery } from '../../../store/features/news/news.query';
 import { useFetchStatsQuery } from '../../../store/features/stat/stat.query';
 import { useFetchVolumesQuery } from '../../../store/features/volume/volume.query';
+import { IVolume } from '../../../types/volume';
+import { INews } from '../../../types/news';
 import { VOLUME_TYPE } from '../../../utils/volume';
 import IssuesSection from '../../components/HomeSections/IssuesSection/IssuesSection';
 import JournalSection from '../../components/HomeSections/JournalSection/JournalSection';
@@ -34,15 +36,43 @@ export default function Home(): JSX.Element {
   const { data: members } = useFetchBoardMembersQuery(rvcode!, { skip: !rvcode })
   const { data: stats } = useFetchStatsQuery({ rvcode: rvcode!, page: 1, itemsPerPage: 3 }, { skip: !rvcode })
   const { data: indexation } = useFetchIndexationPageQuery(rvcode!, { skip: !rvcode })
+  const { data: volumes } = useFetchVolumesQuery({ rvcode: rvcode!, language: language, page: 1, itemsPerPage: 2 }, { skip: !rvcode })
   const { data: issues } = useFetchVolumesQuery({ rvcode: rvcode!, language: language, page: 1, itemsPerPage: 2, types: [VOLUME_TYPE.SPECIAL_ISSUE] }, { skip: !rvcode })
   const { data: acceptedArticles } = useFetchArticlesQuery({ rvcode: rvcode!, page: 1, itemsPerPage: 20, onlyAccepted: true }, { skip: !rvcode })
 
   const getBlockRendering = (blockKey: HOMEPAGE_BLOCK) => blocksConfiguration().find((config) => config.key === blockKey)
 
+  const getLastInformation = (): { type: HOMEPAGE_LAST_INFORMATION_BLOCK, information: IVolume | INews | undefined } | undefined => {
+    if (!lastInformationBlockConfiguration().render) return;
+
+    if (lastInformationBlockConfiguration().key === HOMEPAGE_LAST_INFORMATION_BLOCK.LAST_VOLUME) {
+      return {
+        type: HOMEPAGE_LAST_INFORMATION_BLOCK.LAST_VOLUME,
+        information: volumes?.data[0]
+      }
+    }
+
+    if (lastInformationBlockConfiguration().key === HOMEPAGE_LAST_INFORMATION_BLOCK.LAST_SPECIAL_ISSUE) {
+      return {
+        type: HOMEPAGE_LAST_INFORMATION_BLOCK.LAST_SPECIAL_ISSUE,
+        information: issues?.data[0]
+      }
+    }
+
+    return {
+      type: HOMEPAGE_LAST_INFORMATION_BLOCK.LAST_NEWS,
+      information: news?.data[0]
+    }
+  }
+
   return (
     <main className='home'>
       <h1 className='home-title'>{t('pages.home.title')}</h1>
-      <PresentationSection language={language} t={t} aboutContent={aboutPage?.content} lastNews={getBlockRendering(HOMEPAGE_BLOCK.LAST_NEWS)?.render && news?.data && news.data.length ? news.data[0] : undefined} />
+      <PresentationSection
+        language={language}
+        t={t}
+        aboutContent={aboutPage?.content}
+        lastInformation={getLastInformation()} />
       {getBlockRendering(HOMEPAGE_BLOCK.LATEST_ARTICLES_CAROUSEL)?.render && (
         <>
           <div className='home-subtitle'>

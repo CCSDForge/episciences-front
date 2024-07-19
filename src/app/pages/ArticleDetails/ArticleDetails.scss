@@ -1,4 +1,15 @@
 .articleDetails {
+  &-tag {
+    width: fit-content;
+    height: fit-content;
+    padding: 4px 8px 4px 8px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    background: var(--red);
+    color: var(--white);
+  }
+  
   &-content {
     display: flex;
     gap: 60px;
@@ -44,6 +55,12 @@
           display: none;
           font-size: 16px;
           margin-top: 8px;
+
+          ul li {
+            max-width: 860px;
+            margin-bottom: 10px;
+            overflow-wrap: break-word;
+          }
     
           &-opened {
             width: 100%;
@@ -53,6 +70,14 @@
           &-preview {
             width: 100%;
             height: 600px;
+          }
+
+          &-citations {
+            &-citation {
+              &-doi {
+                color: var(--red);
+              }
+            }
           }
         }
       }

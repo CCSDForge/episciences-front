@@ -1,4 +1,4 @@
-import { IArticle, RawArticle } from "../types/article";
+import { IArticle, IArticleCitation, RawArticle } from "../types/article";
 
 export type FetchedArticle = IArticle | undefined;
 
@@ -14,9 +14,17 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
 
     const pdfLink = Array.isArray(articleDB.current.files) ? articleDB.current.files[0].link : articleDB.current.files.link
 
+    let citations: IArticleCitation[] = []
+    if (articleContent.citation_list?.citation) {
+      citations = articleContent.citation_list.citation.map((c) => ({
+        doi: c.doi,
+        citation: c.unstructured_citation
+      }))
+    }
+
     let acceptanceDate = undefined;
-    if (articleJournal?.journal_article.acceptance_date) {
-      acceptanceDate = `${articleJournal?.journal_article.acceptance_date.year}-${articleJournal?.journal_article.acceptance_date.month}-${articleJournal?.journal_article.acceptance_date.day}`
+    if (articleContent?.acceptance_date) {
+      acceptanceDate = `${articleContent?.acceptance_date.year}-${articleContent?.acceptance_date.month}-${articleContent?.acceptance_date.day}`
     }
 
     let authors = null;
@@ -29,6 +37,13 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
       authors = `${articleContent.contributors.person_name.given_name} ${articleContent.contributors.person_name.surname}`.trim()
     }
 
+    let relatedItems: string[] = []
+    if (Array.isArray(articleContent.program?.related_item)) {
+      articleContent.program.related_item.forEach((item) => item.inter_work_relation && relatedItems.push(item.inter_work_relation?.value))
+    } else if (articleContent.program?.related_item?.inter_work_relation) {
+      relatedItems.push(articleContent.program?.related_item?.inter_work_relation?.value)
+    }
+
     return {
       ...article,
       id: article.paperid,
@@ -37,13 +52,17 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
       authors,
       publicationDate: articleDB.current.dates.publication_date,
       acceptanceDate,
+      submissionDate: articleDB.current.dates.first_submission_date,
       tag: articleDB.current.type?.title.toLowerCase(),
       pdfLink,
       halLink: articleDB.current.repository.paper_url,
       docLink: articleDB.current.repository.doc_url,
       repositoryIdentifier: articleDB.current.identifiers.repository_identifier,
       keywords: articleContent.keywords,
-      doi: articleContent.doi_data.resource
+      doi: articleContent.doi_data.doi,
+      volumeId: articleDB.current.volume?.id,
+      citations: citations,
+      relatedItems: relatedItems
     };
   }
 

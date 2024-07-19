@@ -13,6 +13,10 @@ export default function Search(): JSX.Element {
   const navigate = useNavigate();
 
   const search = useAppSelector(state => state.searchReducer.search);
+  const results = {
+    totalItems: 3,
+    data: ['lala', 'lele', 'lili']
+  }
 
   useEffect(() => {
     if (!search) {
@@ -20,15 +24,18 @@ export default function Search(): JSX.Element {
     }
   }, [search, navigate])
 
-  // TODO: translate
   return (
     <main className="search">
       <Breadcrumb parents={[
         { path: 'home', label: `${t('pages.home.title')} >` }
       ]} crumbLabel={t('pages.search.title')} />
       <div className='search-title'>
-        <h1>Search</h1>
-        <div className='search-title-count'>{`58 results for "${search}"`}</div>
+        <h1>{t('pages.search.title')}</h1>  
+        {results && results.totalItems > 1 ? (
+            <div className='search-title-count'>{results.totalItems} {t('common.resultsFor')} "{search}"</div>
+          ) : (
+            <div className='search-title-count'>{results?.totalItems ?? 0} {t('common.resultFor')} "{search}"</div>
+        )}
       </div>
     </main>
   )
