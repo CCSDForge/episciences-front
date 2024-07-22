@@ -121,8 +121,14 @@
       "title": "Articles",
       "types": {
         "article": "Article",
+        "book": "Livre",
+        "bookpart": "Partie de livre",
         "conference": "Communication dans un congrès",
-        "preprint": "Pré-publication"
+        "lecture": "Lecture",
+        "other": "Autre",
+        "preprint": "Pré-publication",
+        "report": "Rapport",
+        "software": "Logiciel"
       }
     },
     "articleDetails": {
