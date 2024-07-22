@@ -204,9 +204,9 @@
         "medianSubmissionPublication": "Temps médian entre la soumission et la publication",
         "medianSubmissionAcceptance": "Temps médian entre la soumission et l'acceptation",
         "nbSubmissionsDetails": "Répartition des soumissions",
-        "medianReviewsNumber": "Nombre médian de revues d'articles de recherche",
-        "reviewsReceived": "Revues reçues",
-        "reviewsRequested": "Revues demandées"
+        "medianReviewsNumber": "Nombre médian d'évaluations d'articles de recherche",
+        "reviewsReceived": "Évaluations reçues",
+        "reviewsRequested": "Évaluations demandées"
       },
       "statuses": {
         "published": "Articles publiés",

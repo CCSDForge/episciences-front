@@ -1,7 +1,7 @@
 import { IVolume, IVolumeMetadata, IVolumeSettingsProceeding, RawVolume, RawVolumeMetadata } from "../types/volume";
 import { AvailableLanguage } from "./i18n";
 
-export const formatVolume = (language: AvailableLanguage, volume: RawVolume): IVolume => {
+export const formatVolume = (rvcode: string, language: AvailableLanguage, volume: RawVolume): IVolume => {
   let metadatas: IVolumeMetadata[]  = [];
   let tileImageURL = undefined;
   
@@ -11,7 +11,7 @@ export const formatVolume = (language: AvailableLanguage, volume: RawVolume): IV
     if (metadatas.length > 0) {
       const tileFile = metadatas.find(metadata => metadata['file'] && metadata['title'] && metadata['title'][language] === 'tile')?.file
       if (tileFile) {
-        tileImageURL = `https://${import.meta.env.VITE_JOURNAL_RVCODE}.episciences.org/public/volumes/${volume['vid']}/${tileFile}`
+        tileImageURL = `https://${rvcode}.episciences.org/public/volumes/${volume['vid']}/${tileFile}`
       }
     }
   }
@@ -30,7 +30,7 @@ export const formatVolume = (language: AvailableLanguage, volume: RawVolume): IV
     year: volume['vol_year'],
     types: volume['vol_type'],
     articles: volume['papers'],
-    downloadLink: `https://${import.meta.env.VITE_JOURNAL_RVCODE}.episciences.org/volumes/${volume['vid']}/${volume['vid']}.pdf`,
+    downloadLink: `https://${rvcode}.episciences.org/volumes/${volume['vid']}/${volume['vid']}.pdf`,
     metadatas: metadatas,
     tileImageURL,
     settingsProceeding: settingsProceeding

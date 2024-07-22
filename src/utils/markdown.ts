@@ -18,4 +18,4 @@ export const unifiedProcessor = unified()
 
 export const serializeMarkdown = (node: Node) => unifiedProcessor.stringify(node as Root);
 
-export const getImageURL = (path: string) => `https://${import.meta.env.VITE_JOURNAL_RVCODE}.episciences.org${path}`
+export const getMarkdownImageURL = (path: string, rvcode: string) => `https://${rvcode}.episciences.org${path}`

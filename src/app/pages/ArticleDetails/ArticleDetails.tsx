@@ -27,10 +27,11 @@ export default function ArticleDetails(): JSX.Element {
   const { t } = useTranslation();
 
   const language = useAppSelector(state => state.i18nReducer.language)
+  const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
   
   const { id } = useParams();
   const { data: article, isFetching: isFetchingArticle } = useFetchArticleQuery({ paperid: id! }, { skip: !id });
-  const { data: relatedVolume, isFetching: isFetchingVolume } = useFetchVolumeQuery({ vid: article?.volumeId?.toString(), language: language }, { skip: !article?.volumeId })
+  const { data: relatedVolume, isFetching: isFetchingVolume } = useFetchVolumeQuery({ rvcode: rvcode!, vid: article?.volumeId?.toString(), language: language }, { skip: !article || !article?.volumeId || !rvcode })
 
   const [openedSections, setOpenedSections] = useState<{ key: ARTICLE_SECTION, isOpened: boolean }[]>([
     { key: ARTICLE_SECTION.ABSTRACT, isOpened: true },
