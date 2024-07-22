@@ -5,30 +5,68 @@
   font-size: 12px;
 
   &-journal {
-    color: var(--red);
+    display: flex;
     padding: 25px 80px 25px 25px;
     border-bottom: 2px solid var(--red);
     box-shadow: 0px 0px 6px var(--black-shadow);
-    display: flex;
-    justify-content: space-between;
 
-    &-logo, &-rss {
+    &-logo {
+      margin-right: 25px;
+    }
+
+    &-links {
+      width: 100%;
+      color: var(--red);
       display: flex;
-      align-items: center;
-      gap: 25px;
+      justify-content: space-between;
+
+      &-journal, &-rss {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+
+        @media (max-width: $xsm) {
+          flex-direction: column;
+          gap: 4px;
+          align-items: flex-start;
+
+          &-divider {
+            display: none;
+          }
+        }
+      }
     }
   }
 
   &-episciences {
-    color: var(--blue-navy);
-    padding: 25px 80px 25px 25px;
     display: flex;
-    justify-content: space-between;
+    padding: 25px 80px 25px 25px;
 
-    &-logo, &-legal {
+    &-logo {
+      margin-right: 25px;
+    }
+
+    &-links {
+      width: 100%;
+      color: var(--blue-navy);
       display: flex;
-      align-items: center;
-      gap: 25px;
+      justify-content: space-between;
+
+      &-documentation, &-legal {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+  
+        @media (max-width: $xsm) {
+          flex-direction: column;
+          gap: 4px;
+          align-items: flex-start;
+  
+          &-divider {
+            display: none;
+          }
+        }
+      }
     }
   }
 }
