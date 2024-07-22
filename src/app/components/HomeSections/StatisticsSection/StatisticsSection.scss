@@ -4,6 +4,13 @@
   justify-content: space-between;
   margin: 45px 0px 5px 120px;
 
+  @media (max-width: $xsm) {
+    flex-direction: column;
+    gap: 15px;
+    margin: 45px 0px 5px 0px;
+    align-items: center;
+  }
+
   &-row {
     display: flex;
     flex-direction: column;

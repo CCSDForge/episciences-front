@@ -2,6 +2,10 @@
   margin: 23px 0px 25px 0px;
   font-size: 12px;
 
+  @media (max-width: $xsm) {
+    display: none;
+  }
+
   &-parent {
     color: var(--grey-light);
   }

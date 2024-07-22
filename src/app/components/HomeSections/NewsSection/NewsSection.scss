@@ -5,6 +5,10 @@
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--red);
 
+  @media (max-width: $xsm) {
+    flex-direction: column;
+  }
+
   &-row {
     min-width: 400px;
     max-width: 400px;
@@ -28,5 +32,9 @@
 
   &-divider {
     border-right: 2px solid var(--red);
+
+    @media (max-width: $xsm) {
+      display: none;
+    }
   }
 }

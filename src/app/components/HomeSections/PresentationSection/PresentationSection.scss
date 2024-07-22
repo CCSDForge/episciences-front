@@ -2,6 +2,10 @@
   display: flex;
   gap: 18px;
 
+  @media (max-width: $xsm) {
+    flex-direction: column;
+  }
+
   &-about {
     display: flex;
     flex-direction: column;
@@ -17,6 +21,10 @@
       p {
         margin: 16px 0px 16px 0px;
       }
+
+      @media (max-width: $xsm) {
+        font-size: 14px;
+      }
     }
 
     &-seeMore {
@@ -30,6 +38,10 @@
 
       &-icon {
         height: 11px;
+      }
+
+      @media (max-width: $xsm) {
+        font-size: 12px;
       }
     }
   }

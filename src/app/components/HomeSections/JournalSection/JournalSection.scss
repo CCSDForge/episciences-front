@@ -7,6 +7,11 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 
+    @media (max-width: $xsm) {
+      display: flex;
+      flex-direction: column;
+    }
+
     li {
       color: var(--red);
       font-size: 14px;

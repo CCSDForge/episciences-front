@@ -1,6 +1,10 @@
 .home {
   &-title {
     margin: 55px 0px 40px 0px;
+
+    @media (max-width: $xsm) {
+      margin-top: 0px;
+    }
   }
 
   &-subtitle {
@@ -8,6 +12,10 @@
     align-items: center;
     gap: 30px;
     margin: 40px 0px 25px 0px;
+
+    @media (max-width: $xsm) {
+      justify-content: space-between;
+    }
 
     &-all {
       display: flex;
@@ -20,6 +28,10 @@
       img {
         height: 14px;
         margin-top: 3px;
+      }
+
+      @media (max-width: $xsm) {
+        font-size: 16px;
       }
     }
   }

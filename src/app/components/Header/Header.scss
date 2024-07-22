@@ -14,6 +14,10 @@
     transition: height 0.3s ease;
   }
 
+  @media (max-width: $xsm) {
+    height: 180px;
+  }
+
   &-reduced {
     height: 110px;
 
@@ -157,6 +161,10 @@
         font-size: 16px;
       }
 
+      @media (max-width: $xsm) {
+        display: none;
+      }
+
       &-dropdown {
         position: relative;
         display: inline-block;
@@ -218,6 +226,10 @@
 
       &-submit {
         height: 100%;
+
+        @media (max-width: $xsm) {
+          display: none;
+        }
       }
     }
   }
