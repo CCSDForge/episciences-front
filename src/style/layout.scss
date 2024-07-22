@@ -20,6 +20,14 @@ main {
   flex-direction: column;
   padding: 0px 80px 135px 80px;
   margin-top: 285px;
+
+  @media (max-width: $sm) {
+    padding: 0px 40px 135px 40px;
+  }
+
+  @media (max-width: $xsm) {
+    padding: 0px 16px 135px 16px;
+  }
 }
 
 h1 {

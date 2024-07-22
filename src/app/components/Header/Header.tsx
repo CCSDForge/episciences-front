@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+import arrowRight from '/icons/arrow-right-blue.svg';
 import logoText from '/icons/logo-text.svg';
 import logoJpeBig from '/icons/logo-jpe-big.svg';
 import logoJpeSmall from '/icons/logo-jpe-small.svg';
@@ -51,6 +52,8 @@ export default function Header(): JSX.Element {
 
     navigate(PATHS.search);
   }
+
+  const getJournalAccessLink = (): string => language === 'fr' ? import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_FR : import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_EN
 
   const getPostHeaderLinks = (): JSX.Element => {
     return (
@@ -140,7 +143,12 @@ export default function Header(): JSX.Element {
         </div>
         <div className='header-preheader-links'>
           <div className='header-preheader-links-access'>
-            <Link to={language === 'fr' ? import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_FR : import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_EN} target='_blank'>{t('components.header.journal')}</Link>
+            <Link to={getJournalAccessLink()} target='_blank'>{t('components.header.journal')}</Link>
+          </div>
+          <div className='header-preheader-links-access-mobile'>
+            <Link to={getJournalAccessLink()} target='_blank'>
+              <img src={arrowRight} alt='Arrow right icon' />
+            </Link>
           </div>
           <LanguageDropdown />
         </div>
