@@ -8,18 +8,18 @@ export const journalApi = createApi({
   reducerPath: 'journal',
   tagTypes: ['Journal'],
   endpoints: (build) => ({
-    fetchJournals: build.query<IJournal[], null>({
-      query: () => 'journals?pagination=false',
-      transformResponse(baseQueryReturnValue: RawJournal[]) {
-        return baseQueryReturnValue.map((journal) => ({
-          ...journal,
-          id: journal.rvid
-        }))
+    fetchJournal: build.query<IJournal, string>({
+      query: (rvcode: string) => `journals/${rvcode}`,
+      transformResponse(baseQueryReturnValue: RawJournal) {
+        return {
+          ...baseQueryReturnValue,
+          id: baseQueryReturnValue.rvid
+        }
       },
     }),
   }),
 })
 
 export const {
-  useFetchJournalsQuery,
+  useFetchJournalQuery,
 } = journalApi

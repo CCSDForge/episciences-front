@@ -24,9 +24,9 @@ export default function Statistics(): JSX.Element {
   ]);
   const [years, setYears] = useState<IStatisticsYearSelection[]>([]);
 
-  const getSelectedYear = (): number | undefined => years.find(y => y.isSelected)?.year;
+  const getSelectedYears = (): number[] => years.filter(y => y.isSelected).map(y => y.year);
 
-  const { data: stats, isFetching: isFetching } = useFetchStatsQuery({ rvcode: rvcode!, page: 1, itemsPerPage: 7, year: getSelectedYear() }, { skip: !rvcode, refetchOnMountOrArgChange: true })
+  const { data: stats, isFetching: isFetching } = useFetchStatsQuery({ rvcode: rvcode!, page: 1, itemsPerPage: 7, years: getSelectedYears() }, { skip: !rvcode, refetchOnMountOrArgChange: true })
 
   useEffect(() => {
     if (stats?.range && stats.range.years && years.length === 0) {
@@ -45,7 +45,7 @@ export default function Statistics(): JSX.Element {
         return { ...y, isSelected: !y.isSelected };
       }
 
-      return { ...y, isSelected: false };
+      return { ...y };
     });
 
     setYears(updatedYears);
@@ -77,6 +77,8 @@ export default function Statistics(): JSX.Element {
 
     setStatisticsPerLabel(updatedStatistics)
   }
+
+  const renderSelectedYears = (): string => getSelectedYears().reverse().join(', ')
 
   useEffect(() => {
     if (stats) {
@@ -128,7 +130,7 @@ export default function Statistics(): JSX.Element {
       ]} crumbLabel={t('pages.statistics.title')} />
       <div className='statistics-title'>
         <h1 className='statistics-title-text'>{t('pages.statistics.title')}</h1>
-        <div className='statistics-title-year'>{getSelectedYear()}</div>
+        <div className='statistics-title-year'>{renderSelectedYears()}</div>
       </div>
       <div className='statistics-content'>
         <div className='statistics-content-results'>

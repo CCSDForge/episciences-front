@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+import ReactMarkdown from 'react-markdown';
 
 import download from '/icons/download-red.svg';
 import { useAppSelector } from "../../../hooks/store";
@@ -29,7 +30,7 @@ export default function VolumeDetails(): JSX.Element {
   const [articles, setArticles] = useState<FetchedArticle[]>([]);
 
   const { id } = useParams();
-  const { data: volume, isFetching: isFetchingVolume } = useFetchVolumeQuery({ vid: id!, language: language }, { skip: !id });
+  const { data: volume, isFetching: isFetchingVolume } = useFetchVolumeQuery({ rvcode: rvcode!, vid: id!, language: language }, { skip: !id || !rvcode });
   const { data: relatedVolumes, isFetching: isFetchingRelatedVolumes } = useFetchVolumesQuery({ rvcode: rvcode!, language: language, page: 1, itemsPerPage: RELATED_VOLUMES, types: volume?.types }, { skip: !rvcode })
 
 
@@ -155,7 +156,9 @@ export default function VolumeDetails(): JSX.Element {
                     <div className='volumeDetails-content-results-content-proceedingSettings-setting'>{renderProceedingDates()}</div>
                   </div>
                 )}
-                <div className='volumeDetails-content-results-content-description'>{volume?.description ? volume?.description[language] : ''}</div>
+                <div className='volumeDetails-content-results-content-description'>{volume?.description ? (
+                <ReactMarkdown>{volume?.description[language]}</ReactMarkdown>
+              ) : ''}</div>
                 {getEdito() && getEdito()!.content && getEdito()!.content![language] && (
                   <div className="volumeDetails-content-results-content-edito">
                     <div className="volumeDetails-content-results-content-edito-title">{getEdito()!.title![language]}</div>
@@ -168,7 +171,7 @@ export default function VolumeDetails(): JSX.Element {
                       )}
                       {getEdito()?.file && (
                         <div className="volumeDetails-content-results-content-edito-anchor-icons">
-                          <Link to={`https://${import.meta.env.VITE_JOURNAL_RVCODE}.episciences.org/public/volumes/${volume?.id}/${getEdito()!.file!}`} target='_blank'>
+                          <Link to={`https://${currentJournal?.code}.episciences.org/public/volumes/${volume?.id}/${getEdito()!.file!}`} target='_blank'>
                             <div className="volumeDetails-content-results-content-edito-anchor-icons-download">
                               <img className="volumeDetails-content-results-content-edito-anchor-icons-download-download-icon" src={download} alt='Download icon' />
                               <div className="volumeDetails-content-results-content-edito-anchor-icons-download-text">{t('common.pdf')}</div>

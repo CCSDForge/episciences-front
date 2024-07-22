@@ -113,7 +113,7 @@ export default function VolumeDetailsSidebar({ language, t, volume, articles, cu
           </div>
         )}
         {renderMetadatas().map((metadata, index) => (
-          <Link key={index} className='volumeDetailsSidebar-actions-action' to={`https://${import.meta.env.VITE_JOURNAL_RVCODE}.episciences.org/public/volumes/${volume?.id}/${metadata.file}`} target='_blank'>
+          <Link key={index} className='volumeDetailsSidebar-actions-action' to={`https://${currentJournal?.code}.episciences.org/public/volumes/${volume?.id}/${metadata.file}`} target='_blank'>
             <img src={download} alt='Download icon' />
             <span className='volumeDetailsSidebar-actions-action-text'>{metadata.title && metadata.title[language]}</span>
           </Link>

@@ -7,7 +7,7 @@ import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchCreditsPageQuery } from "../../../store/features/credits/credits.query";
-import { generateIdFromText, unifiedProcessor, serializeMarkdown, getImageURL } from '../../../utils/markdown';
+import { generateIdFromText, unifiedProcessor, serializeMarkdown, getMarkdownImageURL } from '../../../utils/markdown';
 import CreditsSidebar, { ICreditsHeader } from '../../components/Sidebars/CreditsSidebar/CreditsSidebar';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
@@ -138,7 +138,7 @@ export default function Credits(): JSX.Element {
                 className={`credits-content-body-section ${!section.opened && 'credits-content-body-section-hidden'}`}
               >
                 <ReactMarkdown
-                  urlTransform={uri => uri.includes('/public/') ? getImageURL(uri) : uri}
+                  urlTransform={uri => uri.includes('/public/') ? getMarkdownImageURL(uri, rvcode!) : uri}
                   components={{
                     a: ({ ...props }) => <Link to={props.href!} target='_blank' className='credits-content-body-section-link'>{props.children?.toString()}</Link>,
                     h2: ({ ...props }) => {
