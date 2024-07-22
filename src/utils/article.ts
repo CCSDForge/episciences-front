@@ -81,12 +81,24 @@ export const formatArticleAuthors = (article: FetchedArticle): string => {
 
 export enum ARTICLE_TYPE {
   ARTICLE = 'article',
+  BOOK = 'book',
+  BOOK_PART = 'bookpart',
   CONFERENCE = 'conferenceobject',
-  PRE_PRINT = 'preprint'
+  LECTURE = 'lecture',
+  OTHER = 'other',
+  PRE_PRINT = 'preprint',
+  REPORT = 'report',
+  SOFTWARE = 'software'
 }
 
 export const articleTypes: { labelPath: string; value: string; }[] = [
   { labelPath: 'pages.articles.types.article', value: ARTICLE_TYPE.ARTICLE },
+  { labelPath: 'pages.articles.types.book', value: ARTICLE_TYPE.BOOK },
+  { labelPath: 'pages.articles.types.bookpart', value: ARTICLE_TYPE.BOOK_PART },
   { labelPath: 'pages.articles.types.conference', value: ARTICLE_TYPE.CONFERENCE },
+  { labelPath: 'pages.articles.types.lecture', value: ARTICLE_TYPE.LECTURE },
+  { labelPath: 'pages.articles.types.other', value: ARTICLE_TYPE.OTHER },
   { labelPath: 'pages.articles.types.preprint', value: ARTICLE_TYPE.PRE_PRINT },
+  { labelPath: 'pages.articles.types.report', value: ARTICLE_TYPE.REPORT },
+  { labelPath: 'pages.articles.types.software', value: ARTICLE_TYPE.SOFTWARE },
 ]

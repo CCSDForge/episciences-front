@@ -121,8 +121,14 @@
       "title": "Articles",
       "types": {
         "article": "Article",
+        "book": "Book",
+        "bookpart": "Book part",
         "conference": "Conference paper",
-        "preprint": "Preprint"
+        "lecture": "Lecture",
+        "other": "Other",
+        "preprint": "Preprint",
+        "report": "Report",
+        "software": "Software"
       }
     },
     "articleDetails": {
