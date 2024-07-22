@@ -36,6 +36,17 @@ export default function Swiper({ id, type, language, t, slidesPerView, cards }: 
             prevEl: `.${id}-button-prev`,
             nextEl: `.${id}-button-next`,
           }}
+          breakpoints={{
+            0: {
+              slidesPerView: 1
+            },
+            768: {
+              slidesPerView: 2
+            },
+            1024: {
+              slidesPerView: slidesPerView
+            }
+          }}
         >
           {cards.map((content: SwiperCardContent, key: number) => (
             <SwiperSlide key={key}>

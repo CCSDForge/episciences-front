@@ -27,15 +27,24 @@ main {
 
   @media (max-width: $xsm) {
     padding: 0px 16px 135px 16px;
+    margin-top: 205px;
   }
 }
 
 h1 {
   font-size: 30px;
+
+  @media (max-width: $xsm) {
+    font-size: 20px;
+  }
 }
 
 h2 {
   font-size: 24px;
+
+  @media (max-width: $xsm) {
+    font-size: 16px;
+  }
 }
 
 h1, h2 {
