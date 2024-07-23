@@ -17,7 +17,7 @@ import './ArticleDetailsSidebar.scss'
 interface IArticleDetailsSidebarProps {
   language: AvailableLanguage;
   t: TFunction<"translation", undefined>;
-  article: IArticle;
+  article?: IArticle;
   relatedVolume?: IVolume;
 }
 
@@ -70,17 +70,19 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
           )}
         </div>
         <div className={`articleDetailsSidebar-publicationDetails-content ${openedPublicationDetails && 'articleDetailsSidebar-publicationDetails-content-opened'}`}>
-          <div className='articleDetailsSidebar-publicationDetails-content-row'>
-            <div className='articleDetailsSidebar-publicationDetails-content-row-publicationDate'>{t('pages.articleDetails.publicationDetails.publishedOn')}</div>
-            <div className='articleDetailsSidebar-publicationDetails-content-row-publicationDate-value'>{formatDate(article?.publicationDate, language)}</div>
-          </div>
-          {article.acceptanceDate && (
+          {article?.publicationDate && (
+            <div className='articleDetailsSidebar-publicationDetails-content-row'>
+              <div className='articleDetailsSidebar-publicationDetails-content-row-publicationDate'>{t('pages.articleDetails.publicationDetails.publishedOn')}</div>
+              <div className='articleDetailsSidebar-publicationDetails-content-row-publicationDate-value'>{formatDate(article?.publicationDate, language)}</div>
+            </div>
+          )}
+          {article?.acceptanceDate && (
             <div className='articleDetailsSidebar-publicationDetails-content-row'>
               <div>{t('pages.articleDetails.publicationDetails.acceptedOn')}</div>
               <div>{formatDate(article?.acceptanceDate, language)}</div>
             </div>
           )}
-          {article.submissionDate && (
+          {article?.submissionDate && (
             <div className='articleDetailsSidebar-publicationDetails-content-row'>
               <div>{t('pages.articleDetails.publicationDetails.submittedOn')}</div>
               <div>{formatDate(article?.submissionDate, language)}</div>
@@ -93,7 +95,7 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
           <Link to={`${PATHS.volumes}/${relatedVolume.id}`} className='articleDetailsSidebar-volumeDetails-number'>{t('pages.articleDetails.volumeDetails.title')} {relatedVolume.id}</Link>
           {renderSpecialRelatedVolume()}
           <div className='articleDetailsSidebar-volumeDetails-title'>{relatedVolume.title && relatedVolume.title[language]}</div>
-          {article.doi && (
+          {article?.doi && (
             <div className='articleDetailsSidebar-volumeDetails-doi'>
               <div>DOI</div>
               <div className='articleDetailsSidebar-volumeDetails-doi-content'>{article.doi}</div>
