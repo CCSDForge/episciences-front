@@ -14,6 +14,7 @@ import { articleTypes } from '../../../utils/article';
 import { AvailableLanguage, availableLanguages } from '../../../utils/i18n';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from "../../components/Loader/Loader";
+import ArticleMeta from "../../components/Meta/ArticleMeta/ArticleMeta";
 import ArticleDetailsSidebar from "../../components/Sidebars/ArticleDetailsSidebar/ArticleDetailsSidebar";
 import './ArticleDetails.scss'
 
@@ -31,6 +32,7 @@ export default function ArticleDetails(): JSX.Element {
 
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
+  const currentJournal = useAppSelector(state => state.journalReducer.currentJournal);
   
   const { id } = useParams();
   const { data: article, isFetching: isFetchingArticle, isError, error } = useFetchArticleQuery({ paperid: id! }, { skip: !id });
@@ -76,10 +78,10 @@ export default function ArticleDetails(): JSX.Element {
     setOpenedSections(updatedSections);
   }
 
-  const getFormattedKeywords = (): JSX.Element | null => {
-    if (!article?.keywords) return null
+  const getKeywords = (): string[] => {
+    const keywords: string[] = []
 
-    const renderedKeywords: string[] = []
+    if (!article?.keywords) return keywords
 
     Object.entries(article.keywords).map((keyword) => {
       const key = keyword[0]
@@ -87,21 +89,29 @@ export default function ArticleDetails(): JSX.Element {
 
       if (availableLanguages.includes(key as AvailableLanguage)) {
         if (key === language) {
-          renderedKeywords.push(...values)
+          keywords.push(...values)
         }
       } else {
-        renderedKeywords.push(values)
+        keywords.push(values)
       }
     })
 
+    return keywords
+  }
+
+  const getKeywordsSection = (): JSX.Element | null => {
+    const keywords = getKeywords()
+
+    if (!keywords) return null
+
     return (
       <ul>
-        {renderedKeywords.map((keyword, index) => <li key={index}>{keyword}</li>)}
+        {keywords.map((keyword, index) => <li key={index}>{keyword}</li>)}
       </ul>
     )
   }
 
-  const getFormattedLinkedPublications = (): JSX.Element | null => {
+  const getLinkedPublicationsSection = (): JSX.Element | null => {
     if (!article?.relatedItems || !article.relatedItems.length) return null
 
     return (
@@ -113,7 +123,7 @@ export default function ArticleDetails(): JSX.Element {
     )
   }
 
-  const getFormattedCitations = (): JSX.Element | null  => {
+  const getCitationsSection = (): JSX.Element | null  => {
     if (!article?.citations || !article.citations.length) return null
 
     return (
@@ -144,6 +154,7 @@ export default function ArticleDetails(): JSX.Element {
         <Loader />
       ) : (
         <>
+          <ArticleMeta language={language} article={article as IArticle | undefined} currentJournal={currentJournal} keywords={getKeywords()} />
           {article?.tag && <div className='articleDetails-tag'>{t(articleTypes.find((tag) => tag.value === article.tag)?.labelPath!)}</div>}
           <div className="articleDetails-content">
             <ArticleDetailsSidebar language={language} t={t} article={article as IArticle | undefined} relatedVolume={relatedVolume} />
@@ -151,9 +162,9 @@ export default function ArticleDetails(): JSX.Element {
               <h1 className="articleDetails-content-article-title">{article?.title}</h1>
               <div className="articleDetails-content-article-authors">{article?.authors}</div>
               {renderSection(ARTICLE_SECTION.ABSTRACT, t('pages.articleDetails.sections.abstract'), <>{article?.abstract}</>)}
-              {renderSection(ARTICLE_SECTION.KEYWORDS, t('pages.articleDetails.sections.keywords'), getFormattedKeywords())}
-              {renderSection(ARTICLE_SECTION.LINKED_PUBLICATIONS, t('pages.articleDetails.sections.linkedPublications'), getFormattedLinkedPublications())}
-              {renderSection(ARTICLE_SECTION.CITED_BY, t('pages.articleDetails.sections.citedBy'), getFormattedCitations())}
+              {renderSection(ARTICLE_SECTION.KEYWORDS, t('pages.articleDetails.sections.keywords'), getKeywordsSection())}
+              {renderSection(ARTICLE_SECTION.LINKED_PUBLICATIONS, t('pages.articleDetails.sections.linkedPublications'), getLinkedPublicationsSection())}
+              {renderSection(ARTICLE_SECTION.CITED_BY, t('pages.articleDetails.sections.citedBy'), getCitationsSection())}
               {renderSection(ARTICLE_SECTION.PREVIEW, t('pages.articleDetails.sections.preview'), <iframe src={article?.halLink} className="articleDetails-content-article-section-content-preview" />)}
             </div>
           </div>
