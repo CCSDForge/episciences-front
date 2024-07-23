@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import ReactMarkdown from 'react-markdown';
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 import download from '/icons/download-red.svg';
+import { PATHS } from '../../../config/paths'
 import { useAppSelector } from "../../../hooks/store";
 import { formatArticle, FetchedArticle } from "../../../utils/article";
 import { useFetchVolumesQuery, useFetchVolumeQuery } from "../../../store/features/volume/volume.query";
@@ -19,6 +21,7 @@ import './VolumeDetails.scss';
 
 export default function VolumeDetails(): JSX.Element {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const RELATED_VOLUMES = 20;
   
@@ -30,7 +33,7 @@ export default function VolumeDetails(): JSX.Element {
   const [articles, setArticles] = useState<FetchedArticle[]>([]);
 
   const { id } = useParams();
-  const { data: volume, isFetching: isFetchingVolume } = useFetchVolumeQuery({ rvcode: rvcode!, vid: id!, language: language }, { skip: !id || !rvcode });
+  const { data: volume, isFetching: isFetchingVolume, isError, error } = useFetchVolumeQuery({ rvcode: rvcode!, vid: id!, language: language }, { skip: !id || !rvcode });
   const { data: relatedVolumes, isFetching: isFetchingRelatedVolumes } = useFetchVolumesQuery({ rvcode: rvcode!, language: language, page: 1, itemsPerPage: RELATED_VOLUMES, types: volume?.types }, { skip: !rvcode })
 
 
@@ -123,6 +126,12 @@ export default function VolumeDetails(): JSX.Element {
 
     return edito || null
   }
+
+  useEffect(() => {
+    if (!volume && isError && (error as FetchBaseQueryError)?.status) {
+      navigate(PATHS.home);
+    }
+  }, [volume, isError, error])
 
   return (
     <main className='volumeDetails'>

@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import ReactMarkdown from 'react-markdown';
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
+import { PATHS } from '../../../config/paths'
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchSectionQuery } from "../../../store/features/section/section.query";
 import { RawArticle, IArticle } from "../../../types/article";
@@ -15,6 +17,7 @@ import './SectionDetails.scss';
 
 export default function SectionDetails(): JSX.Element {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const SECTION_TITLE_BREADCRUMB_LENGTH = 20;
 
@@ -24,7 +27,7 @@ export default function SectionDetails(): JSX.Element {
   const [articles, setArticles] = useState<FetchedArticle[]>([]);
 
   const { id } = useParams();
-  const { data: section, isFetching: isFetchingSection } = useFetchSectionQuery({ sid: id! }, { skip: !id });
+  const { data: section, isFetching: isFetchingSection, isError, error } = useFetchSectionQuery({ sid: id! }, { skip: !id });
 
   useEffect(() => {
     if (section && section.articles.length > 0) {
@@ -47,6 +50,13 @@ export default function SectionDetails(): JSX.Element {
     setArticles(fetchedArticles);
     setIsFetchingArticles(false);
   };
+
+
+  useEffect(() => {
+    if (!section && isError && (error as FetchBaseQueryError)?.status) {
+      navigate(PATHS.home);
+    }
+  }, [section, isError, error])
 
   return (
     <main className='sectionDetails'>

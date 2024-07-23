@@ -1,9 +1,11 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
+import { PATHS } from '../../../config/paths'
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchArticleQuery } from "../../../store/features/article/article.query";
 import { useFetchVolumeQuery } from "../../../store/features/volume/volume.query";
@@ -25,12 +27,13 @@ enum ARTICLE_SECTION {
 
 export default function ArticleDetails(): JSX.Element {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
   
   const { id } = useParams();
-  const { data: article, isFetching: isFetchingArticle } = useFetchArticleQuery({ paperid: id! }, { skip: !id });
+  const { data: article, isFetching: isFetchingArticle, isError, error } = useFetchArticleQuery({ paperid: id! }, { skip: !id });
   const { data: relatedVolume, isFetching: isFetchingVolume } = useFetchVolumeQuery({ rvcode: rvcode!, vid: article?.volumeId?.toString(), language: language }, { skip: !article || !article?.volumeId || !rvcode })
 
   const [openedSections, setOpenedSections] = useState<{ key: ARTICLE_SECTION, isOpened: boolean }[]>([
@@ -125,6 +128,12 @@ export default function ArticleDetails(): JSX.Element {
     )
   }
 
+  useEffect(() => {
+    if (!article && isError && (error as FetchBaseQueryError)?.status) {
+      navigate(PATHS.home);
+    }
+  }, [article, isError, error])
+
   return (
     <main className='articleDetails'>
       <Breadcrumb parents={[
@@ -137,7 +146,7 @@ export default function ArticleDetails(): JSX.Element {
         <>
           {article?.tag && <div className='articleDetails-tag'>{t(articleTypes.find((tag) => tag.value === article.tag)?.labelPath!)}</div>}
           <div className="articleDetails-content">
-            <ArticleDetailsSidebar language={language} t={t} article={article as IArticle} relatedVolume={relatedVolume} />
+            <ArticleDetailsSidebar language={language} t={t} article={article as IArticle | undefined} relatedVolume={relatedVolume} />
             <div className="articleDetails-content-article">
               <h1 className="articleDetails-content-article-title">{article?.title}</h1>
               <div className="articleDetails-content-article-authors">{article?.authors}</div>
