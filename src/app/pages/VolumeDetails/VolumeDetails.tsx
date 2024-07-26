@@ -128,7 +128,7 @@ export default function VolumeDetails(): JSX.Element {
   const getEdito = (): IVolumeMetadata | null => {
     if (!volume?.metadatas || !volume.metadatas.length) return null
 
-    const edito = volume.metadatas.find((metadata) => metadata.title && metadata.title[language] && metadata.title[language].toLowerCase() === 'edito')
+    const edito = volume.metadatas.find((metadata) => metadata.title && metadata.title[language] && metadata.title[language].replace(/[\u0300-\u036f]/g, '').toLowerCase() === 'edito')
 
     return edito || null
   }
