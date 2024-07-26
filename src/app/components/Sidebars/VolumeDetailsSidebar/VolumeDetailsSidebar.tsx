@@ -20,12 +20,12 @@ interface IVolumeDetailsSidebarProps {
 }
 
 export default function VolumeDetailsSidebar({ language, t, volume, articles, currentJournal, relatedVolumes }: IVolumeDetailsSidebarProps): JSX.Element {
-  const NOT_RENDERED_SIDEBAR_METADATAS = ['tile', 'edito'];
+  const NOT_RENDERED_SIDEBAR_METADATAS = ['tile'];
 
   const renderMetadatas = (): IVolumeMetadata[] => {
     if (!volume?.metadatas || !volume.metadatas.length) return [];
 
-    return volume.metadatas.filter((metadata) => metadata.file && metadata.title && metadata.title[language] && !NOT_RENDERED_SIDEBAR_METADATAS.includes(metadata.title[language].toLowerCase()))
+    return volume.metadatas.filter((metadata) => metadata.file && metadata.title && metadata.title[language] && !NOT_RENDERED_SIDEBAR_METADATAS.includes(metadata.title[language].replace(/[\u0300-\u036f]/g, '').toLowerCase()))
   }
 
   const renderVolumeTemplateSpecial = (): JSX.Element => {
