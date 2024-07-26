@@ -27,6 +27,17 @@
         background: var(--red);
         font-weight: bold;
       }
+
+      &-disabled {
+        cursor: auto;
+        pointer-events: none;
+        color: var(--grey-light);
+      }
+
+      &-others {
+        grid-column: span 2;
+        width: auto;
+      }
     }
   }
 }
