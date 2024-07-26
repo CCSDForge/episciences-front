@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
@@ -10,7 +10,7 @@ import { useAppSelector } from "../../../hooks/store";
 import { useFetchArticleQuery } from "../../../store/features/article/article.query";
 import { useFetchVolumeQuery } from "../../../store/features/volume/volume.query";
 import { IArticle } from "../../../types/article";
-import { articleTypes } from '../../../utils/article';
+import { articleTypes, getCitations, isDOI, ICitation } from '../../../utils/article';
 import { AvailableLanguage, availableLanguages } from '../../../utils/i18n';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from "../../components/Loader/Loader";
@@ -43,6 +43,7 @@ export default function ArticleDetails(): JSX.Element {
     { key: ARTICLE_SECTION.CITED_BY, isOpened: true },
     { key: ARTICLE_SECTION.PREVIEW, isOpened: true }
   ]);
+  const [citations, setCitations] = useState<ICitation[]>([]);
 
   const renderSection = (sectionKey: ARTICLE_SECTION, sectionTitle: string, sectionContent: JSX.Element | null): JSX.Element | null => {
     if (!sectionContent) return null
@@ -76,7 +77,7 @@ export default function ArticleDetails(): JSX.Element {
     setOpenedSections(updatedSections);
   }
 
-  const getFormattedKeywords = (): JSX.Element | null => {
+  const getKeywordsSection = (): JSX.Element | null => {
     if (!article?.keywords) return null
 
     const renderedKeywords: string[] = []
@@ -101,7 +102,7 @@ export default function ArticleDetails(): JSX.Element {
     )
   }
 
-  const getFormattedLinkedPublications = (): JSX.Element | null => {
+  const getLinkedPublicationsSection = (): JSX.Element | null => {
     if (!article?.relatedItems || !article.relatedItems.length) return null
 
     return (
@@ -113,7 +114,7 @@ export default function ArticleDetails(): JSX.Element {
     )
   }
 
-  const getFormattedCitations = (): JSX.Element | null  => {
+  const getCitedBySection = (): JSX.Element | null  => {
     if (!article?.citations || !article.citations.length) return null
 
     return (
@@ -121,7 +122,7 @@ export default function ArticleDetails(): JSX.Element {
       {article?.citations.map((citation, index) => (
         <li key={index} className="articleDetails-content-article-section-content-citations-citation">
           <p>{citation.citation}</p>
-          {citation.doi && <p className="articleDetails-content-article-section-content-citations-citation-doi">DOI : {citation.doi}</p>}
+          {citation.doi && isDOI(citation.doi) && <Link to={`https://doi.org/${citation.doi}`} className="articleDetails-content-article-section-content-citations-citation-doi" target="_blank">{t('common.doi')} : {citation.doi}</Link>}
         </li>
       ))}
       </ul>
@@ -133,6 +134,15 @@ export default function ArticleDetails(): JSX.Element {
       navigate(PATHS.home);
     }
   }, [article, isError, error])
+
+  useEffect(() => {
+    const fetchCitations = async () => {
+      const fetchedCitations = await getCitations(article?.doi);
+      setCitations(fetchedCitations);
+    };
+
+    fetchCitations();
+  }, [article, article?.doi]);
 
   return (
     <main className='articleDetails'>
@@ -146,14 +156,14 @@ export default function ArticleDetails(): JSX.Element {
         <>
           {article?.tag && <div className='articleDetails-tag'>{t(articleTypes.find((tag) => tag.value === article.tag)?.labelPath!)}</div>}
           <div className="articleDetails-content">
-            <ArticleDetailsSidebar language={language} t={t} article={article as IArticle | undefined} relatedVolume={relatedVolume} />
+            <ArticleDetailsSidebar language={language} t={t} article={article as IArticle | undefined} relatedVolume={relatedVolume} citations={citations} />
             <div className="articleDetails-content-article">
               <h1 className="articleDetails-content-article-title">{article?.title}</h1>
               <div className="articleDetails-content-article-authors">{article?.authors}</div>
               {renderSection(ARTICLE_SECTION.ABSTRACT, t('pages.articleDetails.sections.abstract'), <>{article?.abstract}</>)}
-              {renderSection(ARTICLE_SECTION.KEYWORDS, t('pages.articleDetails.sections.keywords'), getFormattedKeywords())}
-              {renderSection(ARTICLE_SECTION.LINKED_PUBLICATIONS, t('pages.articleDetails.sections.linkedPublications'), getFormattedLinkedPublications())}
-              {renderSection(ARTICLE_SECTION.CITED_BY, t('pages.articleDetails.sections.citedBy'), getFormattedCitations())}
+              {renderSection(ARTICLE_SECTION.KEYWORDS, t('pages.articleDetails.sections.keywords'), getKeywordsSection())}
+              {renderSection(ARTICLE_SECTION.LINKED_PUBLICATIONS, t('pages.articleDetails.sections.linkedPublications'), getLinkedPublicationsSection())}
+              {renderSection(ARTICLE_SECTION.CITED_BY, t('pages.articleDetails.sections.citedBy'), getCitedBySection())}
               {renderSection(ARTICLE_SECTION.PREVIEW, t('pages.articleDetails.sections.preview'), <iframe src={article?.halLink} className="articleDetails-content-article-section-content-preview" />)}
             </div>
           </div>

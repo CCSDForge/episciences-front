@@ -74,13 +74,13 @@ export default function Authors(): JSX.Element {
     if (authors) {
       if (authors.totalItems > 1) {
         if (search) return <div className='authors-count'>{authors.totalItems} {t('common.authorsFor')} "{search}"</div>
-        if (activeLetter) return <div className='authors-count'>{authors.totalItems} {t('common.authorsFor')} "{activeLetter}"</div>
+        if (activeLetter) return <div className='authors-count'>{authors.totalItems} {t('common.authorsFor')} "{activeLetter === 'others' ? t('pages.authors.others') : activeLetter}"</div>
 
         return <div className='authors-count'>{authors.totalItems} {t('common.authors')}</div>
       }
 
       if (search) return <div className='authors-count'>{authors.totalItems} {t('common.authorFor')} "{search}"</div>
-      if (activeLetter) return <div className='authors-count'>{authors.totalItems} {t('common.authorFor')} "{activeLetter}"</div>
+      if (activeLetter) return <div className='authors-count'>{authors.totalItems} {t('common.authorFor')} "{activeLetter === 'others' ? t('pages.authors.others') : activeLetter}"</div>
 
       return <div className='authors-count'>{authors.totalItems} {t('common.author')}</div>  
     }
@@ -147,7 +147,7 @@ export default function Authors(): JSX.Element {
       <div className='authors-filters'>
           <div className="authors-filters-tags">
             {taggedFilters.map((filter, index) => (
-              <Tag key={index} text={filter.value} onCloseCallback={(): void => onCloseTaggedFilter(filter.type)}/>
+              <Tag key={index} text={filter.value === 'others' ? t('pages.authors.others') : filter.value} onCloseCallback={(): void => onCloseTaggedFilter(filter.type)}/>
             ))}
             {taggedFilters.length > 0 ? (
               <div className="authors-filters-tags-clear" onClick={clearTaggedFilters}>{t('common.filters.clearAll')}</div>
@@ -157,7 +157,7 @@ export default function Authors(): JSX.Element {
           </div>
         </div>
       <div className='authors-content'>
-        <AuthorsSidebar t={t} search={search} onSearchCallback={onSearch} activeLetter={activeLetter} onSetActiveLetterCallback={onSetActiveLetter} />
+        <AuthorsSidebar t={t} search={search} onSearchCallback={onSearch} activeLetter={activeLetter} onSetActiveLetterCallback={onSetActiveLetter} lettersRange={authors?.range} />
         <div className='authors-content-results'>
           <div className='authors-content-results-paginationTop'>
             {getPagination()}

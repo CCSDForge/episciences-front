@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom'
 import { TFunction } from 'i18next';
-import JSZip from 'jszip';
-import { saveAs } from 'file-saver';
 
 import download from '/icons/download-blue.svg';
 import { PATHS } from '../../../../config/paths';
@@ -30,35 +28,6 @@ export default function VolumeDetailsSidebar({ language, t, volume, articles, cu
     return volume.metadatas.filter((metadata) => metadata.file && metadata.title && metadata.title[language] && !NOT_RENDERED_SIDEBAR_METADATAS.includes(metadata.title[language].toLowerCase()))
   }
 
-  const downloadAllArticles = async (openTab: boolean): Promise<void> => {
-    if (!volume || !articles.length) return;
-
-    if (openTab) {
-      articles.forEach((article) => {
-        window.open(article.pdfLink, '_blank')
-      })
-
-      return;
-    }
-
-    const folderName = `Volume_${volume.num}`;
-
-    const zip = new JSZip();
-    const folder = zip.folder(folderName);
-
-    const pdfDownloads = articles.map(async (article) => {
-      const response = await fetch(article.pdfLink);
-      const blob = await response.blob();
-      const fileName = article.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-      folder?.file(`${fileName}.pdf`, blob);
-    });
-
-    await Promise.all(pdfDownloads);
-
-    const content = await zip.generateAsync({ type: 'blob' });
-    saveAs(content, `${folderName}.zip`);
-  };
-
   const renderVolumeTemplateSpecial = (): JSX.Element => {
     if (volume?.types && volume.types.length) {
       if (volume.types.includes(VOLUME_TYPE.PROCEEDINGS)) {
@@ -74,6 +43,19 @@ export default function VolumeDetailsSidebar({ language, t, volume, articles, cu
     }
 
     return <div className="volumeDetailsSidebar-template-volume">{t('common.volumeCard.volume')}</div>
+  }
+
+  const renderVolumeTemplateNumber = (): JSX.Element => {
+    if (volume?.types && volume?.types.includes(VOLUME_TYPE.PROCEEDINGS) && volume.settingsProceeding && volume.settingsProceeding.length) {
+      const conferenceAcronym = volume!.settingsProceeding!.find((setting) => setting.setting === "conference_acronym")
+      const conferenceNumber = volume!.settingsProceeding!.find((setting) => setting.setting === "conference_number")
+
+      if (conferenceAcronym && conferenceAcronym.value && conferenceNumber && conferenceNumber.value) {
+        return <div className="volumeDetailsSidebar-template-number volumeDetailsSidebar-template-number-conference">{`${conferenceAcronym.value} ${conferenceNumber.value}`}</div>
+      }
+    }
+
+    return <div className="volumeDetailsSidebar-template-number">{volume?.num}</div>
   }
 
   const renderRelatedVolumesTitle = (): string => {
@@ -98,7 +80,7 @@ export default function VolumeDetailsSidebar({ language, t, volume, articles, cu
         <div className="volumeDetailsSidebar-template">
           <div className="volumeDetailsSidebar-template-jpe">{currentJournal?.code.toUpperCase()}</div>
           {renderVolumeTemplateSpecial()}
-          <div className="volumeDetailsSidebar-template-number">{volume?.num}</div>
+          {renderVolumeTemplateNumber()}
           <div className="volumeDetailsSidebar-template-year">{volume?.year}</div>
         </div>
       )}
@@ -106,11 +88,11 @@ export default function VolumeDetailsSidebar({ language, t, volume, articles, cu
         {articles.length > 1 ? `${articles.length} ${t('common.articles')}` : `${articles.length} ${t('common.article')}`}
       </div>
       <div className='volumeDetailsSidebar-actions'>
-        {articles.length > 0 && (
-          <div className='volumeDetailsSidebar-actions-action' onClick={(): Promise<void> => downloadAllArticles(true)}>
+        {volume && (
+          <Link to={volume.downloadLink} target='_blank' className='volumeDetailsSidebar-actions-action'>
             <img src={download} alt='Download icon' />
             <span className='volumeDetailsSidebar-actions-action-text'>{t('pages.volumeDetails.actions.downloadAll')}</span>
-          </div>
+          </Link>
         )}
         {renderMetadatas().map((metadata, index) => (
           <Link key={index} className='volumeDetailsSidebar-actions-action' to={`https://${currentJournal?.code}.episciences.org/public/volumes/${volume?.id}/${metadata.file}`} target='_blank'>

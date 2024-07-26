@@ -25,7 +25,7 @@ export default function LanguageDropdown() {
   };
 
   return (
-    <div className='languageDropdown' onMouseEnter={(): void => setShowDropdown(true)} onMouseLeave={(): void => setShowDropdown(false)}>
+    <div className='languageDropdown' onMouseEnter={(): void => setShowDropdown(true)}>
       <div className='languageDropdown-icon'>
         <div className='languageDropdown-icon-text'>{language.toUpperCase()}</div>
         {showDropdown ? (
@@ -35,7 +35,7 @@ export default function LanguageDropdown() {
           )}
       </div>
       {showDropdown && (
-        <div className='languageDropdown-content'>
+        <div className='languageDropdown-content' onMouseLeave={(): void => setShowDropdown(false)}>
           <div className='languageDropdown-content-links'>
             {availableLanguages.map((availableLanguage, index) => (
               <span key={index} onClick={(): void => switchLanguage(availableLanguage)}>{availableLanguage.toUpperCase()}</span>
