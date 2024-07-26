@@ -4,10 +4,12 @@ import { RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { HelmetProvider } from 'react-helmet-async'
+import { MathJaxContext } from 'better-react-mathjax'
 
 import Loader from './app/components/Loader/Loader'
 import store, { persistedStore } from './store'
 import router from './config/router'
+import { config } from './config/mathjax'
 import './config/i18n'
 import './index.scss'
 
@@ -17,7 +19,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistedStore}>
           <HelmetProvider>
-            <RouterProvider router={router}/>
+            <MathJaxContext config={config} version={2}>
+              <RouterProvider router={router}/>
+            </MathJaxContext>
           </HelmetProvider>
         </PersistGate>
       </Provider>

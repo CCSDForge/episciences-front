@@ -2,8 +2,8 @@
   "common": {
     "article": "article",
     "articles": "articles",
-    "articleAccepted": "article accepted",
-    "articlesAccepted": "articles accepted",
+    "document": "document",
+    "documents": "documents",
     "volume": "volume",
     "volumes": "volumes",
     "section": "section",
@@ -21,7 +21,10 @@
     "readMore": "Read more",
     "readLess": "Read less",
     "seeMore": "See more",
+    "doi": "DOI",
     "pdf": "PDF",
+    "cite": "Cite",
+    "citeSuccess": "{{template}} citation has been copied to clipboard",
     "week": "week",
     "content": "Content",
     "publishedOn": "Published on",
@@ -31,11 +34,11 @@
       "hideAll": "Hide all abstracts",
       "showAll": "Show all abstracts"
     },
-    "volumeCommittee": "(volume committee)",
+    "volumeCommittee": "Volume committee",
     "volumeCard": {
       "volume": "Volume",
       "specialIssue": "Special issue",
-      "proceeding": "Proceeding"
+      "proceeding": "Proceedings"
     },
     "renderingMode": {
       "tile": "Tile",
@@ -142,7 +145,8 @@
       },
       "actions": {
         "download": "Download article",
-        "openHAL": "Open on HAL"
+        "openHAL": "Open on HAL",
+        "cite": "Cite"
       },
       "publicationDetails": {
         "title": "Publication details",
@@ -153,11 +157,11 @@
       "volumeDetails": {
         "title": "Volume",
         "specialIssue": "Special issue",
-        "proceeding": "Proceeding"
+        "proceeding": "Proceedings"
       }
     },
     "articlesAccepted": {
-      "title": "Articles"
+      "title": "To be published"
     },
     "search": {
       "title": "Search"
@@ -172,7 +176,10 @@
     "volumeDetails": {
       "title": "Volume",
       "titleSpecialIssue": "Special issue",
-      "titleProceeding": "Proceeding",
+      "titleProceeding": "Proceedings",
+      "proceedingSettings": {
+        "theme": "Conference theme"
+      },
       "actions": {
         "downloadAll": "Download all articles"
       },
@@ -190,7 +197,8 @@
     },
     "authors": {
       "title": "Authors",
-      "searchName": "search a name"
+      "searchName": "search a name",
+      "others": "Others"
     },
     "about": {
       "title": "The journal"

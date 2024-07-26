@@ -74,10 +74,7 @@ export default function SectionDetails(): JSX.Element {
             <div className="sectionDetails-content-results-content">
               <div className='sectionDetails-content-results-content-title'>{section?.title ? section?.title[language] : ''}</div>
               {section?.committee && section.committee.length > 0 && (
-                <div className='sectionDetails-content-results-content-committee'>
-                  {section?.committee.map((member) => member.screenName).join(', ')}
-                  <span className="sectionDetails-content-results-content-committee-note">{t('common.volumeCommittee')}</span>
-                </div>
+                <div className='sectionDetails-content-results-content-committee'>{t('common.volumeCommittee')} : {section?.committee.map((member) => member.screenName).join(', ')}</div>
               )}
               <div className='sectionDetails-content-results-content-description'>{section?.description ? (
                 <ReactMarkdown>{section?.description[language]}</ReactMarkdown>
