@@ -5,7 +5,11 @@
   &-links {
     display: flex;
     gap: 16px;
-    margin-bottom: 30px;
+    margin-bottom: 12px;
+
+    &-bottom {
+      margin-bottom: 30px;
+    }
 
     &-link {
       display: flex;
@@ -16,6 +20,42 @@
 
       &-text {
         font-size: 14px;
+      }
+
+      &-cite {
+        position: relative;
+
+        &-content {
+          position: absolute;
+          left: 0;
+          top: 39px;
+          display: none;
+          z-index: 3;
+      
+          &-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 4px 8px 4px 8px;
+            background: var(--white);
+            color: var(--grey);
+            border: 1px solid var(--grey-light);
+            box-shadow: 0px 3px 6px var(--grey);
+            font-size: 14px;
+      
+            span {
+              cursor: pointer;
+      
+              &:hover {
+                color: var(--grey-dark);
+              }
+            }
+          }
+        }
+
+        &:hover &-content {
+          display: block;
+        }
       }
     }
   }
@@ -90,6 +130,10 @@
 
     &-doi {
       margin-bottom: 16px;
+
+      &-content {
+        text-decoration: underline;
+      }
     }
 
     &-doi, &-licence {

@@ -6,6 +6,7 @@ import close from '/icons/close-red.svg';
 import { PATHS } from '../../../../config/paths';
 import { IAuthor } from "../../../../types/author";
 import { useFetchAuthorArticlesQuery } from '../../../../store/features/author/author.query';
+import { isDOI } from '../../../../utils/article';
 import { formatDate } from '../../../../utils/date';
 import { AvailableLanguage } from '../../../../utils/i18n';
 import './AuthorDetailsSidebar.scss'
@@ -30,10 +31,10 @@ export default function AuthorDetailsSidebar ({ language, t, rvcode, expandedAut
           <div key={index} className="authorDetailsSidebar-content-article">
             <div className="authorDetailsSidebar-content-article-title">{article.title}</div>
             <div className="authorDetailsSidebar-content-article-publicationDate">{`${t('common.publishedOn')} ${formatDate(article.publicationDate, language)}`}</div>
-            {article.doi && (
+            {article.doi && isDOI(article.doi) && (
                 <div className="authorDetailsSidebar-content-article-doi">
-                  <div className="authorDetailsSidebar-content-article-doi-text">DOI :</div>
-                  <div className="authorDetailsSidebar-content-article-doi-link">{article.doi}</div>
+                  <div className="authorDetailsSidebar-content-article-doi-text">{t('common.doi')} :</div>
+                  <Link to={`https://doi.org/${article.doi}`} className="authorDetailsSidebar-content-article-doi-link" target='_blank'>{article.doi}</Link>
                 </div>
             )}
             <Link to={`/${PATHS.articles}/${article.id}`} target='_blank'>

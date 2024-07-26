@@ -91,6 +91,7 @@
         display: none;
         font-size: 16px;
         margin-top: 8px;
+        white-space: pre-wrap;
   
         &-opened {
           display: block;
@@ -99,6 +100,7 @@
     }
 
     &-download {
+      margin-top: auto;
       display: flex;
       align-self: flex-end;
       gap: 8px;

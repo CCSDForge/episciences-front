@@ -6,9 +6,11 @@ import caretUp from '/icons/caret-up-grey.svg';
 import caretDown from '/icons/caret-down-grey.svg';
 import download from '/icons/download-black.svg';
 import externalLink from '/icons/external-link-black.svg';
+import quote from '/icons/quote-black.svg';
 import { PATHS } from '../../../../config/paths';
 import { IArticle } from '../../../../types/article';
 import { IVolume } from '../../../../types/volume';
+import { ICitation, copyToClipboardCitation, isDOI } from '../../../../utils/article';
 import { formatDate } from '../../../../utils/date';
 import { AvailableLanguage } from '../../../../utils/i18n';
 import { VOLUME_TYPE } from '../../../../utils/volume';
@@ -19,10 +21,12 @@ interface IArticleDetailsSidebarProps {
   t: TFunction<"translation", undefined>;
   article?: IArticle;
   relatedVolume?: IVolume;
+  citations: ICitation[];
 }
 
-export default function ArticleDetailsSidebar({ language, t, article, relatedVolume }: IArticleDetailsSidebarProps): JSX.Element {
+export default function ArticleDetailsSidebar({ language, t, article, relatedVolume, citations }: IArticleDetailsSidebarProps): JSX.Element {
   const [openedPublicationDetails, setOpenedPublicationDetails] = useState(true)
+  const [showCitationsDropdown, setShowCitationsDropdown] = useState(false)
 
   const togglePublicationDetails = (): void => setOpenedPublicationDetails(!openedPublicationDetails)
 
@@ -60,6 +64,26 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
           </Link>
         )}
       </div>
+      <div className='articleDetailsSidebar-links articleDetailsSidebar-links-bottom'>
+        {citations.length > 0 && (
+          <div className='articleDetailsSidebar-links-link articleDetailsSidebar-links-link-cite' onMouseEnter={(): void => setShowCitationsDropdown(true)}>
+            <img className='articleDetailsSidebar-links-link-icon' src={quote} alt='Quote icon' />
+            <div className='articleDetailsSidebar-links-link-text'>{t('pages.articleDetails.actions.cite')}</div>
+            {showCitationsDropdown && (
+                <div className='articleDetailsSidebar-links-link-cite-content' onMouseLeave={(): void => setShowCitationsDropdown(false)}>
+                  <div className='articleDetailsSidebar-links-link-cite-content-links'>
+                    {citations.map((citation, index) => (
+                      <span key={index} onClick={(): void => {
+                        copyToClipboardCitation(citation, t)
+                        setShowCitationsDropdown(false)
+                      }}>{citation.key}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+          </div>
+        )}
+      </div>
       <div className='articleDetailsSidebar-publicationDetails'>
         <div className='articleDetailsSidebar-publicationDetails-title' onClick={(): void => togglePublicationDetails()}>
           <div className='articleDetailsSidebar-publicationDetails-title-text'>{t('pages.articleDetails.publicationDetails.title')}</div>
@@ -95,10 +119,10 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
           <Link to={`${PATHS.volumes}/${relatedVolume.id}`} className='articleDetailsSidebar-volumeDetails-number'>{t('pages.articleDetails.volumeDetails.title')} {relatedVolume.id}</Link>
           {renderSpecialRelatedVolume()}
           <div className='articleDetailsSidebar-volumeDetails-title'>{relatedVolume.title && relatedVolume.title[language]}</div>
-          {article?.doi && (
+          {article?.doi && isDOI(article.doi) && (
             <div className='articleDetailsSidebar-volumeDetails-doi'>
-              <div>DOI</div>
-              <div className='articleDetailsSidebar-volumeDetails-doi-content'>{article.doi}</div>
+              <div>{t('common.doi')}</div>
+              <Link to={`https://doi.org/${article.doi}`} className='articleDetailsSidebar-volumeDetails-doi-content' target='_blank'>{article.doi}</Link>
             </div>
           )}
           {/* <div className='articleDetailsSidebar-volumeDetails-licence'>

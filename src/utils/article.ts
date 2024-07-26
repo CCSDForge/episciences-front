@@ -1,4 +1,10 @@
+import { TFunction } from 'i18next';
+import { Cite, plugins, util } from '@citation-js/core'
+import '@citation-js/plugin-csl'
+import '@citation-js/plugin-doi'
+
 import { IArticle, IArticleCitation, RawArticle } from "../types/article";
+import { toastSuccess } from './toast';
 
 export type FetchedArticle = IArticle | undefined;
 
@@ -102,3 +108,59 @@ export const articleTypes: { labelPath: string; value: string; }[] = [
   { labelPath: 'pages.articles.types.report', value: ARTICLE_TYPE.REPORT },
   { labelPath: 'pages.articles.types.software', value: ARTICLE_TYPE.SOFTWARE },
 ]
+
+export const isDOI = (doiToBeTested: string): boolean => /^10.\d{4,9}\/[-._;()\/:A-Z0-9]+$/i.test(doiToBeTested)
+
+export enum CITATION_TEMPLATE {
+  APA = 'APA',
+  MLA = 'MLA',
+  BIBTEX = 'BibTeX'
+}
+
+export const citationCustomTemplates: { key: CITATION_TEMPLATE, url: string }[] = [
+  { key: CITATION_TEMPLATE.MLA, url: 'https://www.zotero.org/styles/modern-language-association' },
+  { key: CITATION_TEMPLATE.BIBTEX, url: 'https://www.zotero.org/styles/bibtex' }
+]
+
+export interface ICitation {
+  key: CITATION_TEMPLATE;
+  citation: string
+}
+
+export const getCitations = async (doi?: string): Promise<ICitation[]> => {
+  const citations: ICitation[] = []
+
+  if (!doi) return citations
+
+  const citationData = await Cite.async(doi).catch((error: Error) => console.error(error))
+
+  if (!citationData) return citations
+
+  const config = plugins.config.get("@csl")
+
+  await Promise.all(citationCustomTemplates.map(async customTemplate => {
+    const templateXml = await util.fetchFileAsync(customTemplate.url)
+    config.templates.add(customTemplate.key, templateXml)
+  }))
+
+  await Promise.all(Object.values(CITATION_TEMPLATE).map(async template => {
+    const output = citationData.format('bibliography', {
+      format: 'text',
+      template
+    })
+
+    if (!citations.find(citation => citation.key === template)) {
+      citations.push({
+        key: template,
+        citation: output
+      })
+    }
+  }))
+
+  return citations
+}
+
+export const copyToClipboardCitation = (citation: ICitation, t: TFunction<"translation", undefined>) => {
+  navigator.clipboard.writeText(citation.citation)
+  toastSuccess(t('common.citeSuccess', { template: citation.key }))
+}

@@ -100,6 +100,12 @@ export default function VolumeDetails(): JSX.Element {
     return <div className='volumeDetails-content-results-content-title'>{volume?.title ? volume?.title[language] : ''}</div>
   }
 
+  const renderProceedingTheme = (): string | null => {
+    const proceedingTheme = volume!.settingsProceeding!.find((setting) => setting.setting === "conference_theme")
+
+    return proceedingTheme?.value ? `${t('pages.volumeDetails.proceedingSettings.theme')} : ${proceedingTheme.value}` : null;
+  }
+
   const renderProceedingDOI = (): string | null => {
     const proceedingDOI = volume!.settingsProceeding!.find((setting) => setting.setting === "conference_proceedings_doi")
 
@@ -122,7 +128,7 @@ export default function VolumeDetails(): JSX.Element {
   const getEdito = (): IVolumeMetadata | null => {
     if (!volume?.metadatas || !volume.metadatas.length) return null
 
-    const edito = volume.metadatas.find((metadata) => metadata.title && metadata.title[language] && metadata.title[language].toLowerCase() === 'edito')
+    const edito = volume.metadatas.find((metadata) => metadata.title && metadata.title[language] && metadata.title[language].replace(/[\u0300-\u036f]/g, '').toLowerCase() === 'edito')
 
     return edito || null
   }
@@ -152,15 +158,16 @@ export default function VolumeDetails(): JSX.Element {
                 {renderVolumeTitle()}
                 {volume?.committee && volume.committee.length > 0 && (
                   <div className='volumeDetails-content-results-content-committee'>
-                    {volume?.committee.map((member) => member.screenName).join(', ')}
                     {(!volume?.types || !volume?.types.includes(VOLUME_TYPE.PROCEEDINGS)) && (
-                      <span className="volumeDetails-content-results-content-committee-note">{t('common.volumeCommittee')}</span>
+                      <span className="volumeDetails-content-results-content-committee-note">{t('common.volumeCommittee')} :</span>
                     )}
+                    {volume?.committee.map((member) => member.screenName).join(', ')}
                   </div>
                 )}
                 {volume?.types && volume?.types.includes(VOLUME_TYPE.PROCEEDINGS) && volume.settingsProceeding && volume.settingsProceeding.length && (
                   <div className="volumeDetails-content-results-content-proceedingSettings">
-                    <div className='volumeDetails-content-results-content-proceedingSettings-setting'>{renderProceedingDOI()}</div>
+                    <div className='volumeDetails-content-results-content-proceedingSettings-setting'>{renderProceedingTheme()}</div>
+                    {renderProceedingDOI() && <Link to={`https://doi.org/${renderProceedingDOI()}`} className='volumeDetails-content-results-content-proceedingSettings-setting volumeDetails-content-results-content-proceedingSettings-setting-doi' target="_blank">{renderProceedingDOI()}</Link>}
                     <div className='volumeDetails-content-results-content-proceedingSettings-setting'>{renderProceedingLocation()}</div>
                     <div className='volumeDetails-content-results-content-proceedingSettings-setting'>{renderProceedingDates()}</div>
                   </div>

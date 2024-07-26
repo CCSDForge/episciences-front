@@ -17,3 +17,7 @@ export interface Range {
 export interface PaginatedResponseWithCount<T> extends PaginatedResponseWithRange<T> {
   'hydra:totalPublishedArticles'?: number;
 }
+
+export interface PaginatedResponseWithAuthorsRange<T> extends PaginatedResponse<T> {
+  'hydra:range'?: Record<string, number>
+}

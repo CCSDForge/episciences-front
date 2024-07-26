@@ -2,8 +2,8 @@
   "common": {
     "article": "article",
     "articles": "articles",
-    "articleAccepted": "article accepté",
-    "articlesAccepted": "articles acceptés",
+    "document": "document",
+    "documents": "documents",
     "volume": "volume",
     "volumes": "volumes",
     "section": "rubrique",
@@ -21,7 +21,10 @@
     "readMore": "Lire plus",
     "readLess": "Lire moins",
     "seeMore": "En savoir plus",
+    "doi": "DOI",
     "pdf": "PDF",
+    "cite": "Citer",
+    "citeSuccess": "La citation {{template}} a été copiée dans le presse-papier",
     "week": "semaine",
     "content": "Contenu",
     "publishedOn": "Publié le",
@@ -31,7 +34,7 @@
       "hideAll": "Cacher tous les abstracts",
       "showAll": "Afficher tous les abstracts"
     },
-    "volumeCommittee": "(comité du volume)",
+    "volumeCommittee": "Comité éditorial",
     "volumeCard": {
       "volume": "Volume",
       "specialIssue": "Volume spécial",
@@ -142,7 +145,8 @@
       },
       "actions": {
         "download": "Télécharger l'article",
-        "openHAL": "Ouvrir sur HAL"
+        "openHAL": "Ouvrir sur HAL",
+        "cite": "Citer"
       },
       "publicationDetails": {
         "title": "Détails de publication",
@@ -157,7 +161,7 @@
       }
     },
     "articlesAccepted": {
-      "title": "Articles"
+      "title": "À paraître"
     },
     "search": {
       "title": "Rechercher"
@@ -173,6 +177,9 @@
       "title": "Volume",
       "titleSpecialIssue": "Volume spécial",
       "titleProceeding": "Acte de conférence",
+      "proceedingSettings": {
+        "theme": "Thème de la conférence"
+      },
       "actions": {
         "downloadAll": "Télécharger tous les articles"
       },
@@ -190,7 +197,8 @@
     },
     "authors": {
       "title": "Auteurs",
-      "searchName": "rechercher un nom"
+      "searchName": "rechercher un nom",
+      "others": "Autres"
     },
     "about": {
       "title": "La revue"
