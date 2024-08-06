@@ -167,7 +167,7 @@ export default function VolumeDetails(): JSX.Element {
                 {volume?.types && volume?.types.includes(VOLUME_TYPE.PROCEEDINGS) && volume.settingsProceeding && volume.settingsProceeding.length && (
                   <div className="volumeDetails-content-results-content-proceedingSettings">
                     <div className='volumeDetails-content-results-content-proceedingSettings-setting'>{renderProceedingTheme()}</div>
-                    {renderProceedingDOI() && <Link to={`https://doi.org/${renderProceedingDOI()}`} className='volumeDetails-content-results-content-proceedingSettings-setting volumeDetails-content-results-content-proceedingSettings-setting-doi' target="_blank">{renderProceedingDOI()}</Link>}
+                    {renderProceedingDOI() && <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${renderProceedingDOI()}`} className='volumeDetails-content-results-content-proceedingSettings-setting volumeDetails-content-results-content-proceedingSettings-setting-doi' target="_blank">{renderProceedingDOI()}</Link>}
                     <div className='volumeDetails-content-results-content-proceedingSettings-setting'>{renderProceedingLocation()}</div>
                     <div className='volumeDetails-content-results-content-proceedingSettings-setting'>{renderProceedingDates()}</div>
                   </div>

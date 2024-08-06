@@ -137,6 +137,7 @@
     "articleDetails": {
       "title": "Article",
       "sections": {
+        "graphicalAbstract": "Graphical abstract",
         "abstract": "Abstract",
         "keywords": "Keywords",
         "linkedPublications": "Linked publications -  datasets - software",
@@ -146,7 +147,15 @@
       "actions": {
         "download": "Download article",
         "openHAL": "Open on HAL",
-        "cite": "Cite"
+        "cite": "Cite",
+        "share": {
+          "text": "Share",
+          "email": "Mail",
+          "twitter": "X",
+          "linkedin": "Linked In",
+          "mastodon": "Mastodon",
+          "facebook": "Facebook"
+        }
       },
       "publicationDetails": {
         "title": "Publication details",
@@ -158,6 +167,13 @@
         "title": "Volume",
         "specialIssue": "Special issue",
         "proceeding": "Proceedings"
+      },
+      "license": "License",
+      "funding": "Funding",
+      "metrics": {
+        "title": "Indicators",
+        "views": "Views",
+        "downloads": "Downloads"
       }
     },
     "articlesAccepted": {

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { TFunction } from 'i18next';
+import { MathJax } from 'better-react-mathjax';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -41,9 +42,11 @@ export default function ArticleCard({ language, t, article, toggleAbstractCallba
     <div className="articleCard">
       {article.tag && <div className='articleCard-tag'>{t(articleTypes.find((tag) => tag.value === article.tag)?.labelPath!)}</div>}
       <Link to={`/${PATHS.articles}/${article.id}`}>
-        <div className='articleCard-title'>{article.title}</div>
+        <div className='articleCard-title'>
+          <MathJax dynamic>{article.title}</MathJax>
+        </div>
       </Link>
-      <div className='articleCard-authors'>{article.authors}</div>
+      <div className='articleCard-authors'>{article.authors.map(author => author.fullname).join(', ')}</div>
       {article.abstract && (
         <div className='articleCard-abstract'>
           <div className={`articleCard-abstract-title ${!article.openedAbstract && 'articleCard-abstract-title-closed'}`} onClick={toggleAbstractCallback}>
@@ -54,18 +57,22 @@ export default function ArticleCard({ language, t, article, toggleAbstractCallba
               <img className='articleCard-abstract-title-caret' src={caretDown} alt='Caret down icon' />
             )}
           </div>
-          <div className={`articleCard-abstract-content ${article.openedAbstract && 'articleCard-abstract-content-opened'}`}>{article.abstract}</div>
+          <div className={`articleCard-abstract-content ${article.openedAbstract && 'articleCard-abstract-content-opened'}`}>
+            <MathJax dynamic>{article.abstract}</MathJax>
+          </div>
         </div>
       )}
       <div className='articleCard-anchor'>
         <div className='articleCard-anchor-publicationDate'>{`${t('common.publishedOn')} ${formatDate(article?.publicationDate!, language)}`}</div>
         <div className="articleCard-anchor-icons">
-          <Link to={article.pdfLink} target='_blank'>
-            <div className="articleCard-anchor-icons-download">
-              <img className="articleCard-anchor-icons-download-icon" src={download} alt='Download icon' />
-              <div className="articleCard-anchor-icons-download-text">{t('common.pdf')}</div>
-            </div>
-          </Link>
+          {article.pdfLink && (
+            <Link to={article.pdfLink} target='_blank'>
+              <div className="articleCard-anchor-icons-download">
+                <img className="articleCard-anchor-icons-download-icon" src={download} alt='Download icon' />
+                <div className="articleCard-anchor-icons-download-text">{t('common.pdf')}</div>
+              </div>
+            </Link>
+          )}
           {citations.length > 0 && (
             <div className="articleCard-anchor-icons-cite" onMouseEnter={(): void => setShowCitationsDropdown(true)}>
               <img className="articleCard-anchor-icons-cite-icon" src={quote} alt='Cite icon' />
