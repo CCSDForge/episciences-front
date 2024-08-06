@@ -22,7 +22,7 @@
         font-size: 14px;
       }
 
-      &-cite {
+      &-modal {
         position: relative;
 
         &-content {
@@ -43,7 +43,9 @@
             box-shadow: 0px 3px 6px var(--grey);
             font-size: 14px;
       
-            span {
+            &-link {
+              display: flex;
+              gap: 8px;
               cursor: pointer;
       
               &:hover {
@@ -119,7 +121,7 @@
       margin-bottom: 4px;
     }
 
-    &-title, &-doi, &-licence {
+    &-title, &-doi, &-license {
       font-size: 14px;
       font-weight: 600;
     }
@@ -136,7 +138,17 @@
       }
     }
 
-    &-doi, &-licence {
+    &-license {
+      margin-bottom: 32px;
+
+      &-content {
+        &-link {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    &-doi, &-license {
       display: flex;
       flex-direction: column;
       gap: 4px;
@@ -145,6 +157,79 @@
         color: var(--red);
         font-size: 14px;
         font-weight: normal;
+      }
+    }
+  }
+
+  &-funding {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-bottom: 16px;
+
+    &-title {
+      display: flex;
+      justify-content: space-between;
+      cursor: pointer;
+      border-bottom: 1px solid var(--grey-light);
+      padding-bottom: 8px;
+
+      &-text {
+        font-size: 16px;
+        font-weight: bold;
+      }
+    }
+
+    &-content {
+      display: none;
+
+      &-opened {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      &-row {
+        display: flex;
+        justify-content: space-between;
+        color: var(--grey);
+        font-size: 14px;
+      }
+    }
+  }
+
+  &-metrics {
+    &-title {
+      font-size: 16px;
+      font-weight: bold;
+      border-bottom: 1px solid var(--grey-light);
+      padding-bottom: 8px;
+    }
+
+    &-data {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      margin-top: 20px;
+
+      &-divider {
+        width: 4px;
+        background: var(--red);
+      }
+
+      &-row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &-number {
+          color: var(--red);
+          font-size: 27px;
+        }
+
+        &-text {
+          font-size: 15px;
+        }
       }
     }
   }

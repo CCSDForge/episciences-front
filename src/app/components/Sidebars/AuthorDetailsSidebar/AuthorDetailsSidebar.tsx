@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { TFunction } from 'i18next';
+import { MathJax } from 'better-react-mathjax';
 
 import caretRight from '/icons/caret-right-grey.svg';
 import close from '/icons/close-red.svg';
@@ -29,12 +30,14 @@ export default function AuthorDetailsSidebar ({ language, t, rvcode, expandedAut
         <div className="authorDetailsSidebar-content-name">{expandedAuthor?.name}</div>
         {articles?.data.map((article, index) => (
           <div key={index} className="authorDetailsSidebar-content-article">
-            <div className="authorDetailsSidebar-content-article-title">{article.title}</div>
+            <div className="authorDetailsSidebar-content-article-title">
+              <MathJax dynamic>{article.title}</MathJax>
+            </div>
             <div className="authorDetailsSidebar-content-article-publicationDate">{`${t('common.publishedOn')} ${formatDate(article.publicationDate, language)}`}</div>
             {article.doi && isDOI(article.doi) && (
                 <div className="authorDetailsSidebar-content-article-doi">
                   <div className="authorDetailsSidebar-content-article-doi-text">{t('common.doi')} :</div>
-                  <Link to={`https://doi.org/${article.doi}`} className="authorDetailsSidebar-content-article-doi-link" target='_blank'>{article.doi}</Link>
+                  <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${article.doi}`} className="authorDetailsSidebar-content-article-doi-link" target='_blank'>{article.doi}</Link>
                 </div>
             )}
             <Link to={`/${PATHS.articles}/${article.id}`} target='_blank'>

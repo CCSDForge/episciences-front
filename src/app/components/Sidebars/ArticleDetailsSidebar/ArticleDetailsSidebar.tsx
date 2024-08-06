@@ -1,16 +1,23 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom'
 import { TFunction } from 'i18next';
+import { EmailShareButton, FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share'
 
 import caretUp from '/icons/caret-up-grey.svg';
 import caretDown from '/icons/caret-down-grey.svg';
 import download from '/icons/download-black.svg';
 import externalLink from '/icons/external-link-black.svg';
+import facebook from '/icons/facebook.svg';
+import linkedin from '/icons/linkedin.svg';
+import mail from '/icons/mail.svg';
+import mastodon from '/icons/mastodon.svg';
 import quote from '/icons/quote-black.svg';
+import share from '/icons/share.svg';
+import twitter from '/icons/twitter.svg';
 import { PATHS } from '../../../../config/paths';
 import { IArticle } from '../../../../types/article';
 import { IVolume } from '../../../../types/volume';
-import { ICitation, copyToClipboardCitation, isDOI } from '../../../../utils/article';
+import { ICitation, copyToClipboardCitation, getLicenseTranslations, isDOI } from '../../../../utils/article';
 import { formatDate } from '../../../../utils/date';
 import { AvailableLanguage } from '../../../../utils/i18n';
 import { VOLUME_TYPE } from '../../../../utils/volume';
@@ -27,8 +34,12 @@ interface IArticleDetailsSidebarProps {
 export default function ArticleDetailsSidebar({ language, t, article, relatedVolume, citations }: IArticleDetailsSidebarProps): JSX.Element {
   const [openedPublicationDetails, setOpenedPublicationDetails] = useState(true)
   const [showCitationsDropdown, setShowCitationsDropdown] = useState(false)
+  const [showSharingDropdown, setShowSharingDropdown] = useState(false)
+  const [openedFunding, setOpenedFunding] = useState(true)
 
   const togglePublicationDetails = (): void => setOpenedPublicationDetails(!openedPublicationDetails)
+
+  const toggleFunding = (): void => setOpenedFunding(!openedFunding)
 
   const renderSpecialRelatedVolume = (): JSX.Element | null => {
     if (relatedVolume?.types) {
@@ -42,6 +53,24 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
     }
 
     return null
+  }
+
+  const renderLicenseContent = (): JSX.Element | null => {
+    if (!article) return null;
+
+    const translatedLicense = getLicenseTranslations.find(lt => lt.value === article.license)
+
+    if (!translatedLicense) return null
+    return (
+      <div className='articleDetailsSidebar-volumeDetails-license'>
+        <div>{t('pages.articleDetails.license')}</div>
+        {translatedLicense.isLink ? (
+          <Link to={translatedLicense.value} className='articleDetailsSidebar-volumeDetails-license-content articleDetailsSidebar-volumeDetails-license-content-link' target='_blank'>{translatedLicense.label[language]}</Link>
+        ) : (
+          <div className='articleDetailsSidebar-volumeDetails-license-content'>{translatedLicense.label[language]}</div>
+        )}
+      </div>
+    )
   }
 
   return (
@@ -66,23 +95,63 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
       </div>
       <div className='articleDetailsSidebar-links articleDetailsSidebar-links-bottom'>
         {citations.length > 0 && (
-          <div className='articleDetailsSidebar-links-link articleDetailsSidebar-links-link-cite' onMouseEnter={(): void => setShowCitationsDropdown(true)}>
+          <div className='articleDetailsSidebar-links-link articleDetailsSidebar-links-link-modal' onMouseEnter={(): void => setShowCitationsDropdown(true)}>
             <img className='articleDetailsSidebar-links-link-icon' src={quote} alt='Quote icon' />
             <div className='articleDetailsSidebar-links-link-text'>{t('pages.articleDetails.actions.cite')}</div>
             {showCitationsDropdown && (
-                <div className='articleDetailsSidebar-links-link-cite-content' onMouseLeave={(): void => setShowCitationsDropdown(false)}>
-                  <div className='articleDetailsSidebar-links-link-cite-content-links'>
+                <div className='articleDetailsSidebar-links-link-modal-content' onMouseLeave={(): void => setShowCitationsDropdown(false)}>
+                  <div className='articleDetailsSidebar-links-link-modal-content-links'>
                     {citations.map((citation, index) => (
-                      <span key={index} onClick={(): void => {
+                      <div className='articleDetailsSidebar-links-link-modal-content-links-link' key={index} onClick={(): void => {
                         copyToClipboardCitation(citation, t)
                         setShowCitationsDropdown(false)
-                      }}>{citation.key}</span>
+                      }}>{citation.key}</div>
                     ))}
                   </div>
                 </div>
               )}
           </div>
         )}
+        <div className='articleDetailsSidebar-links-link articleDetailsSidebar-links-link-modal' onMouseEnter={(): void => setShowSharingDropdown(true)}>
+          <img className='articleDetailsSidebar-links-link-icon' src={share} alt='Share icon' />
+          <div className='articleDetailsSidebar-links-link-text'>{t('pages.articleDetails.actions.share.text')}</div>
+          {showSharingDropdown && (
+            <div className='articleDetailsSidebar-links-link-modal-content' onMouseLeave={(): void => setShowSharingDropdown(false)}>
+              <div className='articleDetailsSidebar-links-link-modal-content-links'>
+                <EmailShareButton url={window.location.href} subject={article?.title}>
+                  <div className='articleDetailsSidebar-links-link-modal-content-links-link'>
+                    <img src={mail} alt='Mail icon' />
+                    {t('pages.articleDetails.actions.share.email')}
+                  </div>
+                </EmailShareButton>
+                <TwitterShareButton url={window.location.href} title={article?.title}>
+                  <div className='articleDetailsSidebar-links-link-modal-content-links-link'>
+                    <img src={twitter} alt='Twitter icon' />
+                    {t('pages.articleDetails.actions.share.twitter')}
+                  </div>
+                </TwitterShareButton>
+                <LinkedinShareButton url={window.location.href} title={article?.title}>
+                  <div className='articleDetailsSidebar-links-link-modal-content-links-link'>
+                    <img src={linkedin} alt='Linkedin icon' />
+                    {t('pages.articleDetails.actions.share.linkedin')}
+                  </div>
+                </LinkedinShareButton>
+                <Link to={`${import.meta.env.VITE_MASTODON_HOMEPAGE}/share?text=${encodeURIComponent(article?.title!)}`}>
+                  <div className='articleDetailsSidebar-links-link-modal-content-links-link'>
+                    <img src={mastodon} alt='Mastodon icon' />
+                    {t('pages.articleDetails.actions.share.mastodon')}
+                  </div>
+                </Link>
+                <FacebookShareButton url={window.location.href} title={article?.title}>
+                  <div className='articleDetailsSidebar-links-link-modal-content-links-link'>
+                    <img src={facebook} alt='Facebook icon' />
+                    {t('pages.articleDetails.actions.share.facebook')}
+                  </div>
+                </FacebookShareButton>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
       <div className='articleDetailsSidebar-publicationDetails'>
         <div className='articleDetailsSidebar-publicationDetails-title' onClick={(): void => togglePublicationDetails()}>
@@ -114,21 +183,53 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
           )}
         </div>
       </div>
-      {relatedVolume && (
         <div className='articleDetailsSidebar-volumeDetails'>
-          <Link to={`${PATHS.volumes}/${relatedVolume.id}`} className='articleDetailsSidebar-volumeDetails-number'>{t('pages.articleDetails.volumeDetails.title')} {relatedVolume.id}</Link>
-          {renderSpecialRelatedVolume()}
-          <div className='articleDetailsSidebar-volumeDetails-title'>{relatedVolume.title && relatedVolume.title[language]}</div>
-          {article?.doi && isDOI(article.doi) && (
-            <div className='articleDetailsSidebar-volumeDetails-doi'>
-              <div>{t('common.doi')}</div>
-              <Link to={`https://doi.org/${article.doi}`} className='articleDetailsSidebar-volumeDetails-doi-content' target='_blank'>{article.doi}</Link>
-            </div>
+          {relatedVolume && (
+            <>
+              <Link to={`${PATHS.volumes}/${relatedVolume.id}`} className='articleDetailsSidebar-volumeDetails-number'>{t('pages.articleDetails.volumeDetails.title')} {relatedVolume.id}</Link>
+              {renderSpecialRelatedVolume()}
+              <div className='articleDetailsSidebar-volumeDetails-title'>{relatedVolume.title && relatedVolume.title[language]}</div>
+              {article?.doi && isDOI(article.doi) && (
+                <div className='articleDetailsSidebar-volumeDetails-doi'>
+                  <div>{t('common.doi')}</div>
+                  <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${article.doi}`} className='articleDetailsSidebar-volumeDetails-doi-content' target='_blank'>{article.doi}</Link>
+                </div>
+              )}
+            </>
           )}
-          {/* <div className='articleDetailsSidebar-volumeDetails-licence'>
-            <div>Licence</div>
-            <div className='articleDetailsSidebar-volumeDetails-licence-content'>CC0 1.0 universel (CC0 1.0) Transfert dans le Domaine Public</div>
-          </div> */}
+          {article?.license && renderLicenseContent()}
+        </div>
+      {article?.fundings && article.fundings.length > 0 && (
+        <div className='articleDetailsSidebar-funding'>
+          <div className='articleDetailsSidebar-funding-title' onClick={(): void => toggleFunding()}>
+            <div className='articleDetailsSidebar-funding-title-text'>{t('pages.articleDetails.funding')}</div>
+            {openedFunding ? (
+              <img className='articleDetailsSidebar-funding-title-text-caret' src={caretUp} alt='Caret up icon' />
+            ) : (
+              <img className='articleDetailsSidebar-funding-title-text-caret' src={caretDown} alt='Caret down icon' />
+            )}
+          </div>
+          <div className={`articleDetailsSidebar-funding-content ${openedFunding && 'articleDetailsSidebar-funding-content-opened'}`}>
+            {article.fundings.map((funding, index) => (
+              <div key={index} className='articleDetailsSidebar-funding-content-row'>{funding}</div>
+            ))}
+          </div>
+        </div>
+      )}
+      {article?.metrics && (article.metrics.views > 0 || article.metrics.downloads > 0) && (
+        <div className='articleDetailsSidebar-metrics'>
+          <div className='articleDetailsSidebar-metrics-title'>{t('pages.articleDetails.metrics.title')}</div>
+          <div className='articleDetailsSidebar-metrics-data'>
+            <div className='articleDetailsSidebar-metrics-data-row'>
+              <div className='articleDetailsSidebar-metrics-data-row-number'>{article.metrics.views}</div>
+              <div className='articleDetailsSidebar-metrics-data-row-text'>{t('pages.articleDetails.metrics.views')}</div>
+            </div>
+            <div className='articleDetailsSidebar-metrics-data-divider'></div>
+            <div className='articleDetailsSidebar-metrics-data-row'>
+              <div className='articleDetailsSidebar-metrics-data-row-number'>{article.metrics.downloads}</div>
+              <div className='articleDetailsSidebar-metrics-data-row-text'>{t('pages.articleDetails.metrics.downloads')}</div>
+            </div>
+          </div>
         </div>
       )}
     </div>

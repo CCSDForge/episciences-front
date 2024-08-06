@@ -9,7 +9,7 @@ import { MathJaxContext } from 'better-react-mathjax'
 import Loader from './app/components/Loader/Loader'
 import store, { persistedStore } from './store'
 import router from './config/router'
-import { config } from './config/mathjax'
+import { mathJaxConfig, mathJaxSrc } from './config/mathjax'
 import './config/i18n'
 import './index.scss'
 
@@ -19,7 +19,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistedStore}>
           <HelmetProvider>
-            <MathJaxContext config={config} version={2}>
+            <MathJaxContext config={mathJaxConfig} src={mathJaxSrc} version={2}>
               <RouterProvider router={router}/>
             </MathJaxContext>
           </HelmetProvider>

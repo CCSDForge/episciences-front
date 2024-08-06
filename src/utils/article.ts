@@ -3,7 +3,8 @@ import { Cite, plugins, util } from '@citation-js/core'
 import '@citation-js/plugin-csl'
 import '@citation-js/plugin-doi'
 
-import { IArticle, IArticleCitation, RawArticle } from "../types/article";
+import { IArticle, IArticleAuthor, IArticleCitation, IArticleRelatedItem, RawArticle } from "../types/article";
+import { AvailableLanguage } from './i18n';
 import { toastSuccess } from './toast';
 
 export type FetchedArticle = IArticle | undefined;
@@ -18,8 +19,7 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
 
     const abstract = typeof articleContent.abstract?.value === 'string' ? articleContent.abstract?.value : articleContent.abstract?.value.value 
 
-    const pdfLink = Array.isArray(articleDB.current.files) ? articleDB.current.files[0].link : articleDB.current.files.link
-
+    /** Format citations */
     let citations: IArticleCitation[] = []
     if (articleContent.citation_list?.citation) {
       citations = articleContent.citation_list.citation.map((c) => ({
@@ -28,26 +28,147 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
       }))
     }
 
+    /** Format acceptance date */
     let acceptanceDate = undefined;
     if (articleContent?.acceptance_date) {
       acceptanceDate = `${articleContent?.acceptance_date.year}-${articleContent?.acceptance_date.month}-${articleContent?.acceptance_date.day}`
     }
 
-    let authors = null;
-
+    /** Format authors */
+    let authors: IArticleAuthor[] = [];
     if (Array.isArray(articleContent.contributors.person_name)) {
       const authorOrder = {"first": 1, "additional": 2};
       const sortedAuthors = articleContent.contributors.person_name.sort((a, b) => authorOrder[a["@sequence"] as keyof typeof authorOrder] - authorOrder[b["@sequence"] as keyof typeof authorOrder]);
-      authors = sortedAuthors.map(author => `${author.given_name} ${author.surname}`.trim()).join(", ")
+      authors = sortedAuthors.map((author) => {
+        const fullname = `${author.given_name} ${author.surname}`.trim()
+        const orcid = author.ORCID
+        let institutions: string[] = []
+        if (Array.isArray(author.affiliations?.institution)) {
+          institutions = author.affiliations?.institution.map(i => i.institution_name)
+        } else {
+          if (author.affiliations?.institution?.institution_name) {
+            institutions = [author.affiliations?.institution?.institution_name]
+          }
+        }
+
+        return {
+          fullname,
+          orcid,
+          institutions
+        }
+      })
     } else {
-      authors = `${articleContent.contributors.person_name.given_name} ${articleContent.contributors.person_name.surname}`.trim()
+      const authorFullname = `${articleContent.contributors.person_name.given_name} ${articleContent.contributors.person_name.surname}`.trim()
+      const authorOrcid = articleContent.contributors.person_name.ORCID
+      let authorInstitutions: string[] = []
+      if (Array.isArray(articleContent.contributors.person_name.affiliations?.institution)) {
+        authorInstitutions = articleContent.contributors.person_name.affiliations?.institution.map(i => i.institution_name)
+      } else {
+        if (articleContent.contributors.person_name.affiliations?.institution?.institution_name) {
+          authorInstitutions = [articleContent.contributors.person_name.affiliations?.institution?.institution_name]
+        }
+      }
+
+      authors = [
+        { fullname: authorFullname, orcid: authorOrcid, institutions: authorInstitutions }
+      ]
     }
 
-    let relatedItems: string[] = []
-    if (Array.isArray(articleContent.program?.related_item)) {
-      articleContent.program.related_item.forEach((item) => item.inter_work_relation && relatedItems.push(item.inter_work_relation?.value))
-    } else if (articleContent.program?.related_item?.inter_work_relation) {
-      relatedItems.push(articleContent.program?.related_item?.inter_work_relation?.value)
+    /** Format relatedItems */
+    let relatedItems: IArticleRelatedItem[] = []
+    if (Array.isArray(articleContent.program)) {
+      articleContent.program.forEach((prog) => {
+        if (Array.isArray(prog?.related_item)) {
+          prog.related_item.forEach((item) => {
+            if (item.inter_work_relation) {
+              relatedItems.push({
+                value: item.inter_work_relation?.value,
+                identifierType: item.inter_work_relation['@identifier-type']
+              });
+            }
+            if (item.intra_work_relation) {
+              relatedItems.push({
+                value: item.intra_work_relation?.value,
+                identifierType: item.intra_work_relation['@identifier-type']
+              });
+            }
+          })
+        } else if (prog?.related_item?.inter_work_relation) {
+          relatedItems.push({
+            value: prog.related_item.inter_work_relation?.value,
+            identifierType: prog.related_item.inter_work_relation['@identifier-type']
+          });
+        } else if (prog?.related_item?.intra_work_relation) {
+          relatedItems.push({
+            value: prog.related_item.intra_work_relation?.value,
+            identifierType: prog.related_item.intra_work_relation['@identifier-type']
+          });
+        }
+      })
+    } else {
+      if (Array.isArray(articleContent.program?.related_item)) {
+        articleContent.program.related_item.forEach((item) => {
+          if (item.inter_work_relation) {
+            relatedItems.push({
+              value: item.inter_work_relation?.value,
+              identifierType: item.inter_work_relation['@identifier-type']
+            });
+          }
+          if (item.intra_work_relation) {
+            relatedItems.push({
+              value: item.intra_work_relation?.value,
+              identifierType: item.intra_work_relation['@identifier-type']
+            });
+          }
+      })
+      } else if (articleContent.program?.related_item?.inter_work_relation) {
+        relatedItems.push({
+          value: articleContent.program.related_item.inter_work_relation?.value,
+          identifierType: articleContent.program.related_item.inter_work_relation['@identifier-type']
+        });
+      } else if (articleContent.program?.related_item?.intra_work_relation) {
+        relatedItems.push({
+          value: articleContent.program.related_item.intra_work_relation?.value,
+          identifierType: articleContent.program.related_item.intra_work_relation['@identifier-type']
+        });
+      }
+    }
+
+    /** Format fundings */
+    let fundings: string[] = []
+    if (Array.isArray(articleContent.program)) {
+      const fundref = articleContent.program.find(p => p['@name'] && p['@name'] === 'fundref')
+      if (fundref) {
+        if (Array.isArray(fundref.assertion?.assertion)) {
+          fundref.assertion?.assertion?.forEach((as) => fundings.push(as.value))
+        } else if (fundref.assertion?.assertion?.value) {
+          fundings.push(fundref.assertion?.assertion?.value)
+        }
+      }
+    } else {
+      if (articleContent.program && articleContent.program['@name'] === 'fundref') {
+        if (Array.isArray(articleContent.program.assertion?.assertion)) {
+          articleContent.program.assertion?.assertion?.forEach((as) => fundings.push(as.value))
+        } else if (articleContent.program.assertion?.assertion?.value) {
+          fundings.push(articleContent.program.assertion?.assertion?.value)
+        }
+      }
+    }
+
+    /** Format license */
+    let license = undefined;
+    if (Array.isArray(articleContent.program)) {
+      const licenseRef = articleContent.program.find(p => p.license_ref && p.license_ref.value)?.license_ref
+      license = licenseRef?.value
+    } else {
+      license = articleContent.program?.license_ref?.value
+    }
+
+    /** Format metrics */
+    let metrics: { views: number; downloads: number } = { views: 0, downloads: 0 };
+    if (articleDB.current.metrics) {
+        metrics.downloads = articleDB.current.metrics.file_count
+        metrics.views = articleDB.current.metrics.page_count
     }
 
     return {
@@ -55,34 +176,38 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
       id: article.paperid,
       title: articleContent.titles.title,
       abstract,
+      graphicalAbstract: articleDB.current.graphical_abstract_file,
       authors,
       publicationDate: articleDB.current.dates.publication_date,
       acceptanceDate,
       submissionDate: articleDB.current.dates.first_submission_date,
       tag: articleDB.current.type?.title.toLowerCase(),
-      pdfLink,
-      halLink: articleDB.current.repository.paper_url,
+      pdfLink: articleDB.current.repository.paper_url.length ? articleDB.current.repository.paper_url : undefined,
+      halLink: articleDB.current.repository.paper_url.length ? articleDB.current.repository.paper_url : undefined,
       docLink: articleDB.current.repository.doc_url,
       repositoryIdentifier: articleDB.current.identifiers.repository_identifier,
       keywords: articleContent.keywords,
       doi: articleContent.doi_data.doi,
       volumeId: articleDB.current.volume?.id,
       citations: citations,
-      relatedItems: relatedItems
+      relatedItems: relatedItems,
+      fundings: fundings,
+      license: license,
+      metrics: metrics
     };
   }
 
   return undefined;
 }
 
-export const formatArticleAuthors = (article: FetchedArticle): string => {
-  const splitAuthors = article?.authors.split(',') ?? []
+export const truncatedArticleAuthorsName = (article: FetchedArticle): string => {
+  const authorsName = article?.authors.map(author => author.fullname) ?? []
 
-  if (splitAuthors.length > 3) {
-    return `${splitAuthors.splice(0, 3).join(',')} et al`
+  if (authorsName.length > 3) {
+    return `${authorsName.splice(0, 3).join(', ')} et al`
   }
 
-  return splitAuthors.join(',')
+  return authorsName.join(', ')
 }
 
 export enum ARTICLE_TYPE {
@@ -118,8 +243,8 @@ export enum CITATION_TEMPLATE {
 }
 
 export const citationCustomTemplates: { key: CITATION_TEMPLATE, url: string }[] = [
-  { key: CITATION_TEMPLATE.MLA, url: 'https://www.zotero.org/styles/modern-language-association' },
-  { key: CITATION_TEMPLATE.BIBTEX, url: 'https://www.zotero.org/styles/bibtex' }
+  { key: CITATION_TEMPLATE.MLA, url: `${import.meta.env.VITE_ZOTERO_HOMEPAGE}/styles/modern-language-association` },
+  { key: CITATION_TEMPLATE.BIBTEX, url: `${import.meta.env.VITE_ZOTERO_HOMEPAGE}/styles/bibtex` }
 ]
 
 export interface ICitation {
@@ -132,7 +257,7 @@ export const getCitations = async (doi?: string): Promise<ICitation[]> => {
 
   if (!doi) return citations
 
-  const citationData = await Cite.async(doi).catch((error: Error) => console.error(error))
+  const citationData = await Cite.async(doi).catch((_: Error) => {})
 
   if (!citationData) return citations
 
@@ -163,4 +288,282 @@ export const getCitations = async (doi?: string): Promise<ICitation[]> => {
 export const copyToClipboardCitation = (citation: ICitation, t: TFunction<"translation", undefined>) => {
   navigator.clipboard.writeText(citation.citation)
   toastSuccess(t('common.citeSuccess', { template: citation.key }))
+}
+
+export const getLicenseTranslations: { value: string; label: Record<AvailableLanguage, string>, isLink?: boolean }[] = [
+  {
+    value: `${import.meta.env.VITE_ARXIV_HOMEPAGE}/licenses/assumed-1991-2003`,
+    label: {
+      en: "arXiv.org - Assumed non-exclusive license to distribute",
+      fr: "arXiv.org - Assumed non-exclusive license to distribute"
+    },
+    isLink: true
+  },
+  {
+    value: `${import.meta.env.VITE_ARXIV_HOMEPAGE}/licenses/nonexclusive-distrib/1.0`,
+    label: {
+      en: "arXiv.org - Non-exclusive license to distribute",
+      fr: "arXiv.org - Non-exclusive license to distribute"
+    },
+    isLink: true
+  },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc/1.0`,
+    label: {
+      en: "Attribution-NonCommercial 1.0 Generic (CC BY-NC 1.0)",
+      fr: "Attribution - Pas d'Utilisation Commerciale 1.0 Générique (CC BY-NC 1.0)"
+    },
+    isLink: true
+  },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc/2.0`,
+    label: {
+      en: "Attribution-NonCommercial 2.0 Generic (CC BY-NC 2.0)",
+      fr: "Attribution - Pas d'Utilisation Commerciale 2.0 Générique (CC BY-NC 2.0)"
+    },
+    isLink: true
+  },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc/2.5`,
+    label: {
+      en: "Attribution-NonCommercial 2.5 Generic (CC BY-NC 2.5)",
+      fr: "Attribution - Pas d'Utilisation Commerciale 2.5 Générique (CC BY-NC 2.5)"
+    },
+    isLink: true
+  },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc/3.0`,
+    label: {
+      en: "Attribution-NonCommercial 3.0 Unported (CC BY-NC 3.0)",
+      fr: "Attribution - Pas d'Utilisation Commerciale 3.0 non transposé (CC BY-NC 3.0)"
+    },
+    isLink: true
+  },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc/4.0`,
+    label: {
+      en: "Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)",
+      fr: "Attribution - Pas d'Utilisation Commerciale 4.0 International (CC BY-NC 4.0)"
+    },
+    isLink: true
+  },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nd/1.0`,
+    label: {
+      en: "Attribution-NoDerivs 1.0 Generic (CC BY-ND 1.0)",
+      fr: "Attribution - Pas de Modification 1.0 Générique (CC BY-ND 1.0)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nd/2.0`,
+    label: {
+      en: "Attribution-NoDerivs 2.0 Generic (CC BY-ND 2.0)",
+      fr: "Attribution - Pas de Modification 2.0 Générique (CC BY-ND 2.0)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nd/2.5`,
+    label: {
+      en: "Attribution-NoDerivs 2.5 Generic (CC BY-ND 2.5)",
+      fr: "Attribution - Pas de Modification 2.5 Générique (CC BY-ND 2.5)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nd/3.0`,
+    label: {
+      en: "Attribution-NoDerivs 3.0 Unported (CC BY-ND 3.0)",
+      fr: "Attribution - Pas de Modification 3.0 non transposé (CC BY-ND 3.0)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nd/4.0`,
+    label: {
+      en: "Attribution-NoDerivatives 4.0 International (CC BY-ND 4.0)",
+      fr: "Attribution - Pas de Modification 4.0 International (CC BY-ND 4.0)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nd-nc/1.0`,
+    label: {
+      en: "Attribution-NoDerivs-NonCommercial 1.0 Generic (CC BY-ND-NC 1.0)",
+      fr: "Attribution - Pas de Modification - Pas d'Utilisation Commerciale 1.0 Générique (CC BY-ND-NC 1.0)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-nd/2.0`,
+    label: {
+      en: "Attribution-NonCommercial-NoDerivs 2.0 Generic (CC BY-NC-ND 2.0)",
+      fr: "Attribution - Pas d'Utilisation Commerciale - Pas de Modification 2.0 Générique (CC BY-NC-ND 2.0)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-nd/2.5`,
+    label: {
+      en: "Attribution-NonCommercial-NoDerivs 2.5 Generic (CC BY-NC-ND 2.5)",
+      fr: "Attribution - Pas d'Utilisation Commerciale - Pas de Modification 2.5 Générique (CC BY-NC-ND 2.5)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-nd/3.0`,
+    label: {
+      en: "Attribution-NonCommercial-NoDerivs 3.0 Unported (CC BY-NC-ND 3.0)",
+      fr: "Attribution - Pas d'Utilisation Commerciale - Pas de Modification 3.0 non transposé (CC BY-NC-ND 3.0)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-nd/4.0`,
+    label: {
+      en: "Attribution-Non Commercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)",
+      fr: "Attribution - Pas d'Utilisation Commerciale - Pas de Modification 4.0 International (CC BY-NC-ND 4.0)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-sa/1.0`,
+    label: {
+      en: "Attribution-NonCommercial-ShareAlike 1.0 Generic (CC BY-NC-SA 1.0)",
+      fr: "Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 1.0 Générique (CC BY-NC-SA 1.0)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-sa/2.0`,
+    label: {
+      en: "Attribution-NonCommercial-ShareAlike 2.0 Generic (CC BY-NC-SA 2.0)",
+      fr: "Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 2.0 Générique (CC BY-NC-SA 2.0)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-sa/2.5`,
+    label: {
+      en: "Attribution-NonCommercial-ShareAlike 2.5 Generic (CC BY-NC-SA 2.5)",
+      fr: "Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 2.5 Générique (CC BY-NC-SA 2.5)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-sa/3.0`,
+    label: {
+      en: "Attribution-Non Commercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0)",
+      fr: "Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 3.0 non transposé (CC BY-NC-SA 3.0)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-sa/4.0`,
+    label: {
+      en: "Attribution-Non Commercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)",
+      fr: "Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International (CC BY-NC-SA 4.0)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-sa/1.0`,
+    label: {
+      en: "Attribution 1.0 Generic (CC BY 1.0)",
+      fr: "Attribution - Partage dans les Mêmes Conditions 1.0 Générique (CC BY-SA 1.0)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-sa/2.0`,
+    label: {
+      en: "Attribution 2.0 Generic (CC BY 2.0)",
+      fr: "Attribution - Partage dans les Mêmes Conditions 2.0 Générique (CC BY-SA 2.0)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-sa/2.5`,
+    label: {
+      en: "Attribution 2.5 Generic (CC BY 2.5)",
+      fr: "Attribution - Partage dans les Mêmes Conditions 2.5 Générique (CC BY-SA 2.5)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-sa/3.0`,
+    label: {
+      en: "Attribution 3.0 Unported (CC BY 3.0)",
+      fr: "Attribution - Partage dans les Mêmes Conditions 3.0 non transposé (CC BY-SA 3.0)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-sa/4.0`,
+    label: {
+      en: "Attribution 4.0 International (CC BY 4.0)",
+      fr: "Attribution - Partage dans les Mêmes Conditions 4.0 International (CC BY-SA 4.0)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by/1.0`,
+    label: {
+      en: "Attribution 1.0 Generic (CC BY 1.0)",
+      fr: "Attribution 1.0 Générique (CC BY 1.0)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by/2.0`,
+    label: {
+      en: "Attribution 2.0 Generic (CC BY 2.0)",
+      fr: "Attribution 2.0 Générique (CC BY 2.0)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by/2.5`,
+    label: {
+      en: "Attribution 2.5 Generic (CC BY 2.5)",
+      fr: "Attribution 2.5 Générique (CC BY 2.5)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by/3.0`,
+    label: {
+      en: "Attribution 3.0 Unported (CC BY 3.0)",
+      fr: "Attribution 3.0 non transposé (CC BY 3.0)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by/4.0`,
+    label: {
+      en: "Attribution 4.0 International (CC BY 4.0)",
+      fr: "Attribution 4.0 International (CC BY 4.0)"
+    },
+    isLink: true
+  },
+  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/publicdomain/zero/1.0`,
+    label: {
+      en: "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+      fr: "CC0 1.0 universel (CC0 1.0) Transfert dans le Domaine Public"
+    },
+    isLink: true
+  },
+  {
+    value: "info:eu-repo/semantics/closedAccess",
+    label: {
+      en: "Closed Access",
+      fr: "Accès fermé"
+    }
+  },
+  {
+    value: "info:eu-repo/semantics/embargoedAccess",
+    label: {
+      en: "Embargoed Access",
+      fr: "Accès sous embargo"
+    }
+  },
+  {
+    value: "info:eu-repo/semantics/restrictedAccess",
+    label: {
+      en: "Restricted Access",
+      fr: "Accès restreint"
+    }
+  },
+  {
+    value: "info:eu-repo/semantics/openAccess",
+    label: {
+      en: "Open Access",
+      fr: "Accès ouvert"
+    }
+  }
+]
+
+export enum LINKED_PUBLICATION_IDENTIFIER_TYPE {
+  URI = 'uri',
+  ARXIV = 'arxiv',
+  HAL = 'hal',
+  DOI = 'doi',
+  OTHER = 'other'
 }

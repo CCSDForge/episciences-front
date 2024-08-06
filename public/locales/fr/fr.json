@@ -137,6 +137,7 @@
     "articleDetails": {
       "title": "Article",
       "sections": {
+        "graphicalAbstract": "Abstract graphique",
         "abstract": "Abstract",
         "keywords": "Mots-clés",
         "linkedPublications": "Publications liées -  jeux de données - logiciel",
@@ -146,7 +147,15 @@
       "actions": {
         "download": "Télécharger l'article",
         "openHAL": "Ouvrir sur HAL",
-        "cite": "Citer"
+        "cite": "Citer",
+        "share": {
+          "text": "Partager",
+          "email": "Mail",
+          "twitter": "X",
+          "linkedin": "Linked In",
+          "mastodon": "Mastodon",
+          "facebook": "Facebook"
+        }
       },
       "publicationDetails": {
         "title": "Détails de publication",
@@ -158,6 +167,13 @@
         "title": "Volume",
         "specialIssue": "Volume spécial",
         "proceeding": "Acte de conférence"
+      },
+      "license": "Licence",
+      "funding": "Financement",
+      "metrics": {
+        "title": "Indicateurs",
+        "views": "Vues",
+        "downloads": "Téléchargements"
       }
     },
     "articlesAccepted": {
