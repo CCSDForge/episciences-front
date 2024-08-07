@@ -75,7 +75,7 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
     }
 
     /** Format relatedItems */
-    let relatedItems: IArticleRelatedItem[] = []
+    const relatedItems: IArticleRelatedItem[] = []
     if (Array.isArray(articleContent.program)) {
       articleContent.program.forEach((prog) => {
         if (Array.isArray(prog?.related_item)) {
@@ -135,7 +135,7 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
     }
 
     /** Format fundings */
-    let fundings: string[] = []
+    const fundings: string[] = []
     if (Array.isArray(articleContent.program)) {
       const fundref = articleContent.program.find(p => p['@name'] && p['@name'] === 'fundref')
       if (fundref) {
@@ -165,7 +165,7 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
     }
 
     /** Format metrics */
-    let metrics: { views: number; downloads: number } = { views: 0, downloads: 0 };
+    const metrics: { views: number; downloads: number } = { views: 0, downloads: 0 };
     if (articleDB.current.metrics) {
         metrics.downloads = articleDB.current.metrics.file_count
         metrics.views = articleDB.current.metrics.page_count
@@ -181,6 +181,7 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
       publicationDate: articleDB.current.dates.publication_date,
       acceptanceDate,
       submissionDate: articleDB.current.dates.first_submission_date,
+      modificationDate: articleDB.current.dates.modification_date,
       tag: articleDB.current.type?.title.toLowerCase(),
       pdfLink: articleDB.current.repository.paper_url.length ? articleDB.current.repository.paper_url : undefined,
       halLink: articleDB.current.repository.paper_url.length ? articleDB.current.repository.paper_url : undefined,
@@ -234,7 +235,7 @@ export const articleTypes: { labelPath: string; value: string; }[] = [
   { labelPath: 'pages.articles.types.software', value: ARTICLE_TYPE.SOFTWARE },
 ]
 
-export const isDOI = (doiToBeTested: string): boolean => /^10.\d{4,9}\/[-._;()\/:A-Z0-9]+$/i.test(doiToBeTested)
+export const isDOI = (doiToBeTested: string): boolean => /^10.\d{4,9}\/[-._;()/:A-Z0-9]+$/i.test(doiToBeTested)
 
 export enum CITATION_TEMPLATE {
   APA = 'APA',
@@ -257,7 +258,7 @@ export const getCitations = async (doi?: string): Promise<ICitation[]> => {
 
   if (!doi) return citations
 
-  const citationData = await Cite.async(doi).catch((_: Error) => {})
+  const citationData = await Cite.async(doi).catch(() => {})
 
   if (!citationData) return citations
 
