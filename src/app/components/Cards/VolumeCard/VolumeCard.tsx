@@ -24,6 +24,9 @@ interface IVolumeCardProps {
 }
 
 export default function VolumeCard({ language, t, mode, volume, currentJournal }: IVolumeCardProps): JSX.Element {
+  const [openedDescription, setOpenedDescription] = useState(false)
+  const toggleDescription = (): void => setOpenedDescription(!openedDescription)
+
   const renderVolumeTileSpecial = (): JSX.Element => {
     let text = `${t('common.volumeCard.volume')} ${volume.num}`
 
@@ -95,9 +98,6 @@ export default function VolumeCard({ language, t, mode, volume, currentJournal }
       </div>
     )
   }
-
-  const [openedDescription, setOpenedDescription] = useState(false)
-  const toggleDescription = (): void => setOpenedDescription(!openedDescription)
 
   return (
     <div className='volumeCard'>

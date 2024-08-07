@@ -66,7 +66,7 @@ export default function ArticleDetails(): JSX.Element {
       const allInstitutionsSet = new Set<string>();
 
       article.authors.forEach((author) => {
-        let enhancedAuthor: EnhancedArticleAuthor = { ...author, institutionsKeys: [] };
+        const enhancedAuthor: EnhancedArticleAuthor = { ...author, institutionsKeys: [] };
   
         author.institutions?.forEach((institution) => {
           if (!allInstitutionsSet.has(institution)) {
@@ -173,7 +173,7 @@ export default function ArticleDetails(): JSX.Element {
   }
 
   const getGraphicalAbstractSection = (): JSX.Element | null => {
-    const graphicalAbstractURL = article?.graphicalAbstract ? `https://${rvcode}.episciences.org/public/documents/${article.id}/${article?.graphicalAbstract}` : null
+    const graphicalAbstractURL = (rvcode && article?.graphicalAbstract) ? `https://${rvcode}.episciences.org/public/documents/${article.id}/${article?.graphicalAbstract}` : null
     
     return graphicalAbstractURL ? <img src={graphicalAbstractURL} className="articleDetails-content-article-section-content-graphicalAbstract" /> : null
   }
@@ -299,7 +299,7 @@ export default function ArticleDetails(): JSX.Element {
         <Loader />
       ) : (
         <>
-          <ArticleMeta language={language} article={article as IArticle | undefined} currentJournal={currentJournal} keywords={getKeywords()} />
+          <ArticleMeta language={language} article={article as IArticle | undefined} currentJournal={currentJournal} keywords={getKeywords()} authors={authors} />
           {article?.tag && <div className='articleDetails-tag'>{t(articleTypes.find((tag) => tag.value === article.tag)?.labelPath!)}</div>}
           <div className="articleDetails-content">
             <ArticleDetailsSidebar language={language} t={t} article={article as IArticle | undefined} relatedVolume={relatedVolume} citations={citations} />
