@@ -2,8 +2,8 @@
   "common": {
     "article": "article",
     "articles": "articles",
-    "articleAccepted": "article accepted",
-    "articlesAccepted": "articles accepted",
+    "document": "document",
+    "documents": "documents",
     "volume": "volume",
     "volumes": "volumes",
     "section": "section",
@@ -21,7 +21,10 @@
     "readMore": "Read more",
     "readLess": "Read less",
     "seeMore": "See more",
+    "doi": "DOI",
     "pdf": "PDF",
+    "cite": "Cite",
+    "citeSuccess": "{{template}} citation has been copied to clipboard",
     "week": "week",
     "content": "Content",
     "publishedOn": "Published on",
@@ -31,11 +34,11 @@
       "hideAll": "Hide all abstracts",
       "showAll": "Show all abstracts"
     },
-    "volumeCommittee": "(volume committee)",
+    "volumeCommittee": "Volume committee",
     "volumeCard": {
       "volume": "Volume",
       "specialIssue": "Special issue",
-      "proceeding": "Proceeding"
+      "proceeding": "Proceedings"
     },
     "renderingMode": {
       "tile": "Tile",
@@ -121,13 +124,20 @@
       "title": "Articles",
       "types": {
         "article": "Article",
+        "book": "Book",
+        "bookpart": "Book part",
         "conference": "Conference paper",
-        "preprint": "Preprint"
+        "lecture": "Lecture",
+        "other": "Other",
+        "preprint": "Preprint",
+        "report": "Report",
+        "software": "Software"
       }
     },
     "articleDetails": {
       "title": "Article",
       "sections": {
+        "graphicalAbstract": "Graphical abstract",
         "abstract": "Abstract",
         "keywords": "Keywords",
         "linkedPublications": "Linked publications -  datasets - software",
@@ -136,7 +146,16 @@
       },
       "actions": {
         "download": "Download article",
-        "openHAL": "Open on HAL"
+        "openHAL": "Open on HAL",
+        "cite": "Cite",
+        "share": {
+          "text": "Share",
+          "email": "Mail",
+          "twitter": "X",
+          "linkedin": "Linked In",
+          "mastodon": "Mastodon",
+          "facebook": "Facebook"
+        }
       },
       "publicationDetails": {
         "title": "Publication details",
@@ -147,11 +166,18 @@
       "volumeDetails": {
         "title": "Volume",
         "specialIssue": "Special issue",
-        "proceeding": "Proceeding"
+        "proceeding": "Proceedings"
+      },
+      "license": "License",
+      "funding": "Funding",
+      "metrics": {
+        "title": "Indicators",
+        "views": "Views",
+        "downloads": "Downloads"
       }
     },
     "articlesAccepted": {
-      "title": "Articles"
+      "title": "To be published"
     },
     "search": {
       "title": "Search"
@@ -166,7 +192,10 @@
     "volumeDetails": {
       "title": "Volume",
       "titleSpecialIssue": "Special issue",
-      "titleProceeding": "Proceeding",
+      "titleProceeding": "Proceedings",
+      "proceedingSettings": {
+        "theme": "Conference theme"
+      },
       "actions": {
         "downloadAll": "Download all articles"
       },
@@ -184,7 +213,8 @@
     },
     "authors": {
       "title": "Authors",
-      "searchName": "search a name"
+      "searchName": "search a name",
+      "others": "Others"
     },
     "about": {
       "title": "The journal"
