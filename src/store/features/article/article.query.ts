@@ -41,7 +41,7 @@ export const articleApi = createApi({
         }));
 
         return {
-          data: formattedData,
+          data: formattedData as unknown as FetchedArticle[],
           totalItems,
           range: {
             ...range,

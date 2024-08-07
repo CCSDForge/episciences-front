@@ -173,7 +173,7 @@ export default function Articles(): JSX.Element {
         return { ...article, openedAbstract: false };
       });
 
-      setEnhancedArticles(displayedArticles)
+      setEnhancedArticles(displayedArticles as EnhancedArticle[])
     }
 
   }, [articles, articles?.data])

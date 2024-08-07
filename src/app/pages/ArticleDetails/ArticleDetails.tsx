@@ -45,7 +45,7 @@ export default function ArticleDetails(): JSX.Element {
   
   const { id } = useParams();
   const { data: article, isFetching: isFetchingArticle, isError, error } = useFetchArticleQuery({ paperid: id! }, { skip: !id });
-  const { data: relatedVolume, isFetching: isFetchingVolume } = useFetchVolumeQuery({ rvcode: rvcode!, vid: article?.volumeId?.toString(), language: language }, { skip: !article || !article?.volumeId || !rvcode })
+  const { data: relatedVolume, isFetching: isFetchingVolume } = useFetchVolumeQuery({ rvcode: rvcode!, vid: (article && article.volumeId ? article.volumeId.toString() : ''), language: language }, { skip: !article || !article?.volumeId || !rvcode })
 
   const [openedSections, setOpenedSections] = useState<{ key: ARTICLE_SECTION, isOpened: boolean }[]>([
     { key: ARTICLE_SECTION.GRAPHICAL_ABSTRACT, isOpened: true },
