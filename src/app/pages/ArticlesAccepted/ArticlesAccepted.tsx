@@ -118,7 +118,7 @@ export default function ArticlesAccepted(): JSX.Element {
         return { ...article, openedAbstract: false };
       });
 
-      setEnhancedArticlesAccepted(displayedArticlesAccepted)
+      setEnhancedArticlesAccepted(displayedArticlesAccepted as EnhancedArticleAccepted[])
     }
 
   }, [articlesAccepted, articlesAccepted?.data])
