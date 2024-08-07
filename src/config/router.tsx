@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate, RouteObject } from "react-router-dom";
 
 import JournalHook from "../hooks/journal";
 import LastVolumeHook from "../hooks/lastVolume";
+import MathjaxHook from '../hooks/mathjax';
 import ScrollManager from "../hooks/scrollManager";
 import MainLayout from "../app/layouts/MainLayout/MainLayout";
 import Home from "../app/pages/Home/Home";
@@ -29,6 +30,7 @@ const basicRoute = (path: PathKeys, Component: () => JSX.Element): RouteObject =
       <ScrollManager />
       <JournalHook />
       <LastVolumeHook />
+      <MathjaxHook />
       <Component />
     </>
   )
@@ -41,7 +43,7 @@ const redirectedRoute = (to: PathKeys): RouteObject => ({
 
 const router = createBrowserRouter([
   {
-    element: MainLayout(),
+    element: <MainLayout />,
     children: [
       basicRoute("home", Home),
       basicRoute("boards", Boards),

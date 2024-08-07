@@ -4,11 +4,14 @@
     align-items: center;
     margin-bottom: 10px;
 
+    &-text {
+      width: 320px;
+    }
+
     &-count {
       color: var(--grey);
       font-size: 21px;
       font-weight: 300;
-      padding-left: 210px;
     }
   }
 

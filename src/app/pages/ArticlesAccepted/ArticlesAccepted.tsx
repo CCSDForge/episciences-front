@@ -18,7 +18,7 @@ interface IArticleAcceptedFilter {
   labelPath?: string;
 }
 
-type ArticleAcceptedWithAbstractToggle = FetchedArticle & {
+type EnhancedArticleAccepted = FetchedArticle & {
   openedAbstract: boolean;
 }
 
@@ -31,7 +31,7 @@ export default function ArticlesAccepted(): JSX.Element {
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [articlesAcceptedWithAbstractToggle, setArticlesAcceptedWithAbstractToggle] = useState<ArticleAcceptedWithAbstractToggle[]>([])
+  const [enhancedArticlesAccepted, setEnhancedArticlesAccepted] = useState<EnhancedArticleAccepted[]>([])
   const [types, setTypes] = useState<IArticleTypeSelection[]>([])
   const [taggedFilters, setTaggedFilters] = useState<IArticleAcceptedFilter[]>([]);
   const [showAllAbstracts, setShowAllAbstracts] = useState(false)
@@ -59,7 +59,7 @@ export default function ArticlesAccepted(): JSX.Element {
   }, [articlesAccepted?.range, articlesAccepted?.range?.types, types])
 
   const handlePageClick = (selectedItem: { selected: number }): void => {
-    setArticlesAcceptedWithAbstractToggle([]);
+    setEnhancedArticlesAccepted([]);
     setCurrentPage(selectedItem.selected + 1);
   };
 
@@ -118,7 +118,7 @@ export default function ArticlesAccepted(): JSX.Element {
         return { ...article, openedAbstract: false };
       });
 
-      setArticlesAcceptedWithAbstractToggle(displayedArticlesAccepted)
+      setEnhancedArticlesAccepted(displayedArticlesAccepted)
     }
 
   }, [articlesAccepted, articlesAccepted?.data])
@@ -126,7 +126,7 @@ export default function ArticlesAccepted(): JSX.Element {
   const toggleAbstract = (articleId?: number): void => {
     if (!articleId) return
 
-    const updatedArticlesAccepted = articlesAcceptedWithAbstractToggle.map((article) => {
+    const updatedArticlesAccepted = enhancedArticlesAccepted.map((article) => {
       if (article?.id === articleId) {
         return {
           ...article,
@@ -137,18 +137,18 @@ export default function ArticlesAccepted(): JSX.Element {
       return { ...article };
     });
 
-    setArticlesAcceptedWithAbstractToggle(updatedArticlesAccepted)
+    setEnhancedArticlesAccepted(updatedArticlesAccepted)
   }
 
   const toggleAllAbstracts = (): void => {
     const isShown = !showAllAbstracts
 
-    const updatedArticlesAccepted = articlesAcceptedWithAbstractToggle.map((article) => ({
+    const updatedArticlesAccepted = enhancedArticlesAccepted.map((article) => ({
       ...article,
       openedAbstract: isShown
     }));
 
-    setArticlesAcceptedWithAbstractToggle(updatedArticlesAccepted)
+    setEnhancedArticlesAccepted(updatedArticlesAccepted)
     setShowAllAbstracts(isShown)
   }
 
@@ -158,12 +158,12 @@ export default function ArticlesAccepted(): JSX.Element {
         { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }
       ]} crumbLabel={t('pages.articlesAccepted.title')} />
       <div className='articlesAccepted-title'>
-        <h1>{t('pages.articlesAccepted.title')}</h1>
+        <h1 className='articlesAccepted-title-text'>{t('pages.articlesAccepted.title')}</h1>
         <div className='articlesAccepted-title-count'>
           {articlesAccepted && articlesAccepted.totalItems > 1 ? (
-            <div className='articlesAccepted-title-count-text'>{articlesAccepted.totalItems} {t('common.articlesAccepted')}</div>
+            <div className='articlesAccepted-title-count-text'>{articlesAccepted.totalItems} {t('common.documents')}</div>
           ) : (
-            <div className='articlesAccepted-title-count-text'>{articlesAccepted?.totalItems ?? 0} {t('common.articleAccepted')}</div>
+            <div className='articlesAccepted-title-count-text'>{articlesAccepted?.totalItems ?? 0} {t('common.document')}</div>
           )}
         </div>
       </div>
@@ -189,7 +189,7 @@ export default function ArticlesAccepted(): JSX.Element {
             <Loader />
           ) : (
             <div className='articlesAccepted-content-results-cards'>
-              {articlesAcceptedWithAbstractToggle.map((article, index) => (
+              {enhancedArticlesAccepted.map((article, index) => (
                 <ArticleAcceptedCard
                   key={index}
                   language={language}

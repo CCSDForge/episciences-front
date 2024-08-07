@@ -28,12 +28,12 @@ export const volumeApi = createApi({
         
         return `${baseUrl}${queryParams}`;
       },
-      transformResponse(baseQueryReturnValue: PaginatedResponseWithCount<RawVolume>, _, { language }) {
+      transformResponse(baseQueryReturnValue: PaginatedResponseWithCount<RawVolume>, _, { rvcode, language }) {
         const articlesCount = baseQueryReturnValue['hydra:totalPublishedArticles']
         const range = (baseQueryReturnValue['hydra:range'] as { year: number[] });
 
         const totalItems = baseQueryReturnValue['hydra:totalItems'];
-        const formattedData = (baseQueryReturnValue['hydra:member']).map((volume) => formatVolume(language, volume))
+        const formattedData = (baseQueryReturnValue['hydra:member']).map((volume) => formatVolume(rvcode, language, volume))
 
         return {
           data: formattedData,
@@ -46,10 +46,10 @@ export const volumeApi = createApi({
         }
       },
     }),
-    fetchVolume: build.query<IVolume, { vid: string; language: AvailableLanguage }>({
+    fetchVolume: build.query<IVolume, { rvcode: string; vid: string; language: AvailableLanguage }>({
       query: ({ vid } :{ vid: string }) => `volumes/${vid}`,
-      transformResponse(baseQueryReturnValue: RawVolume, _, { language }) {
-        return formatVolume(language, baseQueryReturnValue);
+      transformResponse(baseQueryReturnValue: RawVolume, _, { rvcode, language }) {
+        return formatVolume(rvcode, language, baseQueryReturnValue);
       }
     }),
   }),

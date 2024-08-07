@@ -1,25 +1,21 @@
 import { useEffect } from "react";
 
-import { useFetchJournalsQuery } from "../store/features/journal/journal.query";
+import { useFetchJournalQuery } from "../store/features/journal/journal.query";
 import { setCurrentJournal } from "../store/features/journal/journal.slice";
 import { useAppDispatch, useAppSelector } from "./store";
 
 function JournalHook (): null {
-  const dispatch = useAppDispatch();
-  const currentJournal = useAppSelector(state => state.journalReducer.currentJournal);
-  const { data: journals } = useFetchJournalsQuery(null);
-
   const journalRvCode = import.meta.env.VITE_JOURNAL_RVCODE;
 
-  useEffect(() => {
-    if (journals && journals?.length > 0 && !currentJournal) {
-      const foundJournal = journals.find(journal => journal.code === journalRvCode);
+  const dispatch = useAppDispatch();
+  const currentJournal = useAppSelector(state => state.journalReducer.currentJournal);
+  const { data: fetchedJournal } = useFetchJournalQuery(journalRvCode);
 
-      if (foundJournal) {
-        dispatch(setCurrentJournal(foundJournal));
-      }
+  useEffect(() => {
+    if (fetchedJournal && !currentJournal) {
+      dispatch(setCurrentJournal(fetchedJournal));
     }
-  }, [dispatch, journals, currentJournal, journalRvCode]);
+  }, [dispatch, fetchedJournal, currentJournal, journalRvCode]);
 
   return null;
 }

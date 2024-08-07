@@ -70,14 +70,52 @@
     }
 
     &-icons {
-      &-download {
+      display: flex;
+      flex: 1;
+      gap: 20px;
+      justify-content: flex-end;
+      align-items: flex-end;
+
+      &-download, &-cite {
         display: flex;
-        justify-content: flex-end;
-        align-items: flex-end;
-        flex: 1;
-        gap: 8px;
+        gap: 4px;
         color: var(--red);
         font-size: 13px;
+      }
+
+      &-cite {
+        position: relative;
+
+        &-content {
+          position: absolute;
+          top: 16px;
+          display: none;
+          z-index: 3;
+      
+          &-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 4px 8px 4px 8px;
+            background: var(--white);
+            color: var(--grey);
+            border: 1px solid var(--grey-light);
+            box-shadow: 0px 3px 6px var(--grey);
+            font-size: 14px;
+      
+            span {
+              cursor: pointer;
+      
+              &:hover {
+                color: var(--grey-dark);
+              }
+            }
+          }
+        }
+
+        &:hover &-content {
+          display: block;
+        }
       }
     }
   }

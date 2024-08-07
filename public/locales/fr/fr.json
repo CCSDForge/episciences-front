@@ -2,8 +2,8 @@
   "common": {
     "article": "article",
     "articles": "articles",
-    "articleAccepted": "article accepté",
-    "articlesAccepted": "articles acceptés",
+    "document": "document",
+    "documents": "documents",
     "volume": "volume",
     "volumes": "volumes",
     "section": "rubrique",
@@ -21,7 +21,10 @@
     "readMore": "Lire plus",
     "readLess": "Lire moins",
     "seeMore": "En savoir plus",
+    "doi": "DOI",
     "pdf": "PDF",
+    "cite": "Citer",
+    "citeSuccess": "La citation {{template}} a été copiée dans le presse-papier",
     "week": "semaine",
     "content": "Contenu",
     "publishedOn": "Publié le",
@@ -31,7 +34,7 @@
       "hideAll": "Cacher tous les abstracts",
       "showAll": "Afficher tous les abstracts"
     },
-    "volumeCommittee": "(comité du volume)",
+    "volumeCommittee": "Comité éditorial",
     "volumeCard": {
       "volume": "Volume",
       "specialIssue": "Volume spécial",
@@ -121,13 +124,20 @@
       "title": "Articles",
       "types": {
         "article": "Article",
+        "book": "Livre",
+        "bookpart": "Partie de livre",
         "conference": "Communication dans un congrès",
-        "preprint": "Pré-publication"
+        "lecture": "Lecture",
+        "other": "Autre",
+        "preprint": "Pré-publication",
+        "report": "Rapport",
+        "software": "Logiciel"
       }
     },
     "articleDetails": {
       "title": "Article",
       "sections": {
+        "graphicalAbstract": "Abstract graphique",
         "abstract": "Abstract",
         "keywords": "Mots-clés",
         "linkedPublications": "Publications liées -  jeux de données - logiciel",
@@ -136,7 +146,16 @@
       },
       "actions": {
         "download": "Télécharger l'article",
-        "openHAL": "Ouvrir sur HAL"
+        "openHAL": "Ouvrir sur HAL",
+        "cite": "Citer",
+        "share": {
+          "text": "Partager",
+          "email": "Mail",
+          "twitter": "X",
+          "linkedin": "Linked In",
+          "mastodon": "Mastodon",
+          "facebook": "Facebook"
+        }
       },
       "publicationDetails": {
         "title": "Détails de publication",
@@ -148,10 +167,17 @@
         "title": "Volume",
         "specialIssue": "Volume spécial",
         "proceeding": "Acte de conférence"
+      },
+      "license": "Licence",
+      "funding": "Financement",
+      "metrics": {
+        "title": "Indicateurs",
+        "views": "Vues",
+        "downloads": "Téléchargements"
       }
     },
     "articlesAccepted": {
-      "title": "Articles"
+      "title": "À paraître"
     },
     "search": {
       "title": "Rechercher"
@@ -167,6 +193,9 @@
       "title": "Volume",
       "titleSpecialIssue": "Volume spécial",
       "titleProceeding": "Acte de conférence",
+      "proceedingSettings": {
+        "theme": "Thème de la conférence"
+      },
       "actions": {
         "downloadAll": "Télécharger tous les articles"
       },
@@ -184,7 +213,8 @@
     },
     "authors": {
       "title": "Auteurs",
-      "searchName": "rechercher un nom"
+      "searchName": "rechercher un nom",
+      "others": "Autres"
     },
     "about": {
       "title": "La revue"
@@ -204,9 +234,9 @@
         "medianSubmissionPublication": "Temps médian entre la soumission et la publication",
         "medianSubmissionAcceptance": "Temps médian entre la soumission et l'acceptation",
         "nbSubmissionsDetails": "Répartition des soumissions",
-        "medianReviewsNumber": "Nombre médian de revues d'articles de recherche",
-        "reviewsReceived": "Revues reçues",
-        "reviewsRequested": "Revues demandées"
+        "medianReviewsNumber": "Nombre médian d'évaluations d'articles de recherche",
+        "reviewsReceived": "Évaluations reçues",
+        "reviewsRequested": "Évaluations demandées"
       },
       "statuses": {
         "published": "Articles publiés",
