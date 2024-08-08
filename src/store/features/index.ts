@@ -23,6 +23,7 @@ import { forAuthorApi } from './forAuthor/forAuthor.query'
 import { indexationApi } from './indexation/indexation.query'
 import { journalApi } from './journal/journal.query'
 import { newsApi } from './news/news.query'
+import { searchApi } from './search/search.query'
 import { sectionApi } from './section/section.query'
 import { statApi } from './stat/stat.query'
 import { volumeApi } from './volume/volume.query'
@@ -53,6 +54,7 @@ const createRootReducer = combineReducers({
   [indexationApi.reducerPath]: indexationApi.reducer,
   [journalApi.reducerPath]: journalApi.reducer,
   [newsApi.reducerPath]: newsApi.reducer,
+  [searchApi.reducerPath]: searchApi.reducer,
   [sectionApi.reducerPath]: sectionApi.reducer,
   [statApi.reducerPath]: statApi.reducer,
   [volumeApi.reducerPath]: volumeApi.reducer

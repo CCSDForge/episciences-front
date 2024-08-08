@@ -50,7 +50,9 @@
       "clearAll": "Effacer tous les filtres",
       "years": "Années",
       "documentTypes": "Types de document",
-      "volumeTypes": "Types de volume"
+      "volumeTypes": "Types de volume",
+      "volumes": "Volumes",
+      "sections": "Rubriques"
     }
   },
   "components": {
