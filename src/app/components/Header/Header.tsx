@@ -91,7 +91,7 @@ export default function Header(): JSX.Element {
         <div className={`header-postheader-search ${isReduced && 'header-postheader-search-reduced'}`}>
           <div className='header-postheader-search-delimiter'></div>
           <div className='header-postheader-search-search'>
-            <SearchInput value={search ?? ''} placeholder={t('components.header.search')} onChangeCallback={updateSearch}/>
+            <SearchInput value={search ?? ''} placeholder={t('components.header.search')} onChangeCallback={updateSearch} onSubmitCallback={submitSearch} />
           </div>
           <div className='header-postheader-search-submit'>
             <Button text={t('components.header.submit')} onClickCallback={submitSearch}/>
