@@ -52,7 +52,8 @@
       "documentTypes": "Types of document",
       "volumeTypes": "Types of volume",
       "volumes": "Volumes",
-      "sections": "Sections"
+      "sections": "Sections",
+      "authors": "Authors"
     }
   },
   "components": {

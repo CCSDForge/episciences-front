@@ -1,8 +1,8 @@
 import { TFunction } from 'i18next';
 
+import { AvailableLanguage } from '../../../../utils/i18n';
 import Checkbox from '../../Checkbox/Checkbox';
 import './SearchResultsSidebar.scss'
-import { AvailableLanguage } from '../../../../utils/i18n';
 
 export interface ISearchResultTypeSelection {
   labelPath: string;
@@ -17,13 +17,18 @@ export interface ISearchResultYearSelection {
 
 export interface ISearchResultVolumeSelection {
   id: number;
-  label: string;
+  label: Record<AvailableLanguage, string>;
   isChecked: boolean;
 }
 
 export interface ISearchResultSectionSelection {
   id: number;
-  label: string;
+  label: Record<AvailableLanguage, string>;
+  isChecked: boolean;
+}
+
+export interface ISearchResultAuthorSelection {
+  fullname: string;
   isChecked: boolean;
 }
 
@@ -34,13 +39,15 @@ interface ISearchResultsSidebarProps {
   onCheckTypeCallback: (value: string) => void;
   years: ISearchResultYearSelection[];
   onCheckYearCallback: (year: number) => void;
-  volumes: Record<AvailableLanguage, ISearchResultVolumeSelection[]>;
+  volumes: ISearchResultVolumeSelection[];
   onCheckVolumeCallback: (id: number) => void;
-  sections: Record<AvailableLanguage, ISearchResultSectionSelection[]>;
+  sections: ISearchResultSectionSelection[];
   onCheckSectionCallback: (id: number) => void;
+  authors: ISearchResultAuthorSelection[];
+  onCheckAuthorCallback: (fullname: string) => void;
 }
 
-export default function SearchResultsSidebar({ language, t, types, onCheckTypeCallback, years, onCheckYearCallback, volumes, onCheckVolumeCallback, sections, onCheckSectionCallback }: ISearchResultsSidebarProps): JSX.Element {
+export default function SearchResultsSidebar({ language, t, types, onCheckTypeCallback, years, onCheckYearCallback, volumes, onCheckVolumeCallback, sections, onCheckSectionCallback, authors, onCheckAuthorCallback }: ISearchResultsSidebarProps): JSX.Element {
   return (
     <div className='searchResultsSidebar'>
       <div className='searchResultsSidebar-typesSection'>
@@ -91,7 +98,7 @@ export default function SearchResultsSidebar({ language, t, types, onCheckTypeCa
         <div className='searchResultsSidebar-volumesSection-title'>{t('common.filters.volumes')}</div>
         <div className='searchResultsSidebar-volumesSection-volumes'>
           <div className='searchResultsSidebar-volumesSection-volumes-list'>
-            {volumes[language].map((v, index) => (
+            {volumes.map((v, index) => (
               <div
                 key={index}
                 className='searchResultsSidebar-volumesSection-volumes-list-choice'
@@ -103,7 +110,7 @@ export default function SearchResultsSidebar({ language, t, types, onCheckTypeCa
                   className={`searchResultsSidebar-volumesSection-volumes-list-choice-label ${v.isChecked && 'searchResultsSidebar-volumesSection-volumes-list-choice-label-checked'}`}
                   onClick={(): void => onCheckVolumeCallback(v.id)}
                 >
-                  {v.label}
+                  {v.label[language]}
                 </span>
               </div>
             ))}
@@ -114,7 +121,7 @@ export default function SearchResultsSidebar({ language, t, types, onCheckTypeCa
         <div className='searchResultsSidebar-sectionsSection-title'>{t('common.filters.sections')}</div>
         <div className='searchResultsSidebar-sectionsSection-sections'>
           <div className='searchResultsSidebar-sectionsSection-sections-list'>
-            {sections[language].map((s, index) => (
+            {sections.map((s, index) => (
               <div
                 key={index}
                 className='searchResultsSidebar-sectionsSection-sections-list-choice'
@@ -126,7 +133,30 @@ export default function SearchResultsSidebar({ language, t, types, onCheckTypeCa
                   className={`searchResultsSidebar-sectionsSection-sections-list-choice-label ${s.isChecked && 'searchResultsSidebar-sectionsSection-sections-list-choice-label-checked'}`}
                   onClick={(): void => onCheckSectionCallback(s.id)}
                 >
-                  {s.label}
+                  {s.label[language]}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className='searchResultsSidebar-authorsSection'>
+        <div className='searchResultsSidebar-authorsSection-title'>{t('common.filters.authors')}</div>
+        <div className='searchResultsSidebar-authorsSection-authors'>
+          <div className='searchResultsSidebar-authorsSection-authors-list'>
+            {authors.map((a, index) => (
+              <div
+                key={index}
+                className='searchResultsSidebar-authorsSection-authors-list-choice'
+              >
+                <div className='searchResultsSidebar-authorsSection-authors-list-choice-checkbox'>
+                  <Checkbox checked={a.isChecked} onChangeCallback={(): void => onCheckAuthorCallback(a.fullname)}/>
+                </div>
+                <span
+                  className={`searchResultsSidebar-authorsSection-authors-list-choice-label ${a.isChecked && 'searchResultsSidebar-authorsSection-authors-list-choice-label-checked'}`}
+                  onClick={(): void => onCheckAuthorCallback(a.fullname)}
+                >
+                  {a.fullname}
                 </span>
               </div>
             ))}
