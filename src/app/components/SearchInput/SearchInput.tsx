@@ -7,13 +7,13 @@ interface ISearchInputProps {
   value: string;
   placeholder: string;
   onChangeCallback: (search: string) => void;
-  onSubmitCallback: () => void;
+  onSubmitCallback?: () => void;
   className?: string;
 }
 
 export default function SearchInput({ value, placeholder, onChangeCallback, onSubmitCallback, className }: ISearchInputProps): JSX.Element {
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && onSubmitCallback) {
       onSubmitCallback()
     }
   }
