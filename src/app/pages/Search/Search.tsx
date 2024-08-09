@@ -1,22 +1,59 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from "react-router-dom";
 
-import { PATHS } from '../../../config/paths'
-import { useAppSelector } from '../../../hooks/store';
+import { PATHS } from "../../../config/paths";
+import { useAppSelector } from "../../../hooks/store";
+import { useFetchSearchResultsQuery } from '../../../store/features/search/search.query';
+import { FetchedArticle, articleTypes } from '../../../utils/article';
+import { AvailableLanguage } from "../../../utils/i18n";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
+import Loader from '../../components/Loader/Loader';
+import SearchResultCard, { ISearchResultCard } from "../../components/Cards/SearchResultCard/SearchResultCard";
+import SearchResultsSidebar, { ISearchResultTypeSelection, ISearchResultYearSelection, ISearchResultVolumeSelection, ISearchResultSectionSelection, ISearchResultAuthorSelection } from "../../components/Sidebars/SearchResultsSidebar/SearchResultsSidebar";
+import Pagination from "../../components/Pagination/Pagination";
+import Tag from "../../components/Tag/Tag";
 import './Search.scss';
+
+type SearchResultTypeFilter = 'type' | 'year' | 'volume' | 'section' | 'author';
+
+interface ISearchResultFilter {
+  type: SearchResultTypeFilter;
+  value: string | number;
+  label?: string | number;
+  labelPath?: string;
+  translatedLabel?: Record<AvailableLanguage, string>;
+}
+
+type EnhancedSearchResult = FetchedArticle & {
+  openedAbstract: boolean;
+}
 
 export default function Search(): JSX.Element {
   const { t } = useTranslation();
-
   const navigate = useNavigate();
 
+  const SEARCH_RESULTS_PER_PAGE = 10;
+
+  const language = useAppSelector(state => state.i18nReducer.language)
+  const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
   const search = useAppSelector(state => state.searchReducer.search);
-  const results = {
-    totalItems: 3,
-    data: ['lala', 'lele', 'lili']
-  }
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [enhancedSearchResults, setEnhancedSearchResults] = useState<EnhancedSearchResult[]>([])
+  const [types, setTypes] = useState<ISearchResultTypeSelection[]>([])
+  const [years, setYears] = useState<ISearchResultYearSelection[]>([]);
+  const [volumes, setVolumes] = useState<ISearchResultVolumeSelection[]>([]);
+  const [sections, setSections] = useState<ISearchResultSectionSelection[]>([]);
+  const [authors, setAuthors] = useState<ISearchResultAuthorSelection[]>([]);
+  const [taggedFilters, setTaggedFilters] = useState<ISearchResultFilter[]>([]);
+  const [showAllAbstracts, setShowAllAbstracts] = useState(false)
+
+  const getSelectedTypes = (): string[] => types.filter(t => t.isChecked).map(t => t.value);
+  const getSelectedYears = (): number[] => years.filter(y => y.isChecked).map(y => y.year);
+  const getSelectedVolumes = (): number[] => volumes.filter(v => v.isChecked).map(v => v.id);
+  const getSelectedSections = (): number[] => sections.filter(s => s.isChecked).map(s => s.id);
+  const getSelectedAuthors = (): string[] => authors.filter(a => a.isChecked).map(a => a.fullname);
 
   useEffect(() => {
     if (!search) {
@@ -24,18 +61,392 @@ export default function Search(): JSX.Element {
     }
   }, [search, navigate])
 
+  const { data: searchResults, isFetching: isFetchingSearchResults } = useFetchSearchResultsQuery({ terms: search ?? '', rvcode: rvcode!, page: currentPage, itemsPerPage: SEARCH_RESULTS_PER_PAGE, types: getSelectedTypes(), years: getSelectedYears(), volumes: getSelectedVolumes(), sections: getSelectedSections(), authors: getSelectedAuthors() }, { skip: !search || !rvcode, refetchOnMountOrArgChange: true })
+
+  useEffect(() => {
+    if (searchResults?.range && searchResults.range.types && types.length === 0) {
+      const initTypes = searchResults.range.types
+        .filter((t) => articleTypes.find((at) => at.value === t))
+        .map((t) => {
+        const matchingType = articleTypes.find((at) => at.value === t)
+
+        return {
+          labelPath: matchingType!.labelPath,
+          value: matchingType!.value,
+          isChecked: false
+        }
+      })
+
+      setTypes(initTypes)
+    }
+  }, [searchResults?.range, searchResults?.range?.types, types])
+
+  useEffect(() => {
+    if (searchResults?.range && searchResults.range.years && years.length === 0) {
+      const initYears = searchResults.range.years.map((y) => ({
+        year: y,
+        isChecked: false
+      }))
+
+      setYears(initYears)
+    }
+  }, [searchResults?.range, searchResults?.range?.years, years])
+
+  useEffect(() => {
+    if (searchResults?.range && searchResults.range.volumes && volumes.length === 0) {
+      const initVolumes = searchResults.range.volumes[language].map((v) => {
+        const id = parseInt(Object.keys(v)[0]);
+
+        return {
+          id,
+          label: {
+            en: searchResults.range?.volumes?.en.find(vol => parseInt(Object.keys(vol)[0]) === id)?.[id] || '',
+            fr: searchResults.range?.volumes?.fr.find(vol => parseInt(Object.keys(vol)[0]) === id)?.[id] || ''
+          },
+          isChecked: false
+        }
+      })
+
+      setVolumes(initVolumes)
+    }
+  }, [searchResults?.range, searchResults?.range?.volumes, volumes])
+
+  useEffect(() => {
+    if (searchResults?.range && searchResults.range.sections && sections.length === 0) {
+      const initSections = searchResults.range.sections[language].map((s) => {
+        const id = parseInt(Object.keys(s)[0]);
+
+        return {
+          id,
+          label: {
+            en: searchResults.range?.sections?.en.find(sec => parseInt(Object.keys(sec)[0]) === id)?.[id] || '',
+            fr: searchResults.range?.sections?.fr.find(sec => parseInt(Object.keys(sec)[0]) === id)?.[id] || ''
+          },
+          isChecked: false
+        }
+      })
+
+      setSections(initSections)
+    }
+  }, [searchResults?.range, searchResults?.range?.sections, sections])
+
+  useEffect(() => {
+    if (searchResults?.range && searchResults.range.authors && authors.length === 0) {
+      const initAuthors = searchResults.range.authors.map((a) => ({
+        fullname: a,
+        isChecked: false
+      }))
+
+      setAuthors(initAuthors)
+    }
+  }, [searchResults?.range, searchResults?.range?.authors, authors])
+
+  const handlePageClick = (selectedItem: { selected: number }): void => {
+    setEnhancedSearchResults([]);
+    setCurrentPage(selectedItem.selected + 1);
+  };
+
+  const onCheckType = (value: string): void => {
+    const updatedTypes = types.map((t) => {
+      if (t.value === value) {
+        return { ...t, isChecked: !t.isChecked };
+      }
+
+      return { ...t };
+    });
+
+    setTypes(updatedTypes);
+  }
+
+  const onCheckYear = (year: number): void => {
+    const updatedYears = years.map((y) => {
+      if (y.year === year) {
+        return { ...y, isChecked: !y.isChecked };
+      }
+
+      return { ...y };
+    });
+
+    setYears(updatedYears);
+  }
+
+  const onCheckVolume = (id: number): void => {
+    const updatedVolumes = volumes.map((v) => {
+      if (v.id === id) {
+        return { ...v, isChecked: !v.isChecked };
+      }
+
+      return { ...v };
+    });
+
+    setVolumes(updatedVolumes);
+  }
+
+  const onCheckSection = (id: number): void => {
+    const updatedSections = sections.map((s) => {
+      if (s.id === id) {
+        return { ...s, isChecked: !s.isChecked };
+      }
+
+      return { ...s };
+    });
+
+    setSections(updatedSections);
+  }
+
+  const onCheckAuthor = (fullname: string): void => {
+    const updatedAuthors = authors.map((a) => {
+      if (a.fullname === fullname) {
+        return { ...a, isChecked: !a.isChecked };
+      }
+
+      return { ...a };
+    });
+
+    setAuthors(updatedAuthors);
+  }
+
+  const setAllTaggedFilters = (): void => {
+    const initFilters: ISearchResultFilter[] = []
+
+    types.filter((t) => t.isChecked).forEach((t) => {
+      initFilters.push({
+        type: 'type',
+        value: t.value,
+        labelPath: t.labelPath
+      })
+    })
+
+    years.filter((y) => y.isChecked).forEach((y) => {
+      initFilters.push({
+        type: 'year',
+        value: y.year,
+        label: y.year
+      })
+    })
+
+    volumes.filter((v) => v.isChecked).forEach((v) => {
+      initFilters.push({
+        type: 'volume',
+        value: v.id,
+        translatedLabel: v.label
+      })
+    })
+
+    sections.filter((s) => s.isChecked).forEach((s) => {
+      initFilters.push({
+        type: 'section',
+        value: s.id,
+        translatedLabel: s.label
+      })
+    })
+
+    authors.filter((a) => a.isChecked).forEach((a) => {
+      initFilters.push({
+        type: 'author',
+        value: a.fullname,
+        label: a.fullname
+      })
+    })
+
+    setTaggedFilters(initFilters)
+  }
+
+  const onCloseTaggedFilter = (type: SearchResultTypeFilter, value: string | number) => {
+    if (type === 'type') {
+      const updatedTypes = types.map((t) => {
+        if (t.value === value) {
+          return { ...t, isChecked: false };
+        }
+
+        return t;
+      });
+
+      setTypes(updatedTypes);
+    } else if (type === 'year') {
+      const updatedYears = years.map((y) => {
+        if (y.year === value) {
+          return { ...y, isChecked: false };
+        }
+  
+        return y;
+      });
+  
+      setYears(updatedYears);
+    } else if (type === 'volume') {
+      const updatedVolumes = volumes.map((v) => {
+        if (v.id === value) {
+          return { ...v, isChecked: false };
+        }
+
+        return v;
+      });
+
+      setVolumes(updatedVolumes);
+    } else if (type === 'section') {
+      const updatedSections = sections.map((s) => {
+        if (s.id === value) {
+          return { ...s, isChecked: false };
+        }
+
+        return s;
+      });
+
+      setSections(updatedSections);
+    } else if (type === 'author') {
+      const updatedAuthors = authors.map((a) => {
+        if (a.fullname === value) {
+          return { ...a, isChecked: false };
+        }
+  
+        return a;
+      });
+  
+      setAuthors(updatedAuthors);
+    }
+  }
+
+  const clearTaggedFilters = (): void => {
+    const updatedTypes = types.map((t) => {
+      return { ...t, isChecked: false };
+    });
+
+    const updatedYears = years.map((y) => {
+      return { ...y, isChecked: false };
+    });
+
+    const updatedVolumes = volumes.map((v) => {
+      return { ...v, isChecked: false };
+    });
+
+    const updatedSections = sections.map((s) => {
+      return { ...s, isChecked: false };
+    });
+
+    const updatedAuthors = authors.map((a) => {
+      return { ...a, isChecked: false };
+    });
+
+    setTypes(updatedTypes);
+    setYears(updatedYears);
+    setVolumes(updatedVolumes);
+    setSections(updatedSections);
+    setAuthors(updatedAuthors);
+    setTaggedFilters([]);
+  }
+
+  useEffect(() => {
+    setAllTaggedFilters()
+  }, [types, years, volumes, sections, authors])
+
+  useEffect(() => {
+    if (searchResults) {
+      const displayedSearchResults = searchResults?.data.filter((searchResult) => searchResult?.title).map((searchResult) => {
+        return { ...searchResult, openedAbstract: false };
+      });
+
+      setEnhancedSearchResults(displayedSearchResults as EnhancedSearchResult[])
+    }
+
+  }, [searchResults, searchResults?.data])
+
+  const toggleAbstract = (searchResultId?: number): void => {
+    if (!searchResultId) return
+
+    const updatedSearchResults = enhancedSearchResults.map((searchResult) => {
+      if (searchResult?.id === searchResultId) {
+        return {
+          ...searchResult,
+          openedAbstract: !searchResult.openedAbstract
+        }
+      }
+
+      return { ...searchResult };
+    });
+
+    setEnhancedSearchResults(updatedSearchResults)
+  }
+
+  const toggleAllAbstracts = (): void => {
+    const isShown = !showAllAbstracts
+
+    const updatedSearchResults = enhancedSearchResults.map((searchResult) => ({
+      ...searchResult,
+      openedAbstract: isShown
+    }));
+
+    setEnhancedSearchResults(updatedSearchResults)
+    setShowAllAbstracts(isShown)
+  }
+
   return (
-    <main className="search">
+    <main className='search'>
       <Breadcrumb parents={[
-        { path: 'home', label: `${t('pages.home.title')} >` }
+        { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }
       ]} crumbLabel={t('pages.search.title')} />
       <div className='search-title'>
-        <h1>{t('pages.search.title')}</h1>  
-        {results && results.totalItems > 1 ? (
-            <div className='search-title-count'>{results.totalItems} {t('common.resultsFor')} "{search}"</div>
+        <h1 className='search-title-text'>{t('pages.search.title')}</h1>
+        <div className='search-title-count'>
+          {searchResults && searchResults.totalItems > 1 ? (
+            <div className='search-title-count'>{searchResults.totalItems} {t('common.resultsFor')} "{search}"</div>
           ) : (
-            <div className='search-title-count'>{results?.totalItems ?? 0} {t('common.resultFor')} "{search}"</div>
+            <div className='search-title-count'>{searchResults?.totalItems ?? 0} {t('common.resultFor')} "{search}"</div>
         )}
+        </div>
+      </div>
+      <div className="search-filters">
+        <div className="search-filters-tags">
+          {taggedFilters.map((filter, index) => (
+            <Tag key={index} text={filter.labelPath ? t(filter.labelPath) : filter.translatedLabel ? filter.translatedLabel[language] : filter.label!.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
+          ))}
+          {taggedFilters.length > 0 ? (
+            <div className="search-filters-tags-clear" onClick={clearTaggedFilters}>{t('common.filters.clearAll')}</div>
+          ) : (
+            <div className="search-filters-tags-clear"></div>
+          )}
+        </div>
+        <div className="search-filters-abstracts" onClick={toggleAllAbstracts}>
+          {`${showAllAbstracts ? t('common.toggleAbstracts.hideAll') : t('common.toggleAbstracts.showAll')}`}
+        </div>
+      </div>
+      <div className='search-content'>
+        <div className='search-content-results'>
+          <SearchResultsSidebar
+            language={language}
+            t={t}
+            types={types}
+            onCheckTypeCallback={onCheckType}
+            years={years}
+            onCheckYearCallback={onCheckYear}
+            volumes={volumes}
+            onCheckVolumeCallback={onCheckVolume}
+            sections={sections}
+            onCheckSectionCallback={onCheckSection}
+            authors={authors}
+            onCheckAuthorCallback={onCheckAuthor}
+          />
+          {isFetchingSearchResults ? (
+            <Loader />
+          ) : (
+            <div className='search-content-results-cards'>
+              {enhancedSearchResults.map((searchResult, index) => (
+                <SearchResultCard
+                  key={index}
+                  language={language}
+                  t={t}
+                  searchResult={searchResult as ISearchResultCard}
+                  toggleAbstractCallback={(): void => toggleAbstract(searchResult?.id)}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+        <Pagination
+          currentPage={currentPage}
+          itemsPerPage={SEARCH_RESULTS_PER_PAGE}
+          totalItems={searchResults?.totalItems}
+          onPageChange={handlePageClick}
+        />
       </div>
     </main>
   )
