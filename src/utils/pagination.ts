@@ -32,5 +32,6 @@ export interface SearchRange {
   types?: string[];
   years?: number[];
   volumes?: Record<AvailableLanguage, Record<number, string>[]>;
-  sections?: Record<AvailableLanguage, Record<number, string>[]>
+  sections?: Record<AvailableLanguage, Record<number, string>[]>;
+  authors?: string[];
 }

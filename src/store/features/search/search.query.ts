@@ -12,8 +12,8 @@ export const searchApi = createApi({
   reducerPath: 'search',
   tagTypes: ['Search'],
   endpoints: (build) => ({
-    fetchSearchResults: build.query<{ data: FetchedArticle[], totalItems: number, range?: SearchRange }, { terms: string; rvcode: string, page: number, itemsPerPage: number, types?: string[], years?: number[], volumes?: number[], sections?: number[] }>({
-      query: ({ terms, rvcode, page, itemsPerPage, types, years, volumes, sections }) => {
+    fetchSearchResults: build.query<{ data: FetchedArticle[], totalItems: number, range?: SearchRange }, { terms: string; rvcode: string, page: number, itemsPerPage: number, types?: string[], years?: number[], volumes?: number[], sections?: number[], authors?: string[] }>({
+      query: ({ terms, rvcode, page, itemsPerPage, types, years, volumes, sections, authors }) => {
         const baseUrl = `search?terms=${terms}&page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`;
         let queryParams = '';
 
@@ -36,6 +36,11 @@ export const searchApi = createApi({
           const sectionsQuery = sections.map(section => `section_id[]=${section}`).join('&')
           queryParams += `&${sectionsQuery}`;
         }
+
+        if (authors && authors.length > 0) {
+          const authorsQuery = authors.map(author => `author_fullname[]=${author}`).join('&')
+          queryParams += `&${authorsQuery}`;
+        }
         
         return `${baseUrl}${queryParams}`;
       },
@@ -49,7 +54,7 @@ export const searchApi = createApi({
           range: formatSearchRange(baseQueryReturnValue['hydra:range'])
         }
       },
-      onQueryStarted: async ({ terms, rvcode, page, itemsPerPage, types, years, volumes, sections }, { queryFulfilled, dispatch }) => {
+      onQueryStarted: async ({ terms, rvcode, page, itemsPerPage, types, years, volumes, sections, authors }, { queryFulfilled, dispatch }) => {
         const { data: searchResults } = await queryFulfilled;
         const fullResults: FetchedArticle[] = await Promise.all(
           searchResults.data.map(async (searchResult: FetchedArticle) => {
@@ -58,7 +63,7 @@ export const searchApi = createApi({
           })
         );
 
-        dispatch(searchApi.util.updateQueryData('fetchSearchResults', { terms, rvcode, page, itemsPerPage, types, years, volumes, sections }, (draftedData) => {
+        dispatch(searchApi.util.updateQueryData('fetchSearchResults', { terms, rvcode, page, itemsPerPage, types, years, volumes, sections, authors }, (draftedData) => {
           Object.assign(draftedData.data, fullResults)
         }));
       },

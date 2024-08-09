@@ -8,6 +8,11 @@
   gap: 5px;
 
   &-text {
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 80px;
     font-size: 14px;
   }
 

@@ -10,19 +10,19 @@ import { AvailableLanguage } from "../../../utils/i18n";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
 import SearchResultCard, { ISearchResultCard } from "../../components/Cards/SearchResultCard/SearchResultCard";
-import SearchResultsSidebar, { ISearchResultTypeSelection, ISearchResultYearSelection, ISearchResultVolumeSelection, ISearchResultSectionSelection } from "../../components/Sidebars/SearchResultsSidebar/SearchResultsSidebar";
+import SearchResultsSidebar, { ISearchResultTypeSelection, ISearchResultYearSelection, ISearchResultVolumeSelection, ISearchResultSectionSelection, ISearchResultAuthorSelection } from "../../components/Sidebars/SearchResultsSidebar/SearchResultsSidebar";
 import Pagination from "../../components/Pagination/Pagination";
 import Tag from "../../components/Tag/Tag";
 import './Search.scss';
 
-type SearchResultTypeFilter = 'type' | 'year' | 'volume' | 'section';
+type SearchResultTypeFilter = 'type' | 'year' | 'volume' | 'section' | 'author';
 
 interface ISearchResultFilter {
   type: SearchResultTypeFilter;
   value: string | number;
-  label?: number;
+  label?: string | number;
   labelPath?: string;
-  translatedLabel?: string;
+  translatedLabel?: Record<AvailableLanguage, string>;
 }
 
 type EnhancedSearchResult = FetchedArticle & {
@@ -43,21 +43,17 @@ export default function Search(): JSX.Element {
   const [enhancedSearchResults, setEnhancedSearchResults] = useState<EnhancedSearchResult[]>([])
   const [types, setTypes] = useState<ISearchResultTypeSelection[]>([])
   const [years, setYears] = useState<ISearchResultYearSelection[]>([]);
-  const [volumes, setVolumes] = useState<Record<AvailableLanguage, ISearchResultVolumeSelection[]>>({
-    en: [],
-    fr: []
-  });
-  const [sections, setSections] = useState<Record<AvailableLanguage, ISearchResultSectionSelection[]>>({
-    en: [],
-    fr: []
-  });
+  const [volumes, setVolumes] = useState<ISearchResultVolumeSelection[]>([]);
+  const [sections, setSections] = useState<ISearchResultSectionSelection[]>([]);
+  const [authors, setAuthors] = useState<ISearchResultAuthorSelection[]>([]);
   const [taggedFilters, setTaggedFilters] = useState<ISearchResultFilter[]>([]);
   const [showAllAbstracts, setShowAllAbstracts] = useState(false)
 
   const getSelectedTypes = (): string[] => types.filter(t => t.isChecked).map(t => t.value);
   const getSelectedYears = (): number[] => years.filter(y => y.isChecked).map(y => y.year);
-  const getSelectedVolumes = (): number[] => volumes[language].filter(v => v.isChecked).map(v => v.id);
-  const getSelectedSections = (): number[] => sections[language].filter(s => s.isChecked).map(s => s.id);
+  const getSelectedVolumes = (): number[] => volumes.filter(v => v.isChecked).map(v => v.id);
+  const getSelectedSections = (): number[] => sections.filter(s => s.isChecked).map(s => s.id);
+  const getSelectedAuthors = (): string[] => authors.filter(a => a.isChecked).map(a => a.fullname);
 
   useEffect(() => {
     if (!search) {
@@ -65,7 +61,7 @@ export default function Search(): JSX.Element {
     }
   }, [search, navigate])
 
-  const { data: searchResults, isFetching: isFetchingSearchResults } = useFetchSearchResultsQuery({ terms: search ?? '', rvcode: rvcode!, page: currentPage, itemsPerPage: SEARCH_RESULTS_PER_PAGE, types: getSelectedTypes(), years: getSelectedYears(), volumes: getSelectedVolumes(), sections: getSelectedSections() }, { skip: !search || !rvcode, refetchOnMountOrArgChange: true })
+  const { data: searchResults, isFetching: isFetchingSearchResults } = useFetchSearchResultsQuery({ terms: search ?? '', rvcode: rvcode!, page: currentPage, itemsPerPage: SEARCH_RESULTS_PER_PAGE, types: getSelectedTypes(), years: getSelectedYears(), volumes: getSelectedVolumes(), sections: getSelectedSections(), authors: getSelectedAuthors() }, { skip: !search || !rvcode, refetchOnMountOrArgChange: true })
 
   useEffect(() => {
     if (searchResults?.range && searchResults.range.types && types.length === 0) {
@@ -97,44 +93,53 @@ export default function Search(): JSX.Element {
   }, [searchResults?.range, searchResults?.range?.years, years])
 
   useEffect(() => {
-    if (searchResults?.range && searchResults.range.volumes && volumes.en.length === 0 && volumes.fr.length === 0) {
-      const initVolumes = Object.keys(searchResults.range.volumes).reduce((acc, lang) => {
-        acc[lang as AvailableLanguage] = searchResults.range!.volumes![lang as AvailableLanguage].map((v) => {
-          const id = parseInt(Object.keys(v)[0]);
-          const label = v[id];
+    if (searchResults?.range && searchResults.range.volumes && volumes.length === 0) {
+      const initVolumes = searchResults.range.volumes[language].map((v) => {
+        const id = parseInt(Object.keys(v)[0]);
 
-          return {
-            id,
-            label,
-            isChecked: false
-          }
-        })
-        return acc;
-      }, {} as Record<AvailableLanguage, ISearchResultVolumeSelection[]>)
+        return {
+          id,
+          label: {
+            en: searchResults.range?.volumes?.en.find(vol => parseInt(Object.keys(vol)[0]) === id)?.[id] || '',
+            fr: searchResults.range?.volumes?.fr.find(vol => parseInt(Object.keys(vol)[0]) === id)?.[id] || ''
+          },
+          isChecked: false
+        }
+      })
 
-      setVolumes(initVolumes);
+      setVolumes(initVolumes)
     }
   }, [searchResults?.range, searchResults?.range?.volumes, volumes])
 
   useEffect(() => {
-    if (searchResults?.range && searchResults.range.sections && sections.en.length === 0 && sections.fr.length === 0) {
-      const initSections = Object.keys(searchResults.range.sections).reduce((acc, lang) => {
-        acc[lang as AvailableLanguage] = searchResults.range!.sections![lang as AvailableLanguage].map((s) => {
-          const id = parseInt(Object.keys(s)[0]);
-          const label = s[id];
+    if (searchResults?.range && searchResults.range.sections && sections.length === 0) {
+      const initSections = searchResults.range.sections[language].map((s) => {
+        const id = parseInt(Object.keys(s)[0]);
 
-          return {
-            id,
-            label,
-            isChecked: false
-          }
-        })
-        return acc;
-      }, {} as Record<AvailableLanguage, ISearchResultSectionSelection[]>)
+        return {
+          id,
+          label: {
+            en: searchResults.range?.sections?.en.find(sec => parseInt(Object.keys(sec)[0]) === id)?.[id] || '',
+            fr: searchResults.range?.sections?.fr.find(sec => parseInt(Object.keys(sec)[0]) === id)?.[id] || ''
+          },
+          isChecked: false
+        }
+      })
 
-      setSections(initSections);
+      setSections(initSections)
     }
   }, [searchResults?.range, searchResults?.range?.sections, sections])
+
+  useEffect(() => {
+    if (searchResults?.range && searchResults.range.authors && authors.length === 0) {
+      const initAuthors = searchResults.range.authors.map((a) => ({
+        fullname: a,
+        isChecked: false
+      }))
+
+      setAuthors(initAuthors)
+    }
+  }, [searchResults?.range, searchResults?.range?.authors, authors])
 
   const handlePageClick = (selectedItem: { selected: number }): void => {
     setEnhancedSearchResults([]);
@@ -166,33 +171,39 @@ export default function Search(): JSX.Element {
   }
 
   const onCheckVolume = (id: number): void => {
-    const updatedVolumes = {
-      ...volumes,
-      [language]: volumes[language].map((v) => {
-        if (v.id === id) {
-          return { ...v, isChecked: !v.isChecked };
-        }
+    const updatedVolumes = volumes.map((v) => {
+      if (v.id === id) {
+        return { ...v, isChecked: !v.isChecked };
+      }
 
-        return { ...v };
-      })
-    };
+      return { ...v };
+    });
 
     setVolumes(updatedVolumes);
   }
 
   const onCheckSection = (id: number): void => {
-    const updatedSections = {
-      ...sections,
-      [language]: sections[language].map((s) => {
-        if (s.id === id) {
-          return { ...s, isChecked: !s.isChecked };
-        }
+    const updatedSections = sections.map((s) => {
+      if (s.id === id) {
+        return { ...s, isChecked: !s.isChecked };
+      }
 
-        return { ...s };
-      })
-    };
+      return { ...s };
+    });
 
     setSections(updatedSections);
+  }
+
+  const onCheckAuthor = (fullname: string): void => {
+    const updatedAuthors = authors.map((a) => {
+      if (a.fullname === fullname) {
+        return { ...a, isChecked: !a.isChecked };
+      }
+
+      return { ...a };
+    });
+
+    setAuthors(updatedAuthors);
   }
 
   const setAllTaggedFilters = (): void => {
@@ -214,7 +225,7 @@ export default function Search(): JSX.Element {
       })
     })
 
-    volumes[language].filter((v) => v.isChecked).forEach((v) => {
+    volumes.filter((v) => v.isChecked).forEach((v) => {
       initFilters.push({
         type: 'volume',
         value: v.id,
@@ -222,7 +233,7 @@ export default function Search(): JSX.Element {
       })
     })
 
-    sections[language].filter((s) => s.isChecked).forEach((s) => {
+    sections.filter((s) => s.isChecked).forEach((s) => {
       initFilters.push({
         type: 'section',
         value: s.id,
@@ -230,12 +241,18 @@ export default function Search(): JSX.Element {
       })
     })
 
+    authors.filter((a) => a.isChecked).forEach((a) => {
+      initFilters.push({
+        type: 'author',
+        value: a.fullname,
+        label: a.fullname
+      })
+    })
+
     setTaggedFilters(initFilters)
   }
 
   const onCloseTaggedFilter = (type: SearchResultTypeFilter, value: string | number) => {
-    // TODO: volume
-    // TODO: section
     if (type === 'type') {
       const updatedTypes = types.map((t) => {
         if (t.value === value) {
@@ -257,31 +274,35 @@ export default function Search(): JSX.Element {
   
       setYears(updatedYears);
     } else if (type === 'volume') {
-      const updatedVolumes = {
-        ...volumes,
-        [language]: volumes[language].map((v) => {
-          if (v.id === value) {
-            return { ...v, isChecked: false };
-          }
-    
-          return v;
-        })
-      };
+      const updatedVolumes = volumes.map((v) => {
+        if (v.id === value) {
+          return { ...v, isChecked: false };
+        }
+
+        return v;
+      });
 
       setVolumes(updatedVolumes);
     } else if (type === 'section') {
-      const updatedSections = {
-        ...sections,
-        [language]: sections[language].map((s) => {
-          if (s.id === value) {
-            return { ...s, isChecked: false };
-          }
-    
-          return s;
-        })
-      };
+      const updatedSections = sections.map((s) => {
+        if (s.id === value) {
+          return { ...s, isChecked: false };
+        }
+
+        return s;
+      });
 
       setSections(updatedSections);
+    } else if (type === 'author') {
+      const updatedAuthors = authors.map((a) => {
+        if (a.fullname === value) {
+          return { ...a, isChecked: false };
+        }
+  
+        return a;
+      });
+  
+      setAuthors(updatedAuthors);
     }
   }
 
@@ -294,30 +315,29 @@ export default function Search(): JSX.Element {
       return { ...y, isChecked: false };
     });
 
-    const updatedVolumes = {
-      ...volumes,
-      [language]: volumes[language].map((v) => {
-        return { ...v, isChecked: false };
-      })
-    };
+    const updatedVolumes = volumes.map((v) => {
+      return { ...v, isChecked: false };
+    });
 
-    const updatedSections = {
-      ...sections,
-      [language]: sections[language].map((s) => {
-        return { ...s, isChecked: false };
-      })
-    };
+    const updatedSections = sections.map((s) => {
+      return { ...s, isChecked: false };
+    });
+
+    const updatedAuthors = authors.map((a) => {
+      return { ...a, isChecked: false };
+    });
 
     setTypes(updatedTypes);
     setYears(updatedYears);
     setVolumes(updatedVolumes);
     setSections(updatedSections);
+    setAuthors(updatedAuthors);
     setTaggedFilters([]);
   }
 
   useEffect(() => {
     setAllTaggedFilters()
-  }, [types, years, volumes, sections])
+  }, [types, years, volumes, sections, authors])
 
   useEffect(() => {
     if (searchResults) {
@@ -377,7 +397,7 @@ export default function Search(): JSX.Element {
       <div className="search-filters">
         <div className="search-filters-tags">
           {taggedFilters.map((filter, index) => (
-            <Tag key={index} text={filter.labelPath ? t(filter.labelPath) : filter.translatedLabel ? filter.translatedLabel : filter.label!.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
+            <Tag key={index} text={filter.labelPath ? t(filter.labelPath) : filter.translatedLabel ? filter.translatedLabel[language] : filter.label!.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
           ))}
           {taggedFilters.length > 0 ? (
             <div className="search-filters-tags-clear" onClick={clearTaggedFilters}>{t('common.filters.clearAll')}</div>
@@ -402,6 +422,8 @@ export default function Search(): JSX.Element {
             onCheckVolumeCallback={onCheckVolume}
             sections={sections}
             onCheckSectionCallback={onCheckSection}
+            authors={authors}
+            onCheckAuthorCallback={onCheckAuthor}
           />
           {isFetchingSearchResults ? (
             <Loader />

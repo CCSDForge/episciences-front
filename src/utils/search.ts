@@ -5,8 +5,9 @@ export const formatSearchRange = (range?: SearchRange) => {
   const searchRange = range as { 
     year: Record<string, number>,
     type: Record<string, number>,
-    volume: Record<AvailableLanguage, Record<string, Record<string, number>>>
-    section: Record<AvailableLanguage, Record<string, Record<string, number>>>
+    volume: Record<AvailableLanguage, Record<string, Record<string, number>>>,
+    section: Record<AvailableLanguage, Record<string, Record<string, number>>>,
+    author: Record<string, number>,
   };
 
   const volumes = Object.entries(searchRange.volume).reduce((acc, [language, sectionData]) => {
@@ -23,7 +24,8 @@ export const formatSearchRange = (range?: SearchRange) => {
     years: Object.keys(searchRange.year).map(y => parseInt(y)),
     types: Object.keys(searchRange.type).map(t => t),
     volumes: volumes,
-    sections: sections
+    sections: sections,
+    authors: Object.keys(searchRange.author).map(a => a),
   }
 }
 
