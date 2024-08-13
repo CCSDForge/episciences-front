@@ -151,6 +151,7 @@
         "download": "Download article",
         "openHAL": "Open on HAL",
         "cite": "Cite",
+        "metadata": "Metadata",
         "share": {
           "text": "Share",
           "email": "Mail",

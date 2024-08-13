@@ -17,7 +17,7 @@ import twitter from '/icons/twitter.svg';
 import { PATHS } from '../../../../config/paths';
 import { IArticle } from '../../../../types/article';
 import { IVolume } from '../../../../types/volume';
-import { ICitation, copyToClipboardCitation, getLicenseTranslations, isDOI } from '../../../../utils/article';
+import { ICitation, copyToClipboardCitation, getLicenseTranslations, isDOI, getMetadataTypes, METADATA_TYPE } from '../../../../utils/article';
 import { formatDate } from '../../../../utils/date';
 import { AvailableLanguage } from '../../../../utils/i18n';
 import { VOLUME_TYPE } from '../../../../utils/volume';
@@ -29,11 +29,13 @@ interface IArticleDetailsSidebarProps {
   article?: IArticle;
   relatedVolume?: IVolume;
   citations: ICitation[];
+  onSelectMetadataCallback: (value: METADATA_TYPE) => void;
 }
 
-export default function ArticleDetailsSidebar({ language, t, article, relatedVolume, citations }: IArticleDetailsSidebarProps): JSX.Element {
+export default function ArticleDetailsSidebar({ language, t, article, relatedVolume, citations, onSelectMetadataCallback }: IArticleDetailsSidebarProps): JSX.Element {
   const [openedPublicationDetails, setOpenedPublicationDetails] = useState(true)
   const [showCitationsDropdown, setShowCitationsDropdown] = useState(false)
+  const [showMetadatasDropdown, setShowMetadatasDropdown] = useState(false)
   const [showSharingDropdown, setShowSharingDropdown] = useState(false)
   const [openedFunding, setOpenedFunding] = useState(true)
 
@@ -106,6 +108,24 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
                         copyToClipboardCitation(citation, t)
                         setShowCitationsDropdown(false)
                       }}>{citation.key}</div>
+                    ))}
+                  </div>
+                </div>
+              )}
+          </div>
+        )}
+        {getMetadataTypes.length > 0 && (
+          <div className='articleDetailsSidebar-links-link articleDetailsSidebar-links-link-modal' onMouseEnter={(): void => setShowMetadatasDropdown(true)}>
+            <img className='articleDetailsSidebar-links-link-icon' src={quote} alt='Quote icon' />
+            <div className='articleDetailsSidebar-links-link-text'>{t('pages.articleDetails.actions.metadata')}</div>
+            {showMetadatasDropdown && (
+                <div className='articleDetailsSidebar-links-link-modal-content' onMouseLeave={(): void => setShowMetadatasDropdown(false)}>
+                  <div className='articleDetailsSidebar-links-link-modal-content-links'>
+                    {getMetadataTypes.map((metadata, index) => (
+                      <div className='articleDetailsSidebar-links-link-modal-content-links-link' key={index} onClick={(): void => {
+                        onSelectMetadataCallback(metadata.value)
+                        setShowMetadatasDropdown(false)
+                      }}>{metadata.label}</div>
                     ))}
                   </div>
                 </div>

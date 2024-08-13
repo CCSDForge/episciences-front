@@ -568,3 +568,27 @@ export enum LINKED_PUBLICATION_IDENTIFIER_TYPE {
   DOI = 'doi',
   OTHER = 'other'
 }
+
+export enum METADATA_TYPE {
+  TEI = 'tei',
+  DC = 'dc',
+  CROSSREF = 'crossref',
+  ZBJATS = 'zbjats',
+  DOAJ = 'doaj',
+  BIBTEX = 'bibtex',
+  CSL = 'csl',
+  OPENAIRE = 'openaire',
+  JSON = 'json'
+}
+
+export const getMetadataTypes: { value: METADATA_TYPE; label: string }[] = [
+  { value: METADATA_TYPE.TEI, label: 'TEI' },
+  { value: METADATA_TYPE.DC, label: 'DC' },
+  { value: METADATA_TYPE.CROSSREF, label: 'Crossref' },
+  { value: METADATA_TYPE.ZBJATS, label: 'ZB Jats' },
+  { value: METADATA_TYPE.DOAJ, label: 'DOAJ' },
+  { value: METADATA_TYPE.BIBTEX, label: 'BibTeX' },
+  { value: METADATA_TYPE.CSL, label: 'CSL' },
+  { value: METADATA_TYPE.OPENAIRE, label: 'OpenAire' },
+  { value: METADATA_TYPE.JSON, label: 'JSON' }
+]

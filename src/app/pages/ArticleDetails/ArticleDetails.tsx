@@ -11,10 +11,10 @@ import caretDownRed from '/icons/caret-down-red.svg';
 import orcid from '/icons/orcid.svg';
 import { PATHS } from '../../../config/paths'
 import { useAppSelector } from "../../../hooks/store";
-import { useFetchArticleQuery } from "../../../store/features/article/article.query";
+import { useFetchArticleQuery, useLazyFetchArticleMetadatasQuery } from "../../../store/features/article/article.query";
 import { useFetchVolumeQuery } from "../../../store/features/volume/volume.query";
 import { IArticle, IArticleAuthor, IArticleRelatedItem } from "../../../types/article";
-import { articleTypes, getCitations, isDOI, ICitation, LINKED_PUBLICATION_IDENTIFIER_TYPE } from '../../../utils/article';
+import { articleTypes, getCitations, isDOI, ICitation, LINKED_PUBLICATION_IDENTIFIER_TYPE, METADATA_TYPE } from '../../../utils/article';
 import { AvailableLanguage, availableLanguages } from '../../../utils/i18n';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from "../../components/Loader/Loader";
@@ -46,6 +46,8 @@ export default function ArticleDetails(): JSX.Element {
   const { id } = useParams();
   const { data: article, isFetching: isFetchingArticle, isError, error } = useFetchArticleQuery({ paperid: id! }, { skip: !id });
   const { data: relatedVolume, isFetching: isFetchingVolume } = useFetchVolumeQuery({ rvcode: rvcode!, vid: (article && article.volumeId ? article.volumeId.toString() : ''), language: language }, { skip: !article || !article?.volumeId || !rvcode })
+  const [fetchMetadatas] = useLazyFetchArticleMetadatasQuery();
+
 
   const [openedSections, setOpenedSections] = useState<{ key: ARTICLE_SECTION, isOpened: boolean }[]>([
     { key: ARTICLE_SECTION.GRAPHICAL_ABSTRACT, isOpened: true },
@@ -274,6 +276,28 @@ export default function ArticleDetails(): JSX.Element {
     return article?.halLink ? <iframe src={article.halLink} className="articleDetails-content-article-section-content-preview" /> : null
   }
 
+  const onSelectMetadata = async (metadataFormat: METADATA_TYPE): Promise<void> => {
+    fetchMetadatas({ rvcode: rvcode!, paperid: id!, format: metadataFormat })
+      .unwrap()
+      .then((data: BlobPart) => {
+        const blob = new Blob([data])
+        const url = window.URL.createObjectURL(blob);
+        
+        const a = document.createElement("a");
+        a.href = url;
+
+        const extension = metadataFormat === METADATA_TYPE.JSON ? METADATA_TYPE.JSON : 'xml'
+        a.download = `article_${id}_format_${metadataFormat}.${extension}`;
+ 
+        document.body.appendChild(a);
+        a.click();
+ 
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      })
+    ;
+  }
+
   useEffect(() => {
     if (!article && isError && (error as FetchBaseQueryError)?.status) {
       navigate(PATHS.home);
@@ -302,7 +326,7 @@ export default function ArticleDetails(): JSX.Element {
           <ArticleMeta language={language} article={article as IArticle | undefined} currentJournal={currentJournal} keywords={getKeywords()} authors={authors} />
           {article?.tag && <div className='articleDetails-tag'>{t(articleTypes.find((tag) => tag.value === article.tag)?.labelPath!)}</div>}
           <div className="articleDetails-content">
-            <ArticleDetailsSidebar language={language} t={t} article={article as IArticle | undefined} relatedVolume={relatedVolume} citations={citations} />
+            <ArticleDetailsSidebar language={language} t={t} article={article as IArticle | undefined} relatedVolume={relatedVolume} citations={citations} onSelectMetadataCallback={onSelectMetadata} />
             <div className="articleDetails-content-article">
               <h1 className="articleDetails-content-article-title">
                 <MathJax dynamic>{article?.title}</MathJax>
