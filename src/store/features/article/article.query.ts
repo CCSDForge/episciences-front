@@ -69,10 +69,10 @@ export const articleApi = createApi({
         return formatArticle(baseQueryReturnValue);
       }
     }),
-    fetchArticleMetadatas: build.query<BlobPart, { rvcode: string, paperid: string, format: METADATA_TYPE }>({
-      query: ({ rvcode, paperid, format }) => {
+    fetchArticleMetadata: build.query<BlobPart, { rvcode: string, paperid: string, type: METADATA_TYPE }>({
+      query: ({ rvcode, paperid, type }) => {
         return {
-          url: `papers/export/${paperid}/${format}?code=${rvcode}`,
+          url: `papers/export/${paperid}/${type}?code=${rvcode}`,
           responseHandler: 'text'
         }
       }
@@ -83,5 +83,5 @@ export const articleApi = createApi({
 export const {
   useFetchArticlesQuery,
   useFetchArticleQuery,
-  useLazyFetchArticleMetadatasQuery
+  useFetchArticleMetadataQuery
 } = articleApi

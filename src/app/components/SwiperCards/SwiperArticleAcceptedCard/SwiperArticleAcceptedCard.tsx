@@ -20,11 +20,13 @@ export default function SwiperArticleAcceptedCard({ language, t, article }: ISwi
   return (
     <div className='swiperArticleAcceptedCard'>
       {article?.tag && <div className='swiperArticleAcceptedCard-tag'>{t(articleTypes.find((tag) => tag.value === article.tag)?.labelPath!)}</div>}
-      <Link to={article?.docLink!} target='_blank'>
-        <div className='swiperArticleAcceptedCard-title'>
-          <MathJax dynamic>{article?.title}</MathJax>
-        </div>
-      </Link>
+      {article?.docLink && (
+        <Link to={article?.docLink} target='_blank'>
+          <div className='swiperArticleAcceptedCard-title'>
+            <MathJax dynamic>{article?.title}</MathJax>
+          </div>
+        </Link>
+      )}
       <div className='swiperArticleAcceptedCard-authors'>{truncatedArticleAuthorsName(article)}</div>
       {article?.acceptanceDate ? (
         <div className='swiperArticleAcceptedCard-acceptanceDate'>{`${t('common.acceptedOn')} ${formatDate(article?.acceptanceDate, language, { month: 'short' })}`}</div>

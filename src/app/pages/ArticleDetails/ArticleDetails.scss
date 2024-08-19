@@ -97,6 +97,16 @@
             &-uri, &-doi, &-arxiv, &-hal {
               text-decoration: underline;
             }
+
+            &-swh {
+              display: flex;
+              flex-direction: column;
+
+              &-embed {
+                width: 100%;
+                height: 400px;
+              }
+            }
           }
 
           &-citations {

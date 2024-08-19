@@ -26,11 +26,13 @@ export default function ArticleAcceptedCard({ language, t, article, toggleAbstra
   return (
     <div className="articleAcceptedCard">
       {article.tag && <div className='articleAcceptedCard-tag'>{t(articleTypes.find((tag) => tag.value === article.tag)?.labelPath!)}</div>}
-      <Link to={article.docLink} target='_blank'>
-        <div className='articleAcceptedCard-title'>
-          <MathJax dynamic>{article.title}</MathJax>
-        </div>
-      </Link>
+      {article.docLink && (
+        <Link to={article.docLink} target='_blank'>
+          <div className='articleAcceptedCard-title'>
+            <MathJax dynamic>{article.title}</MathJax>
+          </div>
+        </Link>
+      )}
       <div className='articleAcceptedCard-authors'>{article.authors.map(author => author.fullname).join(', ')}</div>
       {article.abstract && (
         <div className='articleAcceptedCard-abstract'>
@@ -54,12 +56,14 @@ export default function ArticleAcceptedCard({ language, t, article, toggleAbstra
           <div className='articleAcceptedCard-anchor-acceptanceDate'></div>
         )}
         <div className="articleAcceptedCard-anchor-icons">
-          <Link to={article.docLink} target='_blank'>
-            <div className="articleAcceptedCard-anchor-icons-download">
-              <img className="articleAcceptedCard-anchor-icons-download-download-icon" src={download} alt='Download icon' />
-              <div className="articleAcceptedCard-anchor-icons-download-text">{article.repositoryIdentifier}</div>
-            </div>
-          </Link>
+          {article.docLink && (
+            <Link to={article.docLink} target='_blank'>
+              <div className="articleAcceptedCard-anchor-icons-download">
+                <img className="articleAcceptedCard-anchor-icons-download-download-icon" src={download} alt='Download icon' />
+                <div className="articleAcceptedCard-anchor-icons-download-text">{article.repositoryIdentifier}</div>
+              </div>
+            </Link>
+          )}
         </div>
       </div>
     </div>

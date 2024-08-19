@@ -21,7 +21,7 @@ export default function SearchInput({ value, placeholder, onChangeCallback, onSu
   return (
     <div className={`searchInput ${className}`}>
       <input className='searchInput-input' value={value} placeholder={placeholder} onChange={(e: ChangeEvent<HTMLInputElement>): void => onChangeCallback(e.target.value)} onKeyDown={(e: KeyboardEvent<HTMLInputElement>): void => handleKeyDown(e)} />
-      <img className='searchInput-icon' src={search} alt='Search icon'/>
+      <img className={`searchInput-icon ${onSubmitCallback && 'searchInput-icon-submit'}`} src={search} alt='Search icon' onClick={(): void => onSubmitCallback && onSubmitCallback()}/>
     </div>
   )
 }

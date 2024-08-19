@@ -77,7 +77,7 @@
         "forAuthors": "Pour les auteurs"
       },
       "search": "rechercher",
-      "submit": "Envoyer"
+      "submit": "Déposer"
     },
     "footer": {
       "links": {
@@ -157,7 +157,6 @@
           "email": "Mail",
           "twitter": "X",
           "linkedin": "Linked In",
-          "mastodon": "Mastodon",
           "facebook": "Facebook"
         }
       },

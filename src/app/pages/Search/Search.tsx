@@ -62,84 +62,70 @@ export default function Search(): JSX.Element {
   }, [search, navigate])
 
   const { data: searchResults, isFetching: isFetchingSearchResults } = useFetchSearchResultsQuery({ terms: search ?? '', rvcode: rvcode!, page: currentPage, itemsPerPage: SEARCH_RESULTS_PER_PAGE, types: getSelectedTypes(), years: getSelectedYears(), volumes: getSelectedVolumes(), sections: getSelectedSections(), authors: getSelectedAuthors() }, { skip: !search || !rvcode, refetchOnMountOrArgChange: true })
-
+  
   useEffect(() => {
-    if (searchResults?.range && searchResults.range.types && types.length === 0) {
-      const initTypes = searchResults.range.types
-        .filter((t) => articleTypes.find((at) => at.value === t))
-        .map((t) => {
-        const matchingType = articleTypes.find((at) => at.value === t)
+    if (searchResults?.range) {
+      if (searchResults?.range.types) {
+        const initTypes = searchResults.range.types
+          .filter((t) => articleTypes.find((at) => at.value === t))
+          .map((t) => {
+            const matchingType = articleTypes.find((at) => at.value === t);
+            return {
+              labelPath: matchingType!.labelPath,
+              value: matchingType!.value,
+              isChecked: types.find((type) => type.value === matchingType!.value)?.isChecked || false,
+            };
+          });
+        setTypes(initTypes);
+      }
 
-        return {
-          labelPath: matchingType!.labelPath,
-          value: matchingType!.value,
-          isChecked: false
-        }
-      })
+      if (searchResults?.range.years) {
+        const initYears = searchResults.range.years.map((y) => ({
+          year: y,
+          isChecked: years.find((year) => year.year === y)?.isChecked || false,
+        }));
+        setYears(initYears);
+      }
+  
+      if (searchResults?.range.volumes) {
+        const initVolumes = searchResults.range.volumes[language].map((v) => {
+          const id = parseInt(Object.keys(v)[0]);
+          return {
+            id,
+            label: {
+              en: searchResults.range?.volumes?.en.find(vol => parseInt(Object.keys(vol)[0]) === id)?.[id] || '',
+              fr: searchResults.range?.volumes?.fr.find(vol => parseInt(Object.keys(vol)[0]) === id)?.[id] || '',
+            },
+            isChecked: volumes.find((volume) => volume.id === id)?.isChecked || false,
+          };
+        });
+        setVolumes(initVolumes);
+      }
 
-      setTypes(initTypes)
+      if (searchResults?.range.sections) {
+        const initSections = searchResults.range.sections[language].map((s) => {
+          const id = parseInt(Object.keys(s)[0]);
+          return {
+            id,
+            label: {
+              en: searchResults.range?.sections?.en.find(sec => parseInt(Object.keys(sec)[0]) === id)?.[id] || '',
+              fr: searchResults.range?.sections?.fr.find(sec => parseInt(Object.keys(sec)[0]) === id)?.[id] || '',
+            },
+            isChecked: sections.find((section) => section.id === id)?.isChecked || false,
+          };
+        });
+        setSections(initSections);
+      }
+
+      if (searchResults?.range.authors) {
+        const initAuthors = searchResults.range.authors.map((a) => ({
+          fullname: a,
+          isChecked: authors.find((author) => author.fullname === a)?.isChecked || false,
+        }));
+        setAuthors(initAuthors);
+      }
     }
-  }, [searchResults?.range, searchResults?.range?.types, types])
-
-  useEffect(() => {
-    if (searchResults?.range && searchResults.range.years && years.length === 0) {
-      const initYears = searchResults.range.years.map((y) => ({
-        year: y,
-        isChecked: false
-      }))
-
-      setYears(initYears)
-    }
-  }, [searchResults?.range, searchResults?.range?.years, years])
-
-  useEffect(() => {
-    if (searchResults?.range && searchResults.range.volumes && volumes.length === 0) {
-      const initVolumes = searchResults.range.volumes[language].map((v) => {
-        const id = parseInt(Object.keys(v)[0]);
-
-        return {
-          id,
-          label: {
-            en: searchResults.range?.volumes?.en.find(vol => parseInt(Object.keys(vol)[0]) === id)?.[id] || '',
-            fr: searchResults.range?.volumes?.fr.find(vol => parseInt(Object.keys(vol)[0]) === id)?.[id] || ''
-          },
-          isChecked: false
-        }
-      })
-
-      setVolumes(initVolumes)
-    }
-  }, [searchResults?.range, searchResults?.range?.volumes, volumes])
-
-  useEffect(() => {
-    if (searchResults?.range && searchResults.range.sections && sections.length === 0) {
-      const initSections = searchResults.range.sections[language].map((s) => {
-        const id = parseInt(Object.keys(s)[0]);
-
-        return {
-          id,
-          label: {
-            en: searchResults.range?.sections?.en.find(sec => parseInt(Object.keys(sec)[0]) === id)?.[id] || '',
-            fr: searchResults.range?.sections?.fr.find(sec => parseInt(Object.keys(sec)[0]) === id)?.[id] || ''
-          },
-          isChecked: false
-        }
-      })
-
-      setSections(initSections)
-    }
-  }, [searchResults?.range, searchResults?.range?.sections, sections])
-
-  useEffect(() => {
-    if (searchResults?.range && searchResults.range.authors && authors.length === 0) {
-      const initAuthors = searchResults.range.authors.map((a) => ({
-        fullname: a,
-        isChecked: false
-      }))
-
-      setAuthors(initAuthors)
-    }
-  }, [searchResults?.range, searchResults?.range?.authors, authors])
+  }, [searchResults, language]);
 
   const handlePageClick = (selectedItem: { selected: number }): void => {
     setEnhancedSearchResults([]);
@@ -337,7 +323,7 @@ export default function Search(): JSX.Element {
 
   useEffect(() => {
     setAllTaggedFilters()
-  }, [types, years, volumes, sections, authors])
+  }, [types, years, volumes, sections, authors, search])
 
   useEffect(() => {
     if (searchResults) {

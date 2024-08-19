@@ -11,10 +11,10 @@ import caretDownRed from '/icons/caret-down-red.svg';
 import orcid from '/icons/orcid.svg';
 import { PATHS } from '../../../config/paths'
 import { useAppSelector } from "../../../hooks/store";
-import { useFetchArticleQuery, useLazyFetchArticleMetadatasQuery } from "../../../store/features/article/article.query";
+import { useFetchArticleQuery } from "../../../store/features/article/article.query";
 import { useFetchVolumeQuery } from "../../../store/features/volume/volume.query";
 import { IArticle, IArticleAuthor, IArticleRelatedItem } from "../../../types/article";
-import { articleTypes, getCitations, isDOI, ICitation, LINKED_PUBLICATION_IDENTIFIER_TYPE, METADATA_TYPE } from '../../../utils/article';
+import { articleTypes, getCitations, isDOI, ICitation, LINKED_PUBLICATION_IDENTIFIER_TYPE } from '../../../utils/article';
 import { AvailableLanguage, availableLanguages } from '../../../utils/i18n';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from "../../components/Loader/Loader";
@@ -46,7 +46,6 @@ export default function ArticleDetails(): JSX.Element {
   const { id } = useParams();
   const { data: article, isFetching: isFetchingArticle, isError, error } = useFetchArticleQuery({ paperid: id! }, { skip: !id });
   const { data: relatedVolume, isFetching: isFetchingVolume } = useFetchVolumeQuery({ rvcode: rvcode!, vid: (article && article.volumeId ? article.volumeId.toString() : ''), language: language }, { skip: !article || !article?.volumeId || !rvcode })
-  const [fetchMetadatas] = useLazyFetchArticleMetadatasQuery();
 
 
   const [openedSections, setOpenedSections] = useState<{ key: ARTICLE_SECTION, isOpened: boolean }[]>([
@@ -60,7 +59,20 @@ export default function ArticleDetails(): JSX.Element {
 
   const [authors, setAuthors] = useState<EnhancedArticleAuthor[]>([]);
   const [institutions, setInstitutions] = useState<string[]>([]);
-  const [openedInstitutions, setOpenedInstitutions] = useState(true)
+  const [openedInstitutions, setOpenedInstitutions] = useState(true);
+
+  useEffect(() => {
+    const previewDebounce = 1000
+
+    const timer = setTimeout(() => {
+      if (id) {
+        fetch(`/articles/${id}/preview`);
+      }
+    }, previewDebounce);
+  
+    return () => clearTimeout(timer);
+  }, [id]);
+  
 
   useEffect(() => {
     if (article && !authors.length && !institutions.length) {
@@ -245,9 +257,14 @@ export default function ArticleDetails(): JSX.Element {
     }
 
     if (relatedItem.identifierType === LINKED_PUBLICATION_IDENTIFIER_TYPE.OTHER && relatedItem.value.includes('swh')) {
-      return <Link to={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/${relatedItem.value}`} target='_blank'>
-        <img src={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/badge/${relatedItem.value}`} alt={relatedItem.value} />
-      </Link>
+      return (
+        <div className="articleDetails-content-article-section-content-linkedPublications-swh">
+          <Link to={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/${relatedItem.value}`} target='_blank'>
+            <img src={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/badge/${relatedItem.value}`} alt={relatedItem.value} />
+          </Link>
+          <iframe className="articleDetails-content-article-section-content-linkedPublications-swh-embed" src={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/browse/embed/${relatedItem.value}`}></iframe>
+        </div>
+      )
     }
 
     if (relatedItem.identifierType === LINKED_PUBLICATION_IDENTIFIER_TYPE.OTHER && relatedItem.value.includes('https')) {
@@ -273,29 +290,7 @@ export default function ArticleDetails(): JSX.Element {
   }
 
   const getPreviewSection = (): JSX.Element | null => {
-    return article?.halLink ? <iframe src={article.halLink} className="articleDetails-content-article-section-content-preview" /> : null
-  }
-
-  const onSelectMetadata = async (metadataFormat: METADATA_TYPE): Promise<void> => {
-    fetchMetadatas({ rvcode: rvcode!, paperid: id!, format: metadataFormat })
-      .unwrap()
-      .then((data: BlobPart) => {
-        const blob = new Blob([data])
-        const url = window.URL.createObjectURL(blob);
-        
-        const a = document.createElement("a");
-        a.href = url;
-
-        const extension = metadataFormat === METADATA_TYPE.JSON ? METADATA_TYPE.JSON : 'xml'
-        a.download = `article_${id}_format_${metadataFormat}.${extension}`;
- 
-        document.body.appendChild(a);
-        a.click();
- 
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-      })
-    ;
+    return article?.docLink ? <iframe src={article.docLink} className="articleDetails-content-article-section-content-preview" /> : null
   }
 
   useEffect(() => {
@@ -326,7 +321,7 @@ export default function ArticleDetails(): JSX.Element {
           <ArticleMeta language={language} article={article as IArticle | undefined} currentJournal={currentJournal} keywords={getKeywords()} authors={authors} />
           {article?.tag && <div className='articleDetails-tag'>{t(articleTypes.find((tag) => tag.value === article.tag)?.labelPath!)}</div>}
           <div className="articleDetails-content">
-            <ArticleDetailsSidebar language={language} t={t} article={article as IArticle | undefined} relatedVolume={relatedVolume} citations={citations} onSelectMetadataCallback={onSelectMetadata} />
+            <ArticleDetailsSidebar language={language} t={t} article={article as IArticle | undefined} relatedVolume={relatedVolume} citations={citations} />
             <div className="articleDetails-content-article">
               <h1 className="articleDetails-content-article-title">
                 <MathJax dynamic>{article?.title}</MathJax>
