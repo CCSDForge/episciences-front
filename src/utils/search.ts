@@ -3,29 +3,56 @@ import { SearchRange } from "./pagination";
 
 export const formatSearchRange = (range?: SearchRange) => {
   const searchRange = range as { 
-    year: Record<string, number>,
-    type: Record<string, number>,
-    volume: Record<AvailableLanguage, Record<string, Record<string, number>>>,
-    section: Record<AvailableLanguage, Record<string, Record<string, number>>>,
-    author: Record<string, number>,
+    year?: Record<string, number>,
+    type?: Record<string, number>,
+    volume?: Record<AvailableLanguage, Record<string, Record<string, number>>>,
+    section?: Record<AvailableLanguage, Record<string, Record<string, number>>>,
+    author?: Record<string, number>,
   };
 
-  const volumes = Object.entries(searchRange.volume).reduce((acc, [language, sectionData]) => {
-    acc[language as AvailableLanguage] = formatVolumeOrSection(sectionData);
-    return acc;
-  }, {} as Record<AvailableLanguage, Record<number, string>[]>);
+  let years: number[] = [];
+  if (searchRange.year) {
+    years = Object.keys(searchRange.year).map(y => parseInt(y));
+  }
 
-  const sections = Object.entries(searchRange.section).reduce((acc, [language, sectionData]) => {
-    acc[language as AvailableLanguage] = formatVolumeOrSection(sectionData);
-    return acc;
-  }, {} as Record<AvailableLanguage, Record<number, string>[]>);
+  let types: string[] = [];
+  if (searchRange.type) {
+    types = Object.keys(searchRange.type).map(t => t);
+  }
+
+  let volumes: Record<AvailableLanguage, Record<number, string>[]> = {
+    en: [],
+    fr: []
+  };
+  if (searchRange.volume) {
+    volumes = Object.entries(searchRange.volume).reduce((acc, [language, sectionData]) => {
+      acc[language as AvailableLanguage] = formatVolumeOrSection(sectionData);
+      return acc;
+    }, {} as Record<AvailableLanguage, Record<number, string>[]>);
+  }
+
+  let sections: Record<AvailableLanguage, Record<number, string>[]> = {
+    en: [],
+    fr: []
+  }
+  if (searchRange.section) {
+    sections = Object.entries(searchRange.section).reduce((acc, [language, sectionData]) => {
+      acc[language as AvailableLanguage] = formatVolumeOrSection(sectionData);
+      return acc;
+    }, {} as Record<AvailableLanguage, Record<number, string>[]>);
+  }
+
+  let authors: string[] = [];
+  if (searchRange.author) {
+    authors = Object.keys(searchRange.author).map(a => a)
+  }
 
   return {
-    years: Object.keys(searchRange.year).map(y => parseInt(y)),
-    types: Object.keys(searchRange.type).map(t => t),
-    volumes: volumes,
-    sections: sections,
-    authors: Object.keys(searchRange.author).map(a => a),
+    years,
+    types,
+    volumes,
+    sections,
+    authors,
   }
 }
 

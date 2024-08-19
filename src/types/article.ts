@@ -21,8 +21,7 @@ export interface IArticle {
   modificationDate?: string;
   tag?: string;
   pdfLink?: string;
-  halLink?: string;
-  docLink: string;
+  docLink?: string;
   repositoryIdentifier: string;
   keywords?: string[] | IArticleKeywords;
   doi: string;

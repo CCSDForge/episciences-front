@@ -8,6 +8,7 @@ import logoJpeSmall from '/icons/logo-jpe-small.svg';
 import { PATHS } from '../../../config/paths'
 import { useAppDispatch, useAppSelector } from '../../../hooks/store';
 import { setSearch } from '../../../store/features/search/search.slice';
+import { availableLanguages } from '../../../utils/i18n';
 import { VOLUME_TYPE } from '../../../utils/volume';
 import Button from '../Button/Button';
 import LanguageDropdown from '../LanguageDropdown/LanguageDropdown';
@@ -94,7 +95,7 @@ export default function Header(): JSX.Element {
             <SearchInput value={search ?? ''} placeholder={t('components.header.search')} onChangeCallback={updateSearch} onSubmitCallback={submitSearch} />
           </div>
           <div className='header-postheader-search-submit'>
-            <Button text={t('components.header.submit')} onClickCallback={submitSearch}/>
+            <Button text={t('components.header.submit')} onClickCallback={(): void => {}}/>
           </div>
         </div>
       </div>
@@ -121,9 +122,11 @@ export default function Header(): JSX.Element {
             </Link>
           </div>
           <div className='header-reduced-journal-blank'></div>
-          <div className='header-reduced-journal-dropdown'>
-            <LanguageDropdown />
-          </div>
+          {availableLanguages.length > 1 && (
+            <div className='header-reduced-journal-dropdown'>
+              <LanguageDropdown />
+            </div>
+          )}
         </div>
         {getPostHeaderLinks()}
       </header>
@@ -142,7 +145,9 @@ export default function Header(): JSX.Element {
           <div className='header-preheader-links-access'>
             <Link to={language === 'fr' ? import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_FR : import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_EN} target='_blank'>{t('components.header.journal')}</Link>
           </div>
-          <LanguageDropdown />
+          {availableLanguages.length > 1 && (
+            <LanguageDropdown />
+          )}
         </div>
       </div>
       <div className='header-journal'>

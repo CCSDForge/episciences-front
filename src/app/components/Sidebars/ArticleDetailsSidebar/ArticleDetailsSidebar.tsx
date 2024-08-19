@@ -10,14 +10,13 @@ import externalLink from '/icons/external-link-black.svg';
 import facebook from '/icons/facebook.svg';
 import linkedin from '/icons/linkedin.svg';
 import mail from '/icons/mail.svg';
-import mastodon from '/icons/mastodon.svg';
 import quote from '/icons/quote-black.svg';
 import share from '/icons/share.svg';
 import twitter from '/icons/twitter.svg';
 import { PATHS } from '../../../../config/paths';
 import { IArticle } from '../../../../types/article';
 import { IVolume } from '../../../../types/volume';
-import { ICitation, copyToClipboardCitation, getLicenseTranslations, isDOI, getMetadataTypes, METADATA_TYPE } from '../../../../utils/article';
+import { ICitation, copyToClipboardCitation, getLicenseTranslations, isDOI, getMetadataTypes } from '../../../../utils/article';
 import { formatDate } from '../../../../utils/date';
 import { AvailableLanguage } from '../../../../utils/i18n';
 import { VOLUME_TYPE } from '../../../../utils/volume';
@@ -29,10 +28,9 @@ interface IArticleDetailsSidebarProps {
   article?: IArticle;
   relatedVolume?: IVolume;
   citations: ICitation[];
-  onSelectMetadataCallback: (value: METADATA_TYPE) => void;
 }
 
-export default function ArticleDetailsSidebar({ language, t, article, relatedVolume, citations, onSelectMetadataCallback }: IArticleDetailsSidebarProps): JSX.Element {
+export default function ArticleDetailsSidebar({ language, t, article, relatedVolume, citations }: IArticleDetailsSidebarProps): JSX.Element {
   const [openedPublicationDetails, setOpenedPublicationDetails] = useState(true)
   const [showCitationsDropdown, setShowCitationsDropdown] = useState(false)
   const [showMetadatasDropdown, setShowMetadatasDropdown] = useState(false)
@@ -79,15 +77,15 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
     <div className='articleDetailsSidebar'>
       <div className='articleDetailsSidebar-links'>
         {article?.pdfLink && (
-          <Link to={article?.pdfLink} target='_blank'>
+          <Link to={article?.pdfLink} target='_blank' onClick={(): Promise<Response> => fetch(`/articles/${article.id}/download`)}>
             <div className='articleDetailsSidebar-links-link'>
               <img className='articleDetailsSidebar-links-link-icon' src={download} alt='Download icon' />
               <div className='articleDetailsSidebar-links-link-text'>{t('pages.articleDetails.actions.download')}</div>
             </div>
           </Link>
         )}
-        {article?.halLink && (
-          <Link to={article?.halLink} target='_blank'>
+        {article?.docLink && (
+          <Link to={article?.docLink} target='_blank' onClick={(): Promise<Response> => fetch(`/articles/${article.id}/notice`)}>
             <div className='articleDetailsSidebar-links-link'>
               <img className='articleDetailsSidebar-links-link-icon' src={externalLink} alt='External link icon' />
               <div className='articleDetailsSidebar-links-link-text'>{t('pages.articleDetails.actions.openHAL')}</div>
@@ -122,10 +120,7 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
                 <div className='articleDetailsSidebar-links-link-modal-content' onMouseLeave={(): void => setShowMetadatasDropdown(false)}>
                   <div className='articleDetailsSidebar-links-link-modal-content-links'>
                     {getMetadataTypes.map((metadata, index) => (
-                      <div className='articleDetailsSidebar-links-link-modal-content-links-link' key={index} onClick={(): void => {
-                        onSelectMetadataCallback(metadata.value)
-                        setShowMetadatasDropdown(false)
-                      }}>{metadata.label}</div>
+                      <Link to={`/${PATHS.articles}/${article?.id}/metadata/${metadata.type}`} target='_blank' className='articleDetailsSidebar-links-link-modal-content-links-link' key={index} onClick={(): void => setShowMetadatasDropdown(false)}>{metadata.label}</Link>
                     ))}
                   </div>
                 </div>
@@ -156,12 +151,6 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
                     {t('pages.articleDetails.actions.share.linkedin')}
                   </div>
                 </LinkedinShareButton>
-                <Link to={`${import.meta.env.VITE_MASTODON_HOMEPAGE}/share?text=${encodeURIComponent(article?.title!)}`}>
-                  <div className='articleDetailsSidebar-links-link-modal-content-links-link'>
-                    <img src={mastodon} alt='Mastodon icon' />
-                    {t('pages.articleDetails.actions.share.mastodon')}
-                  </div>
-                </Link>
                 <FacebookShareButton url={window.location.href} title={article?.title}>
                   <div className='articleDetailsSidebar-links-link-modal-content-links-link'>
                     <img src={facebook} alt='Facebook icon' />

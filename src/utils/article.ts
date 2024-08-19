@@ -184,8 +184,7 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
       modificationDate: articleDB.current.dates.modification_date,
       tag: articleDB.current.type?.title.toLowerCase(),
       pdfLink: articleDB.current.repository.paper_url.length ? articleDB.current.repository.paper_url : undefined,
-      halLink: articleDB.current.repository.paper_url.length ? articleDB.current.repository.paper_url : undefined,
-      docLink: articleDB.current.repository.doc_url,
+      docLink: articleDB.current.repository.doc_url.length ? articleDB.current.repository.doc_url : undefined,
       repositoryIdentifier: articleDB.current.identifiers.repository_identifier,
       keywords: articleContent.keywords,
       doi: articleContent.doi_data.doi,
@@ -581,14 +580,20 @@ export enum METADATA_TYPE {
   JSON = 'json'
 }
 
-export const getMetadataTypes: { value: METADATA_TYPE; label: string }[] = [
-  { value: METADATA_TYPE.TEI, label: 'TEI' },
-  { value: METADATA_TYPE.DC, label: 'DC' },
-  { value: METADATA_TYPE.CROSSREF, label: 'Crossref' },
-  { value: METADATA_TYPE.ZBJATS, label: 'ZB Jats' },
-  { value: METADATA_TYPE.DOAJ, label: 'DOAJ' },
-  { value: METADATA_TYPE.BIBTEX, label: 'BibTeX' },
-  { value: METADATA_TYPE.CSL, label: 'CSL' },
-  { value: METADATA_TYPE.OPENAIRE, label: 'OpenAire' },
-  { value: METADATA_TYPE.JSON, label: 'JSON' }
+export enum METADATA_FORMAT {
+  JSON = 'json',
+  TEXT = 'txt',
+  XML = 'xml'
+}
+
+export const getMetadataTypes: { type: METADATA_TYPE; label: string; format: METADATA_FORMAT }[] = [
+  { type: METADATA_TYPE.TEI, label: 'TEI', format: METADATA_FORMAT.XML },
+  { type: METADATA_TYPE.DC, label: 'DC', format: METADATA_FORMAT.XML },
+  { type: METADATA_TYPE.CROSSREF, label: 'Crossref', format: METADATA_FORMAT.XML },
+  { type: METADATA_TYPE.ZBJATS, label: 'ZB Jats', format: METADATA_FORMAT.XML },
+  { type: METADATA_TYPE.DOAJ, label: 'DOAJ', format: METADATA_FORMAT.XML },
+  { type: METADATA_TYPE.BIBTEX, label: 'BibTeX', format: METADATA_FORMAT.TEXT },
+  { type: METADATA_TYPE.CSL, label: 'CSL', format: METADATA_FORMAT.JSON },
+  { type: METADATA_TYPE.OPENAIRE, label: 'OpenAire', format: METADATA_FORMAT.XML },
+  { type: METADATA_TYPE.JSON, label: 'JSON', format: METADATA_FORMAT.JSON }
 ]
