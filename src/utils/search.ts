@@ -1,7 +1,13 @@
 import { AvailableLanguage } from "./i18n";
 import { SearchRange } from "./pagination";
 
-export const formatSearchRange = (range?: SearchRange) => {
+export const formatSearchRange = (range?: SearchRange): {
+  years: { value: number; count: number }[];
+  types: { value: string; count: number }[];
+  volumes: Record<"en" | "fr", Record<number, string>[]>;
+  sections: Record<"en" | "fr", Record<number, string>[]>;
+  authors: { value: string; count: number }[];
+} => {
   const searchRange = range as { 
     year?: Record<string, number>,
     type?: Record<string, number>,
@@ -10,14 +16,20 @@ export const formatSearchRange = (range?: SearchRange) => {
     author?: Record<string, number>,
   };
 
-  let years: number[] = [];
+  let years: { value: number; count: number }[] = [];
   if (searchRange.year) {
-    years = Object.keys(searchRange.year).map(y => parseInt(y));
+    years = Object.entries(searchRange.year).map(y => ({
+      value: parseInt(y[0]),
+      count: y[1]
+    }));
   }
 
-  let types: string[] = [];
+  let types: { value: string; count: number }[] = [];
   if (searchRange.type) {
-    types = Object.keys(searchRange.type).map(t => t);
+    types = Object.entries(searchRange.type).map(t => ({
+      value: t[0],
+      count: t[1]
+    }));
   }
 
   let volumes: Record<AvailableLanguage, Record<number, string>[]> = {
@@ -42,9 +54,12 @@ export const formatSearchRange = (range?: SearchRange) => {
     }, {} as Record<AvailableLanguage, Record<number, string>[]>);
   }
 
-  let authors: string[] = [];
+  let authors: { value: string; count: number }[] = [];
   if (searchRange.author) {
-    authors = Object.keys(searchRange.author).map(a => a)
+    authors = Object.entries(searchRange.author).map(a => ({
+      value: a[0],
+      count: a[1]
+    }));
   }
 
   return {

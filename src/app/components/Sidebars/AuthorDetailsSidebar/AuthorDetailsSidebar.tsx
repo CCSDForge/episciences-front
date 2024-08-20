@@ -7,7 +7,6 @@ import close from '/icons/close-red.svg';
 import { PATHS } from '../../../../config/paths';
 import { IAuthor } from "../../../../types/author";
 import { useFetchAuthorArticlesQuery } from '../../../../store/features/author/author.query';
-import { isDOI } from '../../../../utils/article';
 import { formatDate } from '../../../../utils/date';
 import { AvailableLanguage } from '../../../../utils/i18n';
 import './AuthorDetailsSidebar.scss'
@@ -34,7 +33,7 @@ export default function AuthorDetailsSidebar ({ language, t, rvcode, expandedAut
               <MathJax dynamic>{article.title}</MathJax>
             </div>
             <div className="authorDetailsSidebar-content-article-publicationDate">{`${t('common.publishedOn')} ${formatDate(article.publicationDate, language)}`}</div>
-            {article.doi && isDOI(article.doi) && (
+            {article.doi && (
                 <div className="authorDetailsSidebar-content-article-doi">
                   <div className="authorDetailsSidebar-content-article-doi-text">{t('common.doi')} :</div>
                   <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${article.doi}`} className="authorDetailsSidebar-content-article-doi-link" target='_blank'>{article.doi}</Link>

@@ -67,12 +67,13 @@ export default function Search(): JSX.Element {
     if (searchResults?.range) {
       if (searchResults?.range.types) {
         const initTypes = searchResults.range.types
-          .filter((t) => articleTypes.find((at) => at.value === t))
+          .filter((t) => articleTypes.find((at) => at.value === t.value))
           .map((t) => {
-            const matchingType = articleTypes.find((at) => at.value === t);
+            const matchingType = articleTypes.find((at) => at.value === t.value);
             return {
               labelPath: matchingType!.labelPath,
               value: matchingType!.value,
+              count: t.count,
               isChecked: types.find((type) => type.value === matchingType!.value)?.isChecked || false,
             };
           });
@@ -81,8 +82,9 @@ export default function Search(): JSX.Element {
 
       if (searchResults?.range.years) {
         const initYears = searchResults.range.years.map((y) => ({
-          year: y,
-          isChecked: years.find((year) => year.year === y)?.isChecked || false,
+          year: y.value,
+          count: y.count,
+          isChecked: years.find((year) => year.year === y.value)?.isChecked || false,
         }));
         setYears(initYears);
       }
@@ -119,8 +121,9 @@ export default function Search(): JSX.Element {
 
       if (searchResults?.range.authors) {
         const initAuthors = searchResults.range.authors.map((a) => ({
-          fullname: a,
-          isChecked: authors.find((author) => author.fullname === a)?.isChecked || false,
+          fullname: a.value,
+          count: a.count,
+          isChecked: authors.find((author) => author.fullname === a.value)?.isChecked || false,
         }));
         setAuthors(initAuthors);
       }

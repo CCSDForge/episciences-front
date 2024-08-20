@@ -29,9 +29,9 @@ export interface PaginatedResponseWithSearchRange<T> extends PaginatedResponse<T
 }
 
 export interface SearchRange {
-  types?: string[];
-  years?: number[];
+  types?: { value: string; count: number }[];
+  years?: { value: number; count: number }[];
   volumes?: Record<AvailableLanguage, Record<number, string>[]>;
   sections?: Record<AvailableLanguage, Record<number, string>[]>;
-  authors?: string[];
+  authors?: { value: string; count: number }[];
 }
