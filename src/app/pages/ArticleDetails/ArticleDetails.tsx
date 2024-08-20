@@ -14,7 +14,7 @@ import { useAppSelector } from "../../../hooks/store";
 import { useFetchArticleQuery } from "../../../store/features/article/article.query";
 import { useFetchVolumeQuery } from "../../../store/features/volume/volume.query";
 import { IArticle, IArticleAuthor, IArticleRelatedItem } from "../../../types/article";
-import { articleTypes, getCitations, isDOI, ICitation, LINKED_PUBLICATION_IDENTIFIER_TYPE } from '../../../utils/article';
+import { articleTypes, getCitations, ICitation, LINKED_PUBLICATION_IDENTIFIER_TYPE } from '../../../utils/article';
 import { AvailableLanguage, availableLanguages } from '../../../utils/i18n';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from "../../components/Loader/Loader";
@@ -244,7 +244,7 @@ export default function ArticleDetails(): JSX.Element {
       return <Link to={relatedItem.value} className="articleDetails-content-article-section-content-linkedPublications-uri" target="_blank">{relatedItem.value}</Link>
     }
 
-    if (relatedItem.identifierType === LINKED_PUBLICATION_IDENTIFIER_TYPE.DOI && isDOI(relatedItem.value)) {
+    if (relatedItem.identifierType === LINKED_PUBLICATION_IDENTIFIER_TYPE.DOI) {
       return <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${relatedItem.value}`} className="articleDetails-content-article-section-content-linkedPublications-doi" target="_blank">{relatedItem.value}</Link>
     }
 
@@ -282,7 +282,7 @@ export default function ArticleDetails(): JSX.Element {
       {article?.citations.map((citation, index) => (
         <li key={index} className="articleDetails-content-article-section-content-citations-citation">
           <p>{citation.citation}</p>
-          {citation.doi && isDOI(citation.doi) && <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${citation.doi}`} className="articleDetails-content-article-section-content-citations-citation-doi" target="_blank">{t('common.doi')} : {citation.doi}</Link>}
+          {citation.doi && <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${citation.doi}`} className="articleDetails-content-article-section-content-citations-citation-doi" target="_blank">{t('common.doi')} : {citation.doi}</Link>}
         </li>
       ))}
       </ul>

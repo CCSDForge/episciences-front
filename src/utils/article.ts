@@ -234,8 +234,6 @@ export const articleTypes: { labelPath: string; value: string; }[] = [
   { labelPath: 'pages.articles.types.software', value: ARTICLE_TYPE.SOFTWARE },
 ]
 
-export const isDOI = (doiToBeTested: string): boolean => /^10.\d{4,9}\/[-._;()/:A-Z0-9]+$/i.test(doiToBeTested)
-
 export enum CITATION_TEMPLATE {
   APA = 'APA',
   MLA = 'MLA',

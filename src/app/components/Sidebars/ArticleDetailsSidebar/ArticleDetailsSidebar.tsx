@@ -16,7 +16,7 @@ import twitter from '/icons/twitter.svg';
 import { PATHS } from '../../../../config/paths';
 import { IArticle } from '../../../../types/article';
 import { IVolume } from '../../../../types/volume';
-import { ICitation, copyToClipboardCitation, getLicenseTranslations, isDOI, getMetadataTypes } from '../../../../utils/article';
+import { ICitation, copyToClipboardCitation, getLicenseTranslations, getMetadataTypes } from '../../../../utils/article';
 import { formatDate } from '../../../../utils/date';
 import { AvailableLanguage } from '../../../../utils/i18n';
 import { VOLUME_TYPE } from '../../../../utils/volume';
@@ -198,7 +198,7 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
               <Link to={`${PATHS.volumes}/${relatedVolume.id}`} className='articleDetailsSidebar-volumeDetails-number'>{t('pages.articleDetails.volumeDetails.title')} {relatedVolume.id}</Link>
               {renderSpecialRelatedVolume()}
               <div className='articleDetailsSidebar-volumeDetails-title'>{relatedVolume.title && relatedVolume.title[language]}</div>
-              {article?.doi && isDOI(article.doi) && (
+              {article?.doi && (
                 <div className='articleDetailsSidebar-volumeDetails-doi'>
                   <div>{t('common.doi')}</div>
                   <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${article.doi}`} className='articleDetailsSidebar-volumeDetails-doi-content' target='_blank'>{article.doi}</Link>

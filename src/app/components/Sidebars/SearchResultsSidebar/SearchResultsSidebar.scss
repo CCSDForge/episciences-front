@@ -18,14 +18,31 @@
 
       &-choice {
         display: flex;
-        gap: 18px;
+        justify-content: space-between;
 
-        &-label {
-          cursor: pointer;
+        &-row {
+          display: flex;
+          gap: 18px;
 
-          &-checked {
-            color: var(--black);
+          &-label {
+            cursor: pointer;
+
+            &-checked {
+              color: var(--black);
+            }
           }
+        }
+
+        &-badge {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: var(--red);
+          color: var(--white);
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          font-size: 12px;
         }
       }
     }
@@ -48,14 +65,31 @@
 
         &-choice {
           display: flex;
-          gap: 18px;
-  
-          &-label {
-            cursor: pointer;
-  
-            &-checked {
-              color: var(--black);
+          justify-content: space-between;
+
+          &-row {
+            display: flex;
+            gap: 18px;
+    
+            &-label {
+              cursor: pointer;
+    
+              &-checked {
+                color: var(--black);
+              }
             }
+          }
+
+          &-badge {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--red);
+            color: var(--white);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 12px;
           }
         }
       }
@@ -142,14 +176,31 @@
 
         &-choice {
           display: flex;
-          gap: 18px;
-  
-          &-label {
-            cursor: pointer;
-  
-            &-checked {
-              color: var(--black);
+          justify-content: space-between;
+
+          &-row {
+            display: flex;
+            gap: 18px;
+    
+            &-label {
+              cursor: pointer;
+    
+              &-checked {
+                color: var(--black);
+              }
             }
+          }
+
+          &-badge {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--red);
+            color: var(--white);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 12px;
           }
         }
       }
