@@ -58,6 +58,7 @@ export interface IArticleCitation {
 export interface IArticleRelatedItem {
   value: string;
   identifierType: string;
+  citation?: string;
 }
 
 export type RawArticle = IPartialArticle & IArticle & {
@@ -159,19 +160,23 @@ interface IRawArticleContent {
       inter_work_relation?: {
         '@identifier-type': string;
         value: string;
+        unstructured_citation?: string;
       }
       intra_work_relation?: {
         '@identifier-type': string;
         value: string;
+        unstructured_citation?: string;
       }
     } | {
       inter_work_relation?: {
         '@identifier-type': string;
         value: string;
+        unstructured_citation?: string;
       }
       intra_work_relation?: {
         '@identifier-type': string;
         value: string;
+        unstructured_citation?: string;
       }
     }[]
   } | {
@@ -192,19 +197,23 @@ interface IRawArticleContent {
       inter_work_relation?: {
         '@identifier-type': string;
         value: string;
+        unstructured_citation?: string;
       }
       intra_work_relation?: {
         '@identifier-type': string;
         value: string;
+        unstructured_citation?: string;
       }
     } | {
       inter_work_relation?: {
         '@identifier-type': string;
         value: string;
+        unstructured_citation?: string;
       }
       intra_work_relation?: {
         '@identifier-type': string;
         value: string;
+        unstructured_citation?: string;
       }
     }[]
   }[]

@@ -94,7 +94,7 @@
           }
 
           &-linkedPublications {
-            &-uri, &-doi, &-arxiv, &-hal {
+            &-markdown-link, &-uri, &-doi, &-arxiv, &-hal {
               text-decoration: underline;
             }
 

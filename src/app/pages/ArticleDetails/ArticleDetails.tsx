@@ -3,6 +3,8 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { MathJax } from 'better-react-mathjax';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 import caretUpGrey from '/icons/caret-up-grey.svg';
 import caretDownGrey from '/icons/caret-down-grey.svg';
@@ -16,6 +18,7 @@ import { useFetchVolumeQuery } from "../../../store/features/volume/volume.query
 import { IArticle, IArticleAuthor, IArticleRelatedItem } from "../../../types/article";
 import { articleTypes, getCitations, ICitation, LINKED_PUBLICATION_IDENTIFIER_TYPE } from '../../../utils/article';
 import { AvailableLanguage, availableLanguages } from '../../../utils/i18n';
+import { decodeText } from "../../../utils/markdown";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from "../../components/Loader/Loader";
 import ArticleMeta from "../../components/Meta/ArticleMeta/ArticleMeta";
@@ -240,6 +243,18 @@ export default function ArticleDetails(): JSX.Element {
   }
 
   const getLinkedPublicationRow = (relatedItem: IArticleRelatedItem): JSX.Element => {
+    if (relatedItem.citation) {
+      return (
+        <ReactMarkdown remarkPlugins={[remarkGfm]}
+          components={{
+            a: ({ ...props }) => <Link to={props.href!} target='_blank' className="articleDetails-content-article-section-content-linkedPublications-markdown-link">{props.children?.toString()}</Link>
+          }}
+        >
+          {decodeText(relatedItem.citation)}
+        </ReactMarkdown>
+      )
+    }
+
     if (relatedItem.identifierType === LINKED_PUBLICATION_IDENTIFIER_TYPE.URI) {
       return <Link to={relatedItem.value} className="articleDetails-content-article-section-content-linkedPublications-uri" target="_blank">{relatedItem.value}</Link>
     }

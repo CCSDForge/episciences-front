@@ -17,6 +17,7 @@
     "better-react-mathjax": "^2.0.3",
     "citation-js": "^0.7.14",
     "events": "^3.3.0",
+    "he": "^1.2.0",
     "i18next": "^23.11.4",
     "i18next-browser-languagedetector": "^8.0.0",
     "i18next-http-backend": "^2.5.1",
@@ -35,6 +36,7 @@
     "react-toastify": "^10.0.5",
     "recharts": "^2.12.7",
     "redux-persist": "^6.0.0",
+    "remark-gfm": "^4.0.0",
     "remark-parse": "^11.0.0",
     "remark-stringify": "^11.0.0",
     "swiper": "^11.1.2",
@@ -42,6 +44,7 @@
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
+    "@types/he": "^1.2.3",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@types/xml2js": "^0.4.14",
