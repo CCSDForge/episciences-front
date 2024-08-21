@@ -283,278 +283,192 @@ export const getCitations = async (doi?: string): Promise<ICitation[]> => {
   return citations
 }
 
-export const copyToClipboardCitation = (citation: ICitation, t: TFunction<"translation", undefined>) => {
+export const copyToClipboardCitation = (citation: ICitation, t: TFunction<"translation", undefined>): void => {
   navigator.clipboard.writeText(citation.citation)
   toastSuccess(t('common.citeSuccess', { template: citation.key }))
 }
 
-export const getLicenseTranslations: { value: string; label: Record<AvailableLanguage, string>, isLink?: boolean }[] = [
+export const getLicenseTranslations = (t: TFunction<"translation", undefined>): { value: string; label: string, isLink?: boolean }[] => [
   {
     value: `${import.meta.env.VITE_ARXIV_HOMEPAGE}/licenses/assumed-1991-2003`,
-    label: {
-      en: "arXiv.org - Assumed non-exclusive license to distribute",
-      fr: "arXiv.org - Assumed non-exclusive license to distribute"
-    },
+    label: t('pages.articleDetails.licenses.arxiv.assumed'),
     isLink: true
   },
   {
     value: `${import.meta.env.VITE_ARXIV_HOMEPAGE}/licenses/nonexclusive-distrib/1.0`,
-    label: {
-      en: "arXiv.org - Non-exclusive license to distribute",
-      fr: "arXiv.org - Non-exclusive license to distribute"
-    },
+    label: t('pages.articleDetails.licenses.arxiv.nonExclusive'),
     isLink: true
   },
   {
     value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc/1.0`,
-    label: {
-      en: "Attribution-NonCommercial 1.0 Generic (CC BY-NC 1.0)",
-      fr: "Attribution - Pas d'Utilisation Commerciale 1.0 Générique (CC BY-NC 1.0)"
-    },
+    label: t('pages.articleDetails.licenses.creativeCommons.nonCommercial1.0'),
     isLink: true
   },
   {
     value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc/2.0`,
-    label: {
-      en: "Attribution-NonCommercial 2.0 Generic (CC BY-NC 2.0)",
-      fr: "Attribution - Pas d'Utilisation Commerciale 2.0 Générique (CC BY-NC 2.0)"
-    },
+    label: t('pages.articleDetails.licenses.creativeCommons.nonCommercial2.0'),
     isLink: true
   },
   {
     value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc/2.5`,
-    label: {
-      en: "Attribution-NonCommercial 2.5 Generic (CC BY-NC 2.5)",
-      fr: "Attribution - Pas d'Utilisation Commerciale 2.5 Générique (CC BY-NC 2.5)"
-    },
+    label: t('pages.articleDetails.licenses.creativeCommons.nonCommercial2.5'),
     isLink: true
   },
   {
     value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc/3.0`,
-    label: {
-      en: "Attribution-NonCommercial 3.0 Unported (CC BY-NC 3.0)",
-      fr: "Attribution - Pas d'Utilisation Commerciale 3.0 non transposé (CC BY-NC 3.0)"
-    },
+    label: t('pages.articleDetails.licenses.creativeCommons.nonCommercial3.0'),
     isLink: true
   },
   {
     value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc/4.0`,
-    label: {
-      en: "Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)",
-      fr: "Attribution - Pas d'Utilisation Commerciale 4.0 International (CC BY-NC 4.0)"
-    },
+    label: t('pages.articleDetails.licenses.creativeCommons.nonCommercial4.0'),
     isLink: true
   },
   {
     value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nd/1.0`,
-    label: {
-      en: "Attribution-NoDerivs 1.0 Generic (CC BY-ND 1.0)",
-      fr: "Attribution - Pas de Modification 1.0 Générique (CC BY-ND 1.0)"
-    },
+    label: t('pages.articleDetails.licenses.creativeCommons.noDerivatives1.0'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nd/2.0`,
-    label: {
-      en: "Attribution-NoDerivs 2.0 Generic (CC BY-ND 2.0)",
-      fr: "Attribution - Pas de Modification 2.0 Générique (CC BY-ND 2.0)"
-    },
+  { 
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nd/2.0`,
+    label: t('pages.articleDetails.licenses.creativeCommons.noDerivatives2.0'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nd/2.5`,
-    label: {
-      en: "Attribution-NoDerivs 2.5 Generic (CC BY-ND 2.5)",
-      fr: "Attribution - Pas de Modification 2.5 Générique (CC BY-ND 2.5)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nd/2.5`,
+    label: t('pages.articleDetails.licenses.creativeCommons.noDerivatives2.5'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nd/3.0`,
-    label: {
-      en: "Attribution-NoDerivs 3.0 Unported (CC BY-ND 3.0)",
-      fr: "Attribution - Pas de Modification 3.0 non transposé (CC BY-ND 3.0)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nd/3.0`,
+    label: t('pages.articleDetails.licenses.creativeCommons.noDerivatives3.0'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nd/4.0`,
-    label: {
-      en: "Attribution-NoDerivatives 4.0 International (CC BY-ND 4.0)",
-      fr: "Attribution - Pas de Modification 4.0 International (CC BY-ND 4.0)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nd/4.0`,
+    label: t('pages.articleDetails.licenses.creativeCommons.noDerivatives4.0'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nd-nc/1.0`,
-    label: {
-      en: "Attribution-NoDerivs-NonCommercial 1.0 Generic (CC BY-ND-NC 1.0)",
-      fr: "Attribution - Pas de Modification - Pas d'Utilisation Commerciale 1.0 Générique (CC BY-ND-NC 1.0)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nd-nc/1.0`,
+    label: t('pages.articleDetails.licenses.creativeCommons.noDerivativesNonCommercial1.0'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-nd/2.0`,
-    label: {
-      en: "Attribution-NonCommercial-NoDerivs 2.0 Generic (CC BY-NC-ND 2.0)",
-      fr: "Attribution - Pas d'Utilisation Commerciale - Pas de Modification 2.0 Générique (CC BY-NC-ND 2.0)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-nd/2.0`,
+    label: t('pages.articleDetails.licenses.creativeCommons.noDerivativesNonCommercial2.0'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-nd/2.5`,
-    label: {
-      en: "Attribution-NonCommercial-NoDerivs 2.5 Generic (CC BY-NC-ND 2.5)",
-      fr: "Attribution - Pas d'Utilisation Commerciale - Pas de Modification 2.5 Générique (CC BY-NC-ND 2.5)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-nd/2.5`,
+    label: t('pages.articleDetails.licenses.creativeCommons.noDerivativesNonCommercial2.5'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-nd/3.0`,
-    label: {
-      en: "Attribution-NonCommercial-NoDerivs 3.0 Unported (CC BY-NC-ND 3.0)",
-      fr: "Attribution - Pas d'Utilisation Commerciale - Pas de Modification 3.0 non transposé (CC BY-NC-ND 3.0)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-nd/3.0`,
+    label: t('pages.articleDetails.licenses.creativeCommons.noDerivativesNonCommercial3.0'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-nd/4.0`,
-    label: {
-      en: "Attribution-Non Commercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)",
-      fr: "Attribution - Pas d'Utilisation Commerciale - Pas de Modification 4.0 International (CC BY-NC-ND 4.0)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-nd/4.0`,
+    label: t('pages.articleDetails.licenses.creativeCommons.noDerivativesNonCommercial4.0'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-sa/1.0`,
-    label: {
-      en: "Attribution-NonCommercial-ShareAlike 1.0 Generic (CC BY-NC-SA 1.0)",
-      fr: "Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 1.0 Générique (CC BY-NC-SA 1.0)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-sa/1.0`,
+    label: t('pages.articleDetails.licenses.creativeCommons.nonCommercialShareAlike1.0'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-sa/2.0`,
-    label: {
-      en: "Attribution-NonCommercial-ShareAlike 2.0 Generic (CC BY-NC-SA 2.0)",
-      fr: "Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 2.0 Générique (CC BY-NC-SA 2.0)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-sa/2.0`,
+    label: t('pages.articleDetails.licenses.creativeCommons.nonCommercialShareAlike2.0'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-sa/2.5`,
-    label: {
-      en: "Attribution-NonCommercial-ShareAlike 2.5 Generic (CC BY-NC-SA 2.5)",
-      fr: "Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 2.5 Générique (CC BY-NC-SA 2.5)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-sa/2.5`,
+    label: t('pages.articleDetails.licenses.creativeCommons.nonCommercialShareAlike2.5'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-sa/3.0`,
-    label: {
-      en: "Attribution-Non Commercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0)",
-      fr: "Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 3.0 non transposé (CC BY-NC-SA 3.0)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-sa/3.0`,
+    label: t('pages.articleDetails.licenses.creativeCommons.nonCommercialShareAlike3.0'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-sa/4.0`,
-    label: {
-      en: "Attribution-Non Commercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)",
-      fr: "Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International (CC BY-NC-SA 4.0)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-nc-sa/4.0`,
+    label: t('pages.articleDetails.licenses.creativeCommons.nonCommercialShareAlike4.0'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-sa/1.0`,
-    label: {
-      en: "Attribution 1.0 Generic (CC BY 1.0)",
-      fr: "Attribution - Partage dans les Mêmes Conditions 1.0 Générique (CC BY-SA 1.0)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-sa/1.0`,
+    label: t('pages.articleDetails.licenses.creativeCommons.shareAlike1.0'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-sa/2.0`,
-    label: {
-      en: "Attribution 2.0 Generic (CC BY 2.0)",
-      fr: "Attribution - Partage dans les Mêmes Conditions 2.0 Générique (CC BY-SA 2.0)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-sa/2.0`,
+    label: t('pages.articleDetails.licenses.creativeCommons.shareAlike2.0'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-sa/2.5`,
-    label: {
-      en: "Attribution 2.5 Generic (CC BY 2.5)",
-      fr: "Attribution - Partage dans les Mêmes Conditions 2.5 Générique (CC BY-SA 2.5)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-sa/2.5`,
+    label: t('pages.articleDetails.licenses.creativeCommons.shareAlike2.5'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-sa/3.0`,
-    label: {
-      en: "Attribution 3.0 Unported (CC BY 3.0)",
-      fr: "Attribution - Partage dans les Mêmes Conditions 3.0 non transposé (CC BY-SA 3.0)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-sa/3.0`,
+    label: t('pages.articleDetails.licenses.creativeCommons.shareAlike3.0'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-sa/4.0`,
-    label: {
-      en: "Attribution 4.0 International (CC BY 4.0)",
-      fr: "Attribution - Partage dans les Mêmes Conditions 4.0 International (CC BY-SA 4.0)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by-sa/4.0`,
+    label: t('pages.articleDetails.licenses.creativeCommons.shareAlike4.0'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by/1.0`,
-    label: {
-      en: "Attribution 1.0 Generic (CC BY 1.0)",
-      fr: "Attribution 1.0 Générique (CC BY 1.0)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by/1.0`,
+    label: t('pages.articleDetails.licenses.creativeCommons.generic1.0'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by/2.0`,
-    label: {
-      en: "Attribution 2.0 Generic (CC BY 2.0)",
-      fr: "Attribution 2.0 Générique (CC BY 2.0)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by/2.0`,
+    label: t('pages.articleDetails.licenses.creativeCommons.generic2.0'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by/2.5`,
-    label: {
-      en: "Attribution 2.5 Generic (CC BY 2.5)",
-      fr: "Attribution 2.5 Générique (CC BY 2.5)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by/2.5`,
+    label: t('pages.articleDetails.licenses.creativeCommons.generic2.5'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by/3.0`,
-    label: {
-      en: "Attribution 3.0 Unported (CC BY 3.0)",
-      fr: "Attribution 3.0 non transposé (CC BY 3.0)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by/3.0`,
+    label: t('pages.articleDetails.licenses.creativeCommons.generic3.0'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by/4.0`,
-    label: {
-      en: "Attribution 4.0 International (CC BY 4.0)",
-      fr: "Attribution 4.0 International (CC BY 4.0)"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/licenses/by/4.0`,
+    label: t('pages.articleDetails.licenses.creativeCommons.generic4.0'),
     isLink: true
   },
-  { value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/publicdomain/zero/1.0`,
-    label: {
-      en: "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
-      fr: "CC0 1.0 universel (CC0 1.0) Transfert dans le Domaine Public"
-    },
+  {
+    value: `${import.meta.env.VITE_CREATIVE_COMMONS_HOMEPAGE}/publicdomain/zero/1.0`,
+    label: t('pages.articleDetails.licenses.creativeCommons.zero1.0'),
     isLink: true
   },
   {
     value: "info:eu-repo/semantics/closedAccess",
-    label: {
-      en: "Closed Access",
-      fr: "Accès fermé"
-    }
+    label: t('pages.articleDetails.licenses.others.closedAccess')
   },
   {
     value: "info:eu-repo/semantics/embargoedAccess",
-    label: {
-      en: "Embargoed Access",
-      fr: "Accès sous embargo"
-    }
+    label: t('pages.articleDetails.licenses.others.embargoedAccess')
   },
   {
     value: "info:eu-repo/semantics/restrictedAccess",
-    label: {
-      en: "Restricted Access",
-      fr: "Accès restreint"
-    }
+    label: t('pages.articleDetails.licenses.others.restrictedAccess')
   },
   {
     value: "info:eu-repo/semantics/openAccess",
-    label: {
-      en: "Open Access",
-      fr: "Accès ouvert"
-    }
+    label: t('pages.articleDetails.licenses.others.openAccess')
   }
 ]
 

@@ -172,6 +172,51 @@
         "proceeding": "Acte de conférence"
       },
       "license": "Licence",
+      "licenses": {
+        "arxiv": {
+          "assumed": "arXiv.org - Assumed non-exclusive license to distribute",
+          "nonExclusive": "arXiv.org - Non-exclusive license to distribute"
+        },
+        "creativeCommons": {
+          "nonCommercial1.0": "Attribution - Pas d'Utilisation Commerciale 1.0 Générique (CC BY-NC 1.0)",
+          "nonCommercial2.0": "Attribution - Pas d'Utilisation Commerciale 2.0 Générique (CC BY-NC 2.0)",
+          "nonCommercial2.5": "Attribution - Pas d'Utilisation Commerciale 2.5 Générique (CC BY-NC 2.5)",
+          "nonCommercial3.0": "Attribution - Pas d'Utilisation Commerciale 3.0 non transposé (CC BY-NC 3.0)",
+          "nonCommercial4.0": "Attribution - Pas d'Utilisation Commerciale 4.0 International (CC BY-NC 4.0)",
+          "noDerivatives1.0": "Attribution - Pas de Modification 1.0 Générique (CC BY-ND 1.0)",
+          "noDerivatives2.0": "Attribution - Pas de Modification 2.0 Générique (CC BY-ND 2.0)",
+          "noDerivatives2.5": "Attribution - Pas de Modification 2.5 Générique (CC BY-ND 2.5)",
+          "noDerivatives3.0": "Attribution - Pas de Modification 3.0 non transposé (CC BY-ND 3.0)",
+          "noDerivatives4.0": "Attribution - Pas de Modification 4.0 International (CC BY-ND 4.0)",
+          "noDerivativesNonCommercial1.0": "Attribution - Pas de Modification - Pas d'Utilisation Commerciale 1.0 Générique (CC BY-ND-NC 1.0)",
+          "noDerivativesNonCommercial2.0": "Attribution - Pas d'Utilisation Commerciale - Pas de Modification 2.0 Générique (CC BY-NC-ND 2.0)",
+          "noDerivativesNonCommercial2.5": "Attribution - Pas d'Utilisation Commerciale - Pas de Modification 2.5 Générique (CC BY-NC-ND 2.5)",
+          "noDerivativesNonCommercial3.0": "Attribution - Pas d'Utilisation Commerciale - Pas de Modification 3.0 non transposé (CC BY-NC-ND 3.0)",
+          "noDerivativesNonCommercial4.0": "Attribution - Pas d'Utilisation Commerciale - Pas de Modification 4.0 International (CC BY-NC-ND 4.0)",
+          "nonCommercialShareAlike1.0": "Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 1.0 Générique (CC BY-NC-SA 1.0)",
+          "nonCommercialShareAlike2.0": "Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 2.0 Générique (CC BY-NC-SA 2.0)",
+          "nonCommercialShareAlike2.5": "Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 2.5 Générique (CC BY-NC-SA 2.5)",
+          "nonCommercialShareAlike3.0": "Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 3.0 non transposé (CC BY-NC-SA 3.0)",
+          "nonCommercialShareAlike4.0": "Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International (CC BY-NC-SA 4.0)",
+          "shareAlike1.0": "Attribution - Partage dans les Mêmes Conditions 1.0 Générique (CC BY-SA 1.0)",
+          "shareAlike2.0": "Attribution - Partage dans les Mêmes Conditions 2.0 Générique (CC BY-SA 2.0)",
+          "shareAlike2.5": "Attribution - Partage dans les Mêmes Conditions 2.5 Générique (CC BY-SA 2.5)",
+          "shareAlike3.0": "Attribution - Partage dans les Mêmes Conditions 3.0 non transposé (CC BY-SA 3.0)",
+          "shareAlike4.0": "Attribution - Partage dans les Mêmes Conditions 4.0 International (CC BY-SA 4.0)",
+          "generic1.0": "Attribution 1.0 Générique (CC BY 1.0)",
+          "generic2.0": "Attribution 2.0 Générique (CC BY 2.0)",
+          "generic2.5": "Attribution 2.5 Générique (CC BY 2.5)",
+          "generic3.0": "Attribution 3.0 non transposé (CC BY 3.0)",
+          "generic4.0": "Attribution 4.0 International (CC BY 4.0)",
+          "zero1.0": "CC0 1.0 universel (CC0 1.0) Transfert dans le Domaine Public"
+        },
+        "others": {
+          "closedAccess": "Accès fermé",
+          "embargoedAccess": "Accès sous embargo",
+          "restrictedAccess": "Accès restreint",
+          "openAccess": "Accès ouvert"
+        }
+      },
       "funding": "Financement",
       "metrics": {
         "title": "Indicateurs",

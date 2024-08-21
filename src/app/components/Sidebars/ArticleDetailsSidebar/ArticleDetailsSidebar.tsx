@@ -58,16 +58,16 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
   const renderLicenseContent = (): JSX.Element | null => {
     if (!article) return null;
 
-    const translatedLicense = getLicenseTranslations.find(lt => lt.value === article.license)
+    const translatedLicense = getLicenseTranslations(t).find(lt => lt.value === article.license)
 
     if (!translatedLicense) return null
     return (
       <div className='articleDetailsSidebar-volumeDetails-license'>
         <div>{t('pages.articleDetails.license')}</div>
         {translatedLicense.isLink ? (
-          <Link to={translatedLicense.value} className='articleDetailsSidebar-volumeDetails-license-content articleDetailsSidebar-volumeDetails-license-content-link' target='_blank'>{translatedLicense.label[language]}</Link>
+          <Link to={translatedLicense.value} className='articleDetailsSidebar-volumeDetails-license-content articleDetailsSidebar-volumeDetails-license-content-link' target='_blank'>{translatedLicense.label}</Link>
         ) : (
-          <div className='articleDetailsSidebar-volumeDetails-license-content'>{translatedLicense.label[language]}</div>
+          <div className='articleDetailsSidebar-volumeDetails-license-content'>{translatedLicense.label}</div>
         )}
       </div>
     )
