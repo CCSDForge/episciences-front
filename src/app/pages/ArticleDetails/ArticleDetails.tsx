@@ -16,7 +16,7 @@ import { useAppSelector } from "../../../hooks/store";
 import { useFetchArticleQuery } from "../../../store/features/article/article.query";
 import { useFetchVolumeQuery } from "../../../store/features/volume/volume.query";
 import { IArticle, IArticleAuthor, IArticleRelatedItem } from "../../../types/article";
-import { articleTypes, getCitations, ICitation, LINKED_PUBLICATION_IDENTIFIER_TYPE } from '../../../utils/article';
+import { articleTypes, getCitations, ICitation, interworkRelationShipTypes, LINKED_PUBLICATION_IDENTIFIER_TYPE } from '../../../utils/article';
 import { AvailableLanguage, availableLanguages } from '../../../utils/i18n';
 import { decodeText } from "../../../utils/markdown";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
@@ -243,50 +243,86 @@ export default function ArticleDetails(): JSX.Element {
   }
 
   const getLinkedPublicationRow = (relatedItem: IArticleRelatedItem): JSX.Element => {
+    const relationship = interworkRelationShipTypes.find(relationship => relationship.value === relatedItem.relationshipType)?.labelPath
+
     if (relatedItem.citation) {
       return (
-        <ReactMarkdown remarkPlugins={[remarkGfm]}
-          components={{
-            a: ({ ...props }) => <Link to={props.href!} target='_blank' className="articleDetails-content-article-section-content-linkedPublications-markdown-link">{props.children?.toString()}</Link>
-          }}
-        >
-          {decodeText(relatedItem.citation)}
-        </ReactMarkdown>
+        <div className="articleDetails-content-article-section-content-linkedPublications-publication">
+          {relationship && <div className="articleDetails-content-article-section-content-linkedPublications-publication-badge">{t(relationship)}</div>}
+          <ReactMarkdown remarkPlugins={[remarkGfm]}
+            components={{
+              a: ({ ...props }) => <Link to={props.href!} target='_blank' className="articleDetails-content-article-section-content-linkedPublications-publication-markdown-link">{props.children?.toString()}</Link>
+            }}
+          >
+            {decodeText(relatedItem.citation)}
+          </ReactMarkdown>
+        </div>
       )
     }
 
     if (relatedItem.identifierType === LINKED_PUBLICATION_IDENTIFIER_TYPE.URI) {
-      return <Link to={relatedItem.value} className="articleDetails-content-article-section-content-linkedPublications-uri" target="_blank">{relatedItem.value}</Link>
+      return (
+        <div className="articleDetails-content-article-section-content-linkedPublications-publication">
+          {relationship && <div className="articleDetails-content-article-section-content-linkedPublications-publication-badge">{t(relationship)}</div>}
+          <Link to={relatedItem.value} className="articleDetails-content-article-section-content-linkedPublications-publication-uri" target="_blank">{relatedItem.value}</Link>
+        </div>
+      )
     }
 
     if (relatedItem.identifierType === LINKED_PUBLICATION_IDENTIFIER_TYPE.DOI) {
-      return <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${relatedItem.value}`} className="articleDetails-content-article-section-content-linkedPublications-doi" target="_blank">{relatedItem.value}</Link>
+      return (
+        <div className="articleDetails-content-article-section-content-linkedPublications-publication">
+          {relationship && <div className="articleDetails-content-article-section-content-linkedPublications-publication-badge">{t(relationship)}</div>}
+          <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${relatedItem.value}`} className="articleDetails-content-article-section-content-linkedPublications-publication-doi" target="_blank">{relatedItem.value}</Link>
+        </div>
+      )
     }
 
     if (relatedItem.identifierType === LINKED_PUBLICATION_IDENTIFIER_TYPE.ARXIV) {
-      return <Link to={`${import.meta.env.VITE_ARXIV_HOMEPAGE}/abs/${relatedItem.value}`} className="articleDetails-content-article-section-content-linkedPublications-arxiv" target="_blank">{relatedItem.value}</Link>
+      return (
+        <div className="articleDetails-content-article-section-content-linkedPublications-publication">
+          {relationship && <div className="articleDetails-content-article-section-content-linkedPublications-publication-badge">{t(relationship)}</div>}
+          <Link to={`${import.meta.env.VITE_ARXIV_HOMEPAGE}/abs/${relatedItem.value}`} className="articleDetails-content-article-section-content-linkedPublications-publication-arxiv" target="_blank">{relatedItem.value}</Link>
+        </div>
+      )
     }
 
     if (relatedItem.identifierType === LINKED_PUBLICATION_IDENTIFIER_TYPE.HAL) {
-      return <Link to={`${import.meta.env.VITE_HAL_HOMEPAGE}/${relatedItem.value}`} className="articleDetails-content-article-section-content-linkedPublications-hal" target="_blank">{relatedItem.value}</Link>
+      return (
+        <div className="articleDetails-content-article-section-content-linkedPublications-publication">
+          {relationship && <div className="articleDetails-content-article-section-content-linkedPublications-publication-badge">{t(relationship)}</div>}
+          <Link to={`${import.meta.env.VITE_HAL_HOMEPAGE}/${relatedItem.value}`} className="articleDetails-content-article-section-content-linkedPublications-publication-hal" target="_blank">{relatedItem.value}</Link>
+        </div>
+      )
     }
 
     if (relatedItem.identifierType === LINKED_PUBLICATION_IDENTIFIER_TYPE.OTHER && relatedItem.value.includes('swh')) {
       return (
-        <div className="articleDetails-content-article-section-content-linkedPublications-swh">
+        <div className="articleDetails-content-article-section-content-linkedPublications-publication">
+          {relationship && <div className="articleDetails-content-article-section-content-linkedPublications-publication-badge">{t(relationship)}</div>}
           <Link to={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/${relatedItem.value}`} target='_blank'>
             <img src={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/badge/${relatedItem.value}`} alt={relatedItem.value} />
           </Link>
-          <iframe className="articleDetails-content-article-section-content-linkedPublications-swh-embed" src={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/browse/embed/${relatedItem.value}`}></iframe>
+          <iframe className="articleDetails-content-article-section-content-linkedPublications-publication-embed" src={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/browse/embed/${relatedItem.value}`}></iframe>
         </div>
       )
     }
 
     if (relatedItem.identifierType === LINKED_PUBLICATION_IDENTIFIER_TYPE.OTHER && relatedItem.value.includes('https')) {
-      return <Link to={relatedItem.value} className="articleDetails-content-article-section-content-linkedPublications-uri" target="_blank">{relatedItem.value}</Link>
+      return (
+        <div className="articleDetails-content-article-section-content-linkedPublications-publication">
+          {relationship && <div className="articleDetails-content-article-section-content-linkedPublications-publication-badge">{t(relationship)}</div>}
+          <Link to={relatedItem.value} className="articleDetails-content-article-section-content-linkedPublications-publication-uri" target="_blank">{relatedItem.value}</Link>
+        </div>
+      )
     }
 
-    return <>{relatedItem.value}</>
+    return (
+      <div className="articleDetails-content-article-section-content-linkedPublications-publication">
+        {relationship && <div className="articleDetails-content-article-section-content-linkedPublications-publication-badge">{t(relationship)}</div>}
+        <div>{relatedItem.value}</div>
+      </div>
+    )
   }
 
   const getCitedBySection = (): JSX.Element | null  => {

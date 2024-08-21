@@ -58,6 +58,7 @@ export interface IArticleCitation {
 export interface IArticleRelatedItem {
   value: string;
   identifierType: string;
+  relationshipType: string;
   citation?: string;
 }
 
@@ -159,22 +160,26 @@ interface IRawArticleContent {
     related_item?: {
       inter_work_relation?: {
         '@identifier-type': string;
+        '@relationship-type': string;
         value: string;
         unstructured_citation?: string;
       }
       intra_work_relation?: {
         '@identifier-type': string;
+        '@relationship-type': string;
         value: string;
         unstructured_citation?: string;
       }
     } | {
       inter_work_relation?: {
         '@identifier-type': string;
+        '@relationship-type': string;
         value: string;
         unstructured_citation?: string;
       }
       intra_work_relation?: {
         '@identifier-type': string;
+        '@relationship-type': string;
         value: string;
         unstructured_citation?: string;
       }
@@ -196,22 +201,26 @@ interface IRawArticleContent {
     related_item?: {
       inter_work_relation?: {
         '@identifier-type': string;
+        '@relationship-type': string;
         value: string;
         unstructured_citation?: string;
       }
       intra_work_relation?: {
         '@identifier-type': string;
+        '@relationship-type': string;
         value: string;
         unstructured_citation?: string;
       }
     } | {
       inter_work_relation?: {
         '@identifier-type': string;
+        '@relationship-type': string;
         value: string;
         unstructured_citation?: string;
       }
       intra_work_relation?: {
         '@identifier-type': string;
+        '@relationship-type': string;
         value: string;
         unstructured_citation?: string;
       }
