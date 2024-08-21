@@ -83,25 +83,29 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
             if (item.inter_work_relation) {
               relatedItems.push({
                 value: item.inter_work_relation?.value,
-                identifierType: item.inter_work_relation['@identifier-type']
+                identifierType: item.inter_work_relation['@identifier-type'],
+                citation: item.inter_work_relation.unstructured_citation
               });
             }
             if (item.intra_work_relation) {
               relatedItems.push({
                 value: item.intra_work_relation?.value,
-                identifierType: item.intra_work_relation['@identifier-type']
+                identifierType: item.intra_work_relation['@identifier-type'],
+                citation: item.intra_work_relation.unstructured_citation
               });
             }
           })
         } else if (prog?.related_item?.inter_work_relation) {
           relatedItems.push({
             value: prog.related_item.inter_work_relation?.value,
-            identifierType: prog.related_item.inter_work_relation['@identifier-type']
+            identifierType: prog.related_item.inter_work_relation['@identifier-type'],
+            citation: prog.related_item.inter_work_relation.unstructured_citation
           });
         } else if (prog?.related_item?.intra_work_relation) {
           relatedItems.push({
             value: prog.related_item.intra_work_relation?.value,
-            identifierType: prog.related_item.intra_work_relation['@identifier-type']
+            identifierType: prog.related_item.intra_work_relation['@identifier-type'],
+            citation: prog.related_item.intra_work_relation.unstructured_citation
           });
         }
       })
@@ -111,25 +115,29 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
           if (item.inter_work_relation) {
             relatedItems.push({
               value: item.inter_work_relation?.value,
-              identifierType: item.inter_work_relation['@identifier-type']
+              identifierType: item.inter_work_relation['@identifier-type'],
+              citation: item.inter_work_relation.unstructured_citation
             });
           }
           if (item.intra_work_relation) {
             relatedItems.push({
               value: item.intra_work_relation?.value,
-              identifierType: item.intra_work_relation['@identifier-type']
+              identifierType: item.intra_work_relation['@identifier-type'],
+              citation: item.intra_work_relation.unstructured_citation
             });
           }
       })
       } else if (articleContent.program?.related_item?.inter_work_relation) {
         relatedItems.push({
           value: articleContent.program.related_item.inter_work_relation?.value,
-          identifierType: articleContent.program.related_item.inter_work_relation['@identifier-type']
+          identifierType: articleContent.program.related_item.inter_work_relation['@identifier-type'],
+          citation: articleContent.program.related_item.inter_work_relation.unstructured_citation
         });
       } else if (articleContent.program?.related_item?.intra_work_relation) {
         relatedItems.push({
           value: articleContent.program.related_item.intra_work_relation?.value,
-          identifierType: articleContent.program.related_item.intra_work_relation['@identifier-type']
+          identifierType: articleContent.program.related_item.intra_work_relation['@identifier-type'],
+          citation: articleContent.program.related_item.intra_work_relation.unstructured_citation
         });
       }
     }
