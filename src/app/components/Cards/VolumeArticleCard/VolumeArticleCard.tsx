@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TFunction } from 'i18next';
+import { MathJax } from 'better-react-mathjax';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -27,9 +28,11 @@ export default function VolumeArticleCard({ language, t, article }: IVolumeArtic
     <div className="volumeArticleCard">
       {article.tag && <div className='volumeArticleCard-tag'>{t(articleTypes.find((tag) => tag.value === article.tag)?.labelPath!)}</div>}
       <Link to={`/${PATHS.articles}/${article.id}`}>
-        <div className='volumeArticleCard-title'>{article.title}</div>
+        <div className='volumeArticleCard-title'>
+          <MathJax dynamic>{article.title}</MathJax>
+        </div>
       </Link>
-      <div className='volumeArticleCard-authors'>{article.authors}</div>
+      <div className='volumeArticleCard-authors'>{article.authors.map(author => author.fullname).join(', ')}</div>
       {article.abstract && (
         <div className='volumeArticleCard-abstract'>
           <div className={`volumeArticleCard-abstract-title ${!openedAbstract && 'volumeArticleCard-abstract-title-closed'}`} onClick={toggleAbstract}>
@@ -40,18 +43,22 @@ export default function VolumeArticleCard({ language, t, article }: IVolumeArtic
               <img className='volumeArticleCard-abstract-title-caret' src={caretDown} alt='Caret down icon' />
             )}
           </div>
-          <div className={`volumeArticleCard-abstract-content ${openedAbstract && 'volumeArticleCard-abstract-content-opened'}`}>{article.abstract}</div>
+          <div className={`volumeArticleCard-abstract-content ${openedAbstract && 'volumeArticleCard-abstract-content-opened'}`}>
+            <MathJax dynamic>{article.abstract}</MathJax>
+          </div>
         </div>
       )}
       <div className='volumeArticleCard-anchor'>
         <div className='volumeArticleCard-anchor-publicationDate'>{`${t('common.publishedOn')} ${formatDate(article?.publicationDate!, language)}`}</div>
         <div className="volumeArticleCard-anchor-icons">
-          <Link to={article.pdfLink} target='_blank'>
-            <div className="volumeArticleCard-anchor-icons-download">
-              <img className="volumeArticleCard-anchor-icons-download-download-icon" src={download} alt='Download icon' />
-              <div className="volumeArticleCard-anchor-icons-download-text">{t('common.pdf')}</div>
-            </div>
-          </Link>
+          {article.pdfLink && (
+            <Link to={article.pdfLink} target='_blank'>
+              <div className="volumeArticleCard-anchor-icons-download">
+                <img className="volumeArticleCard-anchor-icons-download-download-icon" src={download} alt='Download icon' />
+                <div className="volumeArticleCard-anchor-icons-download-text">{t('common.pdf')}</div>
+              </div>
+            </Link>
+          )}
         </div>
       </div>
     </div>

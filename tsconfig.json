@@ -20,6 +20,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
+  "files": ["global.d.ts"],
   "include": ["src", "./node_modules/redux-persist/types"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

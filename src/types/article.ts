@@ -13,20 +13,33 @@ export interface IArticle {
   id: number;
   title: string;
   abstract?: string;
-  authors: string;
+  graphicalAbstract?: string;
+  authors: IArticleAuthor[];
   publicationDate: string;
   acceptanceDate?: string;
   submissionDate?: string;
+  modificationDate?: string;
   tag?: string;
-  pdfLink: string;
-  halLink: string;
-  docLink: string;
+  pdfLink?: string;
+  docLink?: string;
   repositoryIdentifier: string;
   keywords?: string[] | IArticleKeywords;
   doi: string;
   volumeId?: number;
   citations?: IArticleCitation[];
-  relatedItems?: string[];
+  relatedItems?: IArticleRelatedItem[];
+  fundings?: string[];
+  license?: string;
+  metrics?: {
+    views: number;
+    downloads: number;
+  }
+}
+
+export interface IArticleAuthor {
+  fullname: string;
+  orcid?: string;
+  institutions?: string[];
 }
 
 export type IArticleRecordKeywords = {
@@ -40,6 +53,13 @@ export interface IArticleKeywords extends IArticleRecordKeywords {
 export interface IArticleCitation {
   doi?: string;
   citation: string;
+}
+
+export interface IArticleRelatedItem {
+  value: string;
+  identifierType: string;
+  relationshipType: string;
+  citation?: string;
 }
 
 export type RawArticle = IPartialArticle & IArticle & {
@@ -56,7 +76,9 @@ export type RawArticle = IPartialArticle & IArticle & {
           dates: {
             publication_date: string;
             first_submission_date: string;
+            modification_date: string;
           }
+          graphical_abstract_file?: string;
           files: {
             link: string;
           } | {
@@ -71,6 +93,10 @@ export type RawArticle = IPartialArticle & IArticle & {
           }
           volume?: {
             id: number;
+          }
+          metrics?: {
+            file_count: number;
+            page_count: number;
           }
         }
       }
@@ -95,23 +121,111 @@ interface IRawArticleContent {
       surname: string;
       '@sequence': string;
       given_name: string;
+      ORCID?: string;
+      affiliations?: {
+        institution?: {
+          institution_name: string;
+        } | {
+          institution_name: string;
+        }[]
+      }
     } | {
       surname: string;
       '@sequence': string;
       given_name: string;
+      ORCID?: string;
+      affiliations?: {
+        institution?: {
+          institution_name: string;
+        } | {
+          institution_name: string;
+        }[]
+      }
     }[]
   }
   program?: {
-    related_item?: {
-      inter_work_relation?: {
+    '@name'?: string;
+    assertion?: {
+      assertion?: {
         value: string;
       }
     } | {
-      inter_work_relation?: {
+      assertion?: {
         value: string;
+      }[]
+    }
+    license_ref?: {
+      value: string;
+    }
+    related_item?: {
+      inter_work_relation?: {
+        '@identifier-type': string;
+        '@relationship-type': string;
+        value: string;
+        unstructured_citation?: string;
+      }
+      intra_work_relation?: {
+        '@identifier-type': string;
+        '@relationship-type': string;
+        value: string;
+        unstructured_citation?: string;
+      }
+    } | {
+      inter_work_relation?: {
+        '@identifier-type': string;
+        '@relationship-type': string;
+        value: string;
+        unstructured_citation?: string;
+      }
+      intra_work_relation?: {
+        '@identifier-type': string;
+        '@relationship-type': string;
+        value: string;
+        unstructured_citation?: string;
       }
     }[]
-  }
+  } | {
+    '@name'?: string;
+    assertion?: {
+      assertion?: {
+        value: string;
+      }
+    } | {
+      assertion?: {
+        value: string;
+      }[]
+    }
+    license_ref?: {
+      value: string;
+    }
+    related_item?: {
+      inter_work_relation?: {
+        '@identifier-type': string;
+        '@relationship-type': string;
+        value: string;
+        unstructured_citation?: string;
+      }
+      intra_work_relation?: {
+        '@identifier-type': string;
+        '@relationship-type': string;
+        value: string;
+        unstructured_citation?: string;
+      }
+    } | {
+      inter_work_relation?: {
+        '@identifier-type': string;
+        '@relationship-type': string;
+        value: string;
+        unstructured_citation?: string;
+      }
+      intra_work_relation?: {
+        '@identifier-type': string;
+        '@relationship-type': string;
+        value: string;
+        unstructured_citation?: string;
+      }
+    }[]
+  }[]
   citation_list?: {
     citation?: {
       doi: string;

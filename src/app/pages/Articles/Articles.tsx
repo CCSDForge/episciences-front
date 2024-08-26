@@ -21,7 +21,7 @@ interface IArticleFilter {
   labelPath?: string;
 }
 
-type ArticleWithAbstractToggle = FetchedArticle & {
+type EnhancedArticle = FetchedArticle & {
   openedAbstract: boolean;
 }
 
@@ -34,7 +34,7 @@ export default function Articles(): JSX.Element {
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [articlesWithAbstractToggle, setArticlesWithAbstractToggle] = useState<ArticleWithAbstractToggle[]>([])
+  const [enhancedArticles, setEnhancedArticles] = useState<EnhancedArticle[]>([])
   const [types, setTypes] = useState<IArticleTypeSelection[]>([])
   const [years, setYears] = useState<IArticleYearSelection[]>([]);
   const [taggedFilters, setTaggedFilters] = useState<IArticleFilter[]>([]);
@@ -75,7 +75,7 @@ export default function Articles(): JSX.Element {
   }, [articles?.range, articles?.range?.years, years])
 
   const handlePageClick = (selectedItem: { selected: number }): void => {
-    setArticlesWithAbstractToggle([]);
+    setEnhancedArticles([]);
     setCurrentPage(selectedItem.selected + 1);
   };
 
@@ -173,7 +173,7 @@ export default function Articles(): JSX.Element {
         return { ...article, openedAbstract: false };
       });
 
-      setArticlesWithAbstractToggle(displayedArticles)
+      setEnhancedArticles(displayedArticles as EnhancedArticle[])
     }
 
   }, [articles, articles?.data])
@@ -181,7 +181,7 @@ export default function Articles(): JSX.Element {
   const toggleAbstract = (articleId?: number): void => {
     if (!articleId) return
 
-    const updatedArticles = articlesWithAbstractToggle.map((article) => {
+    const updatedArticles = enhancedArticles.map((article) => {
       if (article?.id === articleId) {
         return {
           ...article,
@@ -192,18 +192,18 @@ export default function Articles(): JSX.Element {
       return { ...article };
     });
 
-    setArticlesWithAbstractToggle(updatedArticles)
+    setEnhancedArticles(updatedArticles)
   }
 
   const toggleAllAbstracts = (): void => {
     const isShown = !showAllAbstracts
 
-    const updatedArticles = articlesWithAbstractToggle.map((article) => ({
+    const updatedArticles = enhancedArticles.map((article) => ({
       ...article,
       openedAbstract: isShown
     }));
 
-    setArticlesWithAbstractToggle(updatedArticles)
+    setEnhancedArticles(updatedArticles)
     setShowAllAbstracts(isShown)
   }
 
@@ -244,7 +244,7 @@ export default function Articles(): JSX.Element {
             <Loader />
           ) : (
             <div className='articles-content-results-cards'>
-              {articlesWithAbstractToggle.map((article, index) => (
+              {enhancedArticles.map((article, index) => (
                 <ArticleCard
                   key={index}
                   language={language}

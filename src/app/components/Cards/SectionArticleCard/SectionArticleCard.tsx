@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TFunction } from 'i18next';
+import { MathJax } from 'better-react-mathjax';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -27,9 +28,11 @@ export default function SectionArticleCard({ language, t, article }: ISectionArt
     <div className="sectionArticleCard">
       {article.tag && <div className='volumeArticleCard-tag'>{t(articleTypes.find((tag) => tag.value === article.tag)?.labelPath!)}</div>}
       <Link to={`/${PATHS.articles}/${article.id}`}>
-        <div className='sectionArticleCard-title'>{article.title}</div>
+        <div className='sectionArticleCard-title'>
+          <MathJax dynamic>{article.title}</MathJax>
+        </div>
       </Link>
-      <div className='sectionArticleCard-authors'>{article.authors}</div>
+      <div className='sectionArticleCard-authors'>{article.authors.map(author => author.fullname).join(', ')}</div>
       {article.abstract && (
         <div className='sectionArticleCard-abstract'>
           <div className={`sectionArticleCard-abstract-title ${!openedAbstract && 'sectionArticleCard-abstract-title-closed'}`} onClick={toggleAbstract}>
@@ -40,18 +43,22 @@ export default function SectionArticleCard({ language, t, article }: ISectionArt
               <img className='sectionArticleCard-abstract-title-caret' src={caretDown} alt='Caret down icon' />
             )}
           </div>
-          <div className={`sectionArticleCard-abstract-content ${openedAbstract && 'sectionArticleCard-abstract-content-opened'}`}>{article.abstract}</div>
+          <div className={`sectionArticleCard-abstract-content ${openedAbstract && 'sectionArticleCard-abstract-content-opened'}`}>
+            <MathJax dynamic>{article.abstract}</MathJax>
+          </div>
         </div>
       )}
       <div className='sectionArticleCard-anchor'>
         <div className='sectionArticleCard-anchor-publicationDate'>{formatDate(article.publicationDate, language)}</div>
         <div className="sectionArticleCard-anchor-icons">
-          <Link to={article.pdfLink} target='_blank'>
-            <div className="sectionArticleCard-anchor-icons-download">
-              <img className="sectionArticleCard-anchor-icons-download-download-icon" src={download} alt='Download icon' />
-              <div className="sectionArticleCard-anchor-icons-download-text">{t('common.pdf')}</div>
-            </div>
-          </Link>
+          {article.pdfLink && (
+            <Link to={article.pdfLink} target='_blank'>
+              <div className="sectionArticleCard-anchor-icons-download">
+                <img className="sectionArticleCard-anchor-icons-download-download-icon" src={download} alt='Download icon' />
+                <div className="sectionArticleCard-anchor-icons-download-text">{t('common.pdf')}</div>
+              </div>
+            </Link>
+          )}
         </div>
       </div>
     </div>

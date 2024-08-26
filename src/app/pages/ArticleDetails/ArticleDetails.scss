@@ -25,8 +25,26 @@
       }
 
       &-authors {
-        color: var(--grey);
+        color: var(--grey-dark);
         font-size: 20px;
+        margin-bottom: 40px;
+
+        &-withInstitutions {
+          display: flex;
+          justify-content: space-between;
+          border-bottom: 1px solid var(--grey-light);
+          padding-bottom: 8px;
+          margin-bottom: 8px;
+
+          &-caret {
+            cursor: pointer;
+          }
+        }
+      }
+
+      &-institutions {
+        color: var(--grey);
+        font-size: 18px;
         margin-bottom: 40px;
       }
 
@@ -58,7 +76,7 @@
 
           ul li {
             max-width: 860px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             overflow-wrap: break-word;
           }
     
@@ -67,15 +85,45 @@
             display: block;
           }
 
-          &-preview {
+          &-graphicalAbstract, &-preview {
             width: 100%;
+          }
+
+          &-preview {
             height: 600px;
+          }
+
+          &-linkedPublications {
+            &-publication {
+              display: flex;
+              flex-direction: column;
+              gap: 4px;
+
+              &-badge {
+                width: fit-content;
+                color: var(--white);
+                background: var(--grey);
+                padding: 4px 8px 4px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+              }
+
+              &-markdown-link, &-uri, &-doi, &-arxiv, &-hal {
+                text-decoration: underline;
+              }
+
+              &-embed {
+                width: 100%;
+                height: 400px;
+              }
+            }
           }
 
           &-citations {
             &-citation {
               &-doi {
                 color: var(--red);
+                text-decoration: underline;
               }
             }
           }

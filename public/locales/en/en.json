@@ -2,8 +2,8 @@
   "common": {
     "article": "article",
     "articles": "articles",
-    "articleAccepted": "article accepted",
-    "articlesAccepted": "articles accepted",
+    "document": "document",
+    "documents": "documents",
     "volume": "volume",
     "volumes": "volumes",
     "section": "section",
@@ -21,7 +21,10 @@
     "readMore": "Read more",
     "readLess": "Read less",
     "seeMore": "See more",
+    "doi": "DOI",
     "pdf": "PDF",
+    "cite": "Cite",
+    "citeSuccess": "{{template}} citation has been copied to clipboard",
     "week": "week",
     "content": "Content",
     "publishedOn": "Published on",
@@ -31,11 +34,11 @@
       "hideAll": "Hide all abstracts",
       "showAll": "Show all abstracts"
     },
-    "volumeCommittee": "(volume committee)",
+    "volumeCommittee": "Volume committee",
     "volumeCard": {
       "volume": "Volume",
       "specialIssue": "Special issue",
-      "proceeding": "Proceeding"
+      "proceeding": "Proceedings"
     },
     "renderingMode": {
       "tile": "Tile",
@@ -47,7 +50,10 @@
       "clearAll": "Clear all filters",
       "years": "Years",
       "documentTypes": "Types of document",
-      "volumeTypes": "Types of volume"
+      "volumeTypes": "Types of volume",
+      "volumes": "Volumes",
+      "sections": "Sections",
+      "authors": "Authors"
     }
   },
   "components": {
@@ -134,6 +140,7 @@
     "articleDetails": {
       "title": "Article",
       "sections": {
+        "graphicalAbstract": "Graphical abstract",
         "abstract": "Abstract",
         "keywords": "Keywords",
         "linkedPublications": "Linked publications -  datasets - software",
@@ -142,7 +149,16 @@
       },
       "actions": {
         "download": "Download article",
-        "openHAL": "Open on HAL"
+        "openHAL": "Open on HAL",
+        "cite": "Cite",
+        "metadata": "Metadata",
+        "share": {
+          "text": "Share",
+          "email": "Mail",
+          "twitter": "X",
+          "linkedin": "Linked In",
+          "facebook": "Facebook"
+        }
       },
       "publicationDetails": {
         "title": "Publication details",
@@ -153,11 +169,97 @@
       "volumeDetails": {
         "title": "Volume",
         "specialIssue": "Special issue",
-        "proceeding": "Proceeding"
+        "proceeding": "Proceedings"
+      },
+      "license": "License",
+      "licenses": {
+        "arxiv": {
+          "assumed": "arXiv.org - Assumed non-exclusive license to distribute",
+          "nonExclusive": "arXiv.org - Non-exclusive license to distribute"
+        },
+        "creativeCommons": {
+          "nonCommercial1.0": "Attribution-NonCommercial 1.0 Generic (CC BY-NC 1.0)",
+          "nonCommercial2.0": "Attribution-NonCommercial 2.0 Generic (CC BY-NC 2.0)",
+          "nonCommercial2.5": "Attribution-NonCommercial 2.5 Generic (CC BY-NC 2.5)",
+          "nonCommercial3.0": "Attribution-NonCommercial 3.0 Unported (CC BY-NC 3.0)",
+          "nonCommercial4.0": "Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)",
+          "noDerivatives1.0": "Attribution-NoDerivs 1.0 Generic (CC BY-ND 1.0)",
+          "noDerivatives2.0": "Attribution-NoDerivs 2.0 Generic (CC BY-ND 2.0)",
+          "noDerivatives2.5": "Attribution-NoDerivs 2.5 Generic (CC BY-ND 2.5)",
+          "noDerivatives3.0": "Attribution-NoDerivs 3.0 Unported (CC BY-ND 3.0)",
+          "noDerivatives4.0": "Attribution-NoDerivatives 4.0 International (CC BY-ND 4.0)",
+          "noDerivativesNonCommercial1.0": "Attribution-NoDerivs-NonCommercial 1.0 Generic (CC BY-ND-NC 1.0)",
+          "noDerivativesNonCommercial2.0": "Attribution-NonCommercial-NoDerivs 2.0 Generic (CC BY-NC-ND 2.0)",
+          "noDerivativesNonCommercial2.5": "Attribution-NonCommercial-NoDerivs 2.5 Generic (CC BY-NC-ND 2.5)",
+          "noDerivativesNonCommercial3.0": "Attribution-NonCommercial-NoDerivs 3.0 Unported (CC BY-NC-ND 3.0)",
+          "noDerivativesNonCommercial4.0": "Attribution-Non Commercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)",
+          "nonCommercialShareAlike1.0": "Attribution-NonCommercial-ShareAlike 1.0 Generic (CC BY-NC-SA 1.0)",
+          "nonCommercialShareAlike2.0": "Attribution-NonCommercial-ShareAlike 2.0 Generic (CC BY-NC-SA 2.0)",
+          "nonCommercialShareAlike2.5": "Attribution-NonCommercial-ShareAlike 2.5 Generic (CC BY-NC-SA 2.5)",
+          "nonCommercialShareAlike3.0": "Attribution-Non Commercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0)",
+          "nonCommercialShareAlike4.0": "Attribution-Non Commercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)",
+          "shareAlike1.0": "Attribution-ShareAlike 1.0 Generic (CC BY-SA 1.0)",
+          "shareAlike2.0": "Attribution-ShareAlike 2.0 Generic (CC BY-SA 2.0)",
+          "shareAlike2.5": "Attribution-ShareAlike 2.5 Generic (CC BY-SA 2.5)",
+          "shareAlike3.0": "Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)",
+          "shareAlike4.0": "Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)",
+          "generic1.0": "Attribution 1.0 Generic (CC BY 1.0)",
+          "generic2.0": "Attribution 2.0 Generic (CC BY 2.0)",
+          "generic2.5": "Attribution 2.5 Generic (CC BY 2.5)",
+          "generic3.0": "Attribution 3.0 Unported (CC BY 3.0)",
+          "generic4.0": "Attribution 4.0 International (CC BY 4.0)",
+          "zero1.0": "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication"
+        },
+        "others": {
+          "closedAccess": "Closed Access",
+          "embargoedAccess": "Embargoed Access",
+          "restrictedAccess": "Restricted Access",
+          "openAccess": "Open Access"
+        }
+      },
+      "funding": "Funding",
+      "metrics": {
+        "title": "Indicators",
+        "views": "Views",
+        "downloads": "Downloads"
+      },
+      "relationships": {
+        "isDerivedFrom": "Is derived from",
+        "hasDerivation": "Has derivation",
+        "isReviewOf": "Is review of",
+        "hasReview": "Has review",
+        "isCommentOn": "Is comment on",
+        "hasComment": "Has comment",
+        "isReplyTo": "Is reply to",
+        "hasReply": "Has reply",
+        "basedOnData": "Based on data",
+        "isDataBasisFor": "Is data basis for",
+        "hasRelatedMaterial": "Has related material",
+        "isRelatedMaterial": "Is related material",
+        "isCompiledBy": "Is compiled by",
+        "compiles": "Compiles",
+        "isDocumentedBy": "Is documented by",
+        "documents": "Documents",
+        "isSupplementTo": "Is supplement to",
+        "isSupplementedBy": "Is supplement by",
+        "isContinuedBy": "Is continued by",
+        "continues": "Continues",
+        "isPartOf": "Is part of",
+        "hasPart": "Has part",
+        "references": "References",
+        "isReferencedBy": "Is referenced by",
+        "isBasedOn": "Is based on",
+        "isBasisFor": "Is based for",
+        "requires": "Requires",
+        "isRequiredBy": "Is required by",
+        "finances": "Finances",
+        "isFinancedBy": "Is financed by",
+        "isVersionOf": "Is version of",
+        "isRelatedTo": "Is related to"
       }
     },
     "articlesAccepted": {
-      "title": "Articles"
+      "title": "To be published"
     },
     "search": {
       "title": "Search"
@@ -172,7 +274,10 @@
     "volumeDetails": {
       "title": "Volume",
       "titleSpecialIssue": "Special issue",
-      "titleProceeding": "Proceeding",
+      "titleProceeding": "Proceedings",
+      "proceedingSettings": {
+        "theme": "Conference theme"
+      },
       "actions": {
         "downloadAll": "Download all articles"
       },
@@ -190,7 +295,8 @@
     },
     "authors": {
       "title": "Authors",
-      "searchName": "search a name"
+      "searchName": "search a name",
+      "others": "Others"
     },
     "about": {
       "title": "The journal"

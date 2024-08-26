@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TFunction } from 'i18next';
+import ReactMarkdown from 'react-markdown';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -23,6 +24,9 @@ interface IVolumeCardProps {
 }
 
 export default function VolumeCard({ language, t, mode, volume, currentJournal }: IVolumeCardProps): JSX.Element {
+  const [openedDescription, setOpenedDescription] = useState(false)
+  const toggleDescription = (): void => setOpenedDescription(!openedDescription)
+
   const renderVolumeTileSpecial = (): JSX.Element => {
     let text = `${t('common.volumeCard.volume')} ${volume.num}`
 
@@ -78,7 +82,9 @@ export default function VolumeCard({ language, t, mode, volume, currentJournal }
         )}
         <div className="volumeCard-tile-text">
           {renderVolumeTileSpecial()}
-          <div className="volumeCard-tile-text-title">{volume.title ? volume.title[language] : ''}</div>
+          <Link to={`${PATHS.volumes}/${volume.id}`}>
+            <div className="volumeCard-tile-text-title">{volume.title ? volume.title[language] : ''}</div>
+          </Link>
           <div className="volumeCard-tile-text-year">{volume.year}</div>
           <div className="volumeCard-tile-text-count">
             <img className="volumeCard-tile-text-count-icon" src={file} alt='File icon' />
@@ -92,9 +98,6 @@ export default function VolumeCard({ language, t, mode, volume, currentJournal }
       </div>
     )
   }
-
-  const [openedDescription, setOpenedDescription] = useState(false)
-  const toggleDescription = (): void => setOpenedDescription(!openedDescription)
 
   return (
     <div className='volumeCard'>
@@ -110,7 +113,9 @@ export default function VolumeCard({ language, t, mode, volume, currentJournal }
       </div>
       <div className='volumeCard-content'>
         {renderVolumeListSpecial()}
-        <div className='volumeCard-content-title'>{volume.title ? volume.title[language] : ''}</div>
+        <Link to={`${PATHS.volumes}/${volume.id}`}>
+          <div className='volumeCard-content-title'>{volume.title ? volume.title[language] : ''}</div>
+        </Link>
         {volume.committee && volume.committee.length > 0 && <div className='volumeCard-content-committee'>{volume.committee.map((member) => member.screenName).join(', ')}</div>}
         {volume.description && volume.description[language] && (
           <div className='volumeCard-content-description'>
@@ -122,7 +127,9 @@ export default function VolumeCard({ language, t, mode, volume, currentJournal }
                 <img className='volumeCard-content-description-title-caret' src={caretDown} alt='Caret down icon' />
               )}
             </div>
-            <div className={`volumeCard-content-description-content ${openedDescription && 'volumeCard-content-description-content-opened'}`}>{volume.description[language]}</div>
+            <div className={`volumeCard-content-description-content ${openedDescription && 'volumeCard-content-description-content-opened'}`}>
+              <ReactMarkdown>{volume.description[language]}</ReactMarkdown>
+            </div>
           </div>
         )}
         <Link to={volume.downloadLink} target='_blank' className="volumeCard-content-download">

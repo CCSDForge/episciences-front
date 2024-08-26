@@ -3,14 +3,14 @@ import { initReactI18next } from "react-i18next";
 import HttpBackend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-import { availableLanguages } from "../utils/i18n";
+import { availableLanguages, defaultLanguage } from "../utils/i18n";
 
 i18next
   .use(HttpBackend)
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: 'en',
+    fallbackLng: defaultLanguage,
     supportedLngs: [...availableLanguages],
     debug: true,
     backend: {
