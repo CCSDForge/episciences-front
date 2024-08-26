@@ -1,9 +1,10 @@
 .authorsSidebar {
   min-width: 310px;
   max-width: 310px;
-  margin-top: 35px;
+  margin-top: 20px;
 
   &-search {
+    height: 36px;
     border-bottom: 1px solid var(--red);
     padding-bottom: 6px;
     margin-bottom: 25px;
@@ -26,6 +27,17 @@
         color: var(--white);
         background: var(--red);
         font-weight: bold;
+      }
+
+      &-disabled {
+        cursor: auto;
+        pointer-events: none;
+        color: var(--grey-light);
+      }
+
+      &-others {
+        grid-column: span 2;
+        width: auto;
       }
     }
   }

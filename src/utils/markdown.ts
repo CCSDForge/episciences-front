@@ -2,6 +2,7 @@ import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkStringify from 'remark-stringify'
 import { Node, Root } from 'mdast'
+import he from 'he'
 
 export const generateIdFromText = (text: string): string => {
   return text
@@ -19,3 +20,16 @@ export const unifiedProcessor = unified()
 export const serializeMarkdown = (node: Node) => unifiedProcessor.stringify(node as Root);
 
 export const getMarkdownImageURL = (path: string, rvcode: string) => `https://${rvcode}.episciences.org${path}`
+
+export const decodeText = (text: string): string => {
+  return he.decode(text)
+      .replace(/\\_/g, '_')
+      .replace(/\\\*/g, '*')
+      .replace(/\\\(/g, '(')
+      .replace(/\\\)/g, ')')
+      .replace(/\\\[/g, '[')
+      .replace(/\\\]/g, ']')  
+      .replace(/\\\\/g, '\\')
+      .trim()
+  ;
+}

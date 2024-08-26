@@ -2,8 +2,8 @@
   "common": {
     "article": "article",
     "articles": "articles",
-    "articleAccepted": "article accepté",
-    "articlesAccepted": "articles acceptés",
+    "document": "document",
+    "documents": "documents",
     "volume": "volume",
     "volumes": "volumes",
     "section": "rubrique",
@@ -21,7 +21,10 @@
     "readMore": "Lire plus",
     "readLess": "Lire moins",
     "seeMore": "En savoir plus",
+    "doi": "DOI",
     "pdf": "PDF",
+    "cite": "Citer",
+    "citeSuccess": "La citation {{template}} a été copiée dans le presse-papier",
     "week": "semaine",
     "content": "Contenu",
     "publishedOn": "Publié le",
@@ -31,7 +34,7 @@
       "hideAll": "Cacher tous les abstracts",
       "showAll": "Afficher tous les abstracts"
     },
-    "volumeCommittee": "(comité du volume)",
+    "volumeCommittee": "Comité éditorial",
     "volumeCard": {
       "volume": "Volume",
       "specialIssue": "Volume spécial",
@@ -47,7 +50,10 @@
       "clearAll": "Effacer tous les filtres",
       "years": "Années",
       "documentTypes": "Types de document",
-      "volumeTypes": "Types de volume"
+      "volumeTypes": "Types de volume",
+      "volumes": "Volumes",
+      "sections": "Rubriques",
+      "authors": "Auteurs"
     }
   },
   "components": {
@@ -71,7 +77,7 @@
         "forAuthors": "Pour les auteurs"
       },
       "search": "rechercher",
-      "submit": "Envoyer"
+      "submit": "Déposer"
     },
     "footer": {
       "links": {
@@ -134,6 +140,7 @@
     "articleDetails": {
       "title": "Article",
       "sections": {
+        "graphicalAbstract": "Abstract graphique",
         "abstract": "Abstract",
         "keywords": "Mots-clés",
         "linkedPublications": "Publications liées -  jeux de données - logiciel",
@@ -142,7 +149,16 @@
       },
       "actions": {
         "download": "Télécharger l'article",
-        "openHAL": "Ouvrir sur HAL"
+        "openHAL": "Ouvrir sur HAL",
+        "cite": "Citer",
+        "metadata": "Metadata",
+        "share": {
+          "text": "Partager",
+          "email": "Mail",
+          "twitter": "X",
+          "linkedin": "Linked In",
+          "facebook": "Facebook"
+        }
       },
       "publicationDetails": {
         "title": "Détails de publication",
@@ -154,10 +170,96 @@
         "title": "Volume",
         "specialIssue": "Volume spécial",
         "proceeding": "Acte de conférence"
+      },
+      "license": "Licence",
+      "licenses": {
+        "arxiv": {
+          "assumed": "arXiv.org - Assumed non-exclusive license to distribute",
+          "nonExclusive": "arXiv.org - Non-exclusive license to distribute"
+        },
+        "creativeCommons": {
+          "nonCommercial1.0": "Attribution - Pas d'Utilisation Commerciale 1.0 Générique (CC BY-NC 1.0)",
+          "nonCommercial2.0": "Attribution - Pas d'Utilisation Commerciale 2.0 Générique (CC BY-NC 2.0)",
+          "nonCommercial2.5": "Attribution - Pas d'Utilisation Commerciale 2.5 Générique (CC BY-NC 2.5)",
+          "nonCommercial3.0": "Attribution - Pas d'Utilisation Commerciale 3.0 non transposé (CC BY-NC 3.0)",
+          "nonCommercial4.0": "Attribution - Pas d'Utilisation Commerciale 4.0 International (CC BY-NC 4.0)",
+          "noDerivatives1.0": "Attribution - Pas de Modification 1.0 Générique (CC BY-ND 1.0)",
+          "noDerivatives2.0": "Attribution - Pas de Modification 2.0 Générique (CC BY-ND 2.0)",
+          "noDerivatives2.5": "Attribution - Pas de Modification 2.5 Générique (CC BY-ND 2.5)",
+          "noDerivatives3.0": "Attribution - Pas de Modification 3.0 non transposé (CC BY-ND 3.0)",
+          "noDerivatives4.0": "Attribution - Pas de Modification 4.0 International (CC BY-ND 4.0)",
+          "noDerivativesNonCommercial1.0": "Attribution - Pas de Modification - Pas d'Utilisation Commerciale 1.0 Générique (CC BY-ND-NC 1.0)",
+          "noDerivativesNonCommercial2.0": "Attribution - Pas d'Utilisation Commerciale - Pas de Modification 2.0 Générique (CC BY-NC-ND 2.0)",
+          "noDerivativesNonCommercial2.5": "Attribution - Pas d'Utilisation Commerciale - Pas de Modification 2.5 Générique (CC BY-NC-ND 2.5)",
+          "noDerivativesNonCommercial3.0": "Attribution - Pas d'Utilisation Commerciale - Pas de Modification 3.0 non transposé (CC BY-NC-ND 3.0)",
+          "noDerivativesNonCommercial4.0": "Attribution - Pas d'Utilisation Commerciale - Pas de Modification 4.0 International (CC BY-NC-ND 4.0)",
+          "nonCommercialShareAlike1.0": "Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 1.0 Générique (CC BY-NC-SA 1.0)",
+          "nonCommercialShareAlike2.0": "Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 2.0 Générique (CC BY-NC-SA 2.0)",
+          "nonCommercialShareAlike2.5": "Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 2.5 Générique (CC BY-NC-SA 2.5)",
+          "nonCommercialShareAlike3.0": "Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 3.0 non transposé (CC BY-NC-SA 3.0)",
+          "nonCommercialShareAlike4.0": "Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International (CC BY-NC-SA 4.0)",
+          "shareAlike1.0": "Attribution - Partage dans les Mêmes Conditions 1.0 Générique (CC BY-SA 1.0)",
+          "shareAlike2.0": "Attribution - Partage dans les Mêmes Conditions 2.0 Générique (CC BY-SA 2.0)",
+          "shareAlike2.5": "Attribution - Partage dans les Mêmes Conditions 2.5 Générique (CC BY-SA 2.5)",
+          "shareAlike3.0": "Attribution - Partage dans les Mêmes Conditions 3.0 non transposé (CC BY-SA 3.0)",
+          "shareAlike4.0": "Attribution - Partage dans les Mêmes Conditions 4.0 International (CC BY-SA 4.0)",
+          "generic1.0": "Attribution 1.0 Générique (CC BY 1.0)",
+          "generic2.0": "Attribution 2.0 Générique (CC BY 2.0)",
+          "generic2.5": "Attribution 2.5 Générique (CC BY 2.5)",
+          "generic3.0": "Attribution 3.0 non transposé (CC BY 3.0)",
+          "generic4.0": "Attribution 4.0 International (CC BY 4.0)",
+          "zero1.0": "CC0 1.0 universel (CC0 1.0) Transfert dans le Domaine Public"
+        },
+        "others": {
+          "closedAccess": "Accès fermé",
+          "embargoedAccess": "Accès sous embargo",
+          "restrictedAccess": "Accès restreint",
+          "openAccess": "Accès ouvert"
+        }
+      },
+      "funding": "Financement",
+      "metrics": {
+        "title": "Indicateurs",
+        "views": "Vues",
+        "downloads": "Téléchargements"
+      },
+      "relationships": {
+        "isDerivedFrom": "Est dérivé de",
+        "hasDerivation": "A une dérivation",
+        "isReviewOf": "Est une évaluation de",
+        "hasReview": "A une évaluation",
+        "isCommentOn": "Est commenté sur",
+        "hasComment": "A un commentaire",
+        "isReplyTo": "Est une réponse pour",
+        "hasReply": "A une réponse",
+        "basedOnData": "Basé sur les données de",
+        "isDataBasisFor": "Est une donnée de base pour",
+        "hasRelatedMaterial": "Dispose d'un contenu lié",
+        "isRelatedMaterial": "Est un contenu lié à",
+        "isCompiledBy": "Est compilé par",
+        "compiles": "Compile",
+        "isDocumentedBy": "Est documenté par",
+        "documents": "Documente",
+        "isSupplementTo": "Est un supplément à",
+        "isSupplementedBy": "Est complété par",
+        "isContinuedBy": "Est continué par",
+        "continues": "Continue",
+        "isPartOf": "Fait partie de",
+        "hasPart": "A une partie",
+        "references": "Reference",
+        "isReferencedBy": "Est référencé par",
+        "isBasedOn": "Est basé sur",
+        "isBasisFor": "Est basé pour",
+        "requires": "Requiert",
+        "isRequiredBy": "Est requis pour",
+        "finances": "Finance",
+        "isFinancedBy": "Est financé par",
+        "isVersionOf": "Est une version de",
+        "isRelatedTo": "Est lié à"
       }
     },
     "articlesAccepted": {
-      "title": "Articles"
+      "title": "À paraître"
     },
     "search": {
       "title": "Rechercher"
@@ -173,6 +275,9 @@
       "title": "Volume",
       "titleSpecialIssue": "Volume spécial",
       "titleProceeding": "Acte de conférence",
+      "proceedingSettings": {
+        "theme": "Thème de la conférence"
+      },
       "actions": {
         "downloadAll": "Télécharger tous les articles"
       },
@@ -190,7 +295,8 @@
     },
     "authors": {
       "title": "Auteurs",
-      "searchName": "rechercher un nom"
+      "searchName": "rechercher un nom",
+      "others": "Autres"
     },
     "about": {
       "title": "La revue"

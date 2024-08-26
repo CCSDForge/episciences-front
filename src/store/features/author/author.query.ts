@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 import { IFacetAuthor, IAuthor, IAuthorArticle, RawAuthorArticle } from '../../../types/author'
-import { PaginatedResponse } from '../../../utils/pagination'
+import { PaginatedResponse, PaginatedResponseWithAuthorsRange } from '../../../utils/pagination'
 import { createBaseQueryWithLdJsonAccept } from '../../utils'
 
 export const authorApi = createApi({
@@ -9,7 +9,7 @@ export const authorApi = createApi({
   reducerPath: 'author',
   tagTypes: ['Author'],
   endpoints: (build) => ({
-    fetchAuthors: build.query<{ data: IAuthor[], totalItems: number }, { rvcode: string, page: number, itemsPerPage: number, search?: string, letter?: string; }>({
+    fetchAuthors: build.query<{ data: IAuthor[], totalItems: number, range?: Record<string, number> }, { rvcode: string, page: number, itemsPerPage: number, search?: string, letter?: string; }>({
       query: ({ rvcode, page, itemsPerPage, search, letter } :{ rvcode: string, page: number, itemsPerPage: number; search?: string, letter?: string; }) => {
         const baseUrl = `browse/authors?page=${page}&itemsPerPage=${itemsPerPage}&code=${rvcode}`
         let queryParams = '';
@@ -20,7 +20,9 @@ export const authorApi = createApi({
         
         return `${baseUrl}${queryParams}`;
       },
-      transformResponse(baseQueryReturnValue: PaginatedResponse<IFacetAuthor>) {
+      transformResponse(baseQueryReturnValue: PaginatedResponseWithAuthorsRange<IFacetAuthor>) {
+        const range = baseQueryReturnValue['hydra:range'];
+
         const totalItems = baseQueryReturnValue['hydra:totalItems'];
         const formattedData = (baseQueryReturnValue['hydra:member']).map((author) => ({
           id: author['@id'],
@@ -30,14 +32,14 @@ export const authorApi = createApi({
 
         return {
           data: formattedData,
-          totalItems
+          totalItems,
+          range
         }
       },
     }),
     fetchAuthorArticles: build.query<{ data: IAuthorArticle[], totalItems: number }, { rvcode: string, fullname: string; }>({
       query: ({ rvcode, fullname } :{ rvcode: string, fullname: string; }) => {
-        const trimedFullname = fullname.replace(/\s/g, "")
-        return `browse/authors-search/${trimedFullname}?pagination=false&code=${rvcode}`
+        return `browse/authors-search/${fullname}?pagination=false&code=${rvcode}`
       },
       transformResponse(baseQueryReturnValue: PaginatedResponse<RawAuthorArticle>) {
         const totalItems = baseQueryReturnValue['hydra:totalItems'];

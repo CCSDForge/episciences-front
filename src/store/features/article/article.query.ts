@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 import { IPartialArticle, RawArticle } from '../../../types/article'
-import { FetchedArticle, formatArticle } from '../../../utils/article'
+import { FetchedArticle, formatArticle, METADATA_TYPE } from '../../../utils/article'
 import { PaginatedResponseWithRange, Range } from '../../../utils/pagination'
 import { createBaseQueryWithLdJsonAccept } from '../../utils'
 
@@ -41,7 +41,7 @@ export const articleApi = createApi({
         }));
 
         return {
-          data: formattedData,
+          data: formattedData as unknown as FetchedArticle[],
           totalItems,
           range: {
             ...range,
@@ -69,10 +69,19 @@ export const articleApi = createApi({
         return formatArticle(baseQueryReturnValue);
       }
     }),
+    fetchArticleMetadata: build.query<BlobPart, { rvcode: string, paperid: string, type: METADATA_TYPE }>({
+      query: ({ rvcode, paperid, type }) => {
+        return {
+          url: `papers/export/${paperid}/${type}?code=${rvcode}`,
+          responseHandler: 'text'
+        }
+      }
+    })
   }),
 })
 
 export const {
   useFetchArticlesQuery,
   useFetchArticleQuery,
+  useFetchArticleMetadataQuery
 } = articleApi

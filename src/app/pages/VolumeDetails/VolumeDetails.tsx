@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import ReactMarkdown from 'react-markdown';
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 import download from '/icons/download-red.svg';
+import { PATHS } from '../../../config/paths'
 import { useAppSelector } from "../../../hooks/store";
 import { formatArticle, FetchedArticle } from "../../../utils/article";
 import { useFetchVolumesQuery, useFetchVolumeQuery } from "../../../store/features/volume/volume.query";
@@ -19,6 +21,7 @@ import './VolumeDetails.scss';
 
 export default function VolumeDetails(): JSX.Element {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const RELATED_VOLUMES = 20;
   
@@ -30,7 +33,7 @@ export default function VolumeDetails(): JSX.Element {
   const [articles, setArticles] = useState<FetchedArticle[]>([]);
 
   const { id } = useParams();
-  const { data: volume, isFetching: isFetchingVolume } = useFetchVolumeQuery({ rvcode: rvcode!, vid: id!, language: language }, { skip: !id || !rvcode });
+  const { data: volume, isFetching: isFetchingVolume, isError, error } = useFetchVolumeQuery({ rvcode: rvcode!, vid: id!, language: language }, { skip: !id || !rvcode });
   const { data: relatedVolumes, isFetching: isFetchingRelatedVolumes } = useFetchVolumesQuery({ rvcode: rvcode!, language: language, page: 1, itemsPerPage: RELATED_VOLUMES, types: volume?.types }, { skip: !rvcode })
 
 
@@ -97,6 +100,12 @@ export default function VolumeDetails(): JSX.Element {
     return <div className='volumeDetails-content-results-content-title'>{volume?.title ? volume?.title[language] : ''}</div>
   }
 
+  const renderProceedingTheme = (): string | null => {
+    const proceedingTheme = volume!.settingsProceeding!.find((setting) => setting.setting === "conference_theme")
+
+    return proceedingTheme?.value ? `${t('pages.volumeDetails.proceedingSettings.theme')} : ${proceedingTheme.value}` : null;
+  }
+
   const renderProceedingDOI = (): string | null => {
     const proceedingDOI = volume!.settingsProceeding!.find((setting) => setting.setting === "conference_proceedings_doi")
 
@@ -119,10 +128,16 @@ export default function VolumeDetails(): JSX.Element {
   const getEdito = (): IVolumeMetadata | null => {
     if (!volume?.metadatas || !volume.metadatas.length) return null
 
-    const edito = volume.metadatas.find((metadata) => metadata.title && metadata.title[language] && metadata.title[language].toLowerCase() === 'edito')
+    const edito = volume.metadatas.find((metadata) => metadata.title && metadata.title[language] && metadata.title[language].replace(/[\u0300-\u036f]/g, '').toLowerCase() === 'edito')
 
     return edito || null
   }
+
+  useEffect(() => {
+    if (!volume && isError && (error as FetchBaseQueryError)?.status) {
+      navigate(PATHS.home);
+    }
+  }, [volume, isError, error])
 
   return (
     <main className='volumeDetails'>
@@ -143,15 +158,16 @@ export default function VolumeDetails(): JSX.Element {
                 {renderVolumeTitle()}
                 {volume?.committee && volume.committee.length > 0 && (
                   <div className='volumeDetails-content-results-content-committee'>
-                    {volume?.committee.map((member) => member.screenName).join(', ')}
                     {(!volume?.types || !volume?.types.includes(VOLUME_TYPE.PROCEEDINGS)) && (
-                      <span className="volumeDetails-content-results-content-committee-note">{t('common.volumeCommittee')}</span>
+                      <span className="volumeDetails-content-results-content-committee-note">{t('common.volumeCommittee')} :</span>
                     )}
+                    {volume?.committee.map((member) => member.screenName).join(', ')}
                   </div>
                 )}
                 {volume?.types && volume?.types.includes(VOLUME_TYPE.PROCEEDINGS) && volume.settingsProceeding && volume.settingsProceeding.length && (
                   <div className="volumeDetails-content-results-content-proceedingSettings">
-                    <div className='volumeDetails-content-results-content-proceedingSettings-setting'>{renderProceedingDOI()}</div>
+                    <div className='volumeDetails-content-results-content-proceedingSettings-setting'>{renderProceedingTheme()}</div>
+                    {renderProceedingDOI() && <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${renderProceedingDOI()}`} className='volumeDetails-content-results-content-proceedingSettings-setting volumeDetails-content-results-content-proceedingSettings-setting-doi' target="_blank">{renderProceedingDOI()}</Link>}
                     <div className='volumeDetails-content-results-content-proceedingSettings-setting'>{renderProceedingLocation()}</div>
                     <div className='volumeDetails-content-results-content-proceedingSettings-setting'>{renderProceedingDates()}</div>
                   </div>
