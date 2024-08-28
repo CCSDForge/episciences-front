@@ -1,8 +1,20 @@
 .sectionDetailsSidebar {
   min-width: 265px;
 
+  @media (max-width: $sm) {
+    min-width: 215px;
+  }
+
+  @media (max-width: $xsm) {
+    min-width: auto;
+  }
+
   &-count {
     font-size: 21px;
     font-weight: 300;
+
+    @media (max-width: $xsm) {
+      margin-bottom: 16px;
+    }
   }
 }

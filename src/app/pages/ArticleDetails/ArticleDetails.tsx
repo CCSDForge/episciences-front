@@ -104,7 +104,7 @@ export default function ArticleDetails(): JSX.Element {
 
   const [citations, setCitations] = useState<ICitation[]>([]);
 
-  const renderArticleAuthors = (): JSX.Element => {
+  const renderArticleAuthors = (isMobile: boolean): JSX.Element => {
     if (!authors || !authors.length) return <></>;
   
     const formattedAuthors = authors.map((author, index) => {
@@ -134,12 +134,12 @@ export default function ArticleDetails(): JSX.Element {
     });
 
     return institutions.length > 0 ? (
-      <div className='articleDetails-content-article-authors articleDetails-content-article-authors-withInstitutions'>
+      <div className={`articleDetails-content-article-authors articleDetails-content-article-authors-withInstitutions ${isMobile && 'articleDetails-content-article-authors-withInstitutions-mobile'}`}>
         <div>{formattedAuthors}</div>
         <img className='articleDetails-content-article-authors-withInstitutions-caret' src={openedInstitutions ? caretUpGrey : caretDownGrey} alt={openedInstitutions ? 'Caret up icon' : 'Caret down icon'} onClick={(): void => setOpenedInstitutions(!openedInstitutions)} />
       </div>
     ) : (
-      <div className='articleDetails-content-article-authors'>{formattedAuthors}</div>
+      <div className={`articleDetails-content-article-authors ${isMobile && 'articleDetails-content-article-authors-mobile'}`}>{formattedAuthors}</div>
     )
   };
   
@@ -153,6 +153,18 @@ export default function ArticleDetails(): JSX.Element {
         {institutions.map((institution, index) => (
           <div key={index}>({index + 1}) {institution}</div>
         ))}
+      </>
+    )
+  }
+
+  const renderArticleTitleAndAuthors = (isMobile: boolean): JSX.Element => {
+    return (
+      <>
+        <h1 className={`articleDetails-content-article-title ${isMobile && 'articleDetails-content-article-title-mobile'}`}>
+          <MathJax dynamic>{article?.title}</MathJax>
+        </h1>
+        {authors.length > 0 && <>{renderArticleAuthors(isMobile)}</>}
+        {institutions.length > 0 && <div className={`articleDetails-content-article-institutions ${isMobile && 'articleDetails-content-article-institutions-mobile'}`}>{renderArticleAuthorsInstitutions()}</div>}
       </>
     )
   }
@@ -301,7 +313,7 @@ export default function ArticleDetails(): JSX.Element {
         <div className="articleDetails-content-article-section-content-linkedPublications-publication">
           {relationship && <div className="articleDetails-content-article-section-content-linkedPublications-publication-badge">{t(relationship)}</div>}
           <Link to={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/${relatedItem.value}`} target='_blank'>
-            <img src={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/badge/${relatedItem.value}`} alt={relatedItem.value} />
+            <img className="articleDetails-content-article-section-content-linkedPublications-publication-img" src={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/badge/${relatedItem.value}`} alt={relatedItem.value} />
           </Link>
           <iframe className="articleDetails-content-article-section-content-linkedPublications-publication-embed" src={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/browse/embed/${relatedItem.value}`}></iframe>
         </div>
@@ -372,13 +384,10 @@ export default function ArticleDetails(): JSX.Element {
           <ArticleMeta language={language} article={article as IArticle | undefined} currentJournal={currentJournal} keywords={getKeywords()} authors={authors} />
           {article?.tag && <div className='articleDetails-tag'>{t(articleTypes.find((tag) => tag.value === article.tag)?.labelPath!)}</div>}
           <div className="articleDetails-content">
+            {renderArticleTitleAndAuthors(true)}
             <ArticleDetailsSidebar language={language} t={t} article={article as IArticle | undefined} relatedVolume={relatedVolume} citations={citations} />
             <div className="articleDetails-content-article">
-              <h1 className="articleDetails-content-article-title">
-                <MathJax dynamic>{article?.title}</MathJax>
-              </h1>
-              {authors.length > 0 && <>{renderArticleAuthors()}</>}
-              {institutions.length > 0 && <div className="articleDetails-content-article-institutions">{renderArticleAuthorsInstitutions()}</div>}
+              {renderArticleTitleAndAuthors(false)}
               {renderSection(ARTICLE_SECTION.GRAPHICAL_ABSTRACT, t('pages.articleDetails.sections.graphicalAbstract'), getGraphicalAbstractSection())}
               {renderSection(ARTICLE_SECTION.ABSTRACT, t('pages.articleDetails.sections.abstract'), getAbstractSection())}
               {renderSection(ARTICLE_SECTION.KEYWORDS, t('pages.articleDetails.sections.keywords'), getKeywordsSection())}

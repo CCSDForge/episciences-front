@@ -84,7 +84,7 @@ export default function Home(): JSX.Element {
               </div>
             </Link>
           </div>
-          <Swiper id='articles-swiper' type='article' language={language} t={t} slidesPerView={3} cards={articles?.data.filter(article => article?.title) ?? []}/>
+          <Swiper id='articles-swiper' type='article' language={language} t={t} slidesPerView={3} slidesPerGroup={3} cards={articles?.data.filter(article => article?.title) ?? []}/>
         </>
       )}
       {getBlockRendering(HOMEPAGE_BLOCK.LATEST_NEWS_CAROUSEL)?.render && (
@@ -112,7 +112,7 @@ export default function Home(): JSX.Element {
               </div>
             </Link>
           </div>
-        <Swiper id='boards-swiper' type='board' language={language} t={t} slidesPerView={4} cards={members ?? []}/>
+        <Swiper id='boards-swiper' type='board' language={language} t={t} slidesPerView={4} slidesPerGroup={3} cards={members ?? []}/>
         </>
       )}
       {getBlockRendering(HOMEPAGE_BLOCK.STATS)?.render && (
@@ -149,7 +149,7 @@ export default function Home(): JSX.Element {
               </div>
             </Link>
           </div>
-          <Swiper id='articles-accepted-swiper' type='article-accepted' language={language} t={t} slidesPerView={3} cards={acceptedArticles?.data.filter(article => article?.title) ?? []}/>
+          <Swiper id='articles-accepted-swiper' type='article-accepted' language={language} t={t} slidesPerView={3} slidesPerGroup={3} cards={acceptedArticles?.data.filter(article => article?.title) ?? []}/>
         </>
       )}
     </main>

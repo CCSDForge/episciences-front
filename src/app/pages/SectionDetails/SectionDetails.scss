@@ -10,6 +10,10 @@
     &-results {
       display: flex;
 
+      @media (max-width: $xsm) {
+        flex-direction: column;
+      }
+
       &-content {
         width: 100%;
         display: flex;

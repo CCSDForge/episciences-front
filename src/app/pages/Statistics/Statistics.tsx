@@ -171,7 +171,14 @@ export default function Statistics(): JSX.Element {
                           )}
                         </div>
                         {index !== statisticPerLabel.statistics.length - 1 && (
-                          <div className={`${statisticPerLabel.labelKey === STAT_LABEL.EVALUATION_PUBLICATION ? "statistics-content-results-cards-row-stats-divider statistics-content-results-cards-row-stats-divider-evaluation" : "statistics-content-results-cards-row-stats-divider"}`}></div>
+                          <div className={`${statisticPerLabel.labelKey === STAT_LABEL.EVALUATION_PUBLICATION ? (
+                             `statistics-content-results-cards-row-stats-divider statistics-content-results-cards-row-stats-divider-evaluation ${index % 2 === 1 && 'statistics-content-results-cards-row-stats-divider-evaluation-second'}`
+                          ) : (
+                            `statistics-content-results-cards-row-stats-divider statistics-content-results-cards-row-stats-divider-glance ${index % 2 === 1 && 'statistics-content-results-cards-row-stats-divider-glance-second'}`
+                          )}`}></div>
+                        )}
+                        {(index !== statisticPerLabel.statistics.length - 1) && index % 2 === 1 && (
+                          <div className='statistics-content-results-cards-row-stats-mobileLine'></div>
                         )}
                       </Fragment>
                     ))}

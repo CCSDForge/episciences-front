@@ -1,6 +1,10 @@
 .volumeDetailsSidebar {
   min-width: 265px;
 
+  @media (max-width: $sm) {
+    min-width: 215px;
+  }
+
   &-tile {
     width: 160px;
     height: 230px;

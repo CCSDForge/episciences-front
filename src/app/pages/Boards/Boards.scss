@@ -4,8 +4,18 @@
     align-items: center;
     margin-bottom: 30px;
 
+    @media (max-width: $sm) {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 12px;
+    }
+
     &-text {
       min-width: 265px;
+
+      @media (max-width: $sm) {
+        min-width: unset;
+      }
     }
 
     &-count {
@@ -13,6 +23,10 @@
       font-size: 21px;
       font-weight: 300;
       padding-left: 60px;
+
+      @media (max-width: $sm) {
+        padding-left: 0px;
+      }
     }
   }
 
@@ -25,8 +39,16 @@
       flex-direction: column;
       padding-left: 60px;
 
+      @media (max-width: $sm) {
+        padding-left: 0px;
+      }
+
       &-group {
         margin-bottom: 45px;
+
+        @media (max-width: $sm) {
+          margin-bottom: 15px;
+        }
 
         &-title {
           display: flex;
@@ -56,6 +78,14 @@
             display: grid;
             gap: 15px;
             grid-template-columns: repeat(3, 1fr);
+
+            @media (max-width: $sm) {
+              grid-template-columns: repeat(2, 1fr);
+            }
+
+            @media (max-width: $xsm) {
+              grid-template-columns: repeat(1, 1fr);
+            }
           }
         }
       }
