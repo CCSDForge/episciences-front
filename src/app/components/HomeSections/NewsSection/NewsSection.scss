@@ -16,10 +16,19 @@
     flex-direction: column;
     gap: 25px;
 
+    @media (max-width: $sm) {
+      min-width: unset;
+      max-width: unset;
+    }
+
     &-title {
       width: 375px;
       font-size: 16px;
       font-weight: 600;
+
+      @media (max-width: $sm) {
+        width: 320px;
+      }
     }
 
     &-publicationDate {

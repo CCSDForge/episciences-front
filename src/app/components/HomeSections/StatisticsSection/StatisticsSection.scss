@@ -4,10 +4,14 @@
   justify-content: space-between;
   margin: 45px 0px 5px 120px;
 
+  @media (max-width: $sm) {
+    gap: 30px;
+    margin: 45px 0px 5px 0px;
+  }
+
   @media (max-width: $xsm) {
     flex-direction: column;
     gap: 15px;
-    margin: 45px 0px 5px 0px;
     align-items: center;
   }
 
@@ -17,14 +21,27 @@
     text-align: center;
     gap: 5px;
 
+    @media (max-width: $sm) {
+      flex: 20%;
+    }
+
     &-stat {
       font-size: 40px;
       color: var(--red);
+
+      @media (max-width: $sm) {
+        font-size: 34px;
+      }
     }
 
     &-title {
       font-size: 22px;
       max-width: 300px;
+
+      @media (max-width: $sm) {
+        font-size: 16px;
+        max-width: 200px;
+      }
     }
   }
 

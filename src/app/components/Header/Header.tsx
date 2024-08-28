@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { isMobileOnly } from 'react-device-detect';
 
 import arrowRight from '/icons/arrow-right-blue.svg';
+import burger from '/icons/burger.svg';
 import logoText from '/icons/logo-text.svg';
 import logoJpeBig from '/icons/logo-jpe-big.svg';
 import logoJpeSmall from '/icons/logo-jpe-small.svg';
@@ -32,6 +34,7 @@ export default function Header(): JSX.Element {
 
   const [isReduced, setIsReduced] = useState(false);
   const [showDropdown, setShowDropdown] = useState({ content: false, about: false });
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const handleScroll = () => {
     const position = window.scrollY;
@@ -56,9 +59,11 @@ export default function Header(): JSX.Element {
 
   const getJournalAccessLink = (): string => language === 'fr' ? import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_FR : import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_EN
 
+  const isMobileReduced = (): boolean => isReduced && isMobileOnly;
+
   const getPostHeaderLinks = (): JSX.Element => {
     return (
-      <div className='header-postheader'>
+      <>
         <div className='header-postheader-links'>
           <div className='header-postheader-links-dropdown' onMouseEnter={(): void => toggleDropdown('content', true)}>
             <div>{t('components.header.content')}</div>
@@ -101,8 +106,46 @@ export default function Header(): JSX.Element {
             <Button text={t('components.header.submit')} onClickCallback={(): void => {}}/>
           </div>
         </div>
-      </div>
+      </>
     )
+  }
+
+  const getPostHeaderBurgerLinks = (): JSX.Element => {
+    if (showMobileMenu) {
+      return (
+        <div className='header-postheader-burger-content' onMouseLeave={(): void => setShowMobileMenu(false)}>
+          <div className='header-postheader-burger-content-links' onClick={(): void => setShowMobileMenu(false)}>
+            <div className='header-postheader-burger-content-links-section header-postheader-burger-content-links-section-bordered'>
+              <div className='header-postheader-burger-content-links-section-links'>
+                <Link to={PATHS.articles}>{t('components.header.links.articles')}</Link>
+                <Link to={PATHS.articlesAccepted}>{t('components.header.links.articlesAccepted')}</Link>
+                <Link to={PATHS.volumes}>{t('components.header.links.volumes')}</Link>
+                <Link to={`${PATHS.volumes}/${lastVolume?.id}`}>{t('components.header.links.lastVolume')}</Link>
+                <Link to={PATHS.sections}>{t('components.header.links.sections')}</Link>
+                <Link to={`${PATHS.volumes}?type=${VOLUME_TYPE.SPECIAL_ISSUE}`}>{t('components.header.links.specialIssues')}</Link>
+                <Link to={`${PATHS.volumes}?type=${VOLUME_TYPE.PROCEEDINGS}`}>{t('components.header.links.proceedings')}</Link>
+                <Link to={PATHS.authors}>{t('components.header.links.authors')}</Link>
+              </div>
+            </div>
+            <div className='header-postheader-burger-content-links-section header-postheader-burger-content-links-section-bordered'>
+              <div className='header-postheader-burger-content-links-section-links'>
+                <Link to={PATHS.about}>{t('components.header.links.about')}</Link>
+                <Link to={PATHS.news}>{t('components.header.links.news')}</Link>
+                <Link to={PATHS.statistics}>{t('components.header.links.statistics')}</Link>
+              </div>
+            </div>
+            <div className='header-postheader-burger-content-links-section'>
+              <div className='header-postheader-burger-content-links-section-links'>
+                <Link to={PATHS.boards}>{t('components.header.links.boards')}</Link>
+                <Link to={PATHS.forAuthors}>{t('components.header.links.forAuthors')}</Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    return <></>
   }
 
   useEffect(() => {
@@ -127,11 +170,17 @@ export default function Header(): JSX.Element {
           <div className='header-reduced-journal-blank'></div>
           {availableLanguages.length > 1 && (
             <div className='header-reduced-journal-dropdown'>
-              <LanguageDropdown />
+              <LanguageDropdown withWhiteCaret={isMobileReduced()} />
             </div>
           )}
         </div>
-        {getPostHeaderLinks()}
+        <div className='header-postheader'>
+          <div className='header-postheader-burger'>
+            <img className='header-postheader-burger-icon' src={burger} alt='Burger menu icon' onMouseEnter={(): void => setShowMobileMenu(true)}/>
+            {getPostHeaderBurgerLinks()}
+          </div>
+          {getPostHeaderLinks()}
+        </div>
       </header>
     )
   }
@@ -166,7 +215,13 @@ export default function Header(): JSX.Element {
         </div>
         <div className='header-journal-title'>{journalName}</div>
       </div>
-      {getPostHeaderLinks()}
+      <div className='header-postheader'>
+        <div className='header-postheader-burger'>
+          <img className='header-postheader-burger-icon' src={burger} alt='Burger menu icon' onMouseEnter={(): void => setShowMobileMenu(true)}/>
+          {getPostHeaderBurgerLinks()}
+        </div>
+        {getPostHeaderLinks()}
+      </div>
     </header>
   )
 }

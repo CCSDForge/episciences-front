@@ -92,8 +92,6 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
             </div>
           </Link>
         )}
-      </div>
-      <div className='articleDetailsSidebar-links articleDetailsSidebar-links-bottom'>
         {citations.length > 0 && (
           <div className='articleDetailsSidebar-links-link articleDetailsSidebar-links-link-modal' onMouseEnter={(): void => setShowCitationsDropdown(true)}>
             <img className='articleDetailsSidebar-links-link-icon' src={quote} alt='Quote icon' />

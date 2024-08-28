@@ -4,6 +4,12 @@
     align-items: center;
     margin-bottom: 10px;
 
+    @media (max-width: $sm) {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 12px;
+    }
+
     &-text {
       min-width: 265px;
     }
@@ -12,6 +18,10 @@
       width: 100%;
       display: flex;
       padding-left: 60px;
+
+      @media (max-width: $sm) {
+        padding-left: 0px;
+      }
 
       &-text {
         color: var(--grey);
@@ -75,6 +85,10 @@
         flex-direction: column;
         gap: 16px;
         padding-left: 60px;
+
+        @media (max-width: $sm) {
+          padding-left: 0px;
+        }
       }
     }
   }

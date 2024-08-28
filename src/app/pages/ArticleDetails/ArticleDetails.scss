@@ -15,6 +15,11 @@
     gap: 60px;
     flex-direction: row-reverse;
 
+    @media (max-width: $xsm) {
+      gap: 20px;
+      flex-direction: column;
+    }
+
     &-article {
       width: 100%;
 
@@ -22,12 +27,36 @@
         color: var(--black);
         font-size: 24px;
         margin-bottom: 8px;
+
+        @media (max-width: $xsm) {
+          display: none;
+        }
+
+        &-mobile {
+          display: none;
+
+          @media (max-width: $xsm) {
+            display: block;
+          }
+        }
       }
 
       &-authors {
         color: var(--grey-dark);
         font-size: 20px;
         margin-bottom: 40px;
+
+        @media (max-width: $xsm) {
+          display: none;
+        }
+
+        &-mobile {
+          display: none;
+
+          @media (max-width: $xsm) {
+            display: block;
+          }
+        }
 
         &-withInstitutions {
           display: flex;
@@ -39,6 +68,14 @@
           &-caret {
             cursor: pointer;
           }
+
+          &-mobile {
+            display: none;
+  
+            @media (max-width: $xsm) {
+              display: block;
+            }
+          }
         }
       }
 
@@ -46,6 +83,18 @@
         color: var(--grey);
         font-size: 18px;
         margin-bottom: 40px;
+
+        @media (max-width: $xsm) {
+          display: none;
+        }
+
+        &-mobile {
+          display: none;
+
+          @media (max-width: $xsm) {
+            display: block;
+          }
+        }
       }
 
       &-section {
@@ -66,6 +115,10 @@
             font-size: 24px;
             font-weight: bold;
             color: var(--red);
+
+            @media (max-width: $sm) {
+              font-size: 17px;
+            }
           }
         }
     
@@ -106,6 +159,12 @@
                 padding: 4px 8px 4px 8px;
                 border-radius: 4px;
                 font-size: 12px;
+              }
+
+              &-img {
+                @media (max-width: $xsm) {
+                  width: 100%;
+                }
               }
 
               &-markdown-link, &-uri, &-doi, &-arxiv, &-hal {

@@ -47,10 +47,25 @@
         padding-left: 60px;
         margin-top: 30px;
 
+        @media (max-width: $xsm) {
+          flex-direction: column;
+          padding-left: 0px;
+        }
+
         &-grid {
           display: grid;
           gap: 15px;
           grid-template-columns: repeat(3, 1fr);
+
+          @media (max-width: $sm) {
+            grid-template-columns: repeat(2, 1fr);
+          }
+
+          @media (max-width: $xsm) {
+            display: flex;
+            flex-direction: column;
+            padding-left: 0px;
+          }
         }
       }
     }

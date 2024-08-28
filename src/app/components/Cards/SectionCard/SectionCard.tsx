@@ -44,6 +44,7 @@ export default function SectionCard({ language, t, section }: ISectionCardProps)
           </div>
         </div>
       )}
+      <div className='sectionCard-countMobile'>{section.articles.length > 1 ? `${section.articles.length} ${t('common.articles')}`: `${section.articles.length} ${t('common.article')}`}</div>
     </div>
   )
 }

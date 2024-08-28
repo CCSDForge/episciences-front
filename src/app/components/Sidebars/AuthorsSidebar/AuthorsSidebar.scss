@@ -3,6 +3,13 @@
   max-width: 310px;
   margin-top: 20px;
 
+  @media (max-width: $xsm) {
+    min-width: unset;
+    max-width: none;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
   &-search {
     height: 36px;
     border-bottom: 1px solid var(--red);
@@ -12,10 +19,15 @@
 
   &-letters {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(5, 1fr);
     row-gap: 18px;
     column-gap: 12px;
     margin: 0px 25px 0px 15px;
+
+    @media (max-width: $xsm) {
+      grid-template-columns: repeat(8, 1fr);
+      margin: auto;
+    }
 
     &-letter {
       width: 38px;
