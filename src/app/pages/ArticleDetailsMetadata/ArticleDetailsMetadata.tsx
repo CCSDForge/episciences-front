@@ -40,7 +40,13 @@ export default function ArticleDetailsMetadata(): JSX.Element {
 
     if (!metadata || !metadataFormat) return <></>
 
-    if (metadataFormat.format === METADATA_FORMAT.TEXT) return <>{metadata}</>
+    if (metadataFormat.format === METADATA_FORMAT.TEXT) {
+      return (
+        <pre>
+          <code>{metadata as string}</code>
+        </pre>
+      )
+    }
 
     if (metadataFormat.format === METADATA_FORMAT.XML) {
       let formattedXml: string = '';

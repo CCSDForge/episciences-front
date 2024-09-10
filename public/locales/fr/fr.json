@@ -26,6 +26,7 @@
     "cite": "Citer",
     "citeSuccess": "La citation {{template}} a été copiée dans le presse-papier",
     "week": "semaine",
+    "weeks": "semaines",
     "content": "Contenu",
     "publishedOn": "Publié le",
     "acceptedOn": "Accepté le",
@@ -143,13 +144,22 @@
         "graphicalAbstract": "Abstract graphique",
         "abstract": "Abstract",
         "keywords": "Mots-clés",
+        "references": "Références",
         "linkedPublications": "Publications liées -  jeux de données - logiciel",
         "citedBy": "Cité par",
         "preview": "Aperçu"
       },
+      "citedBySection": {
+        "source": "Source",
+        "authors": "Auteurs",
+        "reference": "Référence de la revue",
+        "volume": "Volume",
+        "page": "pp.",
+        "doi": "DOI"
+      },
       "actions": {
         "download": "Télécharger l'article",
-        "openHAL": "Ouvrir sur HAL",
+        "openOn": "Ouvrir sur",
         "cite": "Citer",
         "metadata": "Metadata",
         "share": {
@@ -224,6 +234,7 @@
         "downloads": "Téléchargements"
       },
       "relationships": {
+        "isSameAs": "Est identique à",
         "isDerivedFrom": "Est dérivé de",
         "hasDerivation": "A une dérivation",
         "isReviewOf": "Est une évaluation de",

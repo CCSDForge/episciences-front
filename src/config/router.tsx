@@ -10,6 +10,9 @@ import About from "../app/pages/About/About";
 import Articles from "../app/pages/Articles/Articles";
 import ArticleDetails from "../app/pages/ArticleDetails/ArticleDetails";
 import ArticleDetailsMetadata from "../app/pages/ArticleDetailsMetadata/ArticleDetailsMetadata";
+import ArticleDetailsPreview from "../app/pages/ArticleDetailsPreview/ArticleDetailsPreview";
+import ArticleDetailsNotice from "../app/pages/ArticleDetailsNotice/ArticleDetailsNotice";
+import ArticleDetailsDownload from "../app/pages/ArticleDetailsDownload/ArticleDetailsDownload";
 import ArticlesAccepted from "../app/pages/ArticlesAccepted/ArticlesAccepted";
 import Authors from "../app/pages/Authors/Authors";
 import Boards from "../app/pages/Boards/Boards";
@@ -23,11 +26,6 @@ import Statistics from "../app/pages/Statistics/Statistics";
 import VolumeDetails from "../app/pages/VolumeDetails/VolumeDetails";
 import Volumes from "../app/pages/Volumes/Volumes";
 import { PATHS, PathKeys } from "./paths";
-
-const pingRoute = (path: PathKeys): RouteObject => ({
-  path: PATHS[path],
-  element: null
-})
 
 const rawRoute = (path: PathKeys, Component: () => JSX.Element): RouteObject => ({
   path: PATHS[path],
@@ -82,9 +80,9 @@ const router = createBrowserRouter([
   {
     children: [
       rawRoute("articleDetailsMetadata", ArticleDetailsMetadata),
-      pingRoute("articleDetailsPreview"),
-      pingRoute("articleDetailsNotice"),
-      pingRoute("articleDetailsDownload"),
+      rawRoute("articleDetailsPreview", ArticleDetailsPreview),
+      rawRoute("articleDetailsNotice", ArticleDetailsNotice),
+      rawRoute("articleDetailsDownload", ArticleDetailsDownload),
     ]
   },
   redirectedRoute("home"),
