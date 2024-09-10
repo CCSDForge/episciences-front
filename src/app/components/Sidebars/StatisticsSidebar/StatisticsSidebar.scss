@@ -15,17 +15,25 @@
     border-bottom: 1px solid var(--grey-light);
 
     &-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
       max-height: 180px;
       overflow-y: scroll;
+      margin-bottom: 10px;
+      color: var(--grey);
+      cursor: pointer;
 
-      &-year {
-        margin-bottom: 10px;
-        color: var(--grey);
-        cursor: pointer;
+      &-choice {
+        display: flex;
+        gap: 18px;
 
-        &-selected {
-          color: var(--black);
-          text-decoration: underline;
+        &-label {
+          cursor: pointer;
+
+          &-checked {
+            color: var(--black);
+          }
         }
       }
     }

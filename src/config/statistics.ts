@@ -1,0 +1,49 @@
+import { STAT_EVALUATION_TYPE, STAT_TYPE } from "../utils/stat";
+
+export enum STATISTIC_BLOCK {
+  ACCEPTANCE_RATE = STAT_TYPE.ACCEPTANCE_RATE,
+  NB_SUBMISSIONS = STAT_TYPE.NB_SUBMISSIONS,
+  NB_SUBMISSIONS_DETAILS = STAT_TYPE.NB_SUBMISSIONS_DETAILS,
+  REVIEWS_REQUESTED = STAT_EVALUATION_TYPE.REVIEWS_REQUESTED,
+  REVIEWS_RECEIVED = STAT_EVALUATION_TYPE.REVIEWS_RECEIVED,
+  MEDIAN_SUBMISSION_PUBLICATION = STAT_TYPE.MEDIAN_SUBMISSION_PUBLICATION,
+  MEDIAN_REVIEWS_NUMBER = STAT_EVALUATION_TYPE.MEDIAN_REVIEWS_NUMBER
+}
+
+export const blocksConfiguration = (): { key: STATISTIC_BLOCK, render: boolean, order: number }[] => [
+  {
+    key: STATISTIC_BLOCK.ACCEPTANCE_RATE,
+    render: true,
+    order: 1
+  },
+  {
+    key: STATISTIC_BLOCK.NB_SUBMISSIONS,
+    render: true,
+    order: 2
+  },
+  {
+    key: STATISTIC_BLOCK.NB_SUBMISSIONS_DETAILS,
+    render: true,
+    order: 3
+  },
+  {
+    key: STATISTIC_BLOCK.REVIEWS_REQUESTED,
+    render: true,
+    order: 1
+  },
+  {
+    key: STATISTIC_BLOCK.REVIEWS_RECEIVED,
+    render: true,
+    order: 2
+  },
+  {
+    key: STATISTIC_BLOCK.MEDIAN_SUBMISSION_PUBLICATION,
+    render: true,
+    order: 3
+  },
+  {
+    key: STATISTIC_BLOCK.MEDIAN_REVIEWS_NUMBER,
+    render: true,
+    order: 4
+  },
+]

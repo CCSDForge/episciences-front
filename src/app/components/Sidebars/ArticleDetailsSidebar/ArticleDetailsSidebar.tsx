@@ -77,7 +77,7 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
     <div className='articleDetailsSidebar'>
       <div className='articleDetailsSidebar-links'>
         {article?.pdfLink && (
-          <Link to={article?.pdfLink} target='_blank' onClick={(): Promise<Response> => fetch(`/articles/${article.id}/download`)}>
+          <Link to={`/${PATHS.articles}/${article.id}/download`}>
             <div className='articleDetailsSidebar-links-link'>
               <img className='articleDetailsSidebar-links-link-icon' src={download} alt='Download icon' />
               <div className='articleDetailsSidebar-links-link-text'>{t('pages.articleDetails.actions.download')}</div>
@@ -85,10 +85,10 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
           </Link>
         )}
         {article?.docLink && (
-          <Link to={article?.docLink} target='_blank' onClick={(): Promise<Response> => fetch(`/articles/${article.id}/notice`)}>
+          <Link to={`/${PATHS.articles}/${article.id}/notice`}>
             <div className='articleDetailsSidebar-links-link'>
               <img className='articleDetailsSidebar-links-link-icon' src={externalLink} alt='External link icon' />
-              <div className='articleDetailsSidebar-links-link-text'>{t('pages.articleDetails.actions.openHAL')}</div>
+              <div className='articleDetailsSidebar-links-link-text'>{t('pages.articleDetails.actions.openOn')} {article.repositoryName}</div>
             </div>
           </Link>
         )}
@@ -166,9 +166,9 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
         <div className='articleDetailsSidebar-publicationDetails-title' onClick={(): void => togglePublicationDetails()}>
           <div className='articleDetailsSidebar-publicationDetails-title-text'>{t('pages.articleDetails.publicationDetails.title')}</div>
           {openedPublicationDetails ? (
-            <img className='articleDetailsSidebar-publicationDetails-title-text-caret' src={caretUp} alt='Caret up icon' />
+            <img className='articleDetailsSidebar-publicationDetails-title-caret' src={caretUp} alt='Caret up icon' />
           ) : (
-            <img className='articleDetailsSidebar-publicationDetails-title-text-caret' src={caretDown} alt='Caret down icon' />
+            <img className='articleDetailsSidebar-publicationDetails-title-caret' src={caretDown} alt='Caret down icon' />
           )}
         </div>
         <div className={`articleDetailsSidebar-publicationDetails-content ${openedPublicationDetails && 'articleDetailsSidebar-publicationDetails-content-opened'}`}>
@@ -195,7 +195,7 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
         <div className='articleDetailsSidebar-volumeDetails'>
           {relatedVolume && (
             <>
-              <Link to={`${PATHS.volumes}/${relatedVolume.id}`} className='articleDetailsSidebar-volumeDetails-number'>{t('pages.articleDetails.volumeDetails.title')} {relatedVolume.id}</Link>
+              <Link to={`${PATHS.volumes}/${relatedVolume.id}`} className='articleDetailsSidebar-volumeDetails-number'>{t('pages.articleDetails.volumeDetails.title')} {relatedVolume.num}</Link>
               {renderSpecialRelatedVolume()}
               <div className='articleDetailsSidebar-volumeDetails-title'>{relatedVolume.title && relatedVolume.title[language]}</div>
               {article?.doi && (

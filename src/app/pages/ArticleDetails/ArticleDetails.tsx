@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
@@ -16,7 +16,7 @@ import { useAppSelector } from "../../../hooks/store";
 import { useFetchArticleQuery } from "../../../store/features/article/article.query";
 import { useFetchVolumeQuery } from "../../../store/features/volume/volume.query";
 import { IArticle, IArticleAuthor, IArticleRelatedItem } from "../../../types/article";
-import { articleTypes, getCitations, ICitation, interworkRelationShipTypes, LINKED_PUBLICATION_IDENTIFIER_TYPE } from '../../../utils/article';
+import { articleTypes, getCitations, ICitation, INTER_WORK_RELATIONSHIP, interworkRelationShipTypes, LINKED_PUBLICATION_IDENTIFIER_TYPE } from '../../../utils/article';
 import { AvailableLanguage, availableLanguages } from '../../../utils/i18n';
 import { decodeText } from "../../../utils/markdown";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
@@ -29,6 +29,7 @@ enum ARTICLE_SECTION {
   GRAPHICAL_ABSTRACT = 'graphicalAbstract',
   ABSTRACT = 'abstract',
   KEYWORDS = 'keywords',
+  REFERENCES = 'references',
   LINKED_PUBLICATIONS = 'linkedPublications',
   CITED_BY = 'citedBy',
   PREVIEW = 'preview'
@@ -37,6 +38,8 @@ enum ARTICLE_SECTION {
 interface EnhancedArticleAuthor extends IArticleAuthor {
   institutionsKeys: number[];
 }
+
+const MAX_BREADCRUMB_TITLE = 20;
 
 export default function ArticleDetails(): JSX.Element {
   const { t } = useTranslation();
@@ -55,6 +58,7 @@ export default function ArticleDetails(): JSX.Element {
     { key: ARTICLE_SECTION.GRAPHICAL_ABSTRACT, isOpened: true },
     { key: ARTICLE_SECTION.ABSTRACT, isOpened: true },
     { key: ARTICLE_SECTION.KEYWORDS, isOpened: true },
+    { key: ARTICLE_SECTION.REFERENCES, isOpened: true },
     { key: ARTICLE_SECTION.LINKED_PUBLICATIONS, isOpened: true },
     { key: ARTICLE_SECTION.CITED_BY, isOpened: true },
     { key: ARTICLE_SECTION.PREVIEW, isOpened: true }
@@ -223,7 +227,7 @@ export default function ArticleDetails(): JSX.Element {
   const getKeywordsSection = (): JSX.Element | null => {
     const keywords = getKeywords()
 
-    if (!keywords) return null
+    if (!keywords.length) return null
 
     return (
       <ul>
@@ -237,7 +241,7 @@ export default function ArticleDetails(): JSX.Element {
 
     return (
       <ul>
-        {article?.relatedItems.map((relatedItem, index) => <li key={index}>{getLinkedPublicationRow(relatedItem)}</li>)}
+        {article?.relatedItems.filter((relatedItem => relatedItem.relationshipType !== INTER_WORK_RELATIONSHIP.IS_SAME_AS)).map((relatedItem, index) => <li key={index}>{getLinkedPublicationRow(relatedItem)}</li>)}
       </ul>
     )
   }
@@ -325,23 +329,64 @@ export default function ArticleDetails(): JSX.Element {
     )
   }
 
-  const getCitedBySection = (): JSX.Element | null  => {
-    if (!article?.citations || !article.citations.length) return null
+  const getReferencesSection = (): JSX.Element | null  => {
+    if (!article?.references || !article.references.length) return null
 
     return (
-      <ul className="articleDetails-content-article-section-content-citations-citation">
-      {article?.citations.map((citation, index) => (
-        <li key={index} className="articleDetails-content-article-section-content-citations-citation">
-          <p>{citation.citation}</p>
-          {citation.doi && <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${citation.doi}`} className="articleDetails-content-article-section-content-citations-citation-doi" target="_blank">{t('common.doi')} : {citation.doi}</Link>}
+      <ol className="articleDetails-content-article-section-content-references">
+      {article?.references.map((reference, index) => (
+        <li key={index} className="articleDetails-content-article-section-content-references-reference">
+          <p>{reference.citation}</p>
+          {reference.doi && <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${reference.doi}`} className="articleDetails-content-article-section-content-references-reference-doi" target="_blank">{t('common.doi')} : {reference.doi}</Link>}
         </li>
       ))}
-      </ul>
+      </ol>
+    )
+  }
+
+  const getCitedBySection = (): JSX.Element | null  => {
+    if (!article?.citedBy || !article.citedBy.length) return null
+
+    return (
+      <div className="articleDetails-content-article-section-content-citedBy">
+      {article?.citedBy.map((cb, index) => (
+        <div key={index} className="articleDetails-content-article-section-content-citedBy-row">
+          <p className="articleDetails-content-article-section-content-citedBy-row-source">{cb.source}</p>
+          <ul className="articleDetails-content-article-section-content-citedBy-row-citations">
+            {cb.citations.map((citation, index) => (
+              <li key={index} className="articleDetails-content-article-section-content-citedBy-row-citations-citation">
+                <p className="articleDetails-content-article-section-content-citedBy-row-citations-citation-title">{citation.title}</p>
+                <p className="articleDetails-content-article-section-content-citedBy-row-citations-citation-source">
+                  {t('pages.articleDetails.citedBySection.source')} : {citation.sourceTitle}
+                </p>
+                <p className="articleDetails-content-article-section-content-citedBy-row-citations-citation-authors">
+                  {t('pages.articleDetails.citedBySection.authors')} : {citation.authors.map<ReactNode>((author) => (
+                      <>
+                        <span>{author.fullname}</span>
+                        {author.orcid && (
+                          <Link to={`${import.meta.env.VITE_ORCID_HOMEPAGE}/${author.orcid}`} title={author.orcid} target='_blank'>
+                            {' '}
+                            <img src={orcid} alt='Orcid icon' />
+                          </Link>
+                        )}
+                      </>
+                  )).reduce((prev, curr) => [prev, ', ', curr])}
+                  </p>
+                <p className="articleDetails-content-article-section-content-citedBy-row-citations-citation-reference">
+                  {t('pages.articleDetails.citedBySection.reference')} : {t('pages.articleDetails.citedBySection.volume')} {citation.reference.volume}, {citation.reference.year}, {t('pages.articleDetails.citedBySection.page')} {citation.reference.page}
+                </p>
+                <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${article.doi}`} className="articleDetails-content-article-section-content-citedBy-row-citations-citation-doi" target="_blank">{t('pages.articleDetails.citedBySection.doi')} : {citation.doi}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      </div>
     )
   }
 
   const getPreviewSection = (): JSX.Element | null => {
-    return article?.docLink ? <iframe src={article.docLink} className="articleDetails-content-article-section-content-preview" /> : null
+    return article?.pdfLink ? <iframe src={article.pdfLink} className="articleDetails-content-article-section-content-preview" /> : null
   }
 
   useEffect(() => {
@@ -364,7 +409,7 @@ export default function ArticleDetails(): JSX.Element {
       <Breadcrumb parents={[
         { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` },
         { path: 'articles', label: `${t('pages.articles.title')} >` }
-      ]} crumbLabel={`${t('pages.articleDetails.title')} ${id}`} />
+      ]} crumbLabel={article ? article.title.length > MAX_BREADCRUMB_TITLE ? `${article.title.substring(0, MAX_BREADCRUMB_TITLE)} ...` : `${article?.title}` : ''} />
       {(isFetchingArticle || isFetchingVolume) ? (
         <Loader />
       ) : (
@@ -382,6 +427,7 @@ export default function ArticleDetails(): JSX.Element {
               {renderSection(ARTICLE_SECTION.GRAPHICAL_ABSTRACT, t('pages.articleDetails.sections.graphicalAbstract'), getGraphicalAbstractSection())}
               {renderSection(ARTICLE_SECTION.ABSTRACT, t('pages.articleDetails.sections.abstract'), getAbstractSection())}
               {renderSection(ARTICLE_SECTION.KEYWORDS, t('pages.articleDetails.sections.keywords'), getKeywordsSection())}
+              {renderSection(ARTICLE_SECTION.REFERENCES, t('pages.articleDetails.sections.references'), getReferencesSection())}
               {renderSection(ARTICLE_SECTION.LINKED_PUBLICATIONS, t('pages.articleDetails.sections.linkedPublications'), getLinkedPublicationsSection())}
               {renderSection(ARTICLE_SECTION.CITED_BY, t('pages.articleDetails.sections.citedBy'), getCitedBySection())}
               {renderSection(ARTICLE_SECTION.PREVIEW, t('pages.articleDetails.sections.preview'), getPreviewSection())}

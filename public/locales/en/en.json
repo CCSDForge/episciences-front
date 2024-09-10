@@ -26,6 +26,7 @@
     "cite": "Cite",
     "citeSuccess": "{{template}} citation has been copied to clipboard",
     "week": "week",
+    "weeks": "weeks",
     "content": "Content",
     "publishedOn": "Published on",
     "acceptedOn": "Accepted on",
@@ -143,13 +144,22 @@
         "graphicalAbstract": "Graphical abstract",
         "abstract": "Abstract",
         "keywords": "Keywords",
+        "references": "References",
         "linkedPublications": "Linked publications -  datasets - software",
         "citedBy": "Cited by",
         "preview": "Preview"
       },
+      "citedBySection": {
+        "source": "Source",
+        "authors": "Authors",
+        "reference": "Journal reference",
+        "volume": "Volume",
+        "page": "pp.",
+        "doi": "DOI"
+      },
       "actions": {
         "download": "Download article",
-        "openHAL": "Open on HAL",
+        "openOn": "Open on",
         "cite": "Cite",
         "metadata": "Metadata",
         "share": {
@@ -224,6 +234,7 @@
         "downloads": "Downloads"
       },
       "relationships": {
+        "isSameAs": "Is same as",
         "isDerivedFrom": "Is derived from",
         "hasDerivation": "Has derivation",
         "isReviewOf": "Is review of",
