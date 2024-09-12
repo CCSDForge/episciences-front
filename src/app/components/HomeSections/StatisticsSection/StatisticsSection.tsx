@@ -15,11 +15,17 @@ export default function StatisticsSection({ t, i18n, stats }: IStatisticsSection
   return (
     <div className="statisticsSection">
       {stats.map((singleStat, index) => (
-        isIStatValueDetails(singleStat.value) ? <></> : (
+        singleStat.value && isIStatValueDetails(singleStat.value) ? <></> : (
           <Fragment key={index}>
             <div className='statisticsSection-row'>
               {singleStat.unit ? (
-                <div className="statisticsSection-row-stat">{singleStat.value} {i18n.exists(`common.${singleStat.unit}`) ? t(`common.${singleStat.unit}`) : singleStat.unit}</div>
+                <div className="statisticsSection-row-stat">
+                  {singleStat.value} {i18n.exists(`common.${singleStat.unit}`) ? (
+                    singleStat.value && singleStat.value > 1 ? t(`common.${singleStat.unit}s`) : t(`common.${singleStat.unit}`)
+                  ) : (
+                    singleStat.unit
+                  )}
+                </div>
               ) : (
                 <div className="statisticsSection-row-stat">{singleStat.value}</div>
               )}

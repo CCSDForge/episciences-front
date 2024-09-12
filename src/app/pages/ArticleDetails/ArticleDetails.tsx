@@ -1,4 +1,4 @@
-import { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect, ReactNode, Fragment } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
@@ -13,10 +13,10 @@ import caretDownRed from '/icons/caret-down-red.svg';
 import orcid from '/icons/orcid.svg';
 import { PATHS } from '../../../config/paths'
 import { useAppSelector } from "../../../hooks/store";
-import { useFetchArticleQuery } from "../../../store/features/article/article.query";
+import { useFetchArticleMetadataQuery, useFetchArticleQuery } from "../../../store/features/article/article.query";
 import { useFetchVolumeQuery } from "../../../store/features/volume/volume.query";
 import { IArticle, IArticleAuthor, IArticleRelatedItem } from "../../../types/article";
-import { articleTypes, getCitations, ICitation, INTER_WORK_RELATIONSHIP, interworkRelationShipTypes, LINKED_PUBLICATION_IDENTIFIER_TYPE } from '../../../utils/article';
+import { articleTypes, CITATION_TEMPLATE, getCitations, ICitation, INTER_WORK_RELATIONSHIP, interworkRelationShipTypes, LINKED_PUBLICATION_IDENTIFIER_TYPE, METADATA_TYPE } from '../../../utils/article';
 import { AvailableLanguage, availableLanguages } from '../../../utils/i18n';
 import { decodeText } from "../../../utils/markdown";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
@@ -52,6 +52,8 @@ export default function ArticleDetails(): JSX.Element {
   const { id } = useParams();
   const { data: article, isFetching: isFetchingArticle, isError, error } = useFetchArticleQuery({ paperid: id! }, { skip: !id });
   const { data: relatedVolume, isFetching: isFetchingVolume } = useFetchVolumeQuery({ rvcode: rvcode!, vid: (article && article.volumeId ? article.volumeId.toString() : ''), language: language }, { skip: !article || !article?.volumeId || !rvcode })
+  const { data: metadataCSL, isFetching: isFetchingMetadataCSL } = useFetchArticleMetadataQuery({ rvcode: rvcode!, paperid: id!, type: METADATA_TYPE.CSL }, { skip: !id || !rvcode });
+  const { data: metadataBibTeX, isFetching: isFetchingMetadataBibTeX } = useFetchArticleMetadataQuery({ rvcode: rvcode!, paperid: id!, type: METADATA_TYPE.BIBTEX }, { skip: !id || !rvcode });
 
 
   const [openedSections, setOpenedSections] = useState<{ key: ARTICLE_SECTION, isOpened: boolean }[]>([
@@ -360,8 +362,8 @@ export default function ArticleDetails(): JSX.Element {
                   {t('pages.articleDetails.citedBySection.source')} : {citation.sourceTitle}
                 </p>
                 <p className="articleDetails-content-article-section-content-citedBy-row-citations-citation-authors">
-                  {t('pages.articleDetails.citedBySection.authors')} : {citation.authors.map<ReactNode>((author) => (
-                      <>
+                  {t('pages.articleDetails.citedBySection.authors')} : {citation.authors.map<ReactNode>((author, index) => (
+                      <Fragment key={index}>
                         <span>{author.fullname}</span>
                         {author.orcid && (
                           <Link to={`${import.meta.env.VITE_ORCID_HOMEPAGE}/${author.orcid}`} title={author.orcid} target='_blank'>
@@ -369,7 +371,7 @@ export default function ArticleDetails(): JSX.Element {
                             <img src={orcid} alt='Orcid icon' />
                           </Link>
                         )}
-                      </>
+                      </Fragment>
                   )).reduce((prev, curr) => [prev, ', ', curr])}
                   </p>
                 <p className="articleDetails-content-article-section-content-citedBy-row-citations-citation-reference">
@@ -397,12 +399,17 @@ export default function ArticleDetails(): JSX.Element {
 
   useEffect(() => {
     const fetchCitations = async () => {
-      const fetchedCitations = await getCitations(article?.doi);
+      const fetchedCitations = await getCitations(metadataCSL as string);
+      fetchedCitations.push({
+        key: CITATION_TEMPLATE.BIBTEX,
+        citation: metadataBibTeX as string
+      })
+
       setCitations(fetchedCitations);
     };
 
     fetchCitations();
-  }, [article, article?.doi]);
+  }, [metadataCSL, metadataBibTeX]);
 
   return (
     <main className='articleDetails'>
@@ -410,7 +417,7 @@ export default function ArticleDetails(): JSX.Element {
         { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` },
         { path: 'articles', label: `${t('pages.articles.title')} >` }
       ]} crumbLabel={article ? article.title.length > MAX_BREADCRUMB_TITLE ? `${article.title.substring(0, MAX_BREADCRUMB_TITLE)} ...` : `${article?.title}` : ''} />
-      {(isFetchingArticle || isFetchingVolume) ? (
+      {(isFetchingArticle || isFetchingVolume || isFetchingMetadataCSL || isFetchingMetadataBibTeX) ? (
         <Loader />
       ) : (
         <>
