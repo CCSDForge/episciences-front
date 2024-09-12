@@ -1,6 +1,6 @@
 export interface IStat {
   name: string;
-  value: IStatValue;
+  value?: IStatValue;
   unit?: string;
 }
 
@@ -16,7 +16,9 @@ interface IStatValueDetails {
 }
 
 export const isIStatValueDetails = (value: IStatValue): value is IStatValueDetails => {
-  return (value as IStatValueDetails).published !== undefined || (value as IStatValueDetails).refused !== undefined || (value as IStatValueDetails)['being-to-publish'] !== undefined;
+  const detailsValue = value as IStatValueDetails | undefined;
+
+  return detailsValue ? (detailsValue.published !== undefined || detailsValue.refused !== undefined || detailsValue['being-to-publish'] !== undefined) : false;
 }
 
 export interface IStatValueDetailsAsPieChart {
@@ -57,5 +59,7 @@ export interface IStatValueEvaluation {
 }
 
 export const isIStatValueEvaluation = (value: IStatValue): boolean => {
-  return (value as IStatValueEvaluation)['median-reviews-number'] !== undefined || (value as IStatValueEvaluation)['reviews-received'] !== undefined || (value as IStatValueEvaluation)['reviews-requested'] !== undefined;
+  const evaluationValue = value as IStatValueEvaluation | undefined;
+
+  return evaluationValue ? (evaluationValue['median-reviews-number'] !== undefined || evaluationValue['reviews-received'] !== undefined || evaluationValue['reviews-requested'] !== undefined) : false;
 }

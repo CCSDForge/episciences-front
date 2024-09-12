@@ -3,7 +3,7 @@ import { Cite, plugins, util } from '@citation-js/core'
 import '@citation-js/plugin-csl'
 import '@citation-js/plugin-doi'
 
-import { IArticle, IArticleAuthor, IArticleCitation, IArticleRelatedItem, RawArticle } from "../types/article";
+import { IArticle, IArticleAuthor, IArticleCitedBy, IArticleReference, IArticleRelatedItem, RawArticle } from "../types/article";
 import { toastSuccess } from './toast';
 
 export type FetchedArticle = IArticle | undefined;
@@ -18,12 +18,39 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
 
     const abstract = typeof articleContent.abstract?.value === 'string' ? articleContent.abstract?.value : articleContent.abstract?.value.value 
 
-    /** Format citations */
-    let citations: IArticleCitation[] = []
+    /** Format references */
+    let references: IArticleReference[] = []
     if (articleContent.citation_list?.citation) {
-      citations = articleContent.citation_list.citation.map((c) => ({
+      references = articleContent.citation_list.citation.map((c) => ({
         doi: c.doi,
         citation: c.unstructured_citation
+      }))
+    }
+
+    /** Format citedBy */
+    let citedBy: IArticleCitedBy[] = []
+    if (articleDB.current.cited_by) {
+      citedBy = Object.values(articleDB.current.cited_by).map((cb) => ({
+        source: cb.source_id_name,
+        citations: Object.values(JSON.parse(cb.citation as unknown as string)).map((c) => {
+          const citation = c as Record<string, string>;
+          const authors: string[] = citation.author.split(';')
+
+          return {
+            title: citation.title,
+            sourceTitle: citation.source_title,
+            authors: authors.map(author => ({
+              fullname: author.split(',')[0].trim(),
+              orcid: author.split(',')[1] ? author.split(',')[1].trim() : undefined
+            })),
+            reference: {
+              volume: citation.volume,
+              year: citation.year,
+              page: citation.page
+            },
+            doi: citation.doi
+          }
+        })
       }))
     }
 
@@ -39,7 +66,7 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
       const authorOrder = {"first": 1, "additional": 2};
       const sortedAuthors = articleContent.contributors.person_name.sort((a, b) => authorOrder[a["@sequence"] as keyof typeof authorOrder] - authorOrder[b["@sequence"] as keyof typeof authorOrder]);
       authors = sortedAuthors.map((author) => {
-        const fullname = `${author.given_name} ${author.surname}`.trim()
+        const fullname = author.given_name ? `${author.given_name} ${author.surname}`.trim() : author.surname.trim()
         const orcid = author.ORCID
         let institutions: string[] = []
         if (Array.isArray(author.affiliations?.institution)) {
@@ -57,7 +84,7 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
         }
       })
     } else {
-      const authorFullname = `${articleContent.contributors.person_name.given_name} ${articleContent.contributors.person_name.surname}`.trim()
+      const authorFullname = articleContent.contributors.person_name.given_name ? `${articleContent.contributors.person_name.given_name} ${articleContent.contributors.person_name.surname}`.trim() : articleContent.contributors.person_name.surname.trim()
       const authorOrcid = articleContent.contributors.person_name.ORCID
       let authorInstitutions: string[] = []
       if (Array.isArray(articleContent.contributors.person_name.affiliations?.institution)) {
@@ -198,13 +225,15 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
       submissionDate: articleDB.current.dates.first_submission_date,
       modificationDate: articleDB.current.dates.modification_date,
       tag: articleDB.current.type?.title.toLowerCase(),
+      repositoryName: articleDB.current.repository.name,
       pdfLink: articleDB.current.repository.paper_url.length ? articleDB.current.repository.paper_url : undefined,
       docLink: articleDB.current.repository.doc_url.length ? articleDB.current.repository.doc_url : undefined,
       repositoryIdentifier: articleDB.current.identifiers.repository_identifier,
       keywords: articleContent.keywords,
       doi: articleContent.doi_data.doi,
       volumeId: articleDB.current.volume?.id,
-      citations: citations,
+      references: references,
+      citedBy: citedBy,
       relatedItems: relatedItems,
       fundings: fundings,
       license: license,
@@ -256,8 +285,7 @@ export enum CITATION_TEMPLATE {
 }
 
 export const citationCustomTemplates: { key: CITATION_TEMPLATE, url: string }[] = [
-  { key: CITATION_TEMPLATE.MLA, url: `${import.meta.env.VITE_ZOTERO_HOMEPAGE}/styles/modern-language-association` },
-  { key: CITATION_TEMPLATE.BIBTEX, url: `${import.meta.env.VITE_ZOTERO_HOMEPAGE}/styles/bibtex` }
+  { key: CITATION_TEMPLATE.MLA, url: `${import.meta.env.VITE_ZOTERO_HOMEPAGE}/styles/modern-language-association` }
 ]
 
 export interface ICitation {
@@ -265,12 +293,12 @@ export interface ICitation {
   citation: string
 }
 
-export const getCitations = async (doi?: string): Promise<ICitation[]> => {
+export const getCitations = async (csl?: string): Promise<ICitation[]> => {
   const citations: ICitation[] = []
 
-  if (!doi) return citations
+  if (!csl) return citations
 
-  const citationData = await Cite.async(doi).catch(() => {})
+  const citationData = await Cite.async(csl).catch(() => {})
 
   if (!citationData) return citations
 
@@ -281,7 +309,7 @@ export const getCitations = async (doi?: string): Promise<ICitation[]> => {
     config.templates.add(customTemplate.key, templateXml)
   }))
 
-  await Promise.all(Object.values(CITATION_TEMPLATE).map(async template => {
+  await Promise.all(Object.values(CITATION_TEMPLATE).filter(template => template !== CITATION_TEMPLATE.BIBTEX).map(async template => {
     const output = citationData.format('bibliography', {
       format: 'text',
       template
@@ -515,7 +543,7 @@ export enum METADATA_FORMAT {
 
 export const getMetadataTypes: { type: METADATA_TYPE; label: string; format: METADATA_FORMAT }[] = [
   { type: METADATA_TYPE.TEI, label: 'TEI', format: METADATA_FORMAT.XML },
-  { type: METADATA_TYPE.DC, label: 'DC', format: METADATA_FORMAT.XML },
+  { type: METADATA_TYPE.DC, label: 'Dublin Core', format: METADATA_FORMAT.XML },
   { type: METADATA_TYPE.CROSSREF, label: 'Crossref', format: METADATA_FORMAT.XML },
   { type: METADATA_TYPE.ZBJATS, label: 'ZB Jats', format: METADATA_FORMAT.XML },
   { type: METADATA_TYPE.DOAJ, label: 'DOAJ', format: METADATA_FORMAT.XML },
@@ -526,6 +554,7 @@ export const getMetadataTypes: { type: METADATA_TYPE; label: string; format: MET
 ]
 
 export enum INTER_WORK_RELATIONSHIP {
+  IS_SAME_AS = "isSameAs",
   IS_DERIVED_FROM = "isDerivedFrom",
   HAS_DERIVATION = "hasDerivation",
   IS_REVIEW_OF = "isReviewOf",
@@ -561,6 +590,7 @@ export enum INTER_WORK_RELATIONSHIP {
 }
 
 export const interworkRelationShipTypes: { labelPath: string; value: string; }[] = [
+  { labelPath: 'pages.articleDetails.relationships.isSameAs', value: INTER_WORK_RELATIONSHIP.IS_SAME_AS },
   { labelPath: 'pages.articleDetails.relationships.isDerivedFrom', value: INTER_WORK_RELATIONSHIP.IS_DERIVED_FROM },
   { labelPath: 'pages.articleDetails.relationships.hasDerivation', value: INTER_WORK_RELATIONSHIP.HAS_DERIVATION },
   { labelPath: 'pages.articleDetails.relationships.isReviewOf', value: INTER_WORK_RELATIONSHIP.IS_REVIEW_OF },

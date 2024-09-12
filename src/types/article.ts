@@ -20,13 +20,15 @@ export interface IArticle {
   submissionDate?: string;
   modificationDate?: string;
   tag?: string;
+  repositoryName: string;
   pdfLink?: string;
   docLink?: string;
   repositoryIdentifier: string;
   keywords?: string[] | IArticleKeywords;
   doi: string;
   volumeId?: number;
-  citations?: IArticleCitation[];
+  references?: IArticleReference[];
+  citedBy?: IArticleCitedBy[];
   relatedItems?: IArticleRelatedItem[];
   fundings?: string[];
   license?: string;
@@ -50,9 +52,29 @@ export interface IArticleKeywords extends IArticleRecordKeywords {
   [index: number]: string;
 }
 
-export interface IArticleCitation {
+export interface IArticleReference {
   doi?: string;
   citation: string;
+}
+
+export interface IArticleCitedBy {
+  source: string;
+  citations: IArticleCitedByCitation[];
+}
+
+export interface IArticleCitedByCitation {
+  title: string;
+  sourceTitle: string;
+  authors: {
+    fullname: string;
+    orcid?: string;
+  }[];
+  reference: {
+    volume: string;
+    year: string;
+    page: string;
+  }
+  doi: string;
 }
 
 export interface IArticleRelatedItem {
@@ -70,6 +92,22 @@ export type RawArticle = IPartialArticle & IArticle & {
       }
       database: {
         current: {
+          cited_by?: {
+            [key: number]: {
+              source_id_name: string;
+              citation: {
+                [key: number]: {
+                  title: string;
+                  source_title: string;
+                  author: string;
+                  volume: string;
+                  year: string;
+                  page: string;
+                  doi: string;
+                }
+              };
+            }
+          }
           type?: {
             title: string;
           }
@@ -85,6 +123,7 @@ export type RawArticle = IPartialArticle & IArticle & {
             link: string;
           }[]
           repository: {
+            name: string;
             doc_url: string;
             paper_url: string;
           }
@@ -120,7 +159,7 @@ interface IRawArticleContent {
     person_name: {
       surname: string;
       '@sequence': string;
-      given_name: string;
+      given_name?: string;
       ORCID?: string;
       affiliations?: {
         institution?: {
@@ -132,7 +171,7 @@ interface IRawArticleContent {
     } | {
       surname: string;
       '@sequence': string;
-      given_name: string;
+      given_name?: string;
       ORCID?: string;
       affiliations?: {
         institution?: {

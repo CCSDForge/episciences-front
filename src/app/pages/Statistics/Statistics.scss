@@ -44,6 +44,10 @@
             border-bottom: 1px solid var(--red);
             padding-bottom: 8px;
             cursor: pointer;
+
+            &-caret {
+              width: 14px;
+            }
           }
 
           &-stats {
@@ -51,14 +55,20 @@
 
             &-active {
               display: flex;
-              justify-content: space-between;
               align-items: center;
-              padding: 16px 35px 16px 35px;
+              gap: 60px;
+              padding: 16px 0px 16px 0px;
+              margin: 0px 0px 0px 50px;
 
               @media (max-width: $sm) {
                 flex-wrap: wrap;
                 padding: 16px;
               }
+            }
+
+            &-evaluation {
+              justify-content: space-around;
+              gap: initial;
             }
 
             &-row {
@@ -78,12 +88,19 @@
                 font-weight: bold;
 
                 &-evaluation {
+                  display: flex;
+                  align-items: baseline;
+                  gap: 4px;
                   font-size: 50px;
                 }
 
-                &-unitEvaluation {
-                  font-size: 14px;
+                &-unit {
                   font-weight: normal;
+                  font-size: 24px;
+
+                  &-evaluation {
+                    font-size: 14px;
+                  }
                 }
               }
 
@@ -95,6 +112,7 @@
                 &-evaluation {
                   font-size: 14px;
                   max-width: 220px;
+                  text-wrap: balance;
                 }
               }
             }
