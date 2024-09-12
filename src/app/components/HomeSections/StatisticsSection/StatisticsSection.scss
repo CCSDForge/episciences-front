@@ -10,14 +10,13 @@
   }
 
   @media (max-width: $xsm) {
-    flex-direction: column;
     gap: 15px;
-    align-items: center;
   }
 
   &-row {
     display: flex;
     flex-direction: column;
+    align-items: center;
     text-align: center;
     gap: 5px;
 
@@ -48,5 +47,9 @@
   &-divider {
     width: 4px;
     background: var(--red);
+
+    @media (max-width: $xsm) {
+      width: 2px;
+    }
   }
 }

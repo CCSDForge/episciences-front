@@ -6,6 +6,10 @@
   border-bottom: 4px solid var(--red);
   scroll-margin: 120px;
 
+  @media (max-width: $sm) {
+    padding: 25px;
+  }
+
   @media (max-width: $xsm) {
     flex-direction: column;
   }

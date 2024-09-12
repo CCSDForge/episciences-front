@@ -43,7 +43,23 @@ h2 {
   font-size: 24px;
 
   @media (max-width: $xsm) {
-    font-size: 16px;
+    font-size: 18px;
+  }
+}
+
+h3 {
+  font-size: 19px;
+
+  @media (max-width: $xsm) {
+    font-size: 17px;
+  }
+}
+
+h4 {
+  font-size: 16px;
+
+  @media (max-width: $xsm) {
+    font-size: 15px;
   }
 }
 
