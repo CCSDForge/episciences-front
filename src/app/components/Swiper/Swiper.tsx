@@ -59,11 +59,11 @@ export default function Swiper({ id, type, language, t, slidesPerView, slidesPer
               slidesPerView: 1,
               slidesPerGroup: 1,
             },
-            768: {
+            480: {
               slidesPerView: 2,
               slidesPerGroup: 2
             },
-            1024: {
+            1368: {
               slidesPerView: slidesPerView,
               slidesPerGroup: slidesPerGroup
             }
