@@ -76,7 +76,7 @@ export default function ArticleCard({ language, rvcode, t, article, toggleAbstra
         <div className='articleCard-anchor-publicationDate'>{`${t('common.publishedOn')} ${formatDate(article?.publicationDate!, language)}`}</div>
         <div className="articleCard-anchor-icons">
           {article.pdfLink && (
-            <Link to={article.pdfLink} target='_blank' onClick={(): Promise<Response> => fetch(`/articles/${article.id}/download`)}>
+            <Link to={`/${PATHS.articles}/${article.id}/download`}>
               <div className="articleCard-anchor-icons-download">
                 <img className="articleCard-anchor-icons-download-icon" src={download} alt='Download icon' />
                 <div className="articleCard-anchor-icons-download-text">{t('common.pdf')}</div>
