@@ -285,8 +285,7 @@ export enum CITATION_TEMPLATE {
 }
 
 export const citationCustomTemplates: { key: CITATION_TEMPLATE, url: string }[] = [
-  { key: CITATION_TEMPLATE.MLA, url: `${import.meta.env.VITE_ZOTERO_HOMEPAGE}/styles/modern-language-association` },
-  { key: CITATION_TEMPLATE.BIBTEX, url: `${import.meta.env.VITE_ZOTERO_HOMEPAGE}/styles/bibtex` }
+  { key: CITATION_TEMPLATE.MLA, url: `${import.meta.env.VITE_ZOTERO_HOMEPAGE}/styles/modern-language-association` }
 ]
 
 export interface ICitation {
@@ -294,12 +293,12 @@ export interface ICitation {
   citation: string
 }
 
-export const getCitations = async (doi?: string): Promise<ICitation[]> => {
+export const getCitations = async (csl?: string): Promise<ICitation[]> => {
   const citations: ICitation[] = []
 
-  if (!doi) return citations
+  if (!csl) return citations
 
-  const citationData = await Cite.async(doi).catch(() => {})
+  const citationData = await Cite.async(csl).catch(() => {})
 
   if (!citationData) return citations
 
@@ -310,7 +309,7 @@ export const getCitations = async (doi?: string): Promise<ICitation[]> => {
     config.templates.add(customTemplate.key, templateXml)
   }))
 
-  await Promise.all(Object.values(CITATION_TEMPLATE).map(async template => {
+  await Promise.all(Object.values(CITATION_TEMPLATE).filter(template => template !== CITATION_TEMPLATE.BIBTEX).map(async template => {
     const output = citationData.format('bibliography', {
       format: 'text',
       template
