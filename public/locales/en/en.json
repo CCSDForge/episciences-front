@@ -49,6 +49,7 @@
       "filter": "Filter",
       "editFilters": "Edit filters",
       "clearAll": "Clear all filters",
+      "applyFilters": "Apply filters",
       "years": "Years",
       "documentTypes": "Types of document",
       "volumeTypes": "Types of volume",
