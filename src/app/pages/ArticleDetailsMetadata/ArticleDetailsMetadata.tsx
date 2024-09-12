@@ -15,7 +15,7 @@ export default function ArticleDetailsMetadata(): JSX.Element {
   
   const { id, type } = useParams();
   const { data: article, isFetching: isFetchingArticle, isError, error } = useFetchArticleQuery({ paperid: id! }, { skip: !id });
-  const { data: metadata, isFetching: isFetchingMetadata, } = useFetchArticleMetadataQuery({ rvcode: rvcode!, paperid: id!, type: type as METADATA_TYPE }, { skip: !id || !type || !rvcode });
+  const { data: metadata, isFetching: isFetchingMetadata } = useFetchArticleMetadataQuery({ rvcode: rvcode!, paperid: id!, type: type as METADATA_TYPE }, { skip: !id || !type || !rvcode });
 
   useEffect(() => {
     if (!article && isError && (error as FetchBaseQueryError)?.status) {
@@ -40,7 +40,13 @@ export default function ArticleDetailsMetadata(): JSX.Element {
 
     if (!metadata || !metadataFormat) return <></>
 
-    if (metadataFormat.format === METADATA_FORMAT.TEXT) return <>{metadata}</>
+    if (metadataFormat.format === METADATA_FORMAT.TEXT) {
+      return (
+        <pre>
+          <code>{metadata as string}</code>
+        </pre>
+      )
+    }
 
     if (metadataFormat.format === METADATA_FORMAT.XML) {
       let formattedXml: string = '';

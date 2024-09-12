@@ -127,7 +127,7 @@
           font-size: 16px;
           margin-top: 8px;
 
-          ul li {
+          ul li, ol li {
             max-width: 860px;
             margin-bottom: 15px;
             overflow-wrap: break-word;
@@ -178,11 +178,41 @@
             }
           }
 
-          &-citations {
-            &-citation {
+          &-references {
+            &-reference {
               &-doi {
                 color: var(--red);
                 text-decoration: underline;
+              }
+            }
+          }
+
+          &-citedBy {
+            margin-top: 10px;
+
+            &-row {
+              &-source {
+                font-weight: bold;
+                margin-bottom: 10px;
+              }
+
+              &-citations {
+                &-citation {
+                  &-title {
+                    margin-bottom: 10px;
+                  }
+
+                  &-source, &-authors, &-reference, &-doi {
+                    font-size: 15px;
+                  }
+
+                  &-doi {
+                    display: flex;
+                    gap: 5px;
+                    color: var(--red);
+                    text-decoration: underline;
+                  }
+                }
               }
             }
           }

@@ -248,6 +248,7 @@ export default function Articles(): JSX.Element {
                 <ArticleCard
                   key={index}
                   language={language}
+                  rvcode={rvcode}
                   t={t}
                   article={article as IArticleCard}
                   toggleAbstractCallback={(): void => toggleAbstract(article?.id)}

@@ -9,6 +9,7 @@ import logoText from '/icons/logo-text.svg';
 import logoJpeBig from '/icons/logo-jpe-big.svg';
 import logoJpeSmall from '/icons/logo-jpe-small.svg';
 import { PATHS } from '../../../config/paths'
+import { blocksConfiguration } from '../../../config/statistics';
 import { useAppDispatch, useAppSelector } from '../../../hooks/store';
 import { setSearch } from '../../../store/features/search/search.slice';
 import { availableLanguages } from '../../../utils/i18n';
@@ -61,6 +62,8 @@ export default function Header(): JSX.Element {
 
   const isMobileReduced = (): boolean => isReduced && isMobileOnly;
 
+  const shouldRenderStatistics: boolean = blocksConfiguration().some((config) => config.render)
+
   const getPostHeaderLinks = (): JSX.Element => {
     return (
       <>
@@ -89,7 +92,7 @@ export default function Header(): JSX.Element {
                   <div className='header-postheader-links-dropdown-content-links'>
                     <Link to={PATHS.about}>{t('components.header.links.about')}</Link>
                     <Link to={PATHS.news}>{t('components.header.links.news')}</Link>
-                    <Link to={PATHS.statistics}>{t('components.header.links.statistics')}</Link>
+                    {shouldRenderStatistics && <Link to={PATHS.statistics}>{t('components.header.links.statistics')}</Link>}
                   </div>
                 </div>
               )}
