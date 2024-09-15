@@ -239,7 +239,7 @@ export default function Volumes(): JSX.Element {
         { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }
       ]} crumbLabel={t('pages.volumes.title')} />
       <div className='volumes-title'>
-        <h1>{t('pages.volumes.title')}</h1>
+        <h1 className='volumes-title-text'>{t('pages.volumes.title')}</h1>
         <div className='volumes-title-count'>
           {mode === RENDERING_MODE.LIST ? (
             <div className='volumes-title-count-wrapper'>

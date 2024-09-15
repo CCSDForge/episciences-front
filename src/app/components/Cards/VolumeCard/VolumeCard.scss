@@ -5,16 +5,37 @@
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--red);
 
+  @media (max-width: $sm) {
+    flex-direction: column;
+  }
+
   &-resume {
     min-width: 190px;
     padding-right: 50px;
     border-right: 1px solid var(--grey-light);
+
+    @media (max-width: $sm) {
+      min-width: none;
+      padding-right: 0px;
+      border-right: 0px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 16px;
+      flex-direction: row-reverse;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--grey-light);
+    }
 
     &-id {
       color: var(--red);
       font-size: 24px;
       font-weight: bold;
       margin-bottom: 18px;
+
+      @media (max-width: $sm) {
+        margin-bottom: 0px;
+      }
     }
     
     &-year {
@@ -22,12 +43,20 @@
       font-size: 18px;
       font-weight: 600;
       margin-bottom: 8px;
+
+      @media (max-width: $sm) {
+        margin-bottom: 0px;
+      }
     }
 
     &-count {
       display: flex;
       gap: 4px;
       align-items: center;
+
+      @media (max-width: $sm) {
+        display: none;
+      }
 
       &-icon {
         height: 13px;
@@ -46,6 +75,11 @@
     align-items: flex-start;
     flex-direction: column;
     padding-left: 18px;
+
+    @media (max-width: $sm) {
+      padding-left: 0px;
+      margin-top: 8px;
+    }
 
     &-special {
       color: var(--red);
@@ -114,6 +148,10 @@
     justify-content: flex-start;
     gap: 20px;
 
+    @media (max-width: $sm) {
+      flex-direction: row;
+    }
+
     &-img {
       width: 120px;
     }
@@ -175,6 +213,12 @@
         color: var(--black);
         font-weight: 600;
         margin-bottom: 8px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-clamp: 3;
+        -webkit-line-clamp: 3;
       }
 
       &-year {

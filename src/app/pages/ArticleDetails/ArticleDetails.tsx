@@ -5,6 +5,7 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { MathJax } from 'better-react-mathjax';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { isMobileOnly } from "react-device-detect";
 
 import caretUpGrey from '/icons/caret-up-grey.svg';
 import caretDownGrey from '/icons/caret-down-grey.svg';
@@ -403,6 +404,29 @@ export default function ArticleDetails(): JSX.Element {
     return article?.pdfLink ? <iframe src={article.pdfLink} className="articleDetails-content-article-section-content-preview" /> : null
   }
 
+  const renderMetrics = (): JSX.Element | undefined => {
+    if (article?.metrics && (article.metrics.views > 0 || article.metrics.downloads > 0)) {
+      return (
+        <div className='articleDetailsSidebar-metrics'>
+          <div className='articleDetailsSidebar-metrics-title'>{t('pages.articleDetails.metrics.title')}</div>
+          <div className='articleDetailsSidebar-metrics-data'>
+            <div className='articleDetailsSidebar-metrics-data-row'>
+              <div className='articleDetailsSidebar-metrics-data-row-number'>{article.metrics.views}</div>
+              <div className='articleDetailsSidebar-metrics-data-row-text'>{t('pages.articleDetails.metrics.views')}</div>
+            </div>
+            <div className='articleDetailsSidebar-metrics-data-divider'></div>
+            <div className='articleDetailsSidebar-metrics-data-row'>
+              <div className='articleDetailsSidebar-metrics-data-row-number'>{article.metrics.downloads}</div>
+              <div className='articleDetailsSidebar-metrics-data-row-text'>{t('pages.articleDetails.metrics.downloads')}</div>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    return;
+  }
+
   useEffect(() => {
     if (!article && isError && (error as FetchBaseQueryError)?.status) {
       navigate(PATHS.home);
@@ -437,7 +461,7 @@ export default function ArticleDetails(): JSX.Element {
           {article?.tag && <div className='articleDetails-tag'>{t(articleTypes.find((tag) => tag.value === article.tag)?.labelPath!)}</div>}
           <div className="articleDetails-content">
             {renderArticleTitleAndAuthors(true)}
-            <ArticleDetailsSidebar language={language} t={t} article={article as IArticle | undefined} relatedVolume={relatedVolume} citations={citations} />
+            <ArticleDetailsSidebar language={language} t={t} article={article as IArticle | undefined} relatedVolume={relatedVolume} citations={citations} metrics={renderMetrics()} />
             <div className="articleDetails-content-article">
               {renderArticleTitleAndAuthors(false)}
               {renderSection(ARTICLE_SECTION.GRAPHICAL_ABSTRACT, t('pages.articleDetails.sections.graphicalAbstract'), getGraphicalAbstractSection())}
@@ -447,6 +471,7 @@ export default function ArticleDetails(): JSX.Element {
               {renderSection(ARTICLE_SECTION.LINKED_PUBLICATIONS, t('pages.articleDetails.sections.linkedPublications'), getLinkedPublicationsSection())}
               {renderSection(ARTICLE_SECTION.CITED_BY, t('pages.articleDetails.sections.citedBy'), getCitedBySection())}
               {renderSection(ARTICLE_SECTION.PREVIEW, t('pages.articleDetails.sections.preview'), getPreviewSection())}
+              {isMobileOnly && renderMetrics()}
             </div>
           </div>
         </>

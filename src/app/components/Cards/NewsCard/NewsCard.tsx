@@ -39,9 +39,15 @@ export default function NewsCard({ language, t, mode, fullCard, blurCard, setFul
   const renderContent = (): JSX.Element | null => {
     if (!news.content || !news.content[language]) return null
     
+    if (news.content[language].length <= MAX_CONTENT_LENGTH) {
+      return (
+        <ReactMarkdown>{news.content[language]}</ReactMarkdown>
+      )
+    }
+
     return (
       <div className='newsCard-content-content'>
-        {showFullContent ?(
+        {showFullContent ? (
           <ReactMarkdown>{news.content[language]}</ReactMarkdown>
         ) : (
           <ReactMarkdown>{`${news.content[language].substring(0, MAX_CONTENT_LENGTH)}...`}</ReactMarkdown>

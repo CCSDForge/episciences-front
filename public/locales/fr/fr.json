@@ -21,6 +21,7 @@
     "readMore": "Lire plus",
     "readLess": "Lire moins",
     "seeMore": "En savoir plus",
+    "seeLess": "En savoir moins",
     "doi": "DOI",
     "pdf": "PDF",
     "cite": "Citer",
@@ -296,7 +297,10 @@
       "relatedVolumes": {
         "volumes": "Liste des volumes",
         "specialIssues": "Liste des volumes spéciaux",
-        "proceedings": "Liste des actes de conférences"
+        "proceedings": "Liste des actes de conférences",
+        "lookAtSelectedVolume": "Consulter le volume sélectionné",
+        "lookAtSelectedIssue": "Consulter le volume spécial sélectionné",
+        "lookAtSelectedProceedings": "Consulter l'acte de conférence sélectionné"
       }
     },
     "sections": {

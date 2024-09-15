@@ -77,6 +77,12 @@ a {
   text-decoration: none;
 }
 
+ul, ol {
+  @media (max-width: $xsm) {
+    padding-left: 16px;
+  }
+}
+
 .toast-message {
   font-family: 'Noto-Sans';
   font-size: 14px;

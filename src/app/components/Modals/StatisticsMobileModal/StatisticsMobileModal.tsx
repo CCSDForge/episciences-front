@@ -4,9 +4,9 @@ import { TFunction } from 'i18next';
 import caretUpGrey from '/icons/caret-up-grey.svg';
 import caretDownGrey from '/icons/caret-down-grey.svg';
 import close from '/icons/close-red.svg';
+import Button from '../../Button/Button';
 import Checkbox from '../../Checkbox/Checkbox';
 import './StatisticsMobileModal.scss'
-import Button from '../../Button/Button';
 
 enum FILTERS_SECTION {
   YEAR = 'year'
