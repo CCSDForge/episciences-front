@@ -21,6 +21,7 @@
     "readMore": "Read more",
     "readLess": "Read less",
     "seeMore": "See more",
+    "seeLess": "See less",
     "doi": "DOI",
     "pdf": "PDF",
     "cite": "Cite",
@@ -296,7 +297,10 @@
       "relatedVolumes": {
         "volumes": "List of volumes",
         "specialIssues": "List of special issues",
-        "proceedings": "List of proceedings"
+        "proceedings": "List of proceedings",
+        "lookAtSelectedVolume": "Look at the selected volume",
+        "lookAtSelectedIssue": "Look at the selected issue",
+        "lookAtSelectedProceedings": "Look at the selected proceedings"
       }
     },
     "sections": {

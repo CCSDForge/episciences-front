@@ -55,6 +55,9 @@
 
           @media (max-width: $xsm) {
             display: block;
+            margin-bottom: 0px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--grey-light);
           }
         }
 
@@ -65,15 +68,23 @@
           padding-bottom: 8px;
           margin-bottom: 8px;
 
+          @media (max-width: $xsm) {
+            display: none;
+          }
+
           &-caret {
             cursor: pointer;
+
+            @media (max-width: $xsm) {
+              align-self: flex-end;
+            }
           }
 
           &-mobile {
             display: none;
   
             @media (max-width: $xsm) {
-              display: block;
+              display: flex;
             }
           }
         }
@@ -93,6 +104,9 @@
 
           @media (max-width: $xsm) {
             display: block;
+            margin-bottom: 0px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--grey-light);
           }
         }
       }
