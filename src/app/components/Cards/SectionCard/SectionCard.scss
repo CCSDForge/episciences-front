@@ -5,6 +5,10 @@
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--red);
 
+  @media (max-width: $sm) {
+    padding: 25px;
+  }
+
   &-title {
     display: flex;
     align-items: center;

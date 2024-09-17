@@ -91,7 +91,7 @@ export default function NewsMobileModal({ t, years, onUpdateYearsCallback, onClo
       <div className='newsMobileModal-filters'>
         <div className='newsMobileModal-filters-years'>
           <div className='newsMobileModal-filters-years-title'>
-            <div className='newsMobileModal-filters-years-title-text'>{t('common.filters.years')}</div>
+            <div className='newsMobileModal-filters-years-title-text' onClick={(): void => toggleSection(FILTERS_SECTION.YEAR)}>{t('common.filters.years')}</div>
             <img className='newsMobileModal-filters-years-title-caret' src={isOpenedSection(FILTERS_SECTION.YEAR) ? caretUpGrey : caretDownGrey} alt={isOpenedSection(FILTERS_SECTION.YEAR) ? 'Caret up icon' : 'Caret down icon'} onClick={(): void => toggleSection(FILTERS_SECTION.YEAR)} />
           </div>
           <div className={`newsMobileModal-filters-years-list ${isOpenedSection(FILTERS_SECTION.YEAR) && 'newsMobileModal-filters-years-list-opened'}`}>

@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 
+import filter from '/icons/filter.svg';
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchArticlesQuery } from '../../../store/features/article/article.query';
 import { FetchedArticle, articleTypes } from '../../../utils/article';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
 import ArticleCard, { IArticleCard } from "../../components/Cards/ArticleCard/ArticleCard";
+import ArticlesMobileModal from '../../components/Modals/ArticlesMobileModal/ArticlesMobileModal';
 import ArticlesSidebar, { IArticleTypeSelection, IArticleYearSelection } from "../../components/Sidebars/ArticlesSidebar/ArticlesSidebar";
 import Pagination from "../../components/Pagination/Pagination";
 import Tag from "../../components/Tag/Tag";
@@ -39,6 +41,7 @@ export default function Articles(): JSX.Element {
   const [years, setYears] = useState<IArticleYearSelection[]>([]);
   const [taggedFilters, setTaggedFilters] = useState<IArticleFilter[]>([]);
   const [showAllAbstracts, setShowAllAbstracts] = useState(false)
+  const [openedFiltersMobileModal, setOpenedFiltersMobileModal] = useState(false)
 
   const getSelectedTypes = (): string[] => types.filter(t => t.isChecked).map(t => t.value);
   const getSelectedYears = (): number[] => years.filter(y => y.isChecked).map(y => y.year);
@@ -213,29 +216,37 @@ export default function Articles(): JSX.Element {
         { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }
       ]} crumbLabel={t('pages.articles.title')} />
       <div className='articles-title'>
-        <h1>{t('pages.articles.title')}</h1>
+        <h1 className='articles-title-text'>{t('pages.articles.title')}</h1>
         <div className='articles-title-count'>
           {articles && articles.totalItems > 1 ? (
             <div className='articles-title-count-text'>{articles.totalItems} {t('common.articles')}</div>
           ) : (
             <div className='articles-title-count-text'>{articles?.totalItems ?? 0} {t('common.article')}</div>
           )}
+          <div className="articles-title-count-filtersMobile">
+            <div className="articles-title-count-filtersMobile-tile" onClick={(): void => setOpenedFiltersMobileModal(!openedFiltersMobileModal)}>
+              <img className="articles-title-count-filtersMobile-tile-icon" src={filter} alt='List icon' />
+              <div className="articles-title-count-filtersMobile-tile-text">{taggedFilters.length > 0 ? `${t('common.filters.editFilters')} (${taggedFilters.length})` : `${t('common.filters.filter')}`}</div>
+            </div>
+            {openedFiltersMobileModal && <ArticlesMobileModal t={t} initialTypes={types} onUpdateTypesCallback={setTypes} initialYears={years} onUpdateYearsCallback={setYears} onCloseCallback={(): void => setOpenedFiltersMobileModal(false)}/>}
+          </div>
         </div>
       </div>
       <div className="articles-filters">
-        <div className="articles-filters-tags">
-          {taggedFilters.map((filter, index) => (
-            <Tag key={index} text={filter.labelPath ? t(filter.labelPath) : filter.label!.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
-          ))}
-          {taggedFilters.length > 0 ? (
+        {taggedFilters.length > 0 && (
+          <div className="articles-filters-tags">
+            {taggedFilters.map((filter, index) => (
+              <Tag key={index} text={filter.labelPath ? t(filter.labelPath) : filter.label!.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
+            ))}
             <div className="articles-filters-tags-clear" onClick={clearTaggedFilters}>{t('common.filters.clearAll')}</div>
-          ) : (
-            <div className="articles-filters-tags-clear"></div>
-          )}
-        </div>
+          </div>
+        )}
         <div className="articles-filters-abstracts" onClick={toggleAllAbstracts}>
           {`${showAllAbstracts ? t('common.toggleAbstracts.hideAll') : t('common.toggleAbstracts.showAll')}`}
         </div>
+      </div>
+      <div className="articles-filters-abstracts articles-filters-abstracts-mobile" onClick={toggleAllAbstracts}>
+        {`${showAllAbstracts ? t('common.toggleAbstracts.hideAll') : t('common.toggleAbstracts.showAll')}`}
       </div>
       <div className='articles-content'>
         <div className='articles-content-results'>
