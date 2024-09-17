@@ -1,6 +1,10 @@
 .credits {
   &-title {
     margin-bottom: 70px;
+
+    @media (max-width: $sm) {
+      margin-bottom: 30px;
+    }
   }
 
   &-content {
@@ -11,6 +15,10 @@
       display: flex;
       flex-direction: column;
       padding-left: 60px;
+
+      @media (max-width: $sm) {
+        padding-left: 0px;
+      }
 
       &-section {
         display: block;

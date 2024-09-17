@@ -15,6 +15,11 @@
     gap: 60px;
     flex-direction: row-reverse;
 
+    @media (max-width: $xsm) {
+      gap: 20px;
+      flex-direction: column;
+    }
+
     &-article {
       width: 100%;
 
@@ -22,12 +27,39 @@
         color: var(--black);
         font-size: 24px;
         margin-bottom: 8px;
+
+        @media (max-width: $xsm) {
+          display: none;
+        }
+
+        &-mobile {
+          display: none;
+
+          @media (max-width: $xsm) {
+            display: block;
+          }
+        }
       }
 
       &-authors {
         color: var(--grey-dark);
         font-size: 20px;
         margin-bottom: 40px;
+
+        @media (max-width: $xsm) {
+          display: none;
+        }
+
+        &-mobile {
+          display: none;
+
+          @media (max-width: $xsm) {
+            display: block;
+            margin-bottom: 0px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--grey-light);
+          }
+        }
 
         &-withInstitutions {
           display: flex;
@@ -36,8 +68,24 @@
           padding-bottom: 8px;
           margin-bottom: 8px;
 
+          @media (max-width: $xsm) {
+            display: none;
+          }
+
           &-caret {
             cursor: pointer;
+
+            @media (max-width: $xsm) {
+              align-self: flex-end;
+            }
+          }
+
+          &-mobile {
+            display: none;
+  
+            @media (max-width: $xsm) {
+              display: flex;
+            }
           }
         }
       }
@@ -46,6 +94,21 @@
         color: var(--grey);
         font-size: 18px;
         margin-bottom: 40px;
+
+        @media (max-width: $xsm) {
+          display: none;
+        }
+
+        &-mobile {
+          display: none;
+
+          @media (max-width: $xsm) {
+            display: block;
+            margin-bottom: 0px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--grey-light);
+          }
+        }
       }
 
       &-section {
@@ -66,6 +129,10 @@
             font-size: 24px;
             font-weight: bold;
             color: var(--red);
+
+            @media (max-width: $sm) {
+              font-size: 17px;
+            }
           }
         }
     
@@ -106,6 +173,12 @@
                 padding: 4px 8px 4px 8px;
                 border-radius: 4px;
                 font-size: 12px;
+              }
+
+              &-img {
+                @media (max-width: $xsm) {
+                  width: 100%;
+                }
               }
 
               &-markdown-link, &-uri, &-doi, &-arxiv, &-hal {

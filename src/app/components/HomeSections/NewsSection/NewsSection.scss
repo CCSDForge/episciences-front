@@ -5,6 +5,10 @@
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--red);
 
+  @media (max-width: $xsm) {
+    flex-direction: column;
+  }
+
   &-row {
     min-width: 400px;
     max-width: 400px;
@@ -12,10 +16,19 @@
     flex-direction: column;
     gap: 25px;
 
+    @media (max-width: $sm) {
+      min-width: unset;
+      max-width: unset;
+    }
+
     &-title {
       width: 375px;
       font-size: 16px;
       font-weight: 600;
+
+      @media (max-width: $sm) {
+        width: 320px;
+      }
     }
 
     &-publicationDate {
@@ -28,5 +41,9 @@
 
   &-divider {
     border-right: 2px solid var(--red);
+
+    @media (max-width: $xsm) {
+      display: none;
+    }
   }
 }

@@ -6,6 +6,15 @@
     align-items: center;
     gap: 16px;
     margin: 0px -40px 20px -40px;
+
+    @media (max-width: $sm) {
+      margin: 0px -26px 20px -26px;
+    }
+
+    @media (max-width: $xsm) {
+      gap: 4px;
+      margin: 0px -14px 20px -14px;
+    }
   }
 
   &-pagination {
@@ -29,5 +38,19 @@
     right: 0;
     color: var(--red);
     z-index: 1;
+
+    @media (max-width: $sm) {
+      width: 11px;
+      height: 20px;
+    }
+
+    &::after {
+      content: '';
+    }
+
+    &-icon {
+      width: 100%;
+      height: 100%;
+    }
   }
 }

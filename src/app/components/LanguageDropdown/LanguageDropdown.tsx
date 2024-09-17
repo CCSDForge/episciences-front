@@ -1,14 +1,20 @@
 import { useState } from 'react';
 import i18next from 'i18next';
 
-import caretUp from '/icons/caret-up-blue.svg';
-import caretDown from '/icons/caret-down-blue.svg';
+import caretUpBlue from '/icons/caret-up-blue.svg';
+import caretDownBlue from '/icons/caret-down-blue.svg';
+import caretUpWhite from '/icons/caret-up-white.svg';
+import caretDownWhite from '/icons/caret-down-white.svg';
 import { useAppDispatch, useAppSelector } from '../../../hooks/store';
 import { setLanguage } from '../../../store/features/i18n/i18n.slice';
 import { AvailableLanguage, availableLanguages } from '../../../utils/i18n';
 import './LanguageDropdown.scss'
 
-export default function LanguageDropdown() {
+interface ILanguageDropdownProps {
+  withWhiteCaret?: boolean;
+}
+
+export default function LanguageDropdown({ withWhiteCaret }: ILanguageDropdownProps) {
   const dispatch = useAppDispatch();
 
   const language = useAppSelector(state => state.i18nReducer.language);
@@ -20,6 +26,7 @@ export default function LanguageDropdown() {
       return;
     }
 
+    setShowDropdown(false);
     dispatch(setLanguage(updatedLanguage));
     i18next.changeLanguage(updatedLanguage)
   };
@@ -29,9 +36,9 @@ export default function LanguageDropdown() {
       <div className='languageDropdown-icon'>
         <div className='languageDropdown-icon-text'>{language.toUpperCase()}</div>
         {showDropdown ? (
-            <img className='languageDropdown-icon-caret' src={caretUp} alt='Caret up icon' />
+            <img className='languageDropdown-icon-caret' src={withWhiteCaret ? caretUpWhite : caretUpBlue} alt='Caret up icon' />
           ) : (
-            <img className='languageDropdown-icon-caret' src={caretDown} alt='Caret down icon' />
+            <img className='languageDropdown-icon-caret' src={withWhiteCaret ? caretDownWhite : caretDownBlue} alt='Caret down icon' />
           )}
       </div>
       {showDropdown && (

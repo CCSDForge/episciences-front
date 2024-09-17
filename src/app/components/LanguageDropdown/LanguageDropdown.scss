@@ -5,6 +5,10 @@
   font-weight: 500;
   margin-right: 50px;
 
+  @media (max-width: $xsm) {
+    margin-right: 24px;
+  }
+
   &-icon {
     display: flex;
     justify-content: space-between;

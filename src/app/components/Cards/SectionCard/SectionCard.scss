@@ -5,8 +5,13 @@
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--red);
 
+  @media (max-width: $sm) {
+    padding: 25px;
+  }
+
   &-title {
     display: flex;
+    align-items: center;
     font-size: 21px;
     margin-bottom: 20px;
 
@@ -15,12 +20,20 @@
       font-size: 24px;
       font-weight: bold;
       padding-right: 30px;
-      border-right: 1px solid var(--grey-light);
+
+      @media (max-width: $sm) {
+        max-width: 420px;
+      }
     }
 
     &-count {
+      border-left: 1px solid var(--grey-light);
       padding-left: 30px;
       font-weight: 300;
+
+      @media (max-width: $xsm) {
+        display: none;
+      }
     }
   }
 
@@ -53,6 +66,17 @@
         display: block;
         white-space: pre-wrap;
       }
+    }
+  }
+
+  &-countMobile {
+    display: none;
+
+    @media (max-width: $xsm) {
+      display: flex;
+      align-self: flex-end;
+      font-size: 21px;
+      font-weight: 300;
     }
   }
 }

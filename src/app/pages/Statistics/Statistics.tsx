@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
+import filter from '/icons/filter.svg';
 import { PATHS } from '../../../config/paths';
 import { blocksConfiguration } from '../../../config/statistics';
 import { useAppSelector } from "../../../hooks/store";
@@ -13,6 +14,7 @@ import { STAT_TYPE, IStatisticsPerLabel, STAT_LABEL, statTypes, statEvaluationTy
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
 import PieChart from '../../components/Charts/PieChart/PieChart';
+import StatisticsMobileModal from '../../components/Modals/StatisticsMobileModal/StatisticsMobileModal';
 import StatisticsSidebar, { IStatisticsYearSelection } from '../../components/Sidebars/StatisticsSidebar/StatisticsSidebar';
 import './Statistics.scss'
 
@@ -27,6 +29,7 @@ export default function Statistics(): JSX.Element {
     { labelKey: STAT_LABEL.EVALUATION_PUBLICATION, labelPath: 'pages.statistics.labels.evaluationPublication', statistics: [], isOpened: true }
   ]);
   const [years, setYears] = useState<IStatisticsYearSelection[]>([]);
+  const [openedFiltersMobileModal, setOpenedFiltersMobileModal] = useState(false)
 
   const getSelectedYears = (): number[] => years.filter(y => y.isChecked).map(y => y.year);
 
@@ -142,7 +145,16 @@ export default function Statistics(): JSX.Element {
       ]} crumbLabel={t('pages.statistics.title')} />
       <div className='statistics-title'>
         <h1 className='statistics-title-text'>{t('pages.statistics.title')}</h1>
-        <div className='statistics-title-year'>{renderSelectedYears()}</div>
+        <div className='statistics-title-year'>
+          <span>{renderSelectedYears()}</span>
+          <div className="statistics-title-year-filtersMobile">
+            <div className="statistics-title-year-filtersMobile-tile" onClick={(): void => setOpenedFiltersMobileModal(!openedFiltersMobileModal)}>
+              <img className="statistics-title-year-filtersMobile-tile-icon" src={filter} alt='List icon' />
+              <div className="statistics-title-year-filtersMobile-tile-text">{getSelectedYears().length > 0 ? `${t('common.filters.editFilters')} (${getSelectedYears().length})` : `${t('common.filters.filter')}`}</div>
+            </div>
+            {openedFiltersMobileModal && <StatisticsMobileModal t={t} years={years} onUpdateYearsCallback={setYears} onCloseCallback={(): void => setOpenedFiltersMobileModal(false)}/>}
+          </div>
+        </div>
       </div>
       <div className='statistics-content'>
         <div className='statistics-content-results'>
@@ -200,7 +212,14 @@ export default function Statistics(): JSX.Element {
                             )}
                           </div>
                           {index !== filteredStatistics.length - 1 && (
-                            <div className={`${statisticPerLabel.labelKey === STAT_LABEL.EVALUATION_PUBLICATION ? "statistics-content-results-cards-row-stats-divider statistics-content-results-cards-row-stats-divider-evaluation" : "statistics-content-results-cards-row-stats-divider"}`}></div>
+                            <div className={`${statisticPerLabel.labelKey === STAT_LABEL.EVALUATION_PUBLICATION ? (
+                              `statistics-content-results-cards-row-stats-divider statistics-content-results-cards-row-stats-divider-evaluation ${index % 2 === 1 && 'statistics-content-results-cards-row-stats-divider-evaluation-second'}`
+                            ) : (
+                              `statistics-content-results-cards-row-stats-divider statistics-content-results-cards-row-stats-divider-glance ${index % 2 === 1 && 'statistics-content-results-cards-row-stats-divider-glance-second'}`
+                            )}`}></div>
+                          )}
+                          {(index !== filteredStatistics.length - 1) && index % 2 === 1 && (
+                            <div className='statistics-content-results-cards-row-stats-mobileLine'></div>
                           )}
                         </Fragment>
                       ))}

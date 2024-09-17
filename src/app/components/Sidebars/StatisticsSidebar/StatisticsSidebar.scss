@@ -3,6 +3,15 @@
   font-size: 16px;
   margin-top: 8px;
 
+  @media (max-width: $sm) {
+    min-width: 215px;
+    margin-top: 0px;
+  }
+
+  @media (max-width: $xsm) {
+    display: none;
+  }
+
   &-title {
     font-weight: bold;
     border-bottom: 1px solid var(--grey-light);

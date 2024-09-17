@@ -2,6 +2,10 @@
   min-width: 265px;
   margin-top: 31px;
 
+  @media (max-width: $sm) {
+    display: none;
+  }
+
   &-header {
     margin-bottom: 25px;
 

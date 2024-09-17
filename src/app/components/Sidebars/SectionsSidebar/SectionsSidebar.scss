@@ -1,4 +1,8 @@
 .sectionsSidebar {
   min-width: 265px;
   margin-top: -30px;
+
+  @media (max-width: $sm) {
+    display: none;
+  }
 }

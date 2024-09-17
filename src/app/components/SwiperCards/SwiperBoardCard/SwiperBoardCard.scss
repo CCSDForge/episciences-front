@@ -6,6 +6,10 @@
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--red);
 
+  @media (max-width: $sm) {
+    padding: 30px 24px 20px 24px;
+  }
+
   &-person {
     display: flex;
     gap: 20px;

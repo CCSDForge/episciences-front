@@ -3,6 +3,10 @@
   display: flex;
   gap: 16px;
 
+  @media (max-width: $xsm) {
+    flex-direction: column;
+  }
+
   &-card {
     width: 100%;
     display: flex;
@@ -11,6 +15,10 @@
     padding: 24px;
     border: 1px solid var(--grey);
     border-bottom: 4px solid var(--red);
+
+    @media (max-width: $xsm) {
+      width: auto;
+    }
 
     &-tile {
       width: 120px;
@@ -73,6 +81,13 @@
         color: var(--black);
         font-weight: 600;
         margin-bottom: 8px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-clamp: 3;
+        -webkit-line-clamp: 3;
+
       }
 
       &-year {

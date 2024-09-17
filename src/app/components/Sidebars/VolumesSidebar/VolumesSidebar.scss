@@ -2,6 +2,14 @@
   min-width: 265px;
   margin-top: -30px;
 
+  @media (max-width: $sm) {
+    min-width: 215px;
+  }
+
+  @media (max-width: $xsm) {
+    display: none;
+  }
+
   &-typesSection-title, &-yearsSection-title {
     font-weight: bold;
     border-bottom: 1px solid var(--grey-light);

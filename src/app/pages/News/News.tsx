@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import filter from '/icons/filter.svg';
 import listRed from '/icons/list-red.svg';
 import listGrey from '/icons/list-grey.svg';
 import tileRed from '/icons/tile-red.svg';
@@ -11,6 +12,7 @@ import { RENDERING_MODE } from '../../../utils/card';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
 import NewsCard from '../../components/Cards/NewsCard/NewsCard';
+import NewsMobileModal from '../../components/Modals/NewsMobileModal/NewsMobileModal';
 import NewsSidebar, { INewsYearSelection } from '../../components/Sidebars/NewsSidebar/NewsSidebar';
 import Pagination from "../../components/Pagination/Pagination";
 import './News.scss'
@@ -27,6 +29,7 @@ export default function News(): JSX.Element {
   const [mode, setMode] = useState(RENDERING_MODE.LIST);
   const [years, setYears] = useState<INewsYearSelection[]>([]);
   const [fullNewsIndex, setFullNewsIndex] = useState(-1);
+  const [openedFiltersMobileModal, setOpenedFiltersMobileModal] = useState(false)
 
   const getSelectedYears = (): number[] => years.filter(y => y.isSelected).map(y => y.year);
 
@@ -59,6 +62,8 @@ export default function News(): JSX.Element {
     setYears(updatedYears);
   }
 
+  const renderMobileSelectedYears = (): string => getSelectedYears().reverse().join(', ')
+
   return (
     <main className='news'>
       <Breadcrumb parents={[
@@ -80,6 +85,14 @@ export default function News(): JSX.Element {
             </div>
           </div>
         </div>
+      </div>
+      <div className="news-filtersMobile">
+        <span>{renderMobileSelectedYears()}</span>
+        <div className="news-filtersMobile-tile" onClick={(): void => setOpenedFiltersMobileModal(!openedFiltersMobileModal)}>
+          <img className="news-filtersMobile-tile-icon" src={filter} alt='List icon' />
+          <div className="news-filtersMobile-tile-text">{getSelectedYears().length > 0 ? `${t('common.filters.editFilters')} (${getSelectedYears().length})` : `${t('common.filters.filter')}`}</div>
+        </div>
+        {openedFiltersMobileModal && <NewsMobileModal t={t} years={years} onUpdateYearsCallback={setYears} onCloseCallback={(): void => setOpenedFiltersMobileModal(false)}/>}
       </div>
       <div className='news-content'>
         <div className='news-content-results'>

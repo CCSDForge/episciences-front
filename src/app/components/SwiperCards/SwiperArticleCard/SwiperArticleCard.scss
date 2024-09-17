@@ -6,6 +6,10 @@
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--red);
 
+  @media (max-width: $sm) {
+    padding: 30px 24px 20px 24px;
+  }
+
   &-tag {
     width: fit-content;
     height: fit-content;
@@ -21,6 +25,12 @@
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
   }
 
   &-authors {

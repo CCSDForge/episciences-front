@@ -2,13 +2,22 @@
   min-width: 370px;
   max-width: 370px;
 
+  @media (max-width: $sm) {
+    min-width: unset;
+    max-width: unset;
+  }
+
   &-links {
     display: flex;
-    gap: 16px;
-    margin-bottom: 12px;
+    flex-wrap: wrap;
+    row-gap: 12px;
+    column-gap: 16px;
+    margin-bottom: 30px;
 
-    &-bottom {
-      margin-bottom: 30px;
+    @media (max-width: $xsm) {
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--grey-light);
+      margin-bottom: 10px;
     }
 
     &-link {
@@ -67,6 +76,11 @@
     flex-direction: column;
     gap: 25px;
     margin-bottom: 32px;
+
+    @media (max-width: $xsm) {
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--grey-light);
+    }
 
     &-title {
       display: flex;
@@ -132,6 +146,11 @@
 
     &-title {
       margin-bottom: 40px;
+
+      @media (max-width: $xsm) {
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--grey-light);
+      }
     }
 
     &-doi {
@@ -213,7 +232,6 @@
     &-data {
       display: flex;
       justify-content: center;
-      gap: 48px;
       margin-top: 20px;
 
       &-divider {
@@ -225,6 +243,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        flex: 33.3%;
 
         &-number {
           color: var(--red);

@@ -1,7 +1,11 @@
 .searchResultsSidebar {
   min-width: 265px;
   max-width: 265px;
-  margin-top: -45px;
+  margin-top: -46px;
+
+  @media (max-width: $sm) {
+    display: none;
+  }
 
   &-typesSection-title, &-yearsSection-title, &-volumesSection-title, &-sectionsSection-title, &-authorsSection-title {
     font-weight: bold;
