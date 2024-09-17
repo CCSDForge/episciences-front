@@ -11,6 +11,7 @@ export default function Footer(): JSX.Element {
   const { t } = useTranslation();
 
   const currentJournal = useAppSelector(state => state.journalReducer.currentJournal);
+  const enabled = useAppSelector(state => state.footerReducer.enabled);
 
   const getJournalNotice = (): string | undefined => {
     return currentJournal?.settings?.find((setting) => setting.setting === "contactJournalNotice")?.value
@@ -37,7 +38,7 @@ export default function Footer(): JSX.Element {
   }
 
   return (
-    <footer className='footer'>
+    <footer className={`footer ${!enabled && 'footer-disabled'}`}>
       <div className='footer-journal'>
         <img src={logoJpeSmall} alt='Journal logo' className='footer-journal-logo' />
         <div className='footer-journal-links'>

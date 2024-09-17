@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { TFunction } from 'i18next';
 
 import close from '/icons/close-red.svg';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/store';
+import { setFooterVisibility } from '../../../../store/features/footer/footer.slice';
 import { IVolume } from '../../../../types/volume';
 import { AvailableLanguage } from '../../../../utils/i18n';
 import { VOLUME_TYPE } from '../../../../utils/volume';
@@ -18,6 +20,10 @@ interface IVolumeDetailsMobileModalProps {
 }
 
 export default function VolumeDetailsMobileModal({ language, t, volume, relatedVolumes, onSelectRelatedVolumeCallback, onCloseCallback }: IVolumeDetailsMobileModalProps): JSX.Element {
+  const dispatch = useAppDispatch();
+
+  const isFooterEnabled = useAppSelector(state => state.footerReducer.enabled);
+
   const modalRef = useRef<HTMLDivElement>(null);
 
   const [chosenVolume, setChosenVolume] = useState<IVolume | undefined>(volume);
@@ -25,6 +31,7 @@ export default function VolumeDetailsMobileModal({ language, t, volume, relatedV
   const onClose = (): void => {
     setChosenVolume(undefined);
     onCloseCallback();
+    dispatch(setFooterVisibility(true))
   }
 
   const onApplyFilters = (): void => {
@@ -32,6 +39,7 @@ export default function VolumeDetailsMobileModal({ language, t, volume, relatedV
 
     onSelectRelatedVolumeCallback(chosenVolume.id);
     onCloseCallback();
+    dispatch(setFooterVisibility(true))
   }
 
   useEffect(() => {
@@ -74,6 +82,12 @@ export default function VolumeDetailsMobileModal({ language, t, volume, relatedV
 
     return t('pages.volumeDetails.relatedVolumes.lookAtSelectedVolume')
   }
+
+  useEffect(() => {
+    if (isFooterEnabled) {
+      dispatch(setFooterVisibility(false))
+    }
+  }, [isFooterEnabled]);
 
   return (
     <div className='volumeDetailsMobileModal' ref={modalRef}>

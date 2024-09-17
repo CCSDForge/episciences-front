@@ -4,6 +4,8 @@ import { TFunction } from 'i18next';
 import caretUpGrey from '/icons/caret-up-grey.svg';
 import caretDownGrey from '/icons/caret-down-grey.svg';
 import close from '/icons/close-red.svg';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/store';
+import { setFooterVisibility } from '../../../../store/features/footer/footer.slice';
 import Button from '../../Button/Button';
 import Checkbox from '../../Checkbox/Checkbox';
 import Tag from '../../Tag/Tag';
@@ -44,6 +46,10 @@ interface IArticlesMobileModalProps {
 }
 
 export default function ArticlesMobileModal({ t, initialTypes, onUpdateTypesCallback, initialYears, onUpdateYearsCallback, onCloseCallback }: IArticlesMobileModalProps): JSX.Element {
+  const dispatch = useAppDispatch();
+
+  const isFooterEnabled = useAppSelector(state => state.footerReducer.enabled);
+
   const modalRef = useRef<HTMLDivElement>(null);
 
   const [openedSections, setOpenedSections] = useState<{ key: FILTERS_SECTION, isOpened: boolean }[]>([
@@ -142,12 +148,14 @@ export default function ArticlesMobileModal({ t, initialTypes, onUpdateTypesCall
   const onClose = (): void => {
     clearTaggedFilters();
     onCloseCallback();
+    dispatch(setFooterVisibility(true))
   }
 
   const onApplyFilters = (): void => {
     onUpdateTypesCallback(types);
     onUpdateYearsCallback(years);
     onCloseCallback();
+    dispatch(setFooterVisibility(true))
   }
 
   useEffect(() => {
@@ -166,6 +174,12 @@ export default function ArticlesMobileModal({ t, initialTypes, onUpdateTypesCall
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [onClose]);
+
+  useEffect(() => {
+    if (isFooterEnabled) {
+      dispatch(setFooterVisibility(false))
+    }
+  }, [isFooterEnabled]);
 
   const toggleSection = (sectionKey: FILTERS_SECTION) => {
     const updatedSections = openedSections.map((section) => {
