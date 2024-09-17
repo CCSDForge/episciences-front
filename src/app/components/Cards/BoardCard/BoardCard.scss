@@ -77,6 +77,11 @@
     &-initial {
       min-width: 320px;
       max-width: 320px;
+
+      @media (max-width: $xsm) {
+        min-width: auto;
+        max-width: none;
+      }
     }
 
     &-expanded {
