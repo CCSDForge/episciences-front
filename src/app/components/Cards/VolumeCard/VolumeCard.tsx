@@ -105,7 +105,7 @@ export default function VolumeCard({ language, t, mode, volume, currentJournal }
         <Link to={`${PATHS.volumes}/${volume.id}`}>
           <div className='volumeCard-resume-id'>{`${t('common.volumeCard.volume')} ${volume.num}`}</div>
         </Link>
-        <div className='volumeCard-resume-year'>{volume.year}</div>
+        {volume.year && <div className='volumeCard-resume-year'>{volume.year}</div>}
         <div className='volumeCard-resume-count'>
           <img className='volumeCard-resume-count-icon' src={file} alt='File icon' />
           <span className='volumeCard-resume-count-text'>{volume.articles.length > 1 ? `${volume.articles.length} ${t('common.articles')}`: `${volume.articles.length} ${t('common.article')}`}</span>

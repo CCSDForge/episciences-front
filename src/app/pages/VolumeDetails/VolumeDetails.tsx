@@ -3,7 +3,12 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import ReactMarkdown from 'react-markdown';
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { isMobileOnly } from "react-device-detect";
 
+import caretDown from '/icons/caret-down-grey.svg';
+import caretUp from '/icons/caret-up-grey.svg';
+import caretDownLight from '/icons/caret-down-grey-light.svg';
+import caretUpLight from '/icons/caret-up-grey-light.svg';
 import download from '/icons/download-red.svg';
 import { PATHS } from '../../../config/paths'
 import { useAppSelector } from "../../../hooks/store";
@@ -16,6 +21,7 @@ import { VOLUME_TYPE } from "../../../utils/volume";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from "../../components/Loader/Loader";
 import VolumeArticleCard from "../../components/Cards/VolumeArticleCard/VolumeArticleCard";
+import VolumeDetailsMobileModal from "../../components/Modals/VolumeDetailsMobileModal/VolumeDetailsMobileModal";
 import VolumeDetailsSidebar from "../../components/Sidebars/VolumeDetailsSidebar/VolumeDetailsSidebar";
 import './VolumeDetails.scss';
 
@@ -24,6 +30,7 @@ export default function VolumeDetails(): JSX.Element {
   const navigate = useNavigate();
 
   const RELATED_VOLUMES = 20;
+  const MAX_MOBILE_DESCRIPTION_LENGTH = 200;
   
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
@@ -31,11 +38,12 @@ export default function VolumeDetails(): JSX.Element {
 
   const [isFetchingArticles, setIsFetchingArticles] = useState(false);
   const [articles, setArticles] = useState<FetchedArticle[]>([]);
+  const [showFullMobileDescription, setShowFullMobileDescription] = useState(false);
+  const [openedRelatedVolumesMobileModal, setOpenedRelatedVolumesMobileModal] = useState(false)
 
   const { id } = useParams();
   const { data: volume, isFetching: isFetchingVolume, isError, error } = useFetchVolumeQuery({ rvcode: rvcode!, vid: id!, language: language }, { skip: !id || !rvcode });
   const { data: relatedVolumes, isFetching: isFetchingRelatedVolumes } = useFetchVolumesQuery({ rvcode: rvcode!, language: language, page: 1, itemsPerPage: RELATED_VOLUMES, types: volume?.types }, { skip: !rvcode })
-
 
   useEffect(() => {
     if (volume && volume.articles.length > 0) {
@@ -77,27 +85,109 @@ export default function VolumeDetails(): JSX.Element {
   const renderVolumeType = (): JSX.Element => {
     if (volume?.types && volume.types.length) {
       if (volume.types.includes(VOLUME_TYPE.PROCEEDINGS)) {
-        return <h1 className='volumeDetails-id'>{t('pages.volumeDetails.titleProceeding')}</h1>
+        return <h1 className='volumeDetails-id-text'>{t('pages.volumeDetails.titleProceeding')}</h1>
       }
 
       if (volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE)) {
-        return <h1 className='volumeDetails-id'>{t('pages.volumeDetails.titleSpecialIssue')}</h1>
+        return <h1 className='volumeDetails-id-text'>{t('pages.volumeDetails.titleSpecialIssue')}</h1>
       }
     }
 
-    return <h1 className='volumeDetails-id'>{t('pages.volumeDetails.title')} {volume?.num}</h1>
+    return <h1 className='volumeDetails-id-text'>{t('pages.volumeDetails.title')} {volume?.num}</h1>
   }
 
-  const renderVolumeTitle = (): JSX.Element => {
+  const renderVolumeMobileRelatedVolumes = (): JSX.Element | null => {
+    if (!isMobileOnly) return null
+
+    const caretIcon = <img className='volumeDetails-id-mobileRelatedList-icon' src={openedRelatedVolumesMobileModal ? caretUp : caretDown} />
+
+    if (volume?.types && volume.types.length) {
+      if (volume.types.includes(VOLUME_TYPE.PROCEEDINGS)) {
+        return <div className='volumeDetails-id-mobileRelatedList' onClick={(): void => setOpenedRelatedVolumesMobileModal(true)}>
+          <div>{t('pages.volumeDetails.relatedVolumes.proceedings')}</div>
+          {caretIcon}
+        </div>
+      }
+
+      if (volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE)) {
+        return <div className='volumeDetails-id-mobileRelatedList' onClick={(): void => setOpenedRelatedVolumesMobileModal(true)}>
+          <div>{t('pages.volumeDetails.relatedVolumes.specialIssues')}</div>
+          {caretIcon}
+        </div>
+      }
+    }
+
+    return <div className='volumeDetails-id-mobileRelatedList' onClick={(): void => setOpenedRelatedVolumesMobileModal(true)}>
+      <div>{t('pages.volumeDetails.relatedVolumes.volumes')}</div>
+      {caretIcon}
+    </div>
+  }
+
+  const renderVolumeTitle = (isMobile: boolean): JSX.Element => {
+    const className = isMobile ? 'volumeDetails-content-results-content-title volumeDetails-content-results-content-title-mobile' : 'volumeDetails-content-results-content-title'
+
     if (volume?.types && volume.types.length && volume.types.includes(VOLUME_TYPE.PROCEEDINGS) && volume.settingsProceeding && volume.settingsProceeding.length) {
       const conferenceName = volume.settingsProceeding.find((setting) => setting.setting === "conference_name")
 
       if (conferenceName && conferenceName.value) {
-        return <div className='volumeDetails-content-results-content-title'>{volume?.title ? `${volume?.title[language]} (${conferenceName.value})` : ''}</div>
+        return <div className={className}>{volume?.title ? `${volume?.title[language]} (${conferenceName.value})` : ''}</div>
       }
     }
 
-    return <div className='volumeDetails-content-results-content-title'>{volume?.title ? volume?.title[language] : ''}</div>
+    return <div className={className}>{volume?.title ? volume?.title[language] : ''}</div>
+  }
+
+  const renderVolumeCommittee = (isMobile: boolean): JSX.Element | null => {
+    const className = isMobile ? 'volumeDetails-content-results-content-committee volumeDetails-content-results-content-committee-mobile' : 'volumeDetails-content-results-content-committee'
+
+    if (volume?.committee && volume.committee.length > 0) {
+      return (
+        <div className={className}>
+          {(!volume?.types || !volume?.types.includes(VOLUME_TYPE.PROCEEDINGS)) && (
+            <span className="volumeDetails-content-results-content-committee-note">{t('common.volumeCommittee')} :</span>
+          )}
+          {volume?.committee.map((member) => member.screenName).join(', ')}
+        </div>
+      )
+    }
+
+    return null;
+  }
+
+  const renderVolumeDescription = (): JSX.Element => {
+    if (volume?.description && volume.description[language]) {
+      if (isMobileOnly) {
+        if (volume.description[language].length <= MAX_MOBILE_DESCRIPTION_LENGTH) {
+          return (
+            <div className='volumeDetails-content-results-content-description'>
+              <ReactMarkdown>{volume.description[language]}</ReactMarkdown>
+            </div>
+          )
+        }
+
+        return (
+          <div className='volumeDetails-content-results-content-description'>
+            {showFullMobileDescription ? (
+              <ReactMarkdown>{volume?.description[language]}</ReactMarkdown>
+            ) : (
+              <ReactMarkdown>{`${volume?.description[language].substring(0, MAX_MOBILE_DESCRIPTION_LENGTH)}...`}</ReactMarkdown>
+            )}
+            <div onClick={(): void => setShowFullMobileDescription(!showFullMobileDescription)} className='volumeDetails-content-results-content-description-toggleMobile'>
+              {showFullMobileDescription ? t('common.seeLess') : t('common.seeMore')}
+              {showFullMobileDescription ? <img src={caretUpLight} /> : <img src={caretDownLight} />}
+            </div>
+          </div>
+        )
+      }
+
+      return (
+        <div className='volumeDetails-content-results-content-description'>
+          <ReactMarkdown>{volume?.description[language]}</ReactMarkdown>
+        </div>
+      )
+    }
+
+    return <div className='volumeDetails-content-results-content-description'>{''}</div>
   }
 
   const renderProceedingTheme = (): string | null => {
@@ -145,25 +235,24 @@ export default function VolumeDetails(): JSX.Element {
         { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` },
         { path: 'volumes', label: `${t('pages.volumes.title')} >`}
       ]} crumbLabel={`${t('pages.volumeDetails.title')} ${volume?.num}`} />}
+      {openedRelatedVolumesMobileModal && <VolumeDetailsMobileModal language={language} t={t} volume={volume} relatedVolumes={reorderRelatedVolumes(relatedVolumes?.data ?? [])} onSelectRelatedVolumeCallback={(volumeId: number): void => navigate(`${PATHS.volumes}/${volumeId}`)} onCloseCallback={(): void => setOpenedRelatedVolumesMobileModal(false)}/>}
       {isFetchingVolume || isFetchingArticles || isFetchingRelatedVolumes ? (
         <Loader />
       ) : (
         <div className="volumeDetails-volume">
-          {renderVolumeType()}
+          <div className="volumeDetails-id">
+            {renderVolumeType()}
+            {renderVolumeMobileRelatedVolumes()}
+          </div>
           <div className="volumeDetails-content">
             <div className="volumeDetails-content-year">{volume?.year}</div>
             <div className='volumeDetails-content-results'>
+              {renderVolumeTitle(true)}
+              {renderVolumeCommittee(true)}
               <VolumeDetailsSidebar language={language} t={t} volume={volume} articles={articles as IArticle[]} currentJournal={currentJournal} relatedVolumes={reorderRelatedVolumes(relatedVolumes?.data ?? []) ?? []} />
               <div className="volumeDetails-content-results-content">
-                {renderVolumeTitle()}
-                {volume?.committee && volume.committee.length > 0 && (
-                  <div className='volumeDetails-content-results-content-committee'>
-                    {(!volume?.types || !volume?.types.includes(VOLUME_TYPE.PROCEEDINGS)) && (
-                      <span className="volumeDetails-content-results-content-committee-note">{t('common.volumeCommittee')} :</span>
-                    )}
-                    {volume?.committee.map((member) => member.screenName).join(', ')}
-                  </div>
-                )}
+                {renderVolumeTitle(false)}
+                {renderVolumeCommittee(false)}
                 {volume?.types && volume?.types.includes(VOLUME_TYPE.PROCEEDINGS) && volume.settingsProceeding && volume.settingsProceeding.length && (
                   <div className="volumeDetails-content-results-content-proceedingSettings">
                     <div className='volumeDetails-content-results-content-proceedingSettings-setting'>{renderProceedingTheme()}</div>
@@ -172,9 +261,10 @@ export default function VolumeDetails(): JSX.Element {
                     <div className='volumeDetails-content-results-content-proceedingSettings-setting'>{renderProceedingDates()}</div>
                   </div>
                 )}
-                <div className='volumeDetails-content-results-content-description'>{volume?.description ? (
-                <ReactMarkdown>{volume?.description[language]}</ReactMarkdown>
-              ) : ''}</div>
+                {renderVolumeDescription()}
+                <div className='volumeDetails-content-results-content-mobileCount'>
+                  {articles.length > 1 ? `${articles.length} ${t('common.articles')}` : `${articles.length} ${t('common.article')}`}
+                </div>
                 {getEdito() && getEdito()!.content && getEdito()!.content![language] && (
                   <div className="volumeDetails-content-results-content-edito">
                     <div className="volumeDetails-content-results-content-edito-title">{getEdito()!.title![language]}</div>

@@ -1,4 +1,10 @@
 .authors {
+  &-title {
+    @media (max-width: $sm) {
+      margin-bottom: 15px;
+    }
+  }
+
   &-count {
     color: var(--grey);
     font-size: 21px;
@@ -13,6 +19,10 @@
     align-items: center;
     margin: 0px 0px 15px 320px;
     padding-bottom: 28px;
+
+    @media (max-width: $xsm) {
+      margin: 0px;
+    }
 
     &-tags {
       display: flex;
@@ -33,6 +43,10 @@
   &-content {
     display: flex;
     gap: 10px;
+
+    @media (max-width: $xsm) {
+      flex-direction: column;
+    }
 
     &-loader {
       position: relative;

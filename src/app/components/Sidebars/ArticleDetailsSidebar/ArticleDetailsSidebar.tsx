@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom'
 import { TFunction } from 'i18next';
 import { EmailShareButton, FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share'
+import { isMobileOnly } from 'react-device-detect';
 
 import caretUp from '/icons/caret-up-grey.svg';
 import caretDown from '/icons/caret-down-grey.svg';
@@ -28,9 +29,10 @@ interface IArticleDetailsSidebarProps {
   article?: IArticle;
   relatedVolume?: IVolume;
   citations: ICitation[];
+  metrics?: JSX.Element;
 }
 
-export default function ArticleDetailsSidebar({ language, t, article, relatedVolume, citations }: IArticleDetailsSidebarProps): JSX.Element {
+export default function ArticleDetailsSidebar({ language, t, article, relatedVolume, citations, metrics }: IArticleDetailsSidebarProps): JSX.Element {
   const [openedPublicationDetails, setOpenedPublicationDetails] = useState(true)
   const [showCitationsDropdown, setShowCitationsDropdown] = useState(false)
   const [showMetadatasDropdown, setShowMetadatasDropdown] = useState(false)
@@ -92,8 +94,6 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
             </div>
           </Link>
         )}
-      </div>
-      <div className='articleDetailsSidebar-links articleDetailsSidebar-links-bottom'>
         {citations.length > 0 && (
           <div className='articleDetailsSidebar-links-link articleDetailsSidebar-links-link-modal' onMouseEnter={(): void => setShowCitationsDropdown(true)}>
             <img className='articleDetailsSidebar-links-link-icon' src={quote} alt='Quote icon' />
@@ -225,22 +225,7 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
           </div>
         </div>
       )}
-      {article?.metrics && (article.metrics.views > 0 || article.metrics.downloads > 0) && (
-        <div className='articleDetailsSidebar-metrics'>
-          <div className='articleDetailsSidebar-metrics-title'>{t('pages.articleDetails.metrics.title')}</div>
-          <div className='articleDetailsSidebar-metrics-data'>
-            <div className='articleDetailsSidebar-metrics-data-row'>
-              <div className='articleDetailsSidebar-metrics-data-row-number'>{article.metrics.views}</div>
-              <div className='articleDetailsSidebar-metrics-data-row-text'>{t('pages.articleDetails.metrics.views')}</div>
-            </div>
-            <div className='articleDetailsSidebar-metrics-data-divider'></div>
-            <div className='articleDetailsSidebar-metrics-data-row'>
-              <div className='articleDetailsSidebar-metrics-data-row-number'>{article.metrics.downloads}</div>
-              <div className='articleDetailsSidebar-metrics-data-row-text'>{t('pages.articleDetails.metrics.downloads')}</div>
-            </div>
-          </div>
-        </div>
-      )}
+      {!isMobileOnly && metrics}
     </div>
   )
 }

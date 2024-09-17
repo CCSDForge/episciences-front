@@ -5,6 +5,7 @@ import articleReducer from './article/article.slice'
 import authorReducer from './author/author.slice'
 import boardReducer from './board/board.slice'
 import creditsReducer from './credits/credits.slice'
+import footerReducer from './footer/footer.slice'
 import forAuthorReducer from './forAuthor/forAuthor.slice'
 import i18nReducer from './i18n/i18n.slice'
 import indexationReducer from './indexation/indexation.slice'
@@ -35,6 +36,7 @@ const createRootReducer = combineReducers({
   authorReducer,
   boardReducer,
   creditsReducer,
+  footerReducer,
   forAuthorReducer,
   i18nReducer,
   indexationReducer,

@@ -1,4 +1,28 @@
 .volumeDetails {
+  &-id {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &-mobileRelatedList {
+      display: none;
+
+      @media (max-width: $xsm) {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--grey);
+        font-weight: normal;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      &-icon {
+        margin-top: 4px;
+      }
+    }
+  }
+
   &-content {
     display: flex;
     flex-direction: column;
@@ -7,10 +31,18 @@
       color: var(--red);
       font-size: 20px;
       margin-bottom: 15px;
+
+      @media (max-width: $xsm) {
+        font-size: 14px;
+      }
     }
 
     &-results {
       display: flex;
+
+      @media (max-width: $xsm) {
+        flex-direction: column;
+      }
 
       &-content {
         width: 100%;
@@ -22,12 +54,38 @@
           font-size: 24px;
           font-weight: bold;
           margin-bottom: 16px;
+
+          @media (max-width: $xsm) {
+            display: none;
+          }
+
+          &-mobile {
+            display: none;
+
+            @media (max-width: $xsm) {
+              display: block;
+              font-size: 18px;
+            }
+          }
         }
 
         &-committee {
           color: var(--grey-dark);
           margin-bottom: 16px;
           font-size: 20px;
+
+          @media (max-width: $xsm) {
+            display: none;
+          }
+
+          &-mobile {
+            display: none;
+
+            @media (max-width: $xsm) {
+              display: block;
+              font-size: 16px;
+            }
+          }
 
           &-note {
             margin-right: 5px;
@@ -40,9 +98,19 @@
           gap: 4px;
           margin-bottom: 24px;
 
+          @media (max-width: $xsm) {
+            margin-top: 16px;
+            margin-bottom: 8px;
+          }
+
           &-setting {
             color: var(--grey-dark);
             font-size: 16px;
+
+            @media (max-width: $xsm) {
+              color: var(--grey);
+              font-size: 13px;
+            }
 
             &-doi {
               text-decoration: underline;
@@ -57,8 +125,38 @@
           margin-bottom: 20px;
           border-bottom: 1px solid var(--grey-light);
 
+          @media (max-width: $xsm) {
+            padding-bottom: 0px;
+            border-bottom: none;
+          }
+
           p {
             margin: 16px 0px 16px 0px;
+          }
+
+          &-toggleMobile {
+            display: none;
+
+            @media (max-width: $xsm) {
+              display: flex;
+              align-items: center;
+              gap: 6px;
+              color: var(--grey-light);
+              font-style: italic;
+            }
+          }
+        }
+
+        &-mobileCount {
+          display: none;
+
+          @media (max-width: $xsm) {
+            display: block;
+            font-size: 18px;
+            color: var(--grey);
+            border-bottom: 1px solid var(--grey-light);
+            padding-bottom: 8px;
+            margin: 8px 0px 16px 0px;
           }
         }
 

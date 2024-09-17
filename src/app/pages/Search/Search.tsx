@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router-dom";
 
+import filter from '/icons/filter.svg';
 import { PATHS } from "../../../config/paths";
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchSearchResultsQuery } from '../../../store/features/search/search.query';
@@ -10,6 +11,7 @@ import { AvailableLanguage } from "../../../utils/i18n";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
 import SearchResultCard, { ISearchResultCard } from "../../components/Cards/SearchResultCard/SearchResultCard";
+import SearchResultsMobileModal from '../../components/Modals/SearchResultsMobileModal/SearchResultsMobileModal';
 import SearchResultsSidebar, { ISearchResultTypeSelection, ISearchResultYearSelection, ISearchResultVolumeSelection, ISearchResultSectionSelection, ISearchResultAuthorSelection } from "../../components/Sidebars/SearchResultsSidebar/SearchResultsSidebar";
 import Pagination from "../../components/Pagination/Pagination";
 import Tag from "../../components/Tag/Tag";
@@ -48,6 +50,7 @@ export default function Search(): JSX.Element {
   const [authors, setAuthors] = useState<ISearchResultAuthorSelection[]>([]);
   const [taggedFilters, setTaggedFilters] = useState<ISearchResultFilter[]>([]);
   const [showAllAbstracts, setShowAllAbstracts] = useState(false)
+  const [openedFiltersMobileModal, setOpenedFiltersMobileModal] = useState(false)
 
   const getSelectedTypes = (): string[] => types.filter(t => t.isChecked).map(t => t.value);
   const getSelectedYears = (): number[] => years.filter(y => y.isChecked).map(y => y.year);
@@ -380,23 +383,31 @@ export default function Search(): JSX.Element {
             <div className='search-title-count'>{searchResults.totalItems} {t('common.resultsFor')} "{search}"</div>
           ) : (
             <div className='search-title-count'>{searchResults?.totalItems ?? 0} {t('common.resultFor')} "{search}"</div>
-        )}
+          )}
+          <div className="search-title-count-filtersMobile">
+            <div className="search-title-count-filtersMobile-tile" onClick={(): void => setOpenedFiltersMobileModal(!openedFiltersMobileModal)}>
+              <img className="search-title-count-filtersMobile-tile-icon" src={filter} alt='List icon' />
+              <div className="search-title-count-filtersMobile-tile-text">{taggedFilters.length > 0 ? `${t('common.filters.editFilters')} (${taggedFilters.length})` : `${t('common.filters.filter')}`}</div>
+            </div>
+            {openedFiltersMobileModal && <SearchResultsMobileModal language={language} t={t} initialTypes={types} onUpdateTypesCallback={setTypes} initialYears={years} onUpdateYearsCallback={setYears} initialVolumes={volumes} onUpdateVolumesCallback={setVolumes} initialSections={sections} onUpdateSectionsCallback={setSections} initialAuthors={authors} onUpdateAuthorsCallback={setAuthors} onCloseCallback={(): void => setOpenedFiltersMobileModal(false)}/>}
+          </div>
         </div>
       </div>
       <div className="search-filters">
-        <div className="search-filters-tags">
-          {taggedFilters.map((filter, index) => (
-            <Tag key={index} text={filter.labelPath ? t(filter.labelPath) : filter.translatedLabel ? filter.translatedLabel[language] : filter.label!.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
-          ))}
-          {taggedFilters.length > 0 ? (
+        {taggedFilters.length > 0 && (
+          <div className="search-filters-tags">
+            {taggedFilters.map((filter, index) => (
+              <Tag key={index} text={filter.labelPath ? t(filter.labelPath) : filter.translatedLabel ? filter.translatedLabel[language] : filter.label!.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
+            ))}
             <div className="search-filters-tags-clear" onClick={clearTaggedFilters}>{t('common.filters.clearAll')}</div>
-          ) : (
-            <div className="search-filters-tags-clear"></div>
-          )}
-        </div>
+          </div>
+        )}
         <div className="search-filters-abstracts" onClick={toggleAllAbstracts}>
           {`${showAllAbstracts ? t('common.toggleAbstracts.hideAll') : t('common.toggleAbstracts.showAll')}`}
         </div>
+      </div>
+      <div className="search-filters-abstracts search-filters-abstracts-mobile" onClick={toggleAllAbstracts}>
+        {`${showAllAbstracts ? t('common.toggleAbstracts.hideAll') : t('common.toggleAbstracts.showAll')}`}
       </div>
       <div className='search-content'>
         <div className='search-content-results'>
@@ -422,6 +433,7 @@ export default function Search(): JSX.Element {
                 <SearchResultCard
                   key={index}
                   language={language}
+                  rvcode={rvcode}
                   t={t}
                   searchResult={searchResult as ISearchResultCard}
                   toggleAbstractCallback={(): void => toggleAbstract(searchResult?.id)}

@@ -1,6 +1,10 @@
 .forAuthors {
   &-title {
     margin-bottom: 70px;
+
+    @media (max-width: $sm) {
+      margin-bottom: 30px;
+    }
   }
 
   &-content {
@@ -11,6 +15,10 @@
       display: flex;
       flex-direction: column;
       padding-left: 60px;
+
+      @media (max-width: $sm) {
+        padding-left: 0px;
+      }
 
       &-section {
         display: block;
@@ -74,6 +82,10 @@
             border-bottom: 4px solid var(--red);
             margin-bottom: 15px;
 
+            @media (max-width: $xsm) {
+              flex-direction: column;
+            }
+
             &-hidden {
               * {
                 display: none;
@@ -85,6 +97,11 @@
               color: var(--black);
               font-size: 40px;
               font-weight: 900;
+
+              @media (max-width: $xsm) {
+                padding-right: 0px;
+                text-align: center;
+              }
             }
 
             &-content {
@@ -94,11 +111,22 @@
               border-left: 1px solid var(--grey-light);
               padding-left: 25px;
 
+              @media (max-width: $xsm) {
+                border-left: none;
+                padding-left: 0px;
+              }
+
               &-title {
                 color: var(--black);
                 font-size: 18px;
                 font-weight: bold;
                 margin: 0px;
+
+                @media (max-width: $xsm) {
+                  text-align: center;
+                  border-bottom: 1px solid var(--grey-light);
+                  padding-bottom: 25px;
+                }
               }
             }
           }

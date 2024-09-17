@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 
+import filter from '/icons/filter.svg';
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchArticlesQuery } from '../../../store/features/article/article.query';
 import { FetchedArticle, articleTypes } from '../../../utils/article';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
 import ArticleAcceptedCard, { IArticleAcceptedCard } from "../../components/Cards/ArticleAcceptedCard/ArticleAcceptedCard";
+import ArticlesAcceptedMobileModal from '../../components/Modals/ArticlesAcceptedMobileModal/ArticlesAcceptedMobileModal';
 import ArticlesAcceptedSidebar, { IArticleTypeSelection } from "../../components/Sidebars/ArticlesAcceptedSidebar/ArticlesAcceptedSidebar";
 import Pagination from "../../components/Pagination/Pagination";
 import Tag from "../../components/Tag/Tag";
@@ -35,6 +37,7 @@ export default function ArticlesAccepted(): JSX.Element {
   const [types, setTypes] = useState<IArticleTypeSelection[]>([])
   const [taggedFilters, setTaggedFilters] = useState<IArticleAcceptedFilter[]>([]);
   const [showAllAbstracts, setShowAllAbstracts] = useState(false)
+  const [openedFiltersMobileModal, setOpenedFiltersMobileModal] = useState(false)
 
   const getSelectedTypes = (): string[] => types.filter(t => t.isChecked).map(t => t.value);
 
@@ -104,6 +107,7 @@ export default function ArticlesAccepted(): JSX.Element {
     const updatedTypes = types.map((t) => {
       return { ...t, isChecked: false };
     });
+
     setTypes(updatedTypes);
     setTaggedFilters([]);
   }
@@ -165,22 +169,30 @@ export default function ArticlesAccepted(): JSX.Element {
           ) : (
             <div className='articlesAccepted-title-count-text'>{articlesAccepted?.totalItems ?? 0} {t('common.document')}</div>
           )}
+          <div className="articlesAccepted-title-count-filtersMobile">
+            <div className="articlesAccepted-title-count-filtersMobile-tile" onClick={(): void => setOpenedFiltersMobileModal(!openedFiltersMobileModal)}>
+              <img className="articlesAccepted-title-count-filtersMobile-tile-icon" src={filter} alt='List icon' />
+              <div className="articlesAccepted-title-count-filtersMobile-tile-text">{taggedFilters.length > 0 ? `${t('common.filters.editFilters')} (${taggedFilters.length})` : `${t('common.filters.filter')}`}</div>
+            </div>
+            {openedFiltersMobileModal && <ArticlesAcceptedMobileModal t={t} initialTypes={types} onUpdateTypesCallback={setTypes} onCloseCallback={(): void => setOpenedFiltersMobileModal(false)}/>}
+          </div>
         </div>
       </div>
       <div className="articlesAccepted-filters">
-        <div className="articlesAccepted-filters-tags">
-          {taggedFilters.map((filter, index) => (
-            <Tag key={index} text={filter.labelPath ? t(filter.labelPath) : filter.label!.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.value)}/>
-          ))}
-          {taggedFilters.length > 0 ? (
+        {taggedFilters.length > 0 && (
+          <div className="articlesAccepted-filters-tags">
+            {taggedFilters.map((filter, index) => (
+              <Tag key={index} text={filter.labelPath ? t(filter.labelPath) : filter.label!.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.value)}/>
+            ))}
             <div className="articlesAccepted-filters-tags-clear" onClick={clearTaggedFilters}>{t('common.filters.clearAll')}</div>
-          ) :(
-            <div className="articlesAccepted-filters-tags-clear"></div>
-          )}
-        </div>
+          </div>
+        )}
         <div className="articlesAccepted-filters-abstracts" onClick={toggleAllAbstracts}>
           {`${showAllAbstracts ? t('common.toggleAbstracts.hideAll') : t('common.toggleAbstracts.showAll')}`}
         </div>
+      </div>
+      <div className="articlesAccepted-filters-abstracts articlesAccepted-filters-abstracts-mobile" onClick={toggleAllAbstracts}>
+        {`${showAllAbstracts ? t('common.toggleAbstracts.hideAll') : t('common.toggleAbstracts.showAll')}`}
       </div>
       <div className='articlesAccepted-content'>
         <div className='articlesAccepted-content-results'>

@@ -1,5 +1,6 @@
 import { Fragment } from 'react'
 import { TFunction, i18n } from 'i18next';
+import { isMobileOnly } from 'react-device-detect';
 
 import { IStat, isIStatValueDetails } from '../../../../types/stat';
 import { statTypes } from '../../../../utils/stat';
@@ -12,9 +13,17 @@ interface IStatisticsSectionProps {
 }
 
 export default function StatisticsSection({ t, i18n, stats }: IStatisticsSectionProps): JSX.Element {
+  const renderedStats = (): IStat[] => {
+    if (isMobileOnly) {
+      return stats.slice(0, 2)
+    }
+
+    return stats;
+  }
+
   return (
     <div className="statisticsSection">
-      {stats.map((singleStat, index) => (
+      {renderedStats().map((singleStat, index) => (
         singleStat.value && isIStatValueDetails(singleStat.value) ? <></> : (
           <Fragment key={index}>
             <div className='statisticsSection-row'>
@@ -31,7 +40,7 @@ export default function StatisticsSection({ t, i18n, stats }: IStatisticsSection
               )}
               <div className="statisticsSection-row-title">{t(statTypes.find(stat => stat.value === singleStat.name)?.labelPath!)}</div>
             </div>
-          <div className={`${index !== stats.length - 1 && 'statisticsSection-divider'}`}></div>
+          <div className={`${index !== renderedStats().length - 1 && 'statisticsSection-divider'}`}></div>
           </Fragment>
         )
       ))}

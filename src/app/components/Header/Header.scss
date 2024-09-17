@@ -14,8 +14,16 @@
     transition: height 0.3s ease;
   }
 
+  @media (max-width: $xsm) {
+    height: 180px;
+  }
+
   &-reduced {
     height: 110px;
+
+    @media (max-width: $xsm) {
+      height: auto;
+    }
 
     &-journal {
       height: 50px;
@@ -28,11 +36,19 @@
         align-items: center;
         justify-content: center;
         border-bottom: 1px solid var(--red);
+
+        @media (max-width: $xsm) {
+          width: 60px;
+        }
       }
 
       &-blank {
         width: 100%;
         background: var(--red);
+
+        @media (max-width: $xsm) {
+          display: none;
+        }
       }
 
       &-dropdown {
@@ -42,6 +58,13 @@
         justify-content: flex-end;
         color: var(--blue-navy);
         border-bottom: 1px solid var(--red);
+
+        @media (max-width: $xsm) {
+          min-width: unset;
+          width: 100%;
+          background: var(--red);
+          color: var(--white);
+        }
       }
     }
   }
@@ -74,6 +97,18 @@
         font-size: 14px;
         font-weight: 300;
         text-decoration: underline;
+
+        &-mobile {
+          display: none;
+        }
+
+        @media (max-width: $xsm) {
+          display: none;
+
+          &-mobile {
+            display: block;
+          }
+        }
       }
     }
   }
@@ -83,6 +118,10 @@
     height: 180px;
     display: flex;
 
+    @media (max-width: $xsm) {
+      height: 86px;
+    }
+
     &-logo {
       width: 300px;
       display: flex;
@@ -90,6 +129,21 @@
       justify-content: center;
       border: 1px solid var(--red);
       border-left: none;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+
+      @media (max-width: $xsm) {
+        width: 104px;
+
+        img {
+          width: 52px;
+          height: 52px;
+          padding: 17px 26px 17px 26px;
+        }
+      }
     }
 
     &-title {
@@ -102,6 +156,12 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
+
+      @media (max-width: $xsm) {
+        padding: 0px 16px 0px 16px;
+        text-align: end;
+        font-size: 14px;
+      }
     }
   }
 
@@ -112,10 +172,28 @@
     align-items: center;
     padding-left: 80px;
 
+    @media (max-width: $sm) {
+      padding-left: 40px;
+    }
+
+    @media (max-width: $xsm) {
+      height: 50px;
+      padding-left: 16px;
+    }
+
     &-links {
       display: flex;
       gap: 88px;
       font-size: 20px;
+
+      @media (max-width: $sm) {
+        gap: 32px;
+        font-size: 16px;
+      }
+
+      @media (max-width: $xsm) {
+        display: none;
+      }
 
       &-dropdown {
         position: relative;
@@ -164,20 +242,99 @@
       &-delimiter {
         height: 43px;
         border: 0.8px solid var(--grey-light);
+
+        @media (max-width: $sm) {
+          display: none;
+        }
       }
 
       &-search {
         height: 100%;
         margin: 0px 18px 0px 60px;
 
+        @media (max-width: $sm) {
+          margin: 0px 18px 0px 0px;
+        }
+
         input {
           width: 100px;
           height: 95%;
+
+          &:placeholder-shown {
+           text-overflow: ellipsis; 
+          }
+
+          @media (max-width: $sm) {
+            width: 60px;
+          }
+
+          @media (max-width: $xsm) {
+            height: 90%;
+          }
         }
       }
 
       &-submit {
         height: 100%;
+
+        @media (max-width: $xsm) {
+          display: none;
+        }
+      }
+    }
+
+    &-burger {
+      position: relative;
+      display: none;
+
+      @media (max-width: $xsm) {
+        display: flex;
+        align-items: center;
+      }
+      
+      &-icon {
+        height: 40px;
+      }
+
+      &-content {
+        position: absolute;
+        top: 40px;
+        display: none;
+        padding-top: 8px;
+        z-index: 3;
+
+        &-links {
+          display: flex;
+          flex-direction: column;
+          min-width: 162px;
+          gap: 10px;
+          padding: 7px 30px 10px 9px;
+          background: var(--white);
+          color: var(--grey);
+          border: 1px solid var(--grey-light);
+          box-shadow: 0px 3px 6px var(--grey);
+          font-size: 16px;
+
+          &-section {
+            display: flex;
+            flex-direction: column;
+
+            &-bordered {
+              padding-bottom: 8px;
+              border-bottom: 1px solid var(--grey-light);
+            }
+
+            &-links {
+              display: flex;
+              flex-direction: column;
+              gap: 4px;
+            }
+          }
+        }
+      }
+
+      &:hover &-content {
+        display: block;
       }
     }
   }
