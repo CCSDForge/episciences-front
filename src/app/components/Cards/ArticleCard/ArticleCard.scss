@@ -80,6 +80,10 @@
       justify-content: flex-end;
       align-items: flex-end;
 
+      @media (max-width: $xsm) {
+        gap: 8px;
+      }
+
       &-download, &-cite {
         display: flex;
         gap: 4px;
