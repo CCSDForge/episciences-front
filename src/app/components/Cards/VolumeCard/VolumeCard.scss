@@ -6,6 +6,7 @@
   border-bottom: 4px solid var(--red);
 
   @media (max-width: $sm) {
+    padding: 25px;
     flex-direction: column;
   }
 
@@ -34,6 +35,7 @@
       margin-bottom: 18px;
 
       @media (max-width: $sm) {
+        font-size: 21px;
         margin-bottom: 0px;
       }
     }
@@ -86,6 +88,10 @@
       font-size: 18px;
       font-weight: 600;
       margin-bottom: 16px;
+
+      @media (max-width: $xsm) {
+        font-size: 16px;
+      }
     }
 
     &-title {
@@ -93,12 +99,20 @@
       font-size: 21px;
       font-weight: 600;
       margin-bottom: 10px;
+
+      @media (max-width: $xsm) {
+        font-size: 16px;
+      }
     }
 
     &-committee {
       color: var(--black);
       font-size: 18px;
       margin-bottom: 20px;
+
+      @media (max-width: $xsm) {
+        font-size: 15px;
+      }
     }
 
     &-description {

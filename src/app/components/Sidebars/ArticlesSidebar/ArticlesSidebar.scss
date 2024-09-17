@@ -1,6 +1,10 @@
 .articlesSidebar {
   min-width: 265px;
-  margin-top: -45px;
+  margin-top: -46px;
+
+  @media (max-width: $sm) {
+    display: none;
+  }
 
   &-typesSection-title, &-yearsSection-title {
     font-weight: bold;

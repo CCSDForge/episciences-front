@@ -15,6 +15,7 @@ import { volumeTypes } from '../../../utils/volume';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
 import VolumeCard from "../../components/Cards/VolumeCard/VolumeCard";
+import VolumesMobileModal from '../../components/Modals/VolumesMobileModal/VolumesMobileModal';
 import VolumesSidebar, { IVolumeTypeSelection, IVolumeYearSelection } from "../../components/Sidebars/VolumesSidebar/VolumesSidebar";
 import VolumesModal from "../../components/Modals/VolumesModal/VolumesModal";
 import Pagination from "../../components/Pagination/Pagination";
@@ -49,6 +50,7 @@ export default function Volumes(): JSX.Element {
   const [taggedFilters, setTaggedFilters] = useState<IVolumeFilter[]>([]);
   const [openedFiltersModal, setOpenedFiltersModal] = useState(false);
   const [initQueryFilters, setInitQueryFilters] = useState(false)
+  const [openedFiltersMobileModal, setOpenedFiltersMobileModal] = useState(false)
 
   const getSelectedTypes = (): string[] => types.filter(t => t.isChecked).map(t => t.value);
   const getSelectedYears = (): number[] => years.filter(y => y.isSelected).map(y => y.year);
@@ -298,6 +300,22 @@ export default function Volumes(): JSX.Element {
           </div>
         </div>
       )}
+      <div className="volumes-filtersMobile">
+        <div className="volumes-filtersMobile-count">
+          {getVolumesCount(mode)}
+          {getArticlesCount(mode)}
+        </div>
+        <div className="volumes-filtersMobile-tile" onClick={(): void => setOpenedFiltersMobileModal(!openedFiltersMobileModal)}>
+          <img className="volumes-filtersMobile-tile-icon" src={filter} alt='List icon' />
+          <div className="volumes-filtersMobile-tile-text">{taggedFilters.length > 0 ? `${t('common.filters.editFilters')} (${taggedFilters.length})` : `${t('common.filters.filter')}`}</div>
+        </div>
+        {openedFiltersMobileModal && <VolumesMobileModal t={t} initialTypes={types} onUpdateTypesCallback={setTypes} initialYears={years} onUpdateYearsCallback={setYears} onCloseCallback={(): void => setOpenedFiltersMobileModal(false)}/>}
+      </div>
+      <div className='volumes-filtersMobile-tags'>
+        {taggedFilters.map((filter, index) => (
+          <Tag key={index} text={filter.labelPath ? t(filter.labelPath) : filter.label!.toString()} onCloseCallback={(): void => onCloseTaggedFilter(filter.type, filter.value)}/>
+        ))}
+      </div>
       <div className='volumes-content'>
         <div className='volumes-content-results'>
           {mode === RENDERING_MODE.LIST && (
