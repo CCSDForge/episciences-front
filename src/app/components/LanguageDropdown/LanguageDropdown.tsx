@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import i18next from 'i18next';
 
 import caretUpBlue from '/icons/caret-up-blue.svg';
@@ -21,35 +21,56 @@ export default function LanguageDropdown({ withWhiteCaret }: ILanguageDropdownPr
 
   const [showDropdown, setShowDropdown] = useState(false);
 
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleTouchOutside = (event: TouchEvent): void => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDropdown(false);
+      }
+    };
+    
+    document.addEventListener('touchstart', handleTouchOutside);
+    
+    return () => {
+      document.removeEventListener('touchstart', handleTouchOutside);
+    };
+  }, [dropdownRef]);
+
   const switchLanguage = (updatedLanguage: AvailableLanguage): void => {
+    setShowDropdown(false);
+
     if (updatedLanguage === language) {
       return;
     }
 
-    setShowDropdown(false);
     dispatch(setLanguage(updatedLanguage));
     i18next.changeLanguage(updatedLanguage)
   };
 
   return (
-    <div className='languageDropdown' onMouseEnter={(): void => setShowDropdown(true)}>
+    <div
+      ref={dropdownRef}
+      className='languageDropdown'
+      onMouseEnter={(): void => setShowDropdown(true)}
+      onMouseLeave={(): void => setShowDropdown(false)}
+      onTouchStart={(): void => setShowDropdown(!showDropdown)}
+    >
       <div className='languageDropdown-icon'>
         <div className='languageDropdown-icon-text'>{language.toUpperCase()}</div>
         {showDropdown ? (
-            <img className='languageDropdown-icon-caret' src={withWhiteCaret ? caretUpWhite : caretUpBlue} alt='Caret up icon' />
-          ) : (
-            <img className='languageDropdown-icon-caret' src={withWhiteCaret ? caretDownWhite : caretDownBlue} alt='Caret down icon' />
-          )}
+          <img className='languageDropdown-icon-caret' src={withWhiteCaret ? caretUpWhite : caretUpBlue} alt='Caret up icon' />
+        ) : (
+          <img className='languageDropdown-icon-caret' src={withWhiteCaret ? caretDownWhite : caretDownBlue} alt='Caret down icon' />
+        )}
       </div>
-      {showDropdown && (
-        <div className='languageDropdown-content' onMouseLeave={(): void => setShowDropdown(false)}>
-          <div className='languageDropdown-content-links'>
-            {availableLanguages.map((availableLanguage, index) => (
-              <span key={index} onClick={(): void => switchLanguage(availableLanguage)}>{availableLanguage.toUpperCase()}</span>
-            ))}
-          </div>
+      <div className={`languageDropdown-content ${showDropdown && 'languageDropdown-content-displayed'}`}>
+        <div className='languageDropdown-content-links'>
+          {availableLanguages.map((availableLanguage, index) => (
+            <span key={index} onClick={(): void => switchLanguage(availableLanguage)} onTouchEnd={(): void => switchLanguage(availableLanguage)}>{availableLanguage.toUpperCase()}</span>
+          ))}
         </div>
-      )}
+      </div>
     </div>
   );
 }

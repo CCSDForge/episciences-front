@@ -294,6 +294,7 @@
       
       &-icon {
         height: 40px;
+        cursor: pointer;
       }
 
       &-content {
@@ -302,6 +303,10 @@
         display: none;
         padding-top: 8px;
         z-index: 3;
+
+        &-displayed {
+          display: block;
+        }
 
         &-links {
           display: flex;
@@ -328,13 +333,10 @@
               display: flex;
               flex-direction: column;
               gap: 4px;
+              cursor: pointer;
             }
           }
         }
-      }
-
-      &:hover &-content {
-        display: block;
       }
     }
   }

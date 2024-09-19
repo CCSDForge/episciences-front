@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom'
 import { TFunction } from 'i18next';
 import { EmailShareButton, FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share'
 import { isMobileOnly } from 'react-device-detect';
@@ -17,7 +17,7 @@ import twitter from '/icons/twitter.svg';
 import { PATHS } from '../../../../config/paths';
 import { IArticle } from '../../../../types/article';
 import { IVolume } from '../../../../types/volume';
-import { ICitation, copyToClipboardCitation, getLicenseTranslations, getMetadataTypes } from '../../../../utils/article';
+import { ICitation, METADATA_TYPE, copyToClipboardCitation, getLicenseTranslations, getMetadataTypes } from '../../../../utils/article';
 import { formatDate } from '../../../../utils/date';
 import { AvailableLanguage } from '../../../../utils/i18n';
 import { VOLUME_TYPE } from '../../../../utils/volume';
@@ -33,11 +33,47 @@ interface IArticleDetailsSidebarProps {
 }
 
 export default function ArticleDetailsSidebar({ language, t, article, relatedVolume, citations, metrics }: IArticleDetailsSidebarProps): JSX.Element {
+  const navigate = useNavigate();
+
   const [openedPublicationDetails, setOpenedPublicationDetails] = useState(true)
   const [showCitationsDropdown, setShowCitationsDropdown] = useState(false)
   const [showMetadatasDropdown, setShowMetadatasDropdown] = useState(false)
   const [showSharingDropdown, setShowSharingDropdown] = useState(false)
   const [openedFunding, setOpenedFunding] = useState(true)
+
+  const citationsDropdownRef = useRef<HTMLDivElement | null>(null);
+  const metadatasDropdownRef = useRef<HTMLDivElement | null>(null);
+  const sharingDropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleTouchOutsideCitations = (event: TouchEvent): void => {
+      if (citationsDropdownRef.current && !citationsDropdownRef.current.contains(event.target as Node)) {
+        setShowCitationsDropdown(false);
+      }
+    };
+
+    const handleTouchOutsideMetadatas = (event: TouchEvent): void => {
+      if (metadatasDropdownRef.current && !metadatasDropdownRef.current.contains(event.target as Node)) {
+        setShowMetadatasDropdown(false);
+      }
+    };
+
+    const handleTouchOutsideSharing = (event: TouchEvent): void => {
+      if (sharingDropdownRef.current && !sharingDropdownRef.current.contains(event.target as Node)) {
+        setShowSharingDropdown(false);
+      }
+    };
+    
+    document.addEventListener('touchstart', handleTouchOutsideCitations);
+    document.addEventListener('touchstart', handleTouchOutsideMetadatas);
+    document.addEventListener('touchstart', handleTouchOutsideSharing);
+    
+    return () => {
+      document.removeEventListener('touchstart', handleTouchOutsideCitations);
+      document.removeEventListener('touchstart', handleTouchOutsideMetadatas);
+      document.removeEventListener('touchstart', handleTouchOutsideSharing);
+    };
+  }, [citationsDropdownRef, metadatasDropdownRef, sharingDropdownRef]);
 
   const togglePublicationDetails = (): void => setOpenedPublicationDetails(!openedPublicationDetails)
 
@@ -75,6 +111,16 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
     )
   }
 
+  const copyCitation = (citation: ICitation): void => {
+    copyToClipboardCitation(citation, t)
+    setShowCitationsDropdown(false)
+  }
+
+  const navigateToMetadata = (metadata: { type: METADATA_TYPE }): void => {
+    navigate(`/${PATHS.articles}/${article?.id}/metadata/${metadata.type}`)
+    setShowMetadatasDropdown(false)
+  }
+
   return (
     <div className='articleDetailsSidebar'>
       <div className='articleDetailsSidebar-links'>
@@ -95,71 +141,89 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
           </Link>
         )}
         {citations.length > 0 && (
-          <div className='articleDetailsSidebar-links-link articleDetailsSidebar-links-link-modal' onMouseEnter={(): void => setShowCitationsDropdown(true)}>
+          <div
+            ref={citationsDropdownRef}
+            className='articleDetailsSidebar-links-link articleDetailsSidebar-links-link-modal'
+            onMouseEnter={(): void => setShowCitationsDropdown(true)}
+            onMouseLeave={(): void => setShowCitationsDropdown(false)}
+            onTouchStart={(): void => setShowCitationsDropdown(!showCitationsDropdown)}
+          >
             <img className='articleDetailsSidebar-links-link-icon' src={quote} alt='Quote icon' />
             <div className='articleDetailsSidebar-links-link-text'>{t('pages.articleDetails.actions.cite')}</div>
-            {showCitationsDropdown && (
-                <div className='articleDetailsSidebar-links-link-modal-content' onMouseLeave={(): void => setShowCitationsDropdown(false)}>
-                  <div className='articleDetailsSidebar-links-link-modal-content-links'>
-                    {citations.map((citation, index) => (
-                      <div className='articleDetailsSidebar-links-link-modal-content-links-link' key={index} onClick={(): void => {
-                        copyToClipboardCitation(citation, t)
-                        setShowCitationsDropdown(false)
-                      }}>{citation.key}</div>
-                    ))}
-                  </div>
-                </div>
-              )}
+            <div className={`articleDetailsSidebar-links-link-modal-content ${showCitationsDropdown && 'articleDetailsSidebar-links-link-modal-content-displayed'}`}>
+              <div className='articleDetailsSidebar-links-link-modal-content-links'>
+                {citations.map((citation, index) => (
+                  <div
+                    key={index}
+                    className='articleDetailsSidebar-links-link-modal-content-links-link'
+                    onClick={(): void => copyCitation(citation)}
+                    onTouchEnd={(): void => copyCitation(citation)}
+                  >{citation.key}</div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
         {getMetadataTypes.length > 0 && (
-          <div className='articleDetailsSidebar-links-link articleDetailsSidebar-links-link-modal' onMouseEnter={(): void => setShowMetadatasDropdown(true)}>
+          <div
+            ref={metadatasDropdownRef}
+            className='articleDetailsSidebar-links-link articleDetailsSidebar-links-link-modal'
+            onMouseEnter={(): void => setShowMetadatasDropdown(true)}
+            onMouseLeave={(): void => setShowMetadatasDropdown(false)}
+            onTouchStart={(): void => setShowMetadatasDropdown(!showMetadatasDropdown)}
+          >
             <img className='articleDetailsSidebar-links-link-icon' src={quote} alt='Quote icon' />
             <div className='articleDetailsSidebar-links-link-text'>{t('pages.articleDetails.actions.metadata')}</div>
-            {showMetadatasDropdown && (
-                <div className='articleDetailsSidebar-links-link-modal-content' onMouseLeave={(): void => setShowMetadatasDropdown(false)}>
-                  <div className='articleDetailsSidebar-links-link-modal-content-links'>
-                    {getMetadataTypes.map((metadata, index) => (
-                      <Link to={`/${PATHS.articles}/${article?.id}/metadata/${metadata.type}`} target='_blank' className='articleDetailsSidebar-links-link-modal-content-links-link' key={index} onClick={(): void => setShowMetadatasDropdown(false)}>{metadata.label}</Link>
-                    ))}
-                  </div>
+              <div className={`articleDetailsSidebar-links-link-modal-content ${showMetadatasDropdown && 'articleDetailsSidebar-links-link-modal-content-displayed'}`}>
+                <div className='articleDetailsSidebar-links-link-modal-content-links'>
+                  {getMetadataTypes.map((metadata, index) => (
+                    <div
+                      key={index}
+                      className='articleDetailsSidebar-links-link-modal-content-links-link'
+                      onClick={(): void => navigateToMetadata(metadata)}
+                      onTouchEnd={(): void => navigateToMetadata(metadata)}
+                    >{metadata.label}</div>
+                  ))}
                 </div>
-              )}
+              </div>
           </div>
         )}
-        <div className='articleDetailsSidebar-links-link articleDetailsSidebar-links-link-modal' onMouseEnter={(): void => setShowSharingDropdown(true)}>
+        <div 
+          className='articleDetailsSidebar-links-link articleDetailsSidebar-links-link-modal'
+          onMouseEnter={(): void => setShowSharingDropdown(true)}
+          onMouseLeave={(): void => setShowSharingDropdown(false)}
+          onTouchStart={(): void => setShowSharingDropdown(!showSharingDropdown)}
+        >
           <img className='articleDetailsSidebar-links-link-icon' src={share} alt='Share icon' />
           <div className='articleDetailsSidebar-links-link-text'>{t('pages.articleDetails.actions.share.text')}</div>
-          {showSharingDropdown && (
-            <div className='articleDetailsSidebar-links-link-modal-content' onMouseLeave={(): void => setShowSharingDropdown(false)}>
-              <div className='articleDetailsSidebar-links-link-modal-content-links'>
-                <EmailShareButton url={window.location.href} subject={article?.title}>
-                  <div className='articleDetailsSidebar-links-link-modal-content-links-link'>
-                    <img src={mail} alt='Mail icon' />
-                    {t('pages.articleDetails.actions.share.email')}
-                  </div>
-                </EmailShareButton>
-                <TwitterShareButton url={window.location.href} title={article?.title}>
-                  <div className='articleDetailsSidebar-links-link-modal-content-links-link'>
-                    <img src={twitter} alt='Twitter icon' />
-                    {t('pages.articleDetails.actions.share.twitter')}
-                  </div>
-                </TwitterShareButton>
-                <LinkedinShareButton url={window.location.href} title={article?.title}>
-                  <div className='articleDetailsSidebar-links-link-modal-content-links-link'>
-                    <img src={linkedin} alt='Linkedin icon' />
-                    {t('pages.articleDetails.actions.share.linkedin')}
-                  </div>
-                </LinkedinShareButton>
-                <FacebookShareButton url={window.location.href} title={article?.title}>
-                  <div className='articleDetailsSidebar-links-link-modal-content-links-link'>
-                    <img src={facebook} alt='Facebook icon' />
-                    {t('pages.articleDetails.actions.share.facebook')}
-                  </div>
-                </FacebookShareButton>
-              </div>
+          <div className={`articleDetailsSidebar-links-link-modal-content ${showSharingDropdown && 'articleDetailsSidebar-links-link-modal-content-displayed'}`}>
+            <div className='articleDetailsSidebar-links-link-modal-content-links'>
+              <EmailShareButton url={window.location.href} subject={article?.title}>
+                <div className='articleDetailsSidebar-links-link-modal-content-links-link'>
+                  <img src={mail} alt='Mail icon' />
+                  {t('pages.articleDetails.actions.share.email')}
+                </div>
+              </EmailShareButton>
+              <TwitterShareButton url={window.location.href} title={article?.title}>
+                <div className='articleDetailsSidebar-links-link-modal-content-links-link'>
+                  <img src={twitter} alt='Twitter icon' />
+                  {t('pages.articleDetails.actions.share.twitter')}
+                </div>
+              </TwitterShareButton>
+              <LinkedinShareButton url={window.location.href} title={article?.title}>
+                <div className='articleDetailsSidebar-links-link-modal-content-links-link'>
+                  <img src={linkedin} alt='Linkedin icon' />
+                  {t('pages.articleDetails.actions.share.linkedin')}
+                </div>
+              </LinkedinShareButton>
+              <FacebookShareButton url={window.location.href} title={article?.title}>
+                <div className='articleDetailsSidebar-links-link-modal-content-links-link'>
+                  <img src={facebook} alt='Facebook icon' />
+                  {t('pages.articleDetails.actions.share.facebook')}
+                </div>
+              </FacebookShareButton>
             </div>
-          )}
+          </div>
         </div>
       </div>
       <div className='articleDetailsSidebar-publicationDetails'>

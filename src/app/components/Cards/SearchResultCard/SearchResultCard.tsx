@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { TFunction } from 'i18next';
 import { MathJax } from 'better-react-mathjax';
@@ -34,6 +34,22 @@ export default function SearchResultCard({ language, rvcode, t, searchResult, to
   const { data: metadataCSL } = useFetchArticleMetadataQuery({ rvcode: rvcode!, paperid: searchResult.id.toString(), type: METADATA_TYPE.CSL }, { skip: !searchResult.id || !rvcode });
   const { data: metadataBibTeX } = useFetchArticleMetadataQuery({ rvcode: rvcode!, paperid: searchResult.id.toString(), type: METADATA_TYPE.BIBTEX }, { skip: !searchResult.id || !rvcode });
 
+  const citationsDropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleTouchOutside = (event: TouchEvent): void => {
+      if (citationsDropdownRef.current && !citationsDropdownRef.current.contains(event.target as Node)) {
+        setShowCitationsDropdown(false);
+      }
+    };
+    
+    document.addEventListener('touchstart', handleTouchOutside);
+    
+    return () => {
+      document.removeEventListener('touchstart', handleTouchOutside);
+    };
+  }, [citationsDropdownRef]);
+
   useEffect(() => {
     const fetchCitations = async () => {
       const fetchedCitations = await getCitations(metadataCSL as string);
@@ -47,6 +63,11 @@ export default function SearchResultCard({ language, rvcode, t, searchResult, to
 
     fetchCitations();
   }, [metadataCSL, metadataBibTeX]);
+
+  const copyCitation = (citation: ICitation): void => {
+    copyToClipboardCitation(citation, t)
+    setShowCitationsDropdown(false)
+  }
 
   return (
     <div className="searchResultCard">
@@ -84,21 +105,22 @@ export default function SearchResultCard({ language, rvcode, t, searchResult, to
             </Link>
           )}
           {citations.length > 0 && (
-            <div className="searchResultCard-anchor-icons-cite" onMouseEnter={(): void => setShowCitationsDropdown(true)}>
+            <div
+              ref={citationsDropdownRef}
+              className="searchResultCard-anchor-icons-cite"
+              onMouseEnter={(): void => setShowCitationsDropdown(true)}
+              onMouseLeave={(): void => setShowCitationsDropdown(false)}
+              onTouchStart={(): void => setShowCitationsDropdown(!showCitationsDropdown)}
+            >
               <img className="searchResultCard-anchor-icons-cite-icon" src={quote} alt='Cite icon' />
               <div className="searchResultCard-anchor-icons-cite-text">{t('common.cite')}</div>
-              {showCitationsDropdown && (
-                <div className='searchResultCard-anchor-icons-cite-content' onMouseLeave={(): void => setShowCitationsDropdown(false)}>
-                  <div className='searchResultCard-anchor-icons-cite-content-links'>
-                    {citations.map((citation, index) => (
-                      <span key={index} onClick={(): void => {
-                        copyToClipboardCitation(citation, t)
-                        setShowCitationsDropdown(false)
-                      }}>{citation.key}</span>
-                    ))}
-                  </div>
+              <div className={`searchResultCard-anchor-icons-cite-content ${showCitationsDropdown && 'searchResultCard-anchor-icons-cite-content-displayed'}`}>
+                <div className='searchResultCard-anchor-icons-cite-content-links'>
+                  {citations.map((citation, index) => (
+                    <span key={index} onClick={(): void => copyCitation(citation)} onTouchEnd={(): void => copyCitation(citation)}>{citation.key}</span>
+                  ))}
                 </div>
-              )}
+              </div>
             </div>
           )}
         </div>
