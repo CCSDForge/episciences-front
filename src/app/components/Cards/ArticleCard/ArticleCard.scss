@@ -107,6 +107,10 @@
           top: 16px;
           display: none;
           z-index: 3;
+
+          &-displayed {
+            display: block;
+          }
       
           &-links {
             display: flex;
@@ -127,10 +131,6 @@
               }
             }
           }
-        }
-
-        &:hover &-content {
-          display: block;
         }
       }
     }

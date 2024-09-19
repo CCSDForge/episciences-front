@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { isMobileOnly } from 'react-device-detect';
@@ -36,6 +36,22 @@ export default function Header(): JSX.Element {
   const [isReduced, setIsReduced] = useState(false);
   const [showDropdown, setShowDropdown] = useState({ content: false, about: false });
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+
+  const mobileMenuDropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleTouchOutside = (event: TouchEvent): void => {
+      if (mobileMenuDropdownRef.current && !mobileMenuDropdownRef.current.contains(event.target as Node)) {
+        setShowMobileMenu(false);
+      }
+    };
+    
+    document.addEventListener('touchstart', handleTouchOutside);
+    
+    return () => {
+      document.removeEventListener('touchstart', handleTouchOutside);
+    };
+  }, [mobileMenuDropdownRef]);
 
   const handleScroll = () => {
     const position = window.scrollY;
@@ -116,31 +132,31 @@ export default function Header(): JSX.Element {
   const getPostHeaderBurgerLinks = (): JSX.Element => {
     if (showMobileMenu) {
       return (
-        <div className='header-postheader-burger-content' onMouseLeave={(): void => setShowMobileMenu(false)}>
-          <div className='header-postheader-burger-content-links' onClick={(): void => setShowMobileMenu(false)}>
+        <div className={`header-postheader-burger-content ${showDropdown && 'header-postheader-burger-content-displayed'}`}>
+          <div className='header-postheader-burger-content-links'>
             <div className='header-postheader-burger-content-links-section header-postheader-burger-content-links-section-bordered'>
               <div className='header-postheader-burger-content-links-section-links'>
-                <Link to={PATHS.articles}>{t('components.header.links.articles')}</Link>
-                <Link to={PATHS.articlesAccepted}>{t('components.header.links.articlesAccepted')}</Link>
-                <Link to={PATHS.volumes}>{t('components.header.links.volumes')}</Link>
-                <Link to={`${PATHS.volumes}/${lastVolume?.id}`}>{t('components.header.links.lastVolume')}</Link>
-                <Link to={PATHS.sections}>{t('components.header.links.sections')}</Link>
-                <Link to={`${PATHS.volumes}?type=${VOLUME_TYPE.SPECIAL_ISSUE}`}>{t('components.header.links.specialIssues')}</Link>
-                <Link to={`${PATHS.volumes}?type=${VOLUME_TYPE.PROCEEDINGS}`}>{t('components.header.links.proceedings')}</Link>
-                <Link to={PATHS.authors}>{t('components.header.links.authors')}</Link>
+                <span onTouchEnd={(): void => navigate(PATHS.articles)}>{t('components.header.links.articles')}</span>
+                <span onTouchEnd={(): void => navigate(PATHS.articlesAccepted)}>{t('components.header.links.articlesAccepted')}</span>
+                <span onTouchEnd={(): void => navigate(PATHS.volumes)}>{t('components.header.links.volumes')}</span>
+                <span onTouchEnd={(): void => navigate(`${PATHS.volumes}/${lastVolume?.id}`)}>{t('components.header.links.lastVolume')}</span>
+                <span onTouchEnd={(): void => navigate(PATHS.sections)}>{t('components.header.links.sections')}</span>
+                <span onTouchEnd={(): void => navigate(`${PATHS.volumes}?type=${VOLUME_TYPE.SPECIAL_ISSUE}`)}>{t('components.header.links.specialIssues')}</span>
+                <span onTouchEnd={(): void => navigate(`${PATHS.volumes}?type=${VOLUME_TYPE.PROCEEDINGS}`)}>{t('components.header.links.proceedings')}</span>
+                <span onTouchEnd={(): void => navigate(PATHS.authors)}>{t('components.header.links.authors')}</span>
               </div>
             </div>
             <div className='header-postheader-burger-content-links-section header-postheader-burger-content-links-section-bordered'>
               <div className='header-postheader-burger-content-links-section-links'>
-                <Link to={PATHS.about}>{t('components.header.links.about')}</Link>
-                <Link to={PATHS.news}>{t('components.header.links.news')}</Link>
-                <Link to={PATHS.statistics}>{t('components.header.links.statistics')}</Link>
+                <span onTouchEnd={(): void => navigate(PATHS.about)}>{t('components.header.links.about')}</span>
+                <span onTouchEnd={(): void => navigate(PATHS.news)}>{t('components.header.links.news')}</span>
+                <span onTouchEnd={(): void => navigate(PATHS.statistics)}>{t('components.header.links.statistics')}</span>
               </div>
             </div>
             <div className='header-postheader-burger-content-links-section'>
               <div className='header-postheader-burger-content-links-section-links'>
-                <Link to={PATHS.boards}>{t('components.header.links.boards')}</Link>
-                <Link to={PATHS.forAuthors}>{t('components.header.links.forAuthors')}</Link>
+                <span onTouchEnd={(): void => navigate(PATHS.boards)}>{t('components.header.links.boards')}</span>
+                <span onTouchEnd={(): void => navigate(PATHS.forAuthors)}>{t('components.header.links.forAuthors')}</span>
               </div>
             </div>
           </div>
@@ -177,9 +193,9 @@ export default function Header(): JSX.Element {
             </div>
           )}
         </div>
-        <div className='header-postheader'>
-          <div className='header-postheader-burger'>
-            <img className='header-postheader-burger-icon' src={burger} alt='Burger menu icon' onMouseEnter={(): void => setShowMobileMenu(true)}/>
+        <div className='header-postheader' ref={mobileMenuDropdownRef}>
+          <div className='header-postheader-burger' onTouchEnd={(): void => setShowMobileMenu(!showMobileMenu)}>
+            <img className='header-postheader-burger-icon' src={burger} alt='Burger menu icon' />
             {getPostHeaderBurgerLinks()}
           </div>
           {getPostHeaderLinks()}
@@ -218,9 +234,9 @@ export default function Header(): JSX.Element {
         </div>
         <div className='header-journal-title'>{journalName}</div>
       </div>
-      <div className='header-postheader'>
-        <div className='header-postheader-burger'>
-          <img className='header-postheader-burger-icon' src={burger} alt='Burger menu icon' onMouseEnter={(): void => setShowMobileMenu(true)}/>
+      <div className='header-postheader' ref={mobileMenuDropdownRef}>
+        <div className='header-postheader-burger' onTouchEnd={(): void => setShowMobileMenu(!showMobileMenu)}>
+          <img className='header-postheader-burger-icon' src={burger} alt='Burger menu icon' />
           {getPostHeaderBurgerLinks()}
         </div>
         {getPostHeaderLinks()}
