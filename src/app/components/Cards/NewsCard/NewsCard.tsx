@@ -52,10 +52,9 @@ export default function NewsCard({ language, t, mode, fullCard, blurCard, setFul
         ) : (
           <ReactMarkdown>{`${news.content[language].substring(0, MAX_CONTENT_LENGTH)}...`}</ReactMarkdown>
         )}
-        <button onClick={(e): void => toggleFullContent(e)} className='newsCard-content-content-toggle'>
+        <div onClick={(e): void => toggleFullContent(e)} className='newsCard-content-content-toggle'>
           {showFullContent ? t('common.readLess') : t('common.readMore')}
-          {showFullContent ? <img src={minus} /> : <img src={plus} />}
-        </button>
+        </div>
       </div>
     )
   }

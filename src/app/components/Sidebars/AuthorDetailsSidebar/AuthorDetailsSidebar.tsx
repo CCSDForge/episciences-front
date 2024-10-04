@@ -39,7 +39,7 @@ export default function AuthorDetailsSidebar ({ language, t, rvcode, expandedAut
                   <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${article.doi}`} className="authorDetailsSidebar-content-article-doi-link" target='_blank'>{article.doi}</Link>
                 </div>
             )}
-            <Link to={`/${PATHS.articles}/${article.id}`} target='_blank'>
+            <Link to={`/${PATHS.articles}/${article.id}`}>
               <div className="authorDetailsSidebar-content-article-seeMore">
                 <div className="authorDetailsSidebar-content-article-seeMore-text">{t('common.seeMore')}</div>
                 <img className="authorDetailsSidebar-content-article-seeMore-icon" src={caretRight} alt='Caret right icon' />

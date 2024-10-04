@@ -7,4 +7,16 @@
   font-weight: bold;
   border: none;
   cursor: pointer;
+
+  &-withIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    &-icon {
+      width: 12px;
+      height: 12px;
+    }
+  }
 }

@@ -5,6 +5,7 @@ import { isMobileOnly } from 'react-device-detect';
 
 import arrowRight from '/icons/arrow-right-blue.svg';
 import burger from '/icons/burger.svg';
+import externalLink from '/icons/external-link-white.svg';
 import logoText from '/icons/logo-text.svg';
 import logoJpeBig from '/icons/logo-jpe-big.svg';
 import logoJpeSmall from '/icons/logo-jpe-small.svg';
@@ -16,7 +17,7 @@ import { availableLanguages } from '../../../utils/i18n';
 import { VOLUME_TYPE } from '../../../utils/volume';
 import Button from '../Button/Button';
 import LanguageDropdown from '../LanguageDropdown/LanguageDropdown';
-import SearchInput from '../SearchInput/SearchInput';
+import HeaderSearchInput from '../SearchInput/HeaderSearchInput/HeaderSearchInput';
 import './Header.scss'
 
 export default function Header(): JSX.Element {
@@ -33,6 +34,7 @@ export default function Header(): JSX.Element {
   const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name);
   const lastVolume = useAppSelector(state => state.volumeReducer.lastVolume);
 
+  const [isSearching, setIsSearching] = useState(false);
   const [isReduced, setIsReduced] = useState(false);
   const [showDropdown, setShowDropdown] = useState({ content: false, about: false });
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -71,10 +73,13 @@ export default function Header(): JSX.Element {
       return;
     }
 
+    setIsSearching(false);
     navigate(PATHS.search);
   }
 
-  const getJournalAccessLink = (): string => language === 'fr' ? import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_FR : import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_EN
+  const getEpisciencesHomePageLink = (): string => language === 'fr' ? import.meta.env.VITE_EPISCIENCES_HOMEPAGE_FR : import.meta.env.VITE_EPISCIENCES_HOMEPAGE
+
+  const getJournalAccessLink = (): string => language === 'fr' ? import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE_FR : import.meta.env.VITE_EPISCIENCES_JOURNALS_PAGE
 
   const isMobileReduced = (): boolean => isReduced && isMobileOnly;
 
@@ -119,11 +124,24 @@ export default function Header(): JSX.Element {
         <div className={`header-postheader-search ${isReduced && 'header-postheader-search-reduced'}`}>
           <div className='header-postheader-search-delimiter'></div>
           <div className='header-postheader-search-search'>
-            <SearchInput value={search ?? ''} placeholder={t('components.header.search')} onChangeCallback={updateSearch} onSubmitCallback={submitSearch} />
+            <HeaderSearchInput
+              value={search ?? ''}
+              placeholder={t('components.header.searchPlaceholder')}
+              isSearching={isSearching}
+              setIsSearchingCallback={setIsSearching}
+              onChangeCallback={updateSearch}
+              onSubmitCallback={submitSearch}
+            />
           </div>
-          <div className='header-postheader-search-submit'>
-            <Button text={t('components.header.submit')} onClickCallback={(): void => {}}/>
-          </div>
+          {isSearching ? (
+            <div className='header-postheader-search-submit header-postheader-search-submit-search'>
+              <Button text={t('components.header.search')} onClickCallback={(): void => submitSearch()} />
+            </div>
+          ) : (
+            <div className='header-postheader-search-submit header-postheader-search-submit-article'>
+              <Button text={t('components.header.submit')} onClickCallback={(): void => {}} icon={externalLink} />
+            </div>
+          )}
         </div>
       </>
     )
@@ -208,7 +226,7 @@ export default function Header(): JSX.Element {
     <header className='header'>
       <div className='header-preheader'>
         <div className='header-preheader-logo'>
-          <Link to={import.meta.env.VITE_EPISCIENCES_HOMEPAGE} target='_blank'>
+          <Link to={getEpisciencesHomePageLink()} target='_blank'>
             <img src={logoText} alt='Episciences logo' />
           </Link>
         </div>

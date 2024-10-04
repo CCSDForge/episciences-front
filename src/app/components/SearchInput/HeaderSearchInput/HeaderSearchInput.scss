@@ -1,7 +1,7 @@
-.searchInput {
+.headerSearchInput {
   height: 100%;
   display: flex;
-  justify-content: space-between;
+  gap: 20px;
   align-items: center;
 
   &-input {
@@ -20,11 +20,22 @@
     }
   }
 
-  &-icon {
-    margin-left: 10px;
+  &-icon {    
+    &-caretLeft, &-search {
+      margin-left: 10px;
+    }
 
-    &-submit {
+    &-caretLeft, &-close {
       cursor: pointer;
+    }
+
+    &-caretLeft {
+      min-width: 24px;
+      height: 24px;
+    }
+
+    &-close {
+      margin-right: 20px;
     }
   }
 }
