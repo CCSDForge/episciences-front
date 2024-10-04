@@ -79,7 +79,8 @@
         "boards": "Boards",
         "forAuthors": "For authors"
       },
-      "search": "search",
+      "searchPlaceholder": "search",
+      "search": "Search",
       "submit": "Submit"
     },
     "footer": {

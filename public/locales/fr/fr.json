@@ -79,7 +79,8 @@
         "boards": "Comités",
         "forAuthors": "Pour les auteurs"
       },
-      "search": "rechercher",
+      "searchPlaceholder": "rechercher",
+      "search": "Rechercher",
       "submit": "Déposer"
     },
     "footer": {

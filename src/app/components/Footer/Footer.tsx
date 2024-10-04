@@ -10,6 +10,7 @@ import { PATHS } from '../../../config/paths';
 export default function Footer(): JSX.Element {
   const { t } = useTranslation();
 
+  const language = useAppSelector(state => state.i18nReducer.language);
   const currentJournal = useAppSelector(state => state.journalReducer.currentJournal);
   const enabled = useAppSelector(state => state.footerReducer.enabled);
 
@@ -37,6 +38,18 @@ export default function Footer(): JSX.Element {
     return `${import.meta.env.VITE_API_ROOT_ENDPOINT}/feed/rss/${code}`
   }
 
+  const getDocumentationLink = (): string => language === 'fr' ? import.meta.env.VITE_EPISCIENCES_DOCUMENTATION_PAGE_FR : import.meta.env.VITE_EPISCIENCES_DOCUMENTATION_PAGE
+
+  const getAcknowledgementsLink = (): string => language === 'fr' ? import.meta.env.VITE_EPISCIENCES_ACKNOWLEDGEMENTS_PAGE_FR : import.meta.env.VITE_EPISCIENCES_ACKNOWLEDGEMENTS_PAGE
+
+  const getLegalTermsLink = (): string => language === 'fr' ? import.meta.env.VITE_EPISCIENCES_LEGAL_TERMS_PAGE_FR : import.meta.env.VITE_EPISCIENCES_LEGAL_TERMS_PAGE
+
+  const getLegalPrivacyStatementLink = (): string => language === 'fr' ? import.meta.env.VITE_EPISCIENCES_LEGAL_PRIVACY_STATEMENT_PAGE_FR : import.meta.env.VITE_EPISCIENCES_LEGAL_PRIVACY_STATEMENT_PAGE
+
+  const getTermsOfUseLink = (): string => language === 'fr' ? import.meta.env.VITE_EPISCIENCES_LEGAL_PRIVACY_TERMS_OF_USE_PAGE_FR : import.meta.env.VITE_EPISCIENCES_LEGAL_PRIVACY_TERMS_OF_USE_PAGE
+
+  const getPublishingPolicyAnchor = (): string => language === 'fr' ? `${PATHS.about}#politiques-de-publication` : `${PATHS.about}#publishing-policy`
+
   return (
     <footer className={`footer ${!enabled && 'footer-disabled'}`}>
       <div className='footer-journal'>
@@ -60,18 +73,18 @@ export default function Footer(): JSX.Element {
         <img src={logo} alt='Episciences logo' className='footer-episciences-logo' />
         <div className='footer-episciences-links'>
           <div className='footer-episciences-links-documentation'>
-            <Link to={import.meta.env.VITE_EPISCIENCES_DOCUMENTATION_PAGE} target='_blank'>{t('components.footer.links.documentation')}</Link>
+            <Link to={getDocumentationLink()} target='_blank'>{t('components.footer.links.documentation')}</Link>
             <div className='footer-episciences-links-documentation-divider'>|</div>
-            <Link to={import.meta.env.VITE_EPISCIENCES_ACKNOWLEDGEMENTS_PAGE} target='_blank'>{t('components.footer.links.acknowledgements')}</Link>
+            <Link to={getAcknowledgementsLink()} target='_blank'>{t('components.footer.links.acknowledgements')}</Link>
             <div className='footer-episciences-links-documentation-divider'>|</div>
-            <Link to={`${PATHS.about}#publishing-policy`}>{t('components.footer.links.publishingPolicy')}</Link>
+            <Link to={getPublishingPolicyAnchor()}>{t('components.footer.links.publishingPolicy')}</Link>
           </div>
           <div className='footer-episciences-links-legal'>
-            <Link to={import.meta.env.VITE_EPISCIENCES_LEGAL_TERMS_PAGE} target='_blank'>{t('components.footer.links.legalMentions')}</Link>
+            <Link to={getLegalTermsLink()} target='_blank'>{t('components.footer.links.legalMentions')}</Link>
             <div className='footer-episciences-links-legal-divider'>|</div>
-            <Link to={import.meta.env.VITE_EPISCIENCES_LEGAL_PRIVACY_STATEMENT_PAGE} target='_blank'>{t('components.footer.links.privacyStatement')}</Link>
+            <Link to={getLegalPrivacyStatementLink()} target='_blank'>{t('components.footer.links.privacyStatement')}</Link>
             <div className='footer-episciences-links-legal-divider'>|</div>
-            <Link to={import.meta.env.VITE_EPISCIENCES_LEGAL_PRIVACY_TERMS_OF_USE_PAGE} target='_blank'>{t('components.footer.links.termsOfUse')}</Link>
+            <Link to={getTermsOfUseLink()} target='_blank'>{t('components.footer.links.termsOfUse')}</Link>
           </div>
         </div>
       </div>

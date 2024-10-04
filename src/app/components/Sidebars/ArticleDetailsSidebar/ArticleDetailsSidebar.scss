@@ -3,6 +3,11 @@
   max-width: 370px;
 
   @media (max-width: $sm) {
+    min-width: 180px;
+    max-width: unset;
+  }
+
+  @media (max-width: $xsm) {
     min-width: unset;
     max-width: unset;
   }

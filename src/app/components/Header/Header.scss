@@ -173,7 +173,7 @@
     padding-left: 80px;
 
     @media (max-width: $sm) {
-      padding-left: 40px;
+      padding-left: 25px;
     }
 
     @media (max-width: $xsm) {
@@ -242,6 +242,7 @@
       &-delimiter {
         height: 43px;
         border: 0.8px solid var(--grey-light);
+        margin-right: 5px;
 
         @media (max-width: $sm) {
           display: none;
@@ -249,27 +250,24 @@
       }
 
       &-search {
+        width: 300px;
         height: 100%;
-        margin: 0px 18px 0px 60px;
 
         @media (max-width: $sm) {
-          margin: 0px 18px 0px 0px;
+          width: 240px;
+        }
+
+        @media (max-width: $xsm) {
+          width: 220px;
         }
 
         input {
-          width: 100px;
-          height: 95%;
+          width: 100%;
+          height: auto;
+          margin-right: 20px;
 
           &:placeholder-shown {
            text-overflow: ellipsis; 
-          }
-
-          @media (max-width: $sm) {
-            width: 60px;
-          }
-
-          @media (max-width: $xsm) {
-            height: 90%;
           }
         }
       }
@@ -277,8 +275,18 @@
       &-submit {
         height: 100%;
 
-        @media (max-width: $xsm) {
+        @media (max-width: $sm) {
           display: none;
+        }
+
+        &-search {
+          height: 43px;
+          border-left: 0.8px solid var(--grey-light);
+
+          button {
+            background: var(--white);
+            color: var(--red);
+          }
         }
       }
     }

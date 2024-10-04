@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 import { TFunction } from 'i18next';
 
 import { alphabet } from '../../../../utils/filter';
-import SearchInput from '../../SearchInput/SearchInput';
+import AuthorsSearchInput from '../../SearchInput/AuthorsSearchInput/AuthorsSearchInput';
 import './AuthorsSidebar.scss'
 
 interface IAuthorsSidebarProps {
@@ -39,7 +39,7 @@ export default function AuthorsSidebar({ t, search, onSearchCallback, activeLett
   return (
     <div className='authorsSidebar'>
       <div className='authorsSidebar-search'>
-        <SearchInput value={search} placeholder={t('pages.authors.searchName')} onChangeCallback={onSearchCallback} className='search-icon-small search-icon-reverted' />
+        <AuthorsSearchInput value={search} placeholder={t('pages.authors.searchName')} onChangeCallback={onSearchCallback} />
       </div>
       <div className='authorsSidebar-letters'>
         {alphabet.map((letter, index) => (
