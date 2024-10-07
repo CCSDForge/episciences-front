@@ -14,12 +14,17 @@
     transition: height 0.3s ease;
   }
 
-  @media (max-width: $xsm) {
+  @media (max-width: $xsm),
+  (max-width: $sm) and (orientation:landscape) {
     height: 180px;
   }
 
   &-reduced {
     height: 110px;
+
+    @media (max-width: $sm) and (orientation:landscape) {
+      height: 90px;
+    }
 
     @media (max-width: $xsm) {
       height: auto;
@@ -118,7 +123,8 @@
     height: 180px;
     display: flex;
 
-    @media (max-width: $xsm) {
+    @media (max-width: $xsm),
+    (max-width: $sm) and (orientation:landscape) {
       height: 86px;
     }
 
@@ -135,7 +141,8 @@
         height: 100%;
       }
 
-      @media (max-width: $xsm) {
+      @media (max-width: $xsm),
+      (max-width: $sm) and (orientation:landscape) {
         width: 104px;
 
         img {
@@ -157,7 +164,8 @@
       align-items: center;
       justify-content: flex-end;
 
-      @media (max-width: $xsm) {
+      @media (max-width: $xsm),
+      (max-width: $sm) and (orientation:landscape) {
         padding: 0px 16px 0px 16px;
         text-align: end;
         font-size: 14px;
@@ -171,6 +179,10 @@
     justify-content: space-between;
     align-items: center;
     padding-left: 80px;
+
+    a:hover {
+      color: var(--grey-darker);
+    }
 
     @media (max-width: $sm) {
       padding-left: 25px;
@@ -208,7 +220,7 @@
           &-links {
             display: flex;
             flex-direction: column;
-            min-width: 152px;
+            min-width: 100px;
             gap: 10px;
             padding: 7px 30px 10px 9px;
             background: var(--white);
@@ -217,8 +229,8 @@
             box-shadow: 0px 3px 6px var(--grey);
             font-size: 18px;
 
-            a:hover {
-              color: var(--grey-dark);
+            &-large {
+              min-width: 170px;
             }
           }
         }

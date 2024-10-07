@@ -33,3 +33,11 @@ export const decodeText = (text: string): string => {
       .trim()
   ;
 }
+
+export const adjustNestedListsInMarkdownContent = (content?: string): string | undefined => {
+  return content?.replace(/(- [^\n]+:\n)((- .+\n)+)/g, (_: string, parent: string, children: string) => {
+    const indentedChildren = children.replace(/(- )/g, '  $1')
+
+    return parent + indentedChildren
+  })
+}

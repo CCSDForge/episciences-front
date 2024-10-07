@@ -171,9 +171,12 @@
                   max-width: 220px;
                   text-wrap: balance;
 
-                  @media (max-width: $xsm) {
-                    font-size: 16px;
+                  @media (max-width: $sm) {
                     max-width: 160px;
+                  }
+
+                  @media (max-width: $xsm) {
+                    max-width: 150px;
                   }
                 }
               }

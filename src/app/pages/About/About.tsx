@@ -8,7 +8,7 @@ import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchAboutPageQuery } from "../../../store/features/about/about.query";
-import { generateIdFromText, unifiedProcessor, serializeMarkdown, getMarkdownImageURL } from '../../../utils/markdown';
+import { generateIdFromText, unifiedProcessor, serializeMarkdown, getMarkdownImageURL, adjustNestedListsInMarkdownContent } from '../../../utils/markdown';
 import AboutSidebar, { IAboutHeader } from '../../components/Sidebars/AboutSidebar/AboutSidebar';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
@@ -33,34 +33,41 @@ export default function About(): JSX.Element {
 
   const parseContentSections = (toBeParsed: string | undefined): IAboutSection[] => {
     const tree = unifiedProcessor.parse(toBeParsed);
-    const sections = [];
-    let currentSection = { id: '', value: '', opened: true };
+    const sections: IAboutSection[] = [];
+    let currentSection: IAboutSection | null = null;
   
     tree.children.forEach((node) => {
       if (node.type === 'heading' && node.depth === 2) {
-        if (currentSection.id) {
+        if (currentSection) {
           sections.push(currentSection);
-          currentSection = { id: '', value: '', opened: true };
         }
         const titleText = node.children
           .filter(child => child.type === 'text')
           .map(textNode => (textNode as { value: string }).value)
           .join('');
-        currentSection.id = generateIdFromText(titleText);
-        currentSection.value += serializeMarkdown(node);
+        currentSection = {
+          id: generateIdFromText(titleText),
+          value: serializeMarkdown(node),
+          opened: true
+        };
       } else {
-        currentSection.value += serializeMarkdown(node);
-        currentSection.value += '\n'
+        if (!currentSection) {
+          currentSection = {
+            id: 'intro',
+            value: '',
+            opened: true
+          };
+        }
+        currentSection.value += serializeMarkdown(node) + '\n';
       }
     });
   
-    if (currentSection.id) {
+    if (currentSection) {
       sections.push(currentSection);
     }
   
     return sections;
   };
-  
 
   const parseSidebarHeaders = (toBeParsed: string | undefined): IAboutHeader[] => {
     const tree = unifiedProcessor.parse(toBeParsed);
@@ -116,9 +123,10 @@ export default function About(): JSX.Element {
 
   useEffect(() => {
     const content = aboutPage?.content[language];
+    const adjustedContent = adjustNestedListsInMarkdownContent(content);
 
-    setPageSections(parseContentSections(content))
-    setSidebarHeaders(parseSidebarHeaders(content));
+    setPageSections(parseContentSections(adjustedContent))
+    setSidebarHeaders(parseSidebarHeaders(adjustedContent));
   }, [aboutPage, language]);
 
   return (

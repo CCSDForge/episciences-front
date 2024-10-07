@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import { TFunction } from 'i18next';
 
-import minus from '/icons/minus-circle.svg';
-import plus from '/icons/plus-circle.svg';
 import externalLink from '/icons/external-link-red.svg';
 import { INews } from '../../../../types/news';
 import { formatDate } from '../../../../utils/date';

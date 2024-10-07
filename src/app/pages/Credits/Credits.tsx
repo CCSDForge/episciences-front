@@ -8,7 +8,7 @@ import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchCreditsPageQuery } from "../../../store/features/credits/credits.query";
-import { generateIdFromText, unifiedProcessor, serializeMarkdown, getMarkdownImageURL } from '../../../utils/markdown';
+import { generateIdFromText, unifiedProcessor, serializeMarkdown, getMarkdownImageURL, adjustNestedListsInMarkdownContent } from '../../../utils/markdown';
 import CreditsSidebar, { ICreditsHeader } from '../../components/Sidebars/CreditsSidebar/CreditsSidebar';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
@@ -33,34 +33,41 @@ export default function Credits(): JSX.Element {
 
   const parseContentSections = (toBeParsed: string | undefined): ICreditsSection[] => {
     const tree = unifiedProcessor.parse(toBeParsed);
-    const sections = [];
-    let currentSection = { id: '', value: '', opened: true };
+    const sections: ICreditsSection[] = [];
+    let currentSection: ICreditsSection | null = null;
   
     tree.children.forEach((node) => {
       if (node.type === 'heading' && node.depth === 2) {
-        if (currentSection.id) {
+        if (currentSection) {
           sections.push(currentSection);
-          currentSection = { id: '', value: '', opened: true };
         }
         const titleText = node.children
           .filter(child => child.type === 'text')
           .map(textNode => (textNode as { value: string }).value)
           .join('');
-        currentSection.id = generateIdFromText(titleText);
-        currentSection.value += serializeMarkdown(node);
+        currentSection = {
+          id: generateIdFromText(titleText),
+          value: serializeMarkdown(node),
+          opened: true
+        };
       } else {
-        currentSection.value += serializeMarkdown(node);
-        currentSection.value += '\n'
+        if (!currentSection) {
+          currentSection = {
+            id: 'intro',
+            value: '',
+            opened: true
+          };
+        }
+        currentSection.value += serializeMarkdown(node) + '\n';
       }
     });
   
-    if (currentSection.id) {
+    if (currentSection) {
       sections.push(currentSection);
     }
   
     return sections;
   };
-  
 
   const parseSidebarHeaders = (toBeParsed: string | undefined): ICreditsHeader[] => {
     const tree = unifiedProcessor.parse(toBeParsed);
@@ -115,10 +122,11 @@ export default function Credits(): JSX.Element {
   };
 
   useEffect(() => {
-    const content = creditsPage?.content[language]
+    const content = creditsPage?.content[language];
+    const adjustedContent = adjustNestedListsInMarkdownContent(content);
 
-    setPageSections(parseContentSections(content))
-    setSidebarHeaders(parseSidebarHeaders(content));
+    setPageSections(parseContentSections(adjustedContent))
+    setSidebarHeaders(parseSidebarHeaders(adjustedContent));
   }, [creditsPage, language]);
 
   return (

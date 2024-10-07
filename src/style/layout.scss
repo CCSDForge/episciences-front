@@ -25,6 +25,10 @@ main {
     padding: 0px 25px 135px 25px;
   }
 
+  @media (max-width: $sm) and (orientation:landscape) {
+    margin-top: 185px;
+  }
+
   @media (max-width: $xsm) {
     padding: 0px 16px 135px 16px;
     margin-top: 205px;
