@@ -26,7 +26,6 @@ export default function IssuesSection({ language, t, issues, currentJournal }: I
           ) : (
             <div className="issuesSection-card-template">
               <div className="issuesSection-card-template-jpe">{currentJournal?.code.toUpperCase()}</div>
-              <div className="issuesSection-card-template-volume">{t('common.volumeCard.volume')}</div>
               <div className="issuesSection-card-template-volume">{t('common.volumeCard.specialIssue')}</div>
               <div className="issuesSection-card-template-number">{issue.num}</div>
               <div className="issuesSection-card-template-year">{issue.year}</div>
@@ -34,7 +33,7 @@ export default function IssuesSection({ language, t, issues, currentJournal }: I
           )}
           <div className="issuesSection-card-text">
             <Link to={`${PATHS.volumes}/${issue.id}`}>
-              <div className='issuesSection-card-text-volume'>{`${t('common.volumeCard.volume')} ${issue.num} - ${t('common.volumeCard.specialIssue')}`}</div>
+              <div className='issuesSection-card-text-volume'>{`${t('common.volumeCard.specialIssue')} ${issue.num}`}</div>
             </Link>
             <div className="issuesSection-card-text-title">{issue.title ? issue.title[language] : ''}</div>
             <div className="issuesSection-card-text-year">{issue.year}</div>

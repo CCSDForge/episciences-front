@@ -8,7 +8,7 @@ import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchEditorialWorkflowPageQuery, useFetchEthicalCharterPageQuery, useFetchPrepareSubmissionPageQuery } from "../../../store/features/forAuthor/forAuthor.query";
-import { generateIdFromText, unifiedProcessor, serializeMarkdown, getMarkdownImageURL } from '../../../utils/markdown';
+import { generateIdFromText, unifiedProcessor, serializeMarkdown, getMarkdownImageURL, adjustNestedListsInMarkdownContent } from '../../../utils/markdown';
 import ForAuthorsSidebar, { IForAuthorsHeader } from '../../components/Sidebars/ForAuthorsSidebar/ForAuthorsSidebar';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
@@ -43,8 +43,9 @@ export default function ForAuthors(): JSX.Element {
       const withNumerotation = toBeParsedEntry[0] === 'prepareSubmission';
       const title = toBeParsedEntry[1].title ?? '';
       const content = toBeParsedEntry[1].content ?? '';
+      const adjustedContent = adjustNestedListsInMarkdownContent(content);
 
-      const parsedContent = `## ${title} \n\n\n ${content}`;
+      const parsedContent = `## ${title} \n\n\n ${adjustedContent}`;
       const tree = unifiedProcessor.parse(parsedContent);
 
       let currentSection: IForAuthorsSection = withNumerotation ? { id: '', value: '', opened: true, cards: [] } : { id: '', value: '', opened: true };
@@ -111,8 +112,9 @@ export default function ForAuthors(): JSX.Element {
       const withNumerotation = toBeParsedEntry[0] === 'prepareSubmission';
       const title = toBeParsedEntry[1].title ?? '';
       const content = toBeParsedEntry[1].content ?? '';
+      const adjustedContent = adjustNestedListsInMarkdownContent(content);
 
-      const parsedContent = `## ${title} \n\n\n ${content}`;
+      const parsedContent = `## ${title} \n\n\n ${adjustedContent}`;
       const tree = unifiedProcessor.parse(parsedContent);
 
       let lastH2 = null;
