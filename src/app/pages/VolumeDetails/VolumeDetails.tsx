@@ -85,11 +85,11 @@ export default function VolumeDetails(): JSX.Element {
   const renderVolumeType = (): JSX.Element => {
     if (volume?.types && volume.types.length) {
       if (volume.types.includes(VOLUME_TYPE.PROCEEDINGS)) {
-        return <h1 className='volumeDetails-id-text'>{t('pages.volumeDetails.titleProceeding')}</h1>
+        return <h1 className='volumeDetails-id-text'>{t('pages.volumeDetails.titleProceeding')} {volume?.num}</h1>
       }
 
       if (volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE)) {
-        return <h1 className='volumeDetails-id-text'>{t('pages.volumeDetails.titleSpecialIssue')}</h1>
+        return <h1 className='volumeDetails-id-text'>{t('pages.volumeDetails.titleSpecialIssue')} {volume?.num}</h1>
       }
     }
 
