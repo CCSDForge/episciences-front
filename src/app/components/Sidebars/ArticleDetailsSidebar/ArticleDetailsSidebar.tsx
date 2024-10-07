@@ -79,18 +79,26 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
 
   const toggleFunding = (): void => setOpenedFunding(!openedFunding)
 
-  const renderSpecialRelatedVolume = (): JSX.Element | null => {
-    if (relatedVolume?.types) {
+  const renderRelatedVolume = (relatedVolume?: IVolume): JSX.Element | null => {
+    if (!relatedVolume) return null;
+
+    let text = ''
+
+    if (relatedVolume?.types && relatedVolume.types.length > 0) {
       if (relatedVolume.types.includes(VOLUME_TYPE.PROCEEDINGS)) {
-        return <div className='articleDetailsSidebar-volumeDetails-special'>{t('pages.articleDetails.volumeDetails.proceeding')}</div>
+        text += t('pages.articleDetails.volumeDetails.proceeding')
       }
 
       if (relatedVolume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE)) {
-        return <div className='articleDetailsSidebar-volumeDetails-special'>{t('pages.articleDetails.volumeDetails.specialIssue')}</div>
+        text += t('pages.articleDetails.volumeDetails.specialIssue')
       }
+    } else {
+        text += t('pages.articleDetails.volumeDetails.title')
     }
 
-    return null
+    return (
+      <Link to={`${PATHS.volumes}/${relatedVolume.id}`} className='articleDetailsSidebar-volumeDetails-number'>{text} {relatedVolume.num}</Link>
+    )
   }
 
   const renderLicenseContent = (): JSX.Element | null => {
@@ -198,25 +206,41 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
           <div className='articleDetailsSidebar-links-link-text'>{t('pages.articleDetails.actions.share.text')}</div>
           <div className={`articleDetailsSidebar-links-link-modal-content ${showSharingDropdown && 'articleDetailsSidebar-links-link-modal-content-displayed'}`}>
             <div className='articleDetailsSidebar-links-link-modal-content-links'>
-              <EmailShareButton url={window.location.href} subject={article?.title}>
+              <EmailShareButton
+                url={window.location.href}
+                subject={article?.title}
+                onTouchStart={(e) => e.stopPropagation()}
+              >
                 <div className='articleDetailsSidebar-links-link-modal-content-links-link'>
                   <img src={mail} alt='Mail icon' />
                   {t('pages.articleDetails.actions.share.email')}
                 </div>
               </EmailShareButton>
-              <TwitterShareButton url={window.location.href} title={article?.title}>
+              <TwitterShareButton
+                url={window.location.href}
+                title={article?.title}
+                onTouchStart={e => e.stopPropagation()}
+              >
                 <div className='articleDetailsSidebar-links-link-modal-content-links-link'>
                   <img src={twitter} alt='Twitter icon' />
                   {t('pages.articleDetails.actions.share.twitter')}
                 </div>
               </TwitterShareButton>
-              <LinkedinShareButton url={window.location.href} title={article?.title}>
+              <LinkedinShareButton
+                url={window.location.href}
+                title={article?.title}
+                onTouchStart={e => e.stopPropagation()}
+              >
                 <div className='articleDetailsSidebar-links-link-modal-content-links-link'>
                   <img src={linkedin} alt='Linkedin icon' />
                   {t('pages.articleDetails.actions.share.linkedin')}
                 </div>
               </LinkedinShareButton>
-              <FacebookShareButton url={window.location.href} title={article?.title}>
+              <FacebookShareButton
+                url={window.location.href}
+                title={article?.title}
+                onTouchStart={e => e.stopPropagation()}
+              >
                 <div className='articleDetailsSidebar-links-link-modal-content-links-link'>
                   <img src={facebook} alt='Facebook icon' />
                   {t('pages.articleDetails.actions.share.facebook')}
@@ -259,8 +283,7 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
         <div className='articleDetailsSidebar-volumeDetails'>
           {relatedVolume && (
             <>
-              <Link to={`${PATHS.volumes}/${relatedVolume.id}`} className='articleDetailsSidebar-volumeDetails-number'>{t('pages.articleDetails.volumeDetails.title')} {relatedVolume.num}</Link>
-              {renderSpecialRelatedVolume()}
+              {renderRelatedVolume(relatedVolume)}
               <div className='articleDetailsSidebar-volumeDetails-title'>{relatedVolume.title && relatedVolume.title[language]}</div>
               {article?.doi && (
                 <div className='articleDetailsSidebar-volumeDetails-doi'>

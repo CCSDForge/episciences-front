@@ -132,16 +132,7 @@
     &-number {
       font-size: 21px;
       font-weight: bold;
-    }
-
-    &-special {
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    &-number, &-special {
       color: var(--red);
-      margin-bottom: 4px;
     }
 
     &-title, &-doi, &-license {
@@ -150,6 +141,7 @@
     }
 
     &-title {
+      margin-top: 8px;
       margin-bottom: 40px;
 
       @media (max-width: $xsm) {

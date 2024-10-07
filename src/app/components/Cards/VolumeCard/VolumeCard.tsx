@@ -27,42 +27,45 @@ export default function VolumeCard({ language, t, mode, volume, currentJournal }
   const [openedDescription, setOpenedDescription] = useState(false)
   const toggleDescription = (): void => setOpenedDescription(!openedDescription)
 
-  const renderVolumeTileSpecial = (): JSX.Element => {
-    let text = `${t('common.volumeCard.volume')} ${volume.num}`
+  const renderVolumeTileNum = (): JSX.Element => {
+    let text = ''
 
     if (volume.types && volume.types.length) {
-      if (volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE) && volume.types.includes(VOLUME_TYPE.PROCEEDINGS)) {
-        text += ` - ${t('common.volumeCard.specialIssue')}, ${t('common.volumeCard.proceeding')}`
+      if (volume.types.includes(VOLUME_TYPE.PROCEEDINGS)) {
+        text += `${t('common.volumeCard.proceeding')}`
       } else if (volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE)) {
-        text += ` - ${t('common.volumeCard.specialIssue')}`
-      } else if (volume.types.includes(VOLUME_TYPE.PROCEEDINGS)) {
-        text += ` - ${t('common.volumeCard.proceeding')}`
+        text += `${t('common.volumeCard.specialIssue')}`
       }
+    } else {
+      text += `${t('common.volumeCard.volume')}`
     }
 
     return (
       <Link to={`${PATHS.volumes}/${volume.id}`}>
-        <div className='volumeCard-tile-text-volume'>{text}</div>
+        <div className='volumeCard-tile-text-volume'>{`${text} ${volume.num}`}</div>
       </Link>
     )
   }
 
-  const renderVolumeListSpecial = (): JSX.Element | null => {
+  const renderVolumeListNum = (isMobile: boolean): JSX.Element | null => {
     let text = ''
 
     if (volume.types && volume.types.length) {
-      if (volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE) && volume.types.includes(VOLUME_TYPE.PROCEEDINGS)) {
-        text += `${t('common.volumeCard.specialIssue')}, ${t('common.volumeCard.proceeding')}`
+      if (volume.types.includes(VOLUME_TYPE.PROCEEDINGS)) {
+        text += `${t('common.volumeCard.proceeding')}`
       } else if (volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE)) {
         text += `${t('common.volumeCard.specialIssue')}`
-      } else if (volume.types.includes(VOLUME_TYPE.PROCEEDINGS)) {
-        text += `${t('common.volumeCard.proceeding')}`
       }
+    } else {
+      text += `${t('common.volumeCard.volume')}`
     }
 
-    return text ? <div className='volumeCard-content-special'>{text}</div> : null
+    return (
+      <Link to={`${PATHS.volumes}/${volume.id}`}>
+        <div className={`volumeCard-content-num ${isMobile && 'volumeCard-content-num-mobile'}`}>{`${text} ${volume.num}`}</div>
+      </Link>
+    );
   }
-
 
   if (mode === RENDERING_MODE.TILE) {
     return (
@@ -81,7 +84,7 @@ export default function VolumeCard({ language, t, mode, volume, currentJournal }
           </div>
         )}
         <div className="volumeCard-tile-text">
-          {renderVolumeTileSpecial()}
+          {renderVolumeTileNum()}
           <Link to={`${PATHS.volumes}/${volume.id}`}>
             <div className="volumeCard-tile-text-title">{volume.title ? volume.title[language] : ''}</div>
           </Link>
@@ -102,17 +105,15 @@ export default function VolumeCard({ language, t, mode, volume, currentJournal }
   return (
     <div className='volumeCard'>
       <div className='volumeCard-resume'>
-        <Link to={`${PATHS.volumes}/${volume.id}`}>
-          <div className='volumeCard-resume-id'>{`${t('common.volumeCard.volume')} ${volume.num}`}</div>
-        </Link>
         {volume.year && <div className='volumeCard-resume-year'>{volume.year}</div>}
+        {renderVolumeListNum(true)}
         <div className='volumeCard-resume-count'>
           <img className='volumeCard-resume-count-icon' src={file} alt='File icon' />
           <span className='volumeCard-resume-count-text'>{volume.articles.length > 1 ? `${volume.articles.length} ${t('common.articles')}`: `${volume.articles.length} ${t('common.article')}`}</span>
         </div>
       </div>
       <div className='volumeCard-content'>
-        {renderVolumeListSpecial()}
+        {renderVolumeListNum(false)}
         <Link to={`${PATHS.volumes}/${volume.id}`}>
           <div className='volumeCard-content-title'>{volume.title ? volume.title[language] : ''}</div>
         </Link>

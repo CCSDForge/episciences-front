@@ -33,12 +33,7 @@ export default function VolumeDetailsSidebar({ language, t, volume, articles, cu
       if (volume.types.includes(VOLUME_TYPE.PROCEEDINGS)) {
         return <div className="volumeDetailsSidebar-template-volume">{t('common.volumeCard.proceeding')}</div>
       } else if (volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE)) {
-        return (
-          <>
-            <div className="volumeDetailsSidebar-template-volume">{t('common.volumeCard.volume')}</div>
-            <div className="volumeDetailsSidebar-template-volume">{t('common.volumeCard.specialIssue')}</div>
-          </>
-        )
+        return <div className="volumeDetailsSidebar-template-volume">{t('common.volumeCard.specialIssue')}</div>
       }
     }
 
