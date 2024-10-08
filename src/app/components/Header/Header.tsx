@@ -93,7 +93,7 @@ export default function Header(): JSX.Element {
             <div>{t('components.header.content')}</div>
             {showDropdown.content && (
                 <div className='header-postheader-links-dropdown-content' onMouseLeave={(): void => toggleDropdown('content', false)}>
-                  <div className='header-postheader-links-dropdown-content-links header-postheader-links-dropdown-content-links-large'>
+                  <div className={`header-postheader-links-dropdown-content-links header-postheader-links-dropdown-content-links-large ${language === 'fr' && 'header-postheader-links-dropdown-content-links-large-fr'}`}>
                     <Link to={PATHS.articles}>{t('components.header.links.articles')}</Link>
                     <Link to={PATHS.articlesAccepted}>{t('components.header.links.articlesAccepted')}</Link>
                     <Link to={PATHS.volumes}>{t('components.header.links.volumes')}</Link>

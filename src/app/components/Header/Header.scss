@@ -222,7 +222,7 @@
             flex-direction: column;
             min-width: 100px;
             gap: 10px;
-            padding: 7px 30px 10px 9px;
+            padding: 7px 25px 10px 9px;
             background: var(--white);
             color: var(--grey);
             border: 1px solid var(--grey-light);
@@ -231,6 +231,10 @@
 
             &-large {
               min-width: 170px;
+
+              &-fr {
+                min-width: 220px;
+              }
             }
           }
         }
@@ -333,7 +337,7 @@
           flex-direction: column;
           min-width: 162px;
           gap: 10px;
-          padding: 7px 30px 10px 9px;
+          padding: 7px 25px 10px 9px;
           background: var(--white);
           color: var(--grey);
           border: 1px solid var(--grey-light);
