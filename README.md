@@ -11,4 +11,4 @@
 
 1. Make sure to have Firebase CLI installed ( follow https://firebase.google.com/docs/cli#install_the_firebase_cli )
 2. Login to Firebase `firebase login`
-3. Deploy project `firebase deploy`
+3. Build & deploy project `rm -rf dist && npm run build && firebase deploy`
