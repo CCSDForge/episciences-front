@@ -7,8 +7,9 @@ import arrowRight from '/icons/arrow-right-blue.svg';
 import burger from '/icons/burger.svg';
 import externalLink from '/icons/external-link-white.svg';
 import logoText from '/icons/logo-text.svg';
-import logoJpeBig from '/icons/logo-jpe-big.svg';
-import logoJpeSmall from '/icons/logo-jpe-small.svg';
+
+//import { getJournalLogoPath } from '../../../utils/assetUtils';
+
 import { PATHS } from '../../../config/paths'
 import { blocksConfiguration } from '../../../config/statistics';
 import { useAppDispatch, useAppSelector } from '../../../hooks/store';
@@ -33,6 +34,7 @@ export default function Header(): JSX.Element {
   const language = useAppSelector(state => state.i18nReducer.language);
   const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name);
   const lastVolume = useAppSelector(state => state.volumeReducer.lastVolume);
+  const currentJournal = useAppSelector(state => state.journalReducer.currentJournal);
 
   const [isSearching, setIsSearching] = useState(false);
   const [isReduced, setIsReduced] = useState(false);
@@ -40,6 +42,12 @@ export default function Header(): JSX.Element {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const mobileMenuDropdownRef = useRef<HTMLDivElement | null>(null);
+
+  const getLogoOfJournal = (size: 'small' | 'big'): string => {
+    const code = currentJournal?.code
+    if (!code) return 'default';
+    return `/logos/logo-${code}-${size}.svg`
+  }
 
   useEffect(() => {
     const handleTouchOutside = (event: TouchEvent): void => {
@@ -201,7 +209,7 @@ export default function Header(): JSX.Element {
         <div className='header-reduced-journal'>
           <div className='header-reduced-journal-logo'>
             <Link to={PATHS.home}>
-              <img src={logoJpeSmall} alt='Reduced journal logo' />
+              <img src={getLogoOfJournal('small')} alt='Reduced journal logo' />
             </Link>
           </div>
           <div className='header-reduced-journal-blank'></div>
@@ -247,7 +255,7 @@ export default function Header(): JSX.Element {
       <div className='header-journal'>
         <div className='header-journal-logo'>
           <Link to={PATHS.home}>
-            <img src={logoJpeBig} alt='Journal logo' />
+            <img src={getLogoOfJournal('big')} alt='Journal logo' />
           </Link>
         </div>
         <div className='header-journal-title'>{journalName}</div>
