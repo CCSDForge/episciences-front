@@ -93,32 +93,32 @@ export default function Search(): JSX.Element {
       }
   
       if (searchResults?.range.volumes) {
-        const initVolumes = searchResults.range.volumes[language].map((v) => {
+        const initVolumes = searchResults.range.volumes[language]?.map((v) => {
           const id = parseInt(Object.keys(v)[0]);
           return {
             id,
             label: {
-              en: searchResults.range?.volumes?.en.find(vol => parseInt(Object.keys(vol)[0]) === id)?.[id] || '',
-              fr: searchResults.range?.volumes?.fr.find(vol => parseInt(Object.keys(vol)[0]) === id)?.[id] || '',
+              en: searchResults.range?.volumes?.en?.find(vol => parseInt(Object.keys(vol)[0]) === id)?.[id] || '',
+              fr: searchResults.range?.volumes?.fr?.find(vol => parseInt(Object.keys(vol)[0]) === id)?.[id] || '',
             },
             isChecked: volumes.find((volume) => volume.id === id)?.isChecked || false,
           };
-        });
+        }) ?? [];
         setVolumes(initVolumes);
       }
 
       if (searchResults?.range.sections) {
-        const initSections = searchResults.range.sections[language].map((s) => {
+        const initSections = searchResults.range.sections[language]?.map((s) => {
           const id = parseInt(Object.keys(s)[0]);
           return {
             id,
             label: {
-              en: searchResults.range?.sections?.en.find(sec => parseInt(Object.keys(sec)[0]) === id)?.[id] || '',
-              fr: searchResults.range?.sections?.fr.find(sec => parseInt(Object.keys(sec)[0]) === id)?.[id] || '',
+              en: searchResults.range?.sections?.en?.find(sec => parseInt(Object.keys(sec)[0]) === id)?.[id] || '',
+              fr: searchResults.range?.sections?.fr?.find(sec => parseInt(Object.keys(sec)[0]) === id)?.[id] || '',
             },
             isChecked: sections.find((section) => section.id === id)?.isChecked || false,
           };
-        });
+        }) ?? [];
         setSections(initSections);
       }
 
