@@ -3,7 +3,7 @@
   justify-content: space-between;
   padding: 30px 35px 20px 35px;
   border: 1px solid var(--grey);
-  border-bottom: 4px solid var(--red);
+  border-bottom: 4px solid var(--primary);
 
   @media (max-width: $sm) {
     padding: 25px;
@@ -68,7 +68,7 @@
     }
 
     &-num {
-      color: var(--red);
+      color: var(--primary);
       font-size: 24px;
       font-weight: bold;
       margin-bottom: 18px;
@@ -115,7 +115,7 @@
       &-title {
         display: flex;
         gap: 8px;
-        border-bottom: 1px solid var(--red);
+        border-bottom: 1px solid var(--primary);
         cursor: pointer;
   
         &-closed {
@@ -125,7 +125,7 @@
         &-text {
           font-size: 16px;
           font-weight: bold;
-          color: var(--red);
+          color: var(--primary);
         }
       }
   
@@ -146,7 +146,7 @@
       display: flex;
       align-self: flex-end;
       gap: 8px;
-      color: var(--red);
+      color: var(--primary);
       font-size: 13px;
     }
   }
@@ -170,7 +170,7 @@
       display: flex;
       flex-direction: column;
       padding: 15px;
-      background: var(--red);
+      background: var(--primary);
       color: var(--white);
 
       &-jpe {
@@ -212,7 +212,7 @@
       flex-direction: column;
 
       &-volume {
-        color: var(--red);
+        color: var(--primary);
         font-weight: 600;
         margin-bottom: 8px;
       }
@@ -246,7 +246,7 @@
         justify-content: flex-end;
         align-items: flex-end;
         gap: 8px;
-        color: var(--red);
+        color: var(--primary);
         font-size: 13px;
         margin-top: auto;
         padding-top: 8px;

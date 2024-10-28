@@ -12,7 +12,7 @@
 
   &-search {
     height: 36px;
-    border-bottom: 1px solid var(--red);
+    border-bottom: 1px solid var(--primary);
     padding-bottom: 6px;
     margin-bottom: 25px;
   }
@@ -37,7 +37,7 @@
 
       &-active {
         color: var(--white);
-        background: var(--red);
+        background: var(--primary);
         font-weight: bold;
       }
 

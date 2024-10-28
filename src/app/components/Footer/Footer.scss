@@ -11,7 +11,7 @@
   &-journal {
     display: flex;
     padding: 25px 80px 25px 25px;
-    border-bottom: 2px solid var(--red);
+    border-bottom: 2px solid var(--primary);
     box-shadow: 0px 0px 6px var(--black-shadow);
 
     @media (max-width: $sm) {
@@ -24,7 +24,7 @@
 
     &-links {
       width: 100%;
-      color: var(--red);
+      color: var(--primary);
       display: flex;
       justify-content: space-between;
 

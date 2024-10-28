@@ -25,7 +25,7 @@
       background: var(--grey-light);
 
       &-active {
-        background: var(--red);
+        background: var(--primary);
       }
     }
   }
@@ -36,7 +36,7 @@
     position: relative;
     left: 0;
     right: 0;
-    color: var(--red);
+    color: var(--primary);
     z-index: 1;
 
     @media (max-width: $sm) {
