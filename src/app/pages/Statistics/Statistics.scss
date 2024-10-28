@@ -19,7 +19,7 @@
     }
 
     &-year {
-      color: var(--red);
+      color: var(--primary);
       font-size: 30px;
       font-weight: bold;
       padding-left: 60px;
@@ -39,7 +39,7 @@
         @media (max-width: $xsm) {
           display: block;
           padding-bottom: 4px;
-          border-bottom: 1px solid var(--red);
+          border-bottom: 1px solid var(--primary);
           cursor: pointer;
         }
 
@@ -84,10 +84,10 @@
           &-title {
             display: flex;
             justify-content: space-between;
-            color: var(--red);
+            color: var(--primary);
             font-size: 22px;
             font-weight: bold;
-            border-bottom: 1px solid var(--red);
+            border-bottom: 1px solid var(--primary);
             padding-bottom: 8px;
             cursor: pointer;
 
@@ -136,7 +136,7 @@
               }
 
               &-stat {
-                color: var(--red);
+                color: var(--primary);
                 font-size: 60px;
                 font-weight: bold;
 

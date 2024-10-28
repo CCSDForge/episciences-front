@@ -5,13 +5,13 @@
   align-items: center;
 
   &-input {
-    color: var(--red);
+    color: var(--primary);
     font-size: 17px;
     font-style: italic;
     border: none;
 
     &::placeholder {
-      color: var(--red);
+      color: var(--primary);
       opacity: 1;
     }
 

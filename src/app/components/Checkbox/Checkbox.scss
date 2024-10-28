@@ -7,7 +7,7 @@
   cursor: pointer;
 
   &:checked {
-    background: var(--red);
+    background: var(--primary);
 
     &::after {
       content: none;

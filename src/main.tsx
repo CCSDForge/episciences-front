@@ -11,6 +11,7 @@ import store, { persistedStore } from './store'
 import router from './config/router'
 import { mathJaxConfig, mathJaxSrc } from './config/mathjax'
 import './config/i18n'
+import './config/theme'
 import './index.scss'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

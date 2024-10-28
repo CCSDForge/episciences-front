@@ -92,7 +92,7 @@
             color: var(--grey);
             
             &-red {
-              color: var(--red);
+              color: var(--primary);
               text-decoration: underline;
             }
           }
@@ -131,7 +131,7 @@
         height: 32px;
         align-content: center;
         font-size: 14px;
-        color: var(--red);
+        color: var(--primary);
         text-decoration: underline;
         cursor: pointer;
       }
@@ -140,12 +140,12 @@
         display: flex;
         gap: 4px;
         padding-bottom: 4px;
-        border-bottom: 1px solid var(--red);
+        border-bottom: 1px solid var(--primary);
         margin-top: 17px;
         cursor: pointer;
 
         &-text {
-          color: var(--red);
+          color: var(--primary);
           font-size: 14px;
           font-weight: bold;
         }
@@ -164,7 +164,7 @@
     display: none;
 
     @media (max-width: $xsm) {
-      color: var(--red);
+      color: var(--primary);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -183,7 +183,7 @@
         gap: 4px;
         font-size: 14px;
         padding-bottom: 4px;
-        border-bottom: 1px solid var(--red);
+        border-bottom: 1px solid var(--primary);
         cursor: pointer;
       }
     }

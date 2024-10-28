@@ -23,7 +23,7 @@
           color: var(--grey);
           
           &-red {
-            color: var(--red);
+            color: var(--primary);
             text-decoration: underline;
           }
         }
@@ -35,7 +35,7 @@
     display: none;
 
     @media (max-width: $xsm) {
-      color: var(--red);
+      color: var(--primary);
       width: 100%;
       display: flex;
       justify-content: space-between;
@@ -50,7 +50,7 @@
         gap: 4px;
         font-size: 14px;
         padding-bottom: 4px;
-        border-bottom: 1px solid var(--red);
+        border-bottom: 1px solid var(--primary);
         cursor: pointer;
       }
     }
