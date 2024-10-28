@@ -6,7 +6,7 @@
     margin-bottom: 20px;
     font-size: 16px;
     font-weight: 500;
-    background: var(--red);
+    background: var(--primary);
     color: var(--white);
   }
   
@@ -118,7 +118,7 @@
           display: flex;
           justify-content: space-between;
           gap: 8px;
-          border-bottom: 1px solid var(--red);
+          border-bottom: 1px solid var(--primary);
           cursor: pointer;
     
           &-closed {
@@ -128,7 +128,7 @@
           &-text {
             font-size: 24px;
             font-weight: bold;
-            color: var(--red);
+            color: var(--primary);
 
             @media (max-width: $sm) {
               font-size: 17px;
@@ -195,7 +195,7 @@
           &-references {
             &-reference {
               &-doi {
-                color: var(--red);
+                color: var(--primary);
                 text-decoration: underline;
               }
             }
@@ -223,7 +223,7 @@
                   &-doi {
                     display: flex;
                     gap: 5px;
-                    color: var(--red);
+                    color: var(--primary);
                     text-decoration: underline;
                   }
                 }

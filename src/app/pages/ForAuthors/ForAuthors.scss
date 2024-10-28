@@ -58,7 +58,7 @@
           justify-content: space-between;
           padding: 0px 15px 8px 0px;
           margin: 20px 0px 20px 0px;
-          border-bottom: 1px solid var(--red);
+          border-bottom: 1px solid var(--primary);
           cursor: pointer;
 
           img, &-caret {
@@ -79,7 +79,7 @@
             display: flex;
             padding: 25px;
             border: 1px solid var(--grey);
-            border-bottom: 4px solid var(--red);
+            border-bottom: 4px solid var(--primary);
             margin-bottom: 15px;
 
             @media (max-width: $xsm) {

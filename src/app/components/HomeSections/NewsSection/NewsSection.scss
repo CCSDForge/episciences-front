@@ -3,7 +3,7 @@
   gap: 24px;
   padding: 24px;
   border: 1px solid var(--grey);
-  border-bottom: 4px solid var(--red);
+  border-bottom: 4px solid var(--primary);
 
   @media (max-width: $xsm) {
     flex-direction: column;
@@ -40,7 +40,7 @@
   }
 
   &-divider {
-    border-right: 2px solid var(--red);
+    border-right: 2px solid var(--primary);
 
     @media (max-width: $xsm) {
       display: none;
