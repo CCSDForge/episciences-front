@@ -17,12 +17,14 @@ import PieChart from '../../components/Charts/PieChart/PieChart';
 import StatisticsMobileModal from '../../components/Modals/StatisticsMobileModal/StatisticsMobileModal';
 import StatisticsSidebar, { IStatisticsYearSelection } from '../../components/Sidebars/StatisticsSidebar/StatisticsSidebar';
 import './Statistics.scss'
+import {Helmet} from "react-helmet-async";
 
 export default function Statistics(): JSX.Element {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
+  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name)
 
   const [statisticsPerLabel, setStatisticsPerLabel] = useState<IStatisticsPerLabel[]>([
     { labelKey: STAT_LABEL.GLANCE, labelPath: 'pages.statistics.labels.glance', statistics: [], isOpened: true },
@@ -140,6 +142,11 @@ export default function Statistics(): JSX.Element {
 
   return (
     <main className='statistics'>
+
+      <Helmet>
+        <title>{t('pages.statistics.title')} | {journalName ?? ''}</title>
+      </Helmet>
+
       <Breadcrumb parents={[
         { path: 'home', label: `${t('pages.home.title')} > ${t('common.about')} >` }
       ]} crumbLabel={t('pages.statistics.title')} />

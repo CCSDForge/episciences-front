@@ -12,6 +12,7 @@ import BoardCard from '../../components/Cards/BoardCard/BoardCard';
 import Loader from '../../components/Loader/Loader';
 import BoardsSidebar from '../../components/Sidebars/BoardsSidebar/BoardsSidebar';
 import './Boards.scss';
+import {Helmet} from "react-helmet-async";
 
 interface IBoardPerTitle {
   title: string;
@@ -24,6 +25,7 @@ export default function Boards(): JSX.Element {
 
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
+  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name)
 
   const { data: pages, isFetching: isFetchingPages } = useFetchBoardPagesQuery(rvcode!, { skip: !rvcode })
   const { data: members, isFetching: isFetchingMembers } = useFetchBoardMembersQuery(rvcode!, { skip: !rvcode })
@@ -74,6 +76,11 @@ export default function Boards(): JSX.Element {
 
   return (
     <main className='boards'>
+
+      <Helmet>
+        <title>{t('pages.boards.title')} | {journalName ?? ''}</title>
+      </Helmet>
+
       <Breadcrumb parents={[
         { path: 'home', label: `${t('pages.home.title')} >` }
       ]} crumbLabel={t('pages.boards.title')} />

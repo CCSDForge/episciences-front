@@ -22,6 +22,7 @@ import PresentationSection from '../../components/HomeSections/PresentationSecti
 import StatisticsSection from '../../components/HomeSections/StatisticsSection/StatisticsSection';
 import Swiper from '../../components/Swiper/Swiper';
 import './Home.scss';
+import {Helmet} from "react-helmet-async";
 
 export default function Home(): JSX.Element {
   const { t, i18n } = useTranslation();
@@ -29,6 +30,7 @@ export default function Home(): JSX.Element {
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
   const currentJournal = useAppSelector(state => state.journalReducer.currentJournal)
+  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name)
 
   const { data: aboutPage } = useFetchAboutPageQuery(rvcode!, { skip: !rvcode })
   const { data: articles } = useFetchArticlesQuery({ rvcode: rvcode!, page: 1, itemsPerPage: 20 }, { skip: !rvcode })
@@ -67,6 +69,11 @@ export default function Home(): JSX.Element {
 
   return (
     <main className='home'>
+
+      <Helmet>
+        <title>{t('pages.home.title')} | {journalName ?? ''}</title>
+      </Helmet>
+
       <h1 className='home-title'>{t('pages.home.title')}</h1>
       <PresentationSection
         language={language}

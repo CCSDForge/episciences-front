@@ -13,6 +13,7 @@ import ArticlesAcceptedSidebar, { IArticleTypeSelection } from "../../components
 import Pagination from "../../components/Pagination/Pagination";
 import Tag from "../../components/Tag/Tag";
 import './ArticlesAccepted.scss';
+import {Helmet} from "react-helmet-async";
 
 interface IArticleAcceptedFilter {
   value: string | number;
@@ -31,6 +32,7 @@ export default function ArticlesAccepted(): JSX.Element {
 
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
+  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name)
 
   const [currentPage, setCurrentPage] = useState(1);
   const [enhancedArticlesAccepted, setEnhancedArticlesAccepted] = useState<EnhancedArticleAccepted[]>([])
@@ -158,6 +160,11 @@ export default function ArticlesAccepted(): JSX.Element {
 
   return (
     <main className='articlesAccepted'>
+
+      <Helmet>
+        <title>{t('pages.articlesAccepted.title')} | {journalName ?? ''}</title>
+      </Helmet>
+
       <Breadcrumb parents={[
         { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }
       ]} crumbLabel={t('pages.articlesAccepted.title')} />
