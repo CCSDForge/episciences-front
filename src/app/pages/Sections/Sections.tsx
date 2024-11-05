@@ -9,6 +9,7 @@ import SectionCard from "../../components/Cards/SectionCard/SectionCard";
 import SectionsSidebar from '../../components/Sidebars/SectionsSidebar/SectionsSidebar'
 import Pagination from "../../components/Pagination/Pagination";
 import './Sections.scss';
+import {Helmet} from "react-helmet-async";
 
 export default function Sections(): JSX.Element {
   const { t } = useTranslation();
@@ -17,6 +18,7 @@ export default function Sections(): JSX.Element {
 
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
+  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name)
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -53,6 +55,10 @@ export default function Sections(): JSX.Element {
 
   return (
     <main className='sections'>
+      <Helmet>
+        <title>{t('pages.sections.title')} | {journalName ?? ''}</title>
+      </Helmet>
+
       <Breadcrumb parents={[
         { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }
       ]} crumbLabel={t('pages.sections.title')} />

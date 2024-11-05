@@ -16,6 +16,7 @@ import NewsMobileModal from '../../components/Modals/NewsMobileModal/NewsMobileM
 import NewsSidebar, { INewsYearSelection } from '../../components/Sidebars/NewsSidebar/NewsSidebar';
 import Pagination from "../../components/Pagination/Pagination";
 import './News.scss'
+import {Helmet} from "react-helmet-async";
 
 export default function News(): JSX.Element {
   const { t } = useTranslation();
@@ -24,6 +25,7 @@ export default function News(): JSX.Element {
 
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
+  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name)
 
   const [currentPage, setCurrentPage] = useState(1);
   const [mode, setMode] = useState(RENDERING_MODE.LIST);
@@ -66,6 +68,11 @@ export default function News(): JSX.Element {
 
   return (
     <main className='news'>
+
+      <Helmet>
+        <title>{t('pages.news.title')} | {journalName ?? ''}</title>
+      </Helmet>
+
       <Breadcrumb parents={[
         { path: 'home', label: `${t('pages.home.title')} > ${t('common.about')} >` }
       ]} crumbLabel={t('pages.news.title')} />

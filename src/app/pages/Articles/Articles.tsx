@@ -13,6 +13,7 @@ import ArticlesSidebar, { IArticleTypeSelection, IArticleYearSelection } from ".
 import Pagination from "../../components/Pagination/Pagination";
 import Tag from "../../components/Tag/Tag";
 import './Articles.scss';
+import {Helmet} from "react-helmet-async";
 
 type ArticleTypeFilter = 'type' | 'year';
 
@@ -34,6 +35,7 @@ export default function Articles(): JSX.Element {
 
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
+  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name)
 
   const [currentPage, setCurrentPage] = useState(1);
   const [enhancedArticles, setEnhancedArticles] = useState<EnhancedArticle[]>([])
@@ -212,6 +214,11 @@ export default function Articles(): JSX.Element {
 
   return (
     <main className='articles'>
+
+      <Helmet>
+        <title>{t('pages.articles.title')} | {journalName ?? ''}</title>
+      </Helmet>
+
       <Breadcrumb parents={[
         { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }
       ]} crumbLabel={t('pages.articles.title')} />

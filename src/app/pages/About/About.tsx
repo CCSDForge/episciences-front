@@ -13,6 +13,7 @@ import AboutSidebar, { IAboutHeader } from '../../components/Sidebars/AboutSideb
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
 import './About.scss';
+import {Helmet} from "react-helmet-async";
 
 interface IAboutSection {
   id: string;
@@ -25,6 +26,7 @@ export default function About(): JSX.Element {
 
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
+  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name)
 
   const [pageSections, setPageSections] = useState<IAboutSection[]>([]);
   const [sidebarHeaders, setSidebarHeaders] = useState<IAboutHeader[]>([]);
@@ -131,6 +133,10 @@ export default function About(): JSX.Element {
 
   return (
     <main className='about'>
+      <Helmet>
+        <title>{t('pages.about.title')} | {journalName ?? ''}</title>
+      </Helmet>
+
       <Breadcrumb parents={[
         { path: 'home', label: `${t('pages.home.title')} > ${t('common.about')} >` }
       ]} crumbLabel={t('pages.about.title')} />

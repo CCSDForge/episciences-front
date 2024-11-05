@@ -21,6 +21,7 @@ import VolumesModal from "../../components/Modals/VolumesModal/VolumesModal";
 import Pagination from "../../components/Pagination/Pagination";
 import Tag from "../../components/Tag/Tag";
 import './Volumes.scss';
+import {Helmet} from "react-helmet-async";
 
 type VolumeTypeFilter = 'type' | 'year';
 
@@ -42,6 +43,7 @@ export default function Volumes(): JSX.Element {
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
   const currentJournal = useAppSelector(state => state.journalReducer.currentJournal)
+  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name)
 
   const [currentPage, setCurrentPage] = useState(1);
   const [mode, setMode] = useState<RENDERING_MODE>(RENDERING_MODE.LIST);
@@ -237,6 +239,11 @@ export default function Volumes(): JSX.Element {
 
   return (
     <main className='volumes'>
+
+      <Helmet>
+        <title>{t('pages.volumes.title')} | {journalName ?? ''}</title>
+      </Helmet>
+
       <Breadcrumb parents={[
         { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }
       ]} crumbLabel={t('pages.volumes.title')} />

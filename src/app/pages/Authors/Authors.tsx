@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
-
+import { Helmet } from 'react-helmet-async';
 import { IAuthor } from "../../../types/author";
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchAuthorsQuery } from "../../../store/features/author/author.query";
@@ -27,7 +27,7 @@ export default function Authors(): JSX.Element {
 
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
-
+  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name)
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState('');
   const [activeLetter, setActiveLetter] = useState('');
@@ -139,8 +139,13 @@ export default function Authors(): JSX.Element {
 
   return (
     <main className='authors'>
+      <Helmet>
+        <title>{t('pages.authors.title')} | {journalName ?? ''}</title>
+      </Helmet>
+
+
       <Breadcrumb parents={[
-        { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }
+        {path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }
       ]} crumbLabel={t('pages.authors.title')} />
       <h1 className='authors-title'>{t('pages.authors.title')}</h1>
       {getAuthorsCount()}

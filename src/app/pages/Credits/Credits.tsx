@@ -13,6 +13,7 @@ import CreditsSidebar, { ICreditsHeader } from '../../components/Sidebars/Credit
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
 import './Credits.scss';
+import {Helmet} from "react-helmet-async";
 
 interface ICreditsSection {
   id: string;
@@ -25,6 +26,7 @@ export default function Credits(): JSX.Element {
 
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
+  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name)
 
   const [pageSections, setPageSections] = useState<ICreditsSection[]>([]);
   const [sidebarHeaders, setSidebarHeaders] = useState<ICreditsHeader[]>([]);
@@ -131,6 +133,10 @@ export default function Credits(): JSX.Element {
 
   return (
     <main className='credits'>
+      <Helmet>
+        <title>{t('pages.credits.title')} | {journalName ?? ''}</title>
+      </Helmet>
+
       <Breadcrumb parents={[
         { path: 'home', label: `${t('pages.home.title')} >` }
       ]} crumbLabel={t('pages.credits.title')} />

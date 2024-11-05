@@ -16,6 +16,14 @@ interface IArticleMetaProps {
 export default function ArticleMeta({ language, article, currentJournal, keywords, authors }: IArticleMetaProps): JSX.Element {
   return (
     <Helmet>
+
+        {article?.title && (
+            <title>
+                {article.title}
+                {currentJournal?.name ? ` | ${currentJournal.name}` : ''}
+            </title>
+        )}
+
       {article?.abstract && <meta name='description' content={article.abstract} />}
 
       {keywords.length > 0 && keywords.map((keyword, index) => (

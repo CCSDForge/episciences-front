@@ -16,6 +16,7 @@ import SearchResultsSidebar, { ISearchResultTypeSelection, ISearchResultYearSele
 import Pagination from "../../components/Pagination/Pagination";
 import Tag from "../../components/Tag/Tag";
 import './Search.scss';
+import {Helmet} from "react-helmet-async";
 
 type SearchResultTypeFilter = 'type' | 'year' | 'volume' | 'section' | 'author';
 
@@ -40,6 +41,7 @@ export default function Search(): JSX.Element {
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
   const search = useAppSelector(state => state.searchReducer.search);
+  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name)
 
   const [currentPage, setCurrentPage] = useState(1);
   const [enhancedSearchResults, setEnhancedSearchResults] = useState<EnhancedSearchResult[]>([])
@@ -373,6 +375,11 @@ export default function Search(): JSX.Element {
 
   return (
     <main className='search'>
+
+      <Helmet>
+        <title>{t('pages.search.title')} | {journalName ?? ''}</title>
+      </Helmet>
+
       <Breadcrumb parents={[
         { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` }
       ]} crumbLabel={t('pages.search.title')} />

@@ -13,6 +13,7 @@ import ForAuthorsSidebar, { IForAuthorsHeader } from '../../components/Sidebars/
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
 import './ForAuthors.scss';
+import {Helmet} from "react-helmet-async";
 
 type ForAuthorsSectionType = 'editorialWorkflow' | 'ethicalCharter' | 'prepareSubmission';
 
@@ -28,6 +29,7 @@ export default function ForAuthors(): JSX.Element {
 
   const language = useAppSelector(state => state.i18nReducer.language);
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code);
+  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name)
 
   const [pageSections, setPageSections] = useState<IForAuthorsSection[]>([]);
   const [sidebarHeaders, setSidebarHeaders] = useState<IForAuthorsHeader[]>([]);
@@ -199,6 +201,11 @@ export default function ForAuthors(): JSX.Element {
 
   return (
     <main className='forAuthors'>
+
+      <Helmet>
+        <title>{t('pages.forAuthors.title')} | {journalName ?? ''}</title>
+      </Helmet>
+
       <Breadcrumb parents={[
         { path: 'home', label: `${t('pages.home.title')} >` }
       ]} crumbLabel={t('pages.forAuthors.title')} />
