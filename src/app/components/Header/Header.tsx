@@ -85,6 +85,15 @@ export default function Header(): JSX.Element {
 
   const shouldRenderStatistics: boolean = blocksConfiguration().some((config) => config.render)
 
+  const currentJournal = useAppSelector(state => state.journalReducer.currentJournal);
+
+  const getSubmitManagerLink = (): string => {
+    const code = currentJournal?.code
+    if (!code) return `${import.meta.env.VITE_EPISCIENCES_MANAGER}`;
+    return `${import.meta.env.VITE_EPISCIENCES_MANAGER}/${code}`
+  }
+
+
   const getPostHeaderLinks = (): JSX.Element => {
     return (
       <>
@@ -139,7 +148,14 @@ export default function Header(): JSX.Element {
             </div>
           ) : (
             <div className='header-postheader-search-submit header-postheader-search-submit-article'>
+
+              <Link to={getSubmitManagerLink()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+              >
               <Button text={t('components.header.submit')} onClickCallback={(): void => {}} icon={externalLink} />
+            </Link>
+
             </div>
           )}
         </div>
