@@ -256,7 +256,7 @@ export default function VolumeDetails(): JSX.Element {
                 {volume?.types && volume?.types.includes(VOLUME_TYPE.PROCEEDINGS) && volume.settingsProceeding && volume.settingsProceeding.length && (
                   <div className="volumeDetails-content-results-content-proceedingSettings">
                     <div className='volumeDetails-content-results-content-proceedingSettings-setting'>{renderProceedingTheme()}</div>
-                    {renderProceedingDOI() && <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${renderProceedingDOI()}`} className='volumeDetails-content-results-content-proceedingSettings-setting volumeDetails-content-results-content-proceedingSettings-setting-doi' target="_blank">{renderProceedingDOI()}</Link>}
+                    {renderProceedingDOI() && <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${renderProceedingDOI()}`} className='volumeDetails-content-results-content-proceedingSettings-setting volumeDetails-content-results-content-proceedingSettings-setting-doi' target="_blank" rel="noopener noreferrer">{renderProceedingDOI()}</Link>}
                     <div className='volumeDetails-content-results-content-proceedingSettings-setting'>{renderProceedingLocation()}</div>
                     <div className='volumeDetails-content-results-content-proceedingSettings-setting'>{renderProceedingDates()}</div>
                   </div>
@@ -277,7 +277,7 @@ export default function VolumeDetails(): JSX.Element {
                       )}
                       {getEdito()?.file && (
                         <div className="volumeDetails-content-results-content-edito-anchor-icons">
-                          <Link to={`https://${currentJournal?.code}.episciences.org/public/volumes/${volume?.id}/${getEdito()!.file!}`} target='_blank'>
+                          <Link to={`https://${currentJournal?.code}.episciences.org/public/volumes/${volume?.id}/${getEdito()!.file!}`} target='_blank' rel="noopener noreferrer">
                             <div className="volumeDetails-content-results-content-edito-anchor-icons-download">
                               <img className="volumeDetails-content-results-content-edito-anchor-icons-download-download-icon" src={download} alt='Download icon' />
                               <div className="volumeDetails-content-results-content-edito-anchor-icons-download-text">{t('common.pdf')}</div>

@@ -119,7 +119,7 @@ export default function ArticleDetails(): JSX.Element {
         <>
           {author.fullname}
           {author.orcid && (
-            <Link to={`${author.orcid}`} title={author.orcid} target='_blank'>
+            <Link to={`${author.orcid}`} title={author.orcid} target='_blank' rel="noopener noreferrer">
               {' '}
               <img className='articleDetails-content-article-authors-author-orcid' src={orcid} alt='Orcid icon' />
             </Link>
@@ -270,7 +270,7 @@ export default function ArticleDetails(): JSX.Element {
           {relationship && <div className="articleDetails-content-article-section-content-linkedPublications-publication-badge">{t(relationship)}</div>}
           <ReactMarkdown remarkPlugins={[remarkGfm]}
             components={{
-              a: ({ ...props }) => <Link to={props.href!} target='_blank' className="articleDetails-content-article-section-content-linkedPublications-publication-markdown-link">{props.children?.toString()}</Link>
+              a: ({ ...props }) => <Link to={props.href!} target='_blank' rel="noopener noreferrer" className="articleDetails-content-article-section-content-linkedPublications-publication-markdown-link">{props.children?.toString()}</Link>
             }}
           >
             {decodeText(relatedItem.citation)}
@@ -283,7 +283,7 @@ export default function ArticleDetails(): JSX.Element {
       return (
         <div className="articleDetails-content-article-section-content-linkedPublications-publication">
           {relationship && <div className="articleDetails-content-article-section-content-linkedPublications-publication-badge">{t(relationship)}</div>}
-          <Link to={relatedItem.value} className="articleDetails-content-article-section-content-linkedPublications-publication-uri" target="_blank">{relatedItem.value}</Link>
+          <Link to={relatedItem.value} className="articleDetails-content-article-section-content-linkedPublications-publication-uri" target="_blank" rel="noopener noreferrer">{relatedItem.value}</Link>
         </div>
       )
     }
@@ -292,7 +292,7 @@ export default function ArticleDetails(): JSX.Element {
       return (
         <div className="articleDetails-content-article-section-content-linkedPublications-publication">
           {relationship && <div className="articleDetails-content-article-section-content-linkedPublications-publication-badge">{t(relationship)}</div>}
-          <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${relatedItem.value}`} className="articleDetails-content-article-section-content-linkedPublications-publication-doi" target="_blank">{relatedItem.value}</Link>
+          <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${relatedItem.value}`} className="articleDetails-content-article-section-content-linkedPublications-publication-doi" target="_blank" rel="noopener noreferrer">{relatedItem.value}</Link>
         </div>
       )
     }
@@ -301,7 +301,7 @@ export default function ArticleDetails(): JSX.Element {
       return (
         <div className="articleDetails-content-article-section-content-linkedPublications-publication">
           {relationship && <div className="articleDetails-content-article-section-content-linkedPublications-publication-badge">{t(relationship)}</div>}
-          <Link to={`${import.meta.env.VITE_ARXIV_HOMEPAGE}/abs/${relatedItem.value}`} className="articleDetails-content-article-section-content-linkedPublications-publication-arxiv" target="_blank">{relatedItem.value}</Link>
+          <Link to={`${import.meta.env.VITE_ARXIV_HOMEPAGE}/abs/${relatedItem.value}`} className="articleDetails-content-article-section-content-linkedPublications-publication-arxiv" target="_blank" rel="noopener noreferrer">{relatedItem.value}</Link>
         </div>
       )
     }
@@ -310,7 +310,7 @@ export default function ArticleDetails(): JSX.Element {
       return (
         <div className="articleDetails-content-article-section-content-linkedPublications-publication">
           {relationship && <div className="articleDetails-content-article-section-content-linkedPublications-publication-badge">{t(relationship)}</div>}
-          <Link to={`${import.meta.env.VITE_HAL_HOMEPAGE}/${relatedItem.value}`} className="articleDetails-content-article-section-content-linkedPublications-publication-hal" target="_blank">{relatedItem.value}</Link>
+          <Link to={`${import.meta.env.VITE_HAL_HOMEPAGE}/${relatedItem.value}`} className="articleDetails-content-article-section-content-linkedPublications-publication-hal" target="_blank" rel="noopener noreferrer">{relatedItem.value}</Link>
         </div>
       )
     }
@@ -319,7 +319,7 @@ export default function ArticleDetails(): JSX.Element {
       return (
         <div className="articleDetails-content-article-section-content-linkedPublications-publication">
           {relationship && <div className="articleDetails-content-article-section-content-linkedPublications-publication-badge">{t(relationship)}</div>}
-          <Link to={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/${relatedItem.value}`} target='_blank'>
+          <Link to={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/${relatedItem.value}`} target='_blank' rel="noopener noreferrer">
             <img className="articleDetails-content-article-section-content-linkedPublications-publication-img" src={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/badge/${relatedItem.value}`} alt={relatedItem.value} />
           </Link>
           <iframe className="articleDetails-content-article-section-content-linkedPublications-publication-embed" src={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/browse/embed/${relatedItem.value}`}></iframe>
@@ -331,7 +331,7 @@ export default function ArticleDetails(): JSX.Element {
       return (
         <div className="articleDetails-content-article-section-content-linkedPublications-publication">
           {relationship && <div className="articleDetails-content-article-section-content-linkedPublications-publication-badge">{t(relationship)}</div>}
-          <Link to={relatedItem.value} className="articleDetails-content-article-section-content-linkedPublications-publication-uri" target="_blank">{relatedItem.value}</Link>
+          <Link to={relatedItem.value} className="articleDetails-content-article-section-content-linkedPublications-publication-uri" target="_blank" rel="noopener noreferrer">{relatedItem.value}</Link>
         </div>
       )
     }
@@ -352,7 +352,7 @@ export default function ArticleDetails(): JSX.Element {
       {article?.references.map((reference, index) => (
         <li key={index} className="articleDetails-content-article-section-content-references-reference">
           <p>{reference.citation}</p>
-          {reference.doi && <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${reference.doi}`} className="articleDetails-content-article-section-content-references-reference-doi" target="_blank">{t('common.doi')} : {reference.doi}</Link>}
+          {reference.doi && <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${reference.doi}`} className="articleDetails-content-article-section-content-references-reference-doi" target="_blank" rel="noopener noreferrer">{t('common.doi')} : {reference.doi}</Link>}
         </li>
       ))}
       </ol>
@@ -379,7 +379,7 @@ export default function ArticleDetails(): JSX.Element {
                       <Fragment key={index}>
                         <span>{author.fullname}</span>
                         {author.orcid && (
-                          <Link to={`${import.meta.env.VITE_ORCID_HOMEPAGE}/${author.orcid}`} title={author.orcid} target='_blank'>
+                          <Link to={`${import.meta.env.VITE_ORCID_HOMEPAGE}/${author.orcid}`} title={author.orcid} target='_blank' rel="noopener noreferrer">
                             {' '}
                             <img src={orcid} alt='Orcid icon' />
                           </Link>
@@ -390,7 +390,7 @@ export default function ArticleDetails(): JSX.Element {
                 <p className="articleDetails-content-article-section-content-citedBy-row-citations-citation-reference">
                   {t('pages.articleDetails.citedBySection.reference')} : {t('pages.articleDetails.citedBySection.volume')} {citation.reference.volume}, {citation.reference.year}, {t('pages.articleDetails.citedBySection.page')} {citation.reference.page}
                 </p>
-                <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${article.doi}`} className="articleDetails-content-article-section-content-citedBy-row-citations-citation-doi" target="_blank">{t('pages.articleDetails.citedBySection.doi')} : {citation.doi}</Link>
+                <Link to={`${import.meta.env.VITE_DOI_HOMEPAGE}/${article.doi}`} className="articleDetails-content-article-section-content-citedBy-row-citations-citation-doi" target="_blank" rel="noopener noreferrer">{t('pages.articleDetails.citedBySection.doi')} : {citation.doi}</Link>
               </li>
             ))}
           </ul>

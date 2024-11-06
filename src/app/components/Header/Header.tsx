@@ -242,16 +242,16 @@ export default function Header(): JSX.Element {
     <header className='header'>
       <div className='header-preheader'>
         <div className='header-preheader-logo'>
-          <Link to={getEpisciencesHomePageLink()} target='_blank'>
+          <Link to={getEpisciencesHomePageLink()} target='_blank' rel="noopener noreferrer">
             <img src={logoText} alt='Episciences logo' />
           </Link>
         </div>
         <div className='header-preheader-links'>
           <div className='header-preheader-links-access'>
-            <Link to={getJournalAccessLink()} target='_blank'>{t('components.header.journal')}</Link>
+            <Link to={getJournalAccessLink()} target='_blank' rel="noopener noreferrer">{t('components.header.journal')}</Link>
           </div>
           <div className='header-preheader-links-access-mobile'>
-            <Link to={getJournalAccessLink()} target='_blank'>
+            <Link to={getJournalAccessLink()} target='_blank' rel="noopener noreferrer">
               <img src={arrowRight} alt='Arrow right icon' />
             </Link>
           </div>

@@ -56,16 +56,16 @@ export default function Footer(): JSX.Element {
         <img src={logoJpeSmall} alt='Journal logo' className='footer-journal-logo' />
         <div className='footer-journal-links'>
           <div className='footer-journal-links-journal'>
-            {getJournalNotice() && <Link to={getJournalNotice()!} target='_blank'>{t('components.footer.links.notice')}</Link>}
+            {getJournalNotice() && <Link to={getJournalNotice()!} target='_blank' rel="noopener noreferrer">{t('components.footer.links.notice')}</Link>}
             <div className='footer-journal-links-journal-divider'>|</div>
-            {getContact() && <Link to={getContact()!} target='_blank'>{t('components.footer.links.contact')}</Link>}
+            {getContact() && <Link to={getContact()!} target='_blank' rel="noopener noreferrer">{t('components.footer.links.contact')}</Link>}
             <div className='footer-journal-links-journal-divider'>|</div>
             <Link to={PATHS.credits}>{t('components.footer.links.credits')}</Link>
           </div>
           <div className='footer-journal-links-rss'>
             {getISSN() && <div>{`eISSN ${getISSN()}`}</div>}
             {getISSN() && <div className='footer-journal-links-rss-divider'>|</div>}
-            {getRSS() && <Link to={getRSS()!} target='_blank'>{t('components.footer.links.rss')}</Link>}
+            {getRSS() && <Link to={getRSS()!} target='_blank' rel="noopener noreferrer">{t('components.footer.links.rss')}</Link>}
           </div>
         </div>
       </div>
@@ -73,18 +73,18 @@ export default function Footer(): JSX.Element {
         <img src={logo} alt='Episciences logo' className='footer-episciences-logo' />
         <div className='footer-episciences-links'>
           <div className='footer-episciences-links-documentation'>
-            <Link to={getDocumentationLink()} target='_blank'>{t('components.footer.links.documentation')}</Link>
+            <Link to={getDocumentationLink()} target='_blank' rel="noopener noreferrer">{t('components.footer.links.documentation')}</Link>
             <div className='footer-episciences-links-documentation-divider'>|</div>
-            <Link to={getAcknowledgementsLink()} target='_blank'>{t('components.footer.links.acknowledgements')}</Link>
+            <Link to={getAcknowledgementsLink()} target='_blank' rel="noopener noreferrer">{t('components.footer.links.acknowledgements')}</Link>
             <div className='footer-episciences-links-documentation-divider'>|</div>
             <Link to={getPublishingPolicyAnchor()}>{t('components.footer.links.publishingPolicy')}</Link>
           </div>
           <div className='footer-episciences-links-legal'>
-            <Link to={getLegalTermsLink()} target='_blank'>{t('components.footer.links.legalMentions')}</Link>
+            <Link to={getLegalTermsLink()} target='_blank' rel="noopener noreferrer">{t('components.footer.links.legalMentions')}</Link>
             <div className='footer-episciences-links-legal-divider'>|</div>
-            <Link to={getLegalPrivacyStatementLink()} target='_blank'>{t('components.footer.links.privacyStatement')}</Link>
+            <Link to={getLegalPrivacyStatementLink()} target='_blank' rel="noopener noreferrer">{t('components.footer.links.privacyStatement')}</Link>
             <div className='footer-episciences-links-legal-divider'>|</div>
-            <Link to={getTermsOfUseLink()} target='_blank'>{t('components.footer.links.termsOfUse')}</Link>
+            <Link to={getTermsOfUseLink()} target='_blank' rel="noopener noreferrer">{t('components.footer.links.termsOfUse')}</Link>
           </div>
         </div>
       </div>

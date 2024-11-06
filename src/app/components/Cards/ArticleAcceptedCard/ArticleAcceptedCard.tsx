@@ -27,7 +27,7 @@ export default function ArticleAcceptedCard({ language, t, article, toggleAbstra
     <div className="articleAcceptedCard">
       {article.tag && <div className='articleAcceptedCard-tag'>{t(articleTypes.find((tag) => tag.value === article.tag)?.labelPath!)}</div>}
       {article.docLink && (
-        <Link to={article.docLink} target='_blank'>
+        <Link to={article.docLink} target='_blank' rel="noopener noreferrer">
           <div className='articleAcceptedCard-title'>
             <MathJax dynamic>{article.title}</MathJax>
           </div>
@@ -57,7 +57,7 @@ export default function ArticleAcceptedCard({ language, t, article, toggleAbstra
         )}
         <div className="articleAcceptedCard-anchor-icons">
           {article.docLink && (
-            <Link to={article.docLink} target='_blank'>
+            <Link to={article.docLink} target='_blank' rel="noopener noreferrer">
               <div className="articleAcceptedCard-anchor-icons-download">
                 <img className="articleAcceptedCard-anchor-icons-download-download-icon" src={download} alt='Download icon' />
                 <div className="articleAcceptedCard-anchor-icons-download-text">{article.repositoryIdentifier}</div>
