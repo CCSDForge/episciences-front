@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import logo from '/logo.svg';
-import logoJpeSmall from '/icons/logo-jpe-small.svg';
+
 import { useAppSelector } from '../../../hooks/store';
 import './Footer.scss'
 import { PATHS } from '../../../config/paths';
@@ -38,6 +38,14 @@ export default function Footer(): JSX.Element {
     return `${import.meta.env.VITE_API_ROOT_ENDPOINT}/feed/rss/${code}`
   }
 
+  const getLogoOfJournal = (size: 'small' | 'big'): string => {
+    const code = currentJournal?.code
+    if (!code) return 'default';
+    return `/logos/logo-${code}-${size}.svg`
+  }
+
+
+
   const getDocumentationLink = (): string => language === 'fr' ? import.meta.env.VITE_EPISCIENCES_DOCUMENTATION_PAGE_FR : import.meta.env.VITE_EPISCIENCES_DOCUMENTATION_PAGE
 
   const getAcknowledgementsLink = (): string => language === 'fr' ? import.meta.env.VITE_EPISCIENCES_ACKNOWLEDGEMENTS_PAGE_FR : import.meta.env.VITE_EPISCIENCES_ACKNOWLEDGEMENTS_PAGE
@@ -53,7 +61,7 @@ export default function Footer(): JSX.Element {
   return (
     <footer className={`footer ${!enabled && 'footer-disabled'}`}>
       <div className='footer-journal'>
-        <img src={logoJpeSmall} alt='Journal logo' className='footer-journal-logo' />
+        <img src={getLogoOfJournal('small')} alt='Journal logo' className='footer-journal-logo' />
         <div className='footer-journal-links'>
           <div className='footer-journal-links-journal'>
             {getJournalNotice() && <Link to={getJournalNotice()!} target='_blank' rel="noopener noreferrer">{t('components.footer.links.notice')}</Link>}
