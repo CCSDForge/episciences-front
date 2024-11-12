@@ -7,7 +7,7 @@
     font-size: 16px;
     font-weight: 500;
     background: var(--primary);
-    color: var(--white);
+    color: var(--primary-text);
   }
   
   &-content {
@@ -173,7 +173,7 @@
 
               &-badge {
                 width: fit-content;
-                color: var(--white);
+                color: var(--primary-text);
                 background: var(--grey);
                 padding: 4px 8px 4px 8px;
                 border-radius: 4px;
