@@ -68,7 +68,7 @@
           min-width: unset;
           width: 100%;
           background: var(--primary);
-          color: var(--white);
+          color: var(--primary-text);
         }
       }
     }
@@ -159,7 +159,7 @@
       background: var(--primary);
       font-size: 25px;
       font-weight: bold;
-      color: var(--white);
+      color: var(--primary-text);
       display: flex;
       align-items: center;
       justify-content: flex-end;
