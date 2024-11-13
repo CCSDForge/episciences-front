@@ -12,5 +12,24 @@ export default defineConfig({
         `
       }
     }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          // Split vendor dependencies (node_modules) into a separate chunk
+          if (id.includes('node_modules')) {
+            return 'vendor'; // All node_modules go into the "vendor" chunk
+          }
+
+          // Optionally, customize this further to separate other large modules
+          // Example: Split a specific module into its own chunk
+          //if (id.includes('src/components')) {
+          //  return 'components';
+          //}
+        }
+      }
+    },
+    chunkSizeWarningLimit: 1000 // Optional: increase the chunk size limit if needed
   }
 })
