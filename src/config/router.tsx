@@ -11,7 +11,7 @@ import Articles from "../app/pages/Articles/Articles";
 import ArticleDetails from "../app/pages/ArticleDetails/ArticleDetails";
 import ArticleDetailsMetadata from "../app/pages/ArticleDetailsMetadata/ArticleDetailsMetadata";
 import ArticleDetailsPreview from "../app/pages/ArticleDetailsPreview/ArticleDetailsPreview";
-import ArticleDetailsNotice from "../app/pages/ArticleDetailsNotice/ArticleDetailsNotice";
+//import ArticleDetailsNotice from "../app/pages/ArticleDetailsNotice/ArticleDetailsNotice";
 import ArticleDetailsDownload from "../app/pages/ArticleDetailsDownload/ArticleDetailsDownload";
 import ArticlesAccepted from "../app/pages/ArticlesAccepted/ArticlesAccepted";
 import Authors from "../app/pages/Authors/Authors";
@@ -81,7 +81,7 @@ const router = createBrowserRouter([
     children: [
       rawRoute("articleDetailsMetadata", ArticleDetailsMetadata),
       rawRoute("articleDetailsPreview", ArticleDetailsPreview),
-      rawRoute("articleDetailsNotice", ArticleDetailsNotice),
+      //rawRoute("articleDetailsNotice", ArticleDetailsNotice),
       rawRoute("articleDetailsDownload", ArticleDetailsDownload),
     ]
   },
