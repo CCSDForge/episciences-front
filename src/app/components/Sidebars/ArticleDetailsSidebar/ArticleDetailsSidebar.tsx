@@ -141,13 +141,23 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
           </Link>
         )}
         {article?.docLink && (
-          <Link to={`/${PATHS.articles}/${article.id}/notice`}>
-            <div className='articleDetailsSidebar-links-link'>
-              <img className='articleDetailsSidebar-links-link-icon' src={externalLink} alt='External link icon' />
-              <div className='articleDetailsSidebar-links-link-text'>{t('pages.articleDetails.actions.openOn')} {article.repositoryName}</div>
-            </div>
-          </Link>
+            <a
+                href={article.docLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className='articleDetailsSidebar-links-link'
+            >
+              <img
+                  className='articleDetailsSidebar-links-link-icon'
+                  src={externalLink}
+                  alt='External link icon'
+              />
+              <div className='articleDetailsSidebar-links-link-text'>
+                {t('pages.articleDetails.actions.openOn')} {article.repositoryName}
+              </div>
+            </a>
         )}
+
         {citations.length > 0 && (
           <div
             ref={citationsDropdownRef}

@@ -20,6 +20,10 @@ export default function ArticleDetailsNotice(): JSX.Element {
     }
   }, [article, isError, error])
 
+  /**
+   * Warning: this does not work with arXiv, and any target with
+   * Content-Security-Policy: frame-ancestors 'none';
+   */
   const getLink = (): JSX.Element | null => {
     return article?.docLink ? <iframe src={article.docLink} className="articleDetailsNotice-iframe" /> : null
   }
