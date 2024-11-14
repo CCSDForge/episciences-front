@@ -12,7 +12,7 @@ export const articleApi = createApi({
   endpoints: (build) => ({
     fetchArticles: build.query<{ data: FetchedArticle[], totalItems: number, range?: Range }, { rvcode: string, page: number, itemsPerPage: number, types?: string[], years?: number[], onlyAccepted?: boolean }>({
       query: ({ rvcode, page, itemsPerPage, types, years, onlyAccepted }) => {
-        const baseUrl = `papers?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`;
+        const baseUrl = `papers/?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`;
         let queryParams = '';
 
         if (onlyAccepted) {
