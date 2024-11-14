@@ -11,7 +11,7 @@ export const authorApi = createApi({
   endpoints: (build) => ({
     fetchAuthors: build.query<{ data: IAuthor[], totalItems: number, range?: Record<string, number> }, { rvcode: string, page: number, itemsPerPage: number, search?: string, letter?: string; }>({
       query: ({ rvcode, page, itemsPerPage, search, letter } :{ rvcode: string, page: number, itemsPerPage: number; search?: string, letter?: string; }) => {
-        const baseUrl = `browse/authors?page=${page}&itemsPerPage=${itemsPerPage}&code=${rvcode}`
+        const baseUrl = `browse/authors/?page=${page}&itemsPerPage=${itemsPerPage}&code=${rvcode}`
         let queryParams = '';
 
         if (search) queryParams += `&search=${search}`;
