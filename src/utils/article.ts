@@ -16,7 +16,23 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
 
     const articleContent = articleJournal?.journal_article ?? articleConference.conference_paper
 
-    const abstract = typeof articleContent.abstract?.value === 'string' ? articleContent.abstract?.value : articleContent.abstract?.value.value 
+/* Handling simple values only
+ *  const abstract = typeof articleContent.abstract?.value === 'string' ? articleContent.abstract?.value : articleContent.abstract?.value.value
+ */
+    let abstract = '';
+
+    if (typeof articleContent.abstract?.value === 'string') {
+      // Case 1: When `abstract.value` is a single string
+      abstract = articleContent.abstract.value;
+    } else if (Array.isArray(articleContent.abstract?.value)) {
+      // Case 2: When `abstract.value` is an array
+      abstract = articleContent.abstract.value
+          .map(item => (typeof item === 'string' ? item : item.value)) // Extract strings or nested `value`
+          .join(' '); // Join them with a space
+    } else if (typeof articleContent.abstract?.value?.value === 'string') {
+      // Case 3: When `abstract.value` is an object with `value` as a string
+      abstract = articleContent.abstract.value.value;
+    }
 
     /** Format references */
     let references: IArticleReference[] = []
