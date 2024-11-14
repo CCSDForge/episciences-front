@@ -13,10 +13,10 @@ export const newsApi = createApi({
       query: ({ rvcode, page, itemsPerPage, years } :{ rvcode: string, page: number, itemsPerPage: number; years?: number[] }) => {
         if (years && years.length > 0) {
           const yearsQuery = years.map(year => `year[]=${year}`).join('&')
-          return `news?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}&${yearsQuery}`
+          return `news/?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}&${yearsQuery}`
          }
          
-        return `news?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`
+        return `news/?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`
       },
       transformResponse(baseQueryReturnValue: PaginatedResponseWithRange<RawNews>) {
         const range = baseQueryReturnValue['hydra:range'];

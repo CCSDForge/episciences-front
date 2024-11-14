@@ -13,10 +13,10 @@ export const statApi = createApi({
       query: ({ rvcode, page, itemsPerPage, years } :{ rvcode: string, page: number, itemsPerPage: number; years?: number[] }) => {
         if (years && years.length > 0) {
           const yearsQuery = years.map(year => `year[]=${year}`).join('&')
-          return `statistics?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}&${yearsQuery}`
+          return `statistics/?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}&${yearsQuery}`
          }
 
-        return `statistics?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`;
+        return `statistics/?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`;
       },
       transformResponse: (baseQueryReturnValue: PaginatedResponseWithRange<IStat>) => {
         return {
