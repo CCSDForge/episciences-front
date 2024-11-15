@@ -6,4 +6,4 @@ export const mathJaxConfig: MathJax2Config = {
   }
 }
 
-export const mathJaxSrc = `${import.meta.env.VITE_MATHJAX_HOMEPAGE}/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML`
+export const mathJaxSrc = `${import.meta.env.VITE_MATHJAX_HOMEPAGE}/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML`
