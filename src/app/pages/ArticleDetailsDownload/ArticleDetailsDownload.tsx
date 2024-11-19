@@ -21,7 +21,7 @@ export default function ArticleDetailsDownload(): JSX.Element {
   }, [article, isError, error])
 
   const getLink = (): JSX.Element | null => {
-    return article?.pdfLink ? <iframe src={article.pdfLink} className="articleDetailsDownload-iframe" /> : null
+    return article?.pdfLink ? <iframe title="Document preview" loading={"lazy"} src={article.pdfLink} className="articleDetailsDownload-iframe" /> : null
   }
 
   return isFetching ? <Loader /> : <>{getLink()}</>
