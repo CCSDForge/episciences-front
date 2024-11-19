@@ -86,7 +86,7 @@ export interface IArticleRelatedItem {
 
 export type RawArticle = IPartialArticle & IArticle & {
   document: {
-    public_properties: {
+    
       journal?: {
         journal_article: IRawArticleContent;
       }
@@ -142,7 +142,7 @@ export type RawArticle = IPartialArticle & IArticle & {
       conference: {
         conference_paper: IRawArticleContent;
       }
-    }
+    
   }
 }
 
