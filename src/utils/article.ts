@@ -571,6 +571,7 @@ export const getMetadataTypes: { type: METADATA_TYPE; label: string; format: MET
 
 export enum INTER_WORK_RELATIONSHIP {
   IS_SAME_AS = "isSameAs",
+  HAS_PREPRINT = "hasPreprint",
   IS_DERIVED_FROM = "isDerivedFrom",
   HAS_DERIVATION = "hasDerivation",
   IS_REVIEW_OF = "isReviewOf",
@@ -607,6 +608,7 @@ export enum INTER_WORK_RELATIONSHIP {
 
 export const interworkRelationShipTypes: { labelPath: string; value: string; }[] = [
   { labelPath: 'pages.articleDetails.relationships.isSameAs', value: INTER_WORK_RELATIONSHIP.IS_SAME_AS },
+  { labelPath: 'pages.articleDetails.relationships.hasPreprint', value: INTER_WORK_RELATIONSHIP.HAS_PREPRINT },
   { labelPath: 'pages.articleDetails.relationships.isDerivedFrom', value: INTER_WORK_RELATIONSHIP.IS_DERIVED_FROM },
   { labelPath: 'pages.articleDetails.relationships.hasDerivation', value: INTER_WORK_RELATIONSHIP.HAS_DERIVATION },
   { labelPath: 'pages.articleDetails.relationships.isReviewOf', value: INTER_WORK_RELATIONSHIP.IS_REVIEW_OF },
