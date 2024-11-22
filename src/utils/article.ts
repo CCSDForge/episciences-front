@@ -10,9 +10,9 @@ export type FetchedArticle = IArticle | undefined;
 
 export const formatArticle = (article: RawArticle): FetchedArticle => {
   if (article['@id']) {
-    const articleJournal = article.document.public_properties.journal
-    const articleDB = article.document.public_properties.database
-    const articleConference = article.document.public_properties.conference
+    const articleJournal = article.document.journal
+    const articleDB = article.document.database
+    const articleConference = article.document.conference
 
     const articleContent = articleJournal?.journal_article ?? articleConference.conference_paper
 
