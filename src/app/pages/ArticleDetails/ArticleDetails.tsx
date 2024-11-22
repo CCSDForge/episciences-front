@@ -255,9 +255,17 @@ export default function ArticleDetails(): JSX.Element {
     if (!article?.relatedItems || !article.relatedItems.length) return null
 
     return (
-      <ul>
-        {article?.relatedItems.filter((relatedItem => relatedItem.relationshipType !== INTER_WORK_RELATIONSHIP.IS_SAME_AS)).map((relatedItem, index) => <li key={index}>{getLinkedPublicationRow(relatedItem)}</li>)}
-      </ul>
+        <ul>
+          {article?.relatedItems
+              .filter(
+                  (relatedItem) =>
+                      relatedItem.relationshipType !== INTER_WORK_RELATIONSHIP.IS_SAME_AS &&
+                      relatedItem.relationshipType !== INTER_WORK_RELATIONSHIP.HAS_PREPRINT
+              )
+              .map((relatedItem, index) => (
+                  <li key={index}>{getLinkedPublicationRow(relatedItem)}</li>
+              ))}
+        </ul>
     )
   }
 
@@ -266,7 +274,7 @@ export default function ArticleDetails(): JSX.Element {
 
     if (relatedItem.citation) {
       return (
-        <div className="articleDetails-content-article-section-content-linkedPublications-publication">
+          <div className="articleDetails-content-article-section-content-linkedPublications-publication">
           {relationship && <div className="articleDetails-content-article-section-content-linkedPublications-publication-badge">{t(relationship)}</div>}
           <ReactMarkdown remarkPlugins={[remarkGfm]}
             components={{
@@ -322,7 +330,7 @@ export default function ArticleDetails(): JSX.Element {
           <Link to={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/${relatedItem.value}`} target='_blank' rel="noopener noreferrer">
             <img className="articleDetails-content-article-section-content-linkedPublications-publication-img" src={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/badge/${relatedItem.value}`} alt={relatedItem.value} />
           </Link>
-          <iframe className="articleDetails-content-article-section-content-linkedPublications-publication-embed" src={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/browse/embed/${relatedItem.value}`}></iframe>
+          <iframe title="Software preview" loading={"lazy"} className="articleDetails-content-article-section-content-linkedPublications-publication-embed" src={`${import.meta.env.VITE_ARCHIVE_SOFTWARE_HERITAGE_HOMEPAGE}/browse/embed/${relatedItem.value}`}></iframe>
         </div>
       )
     }
@@ -401,7 +409,7 @@ export default function ArticleDetails(): JSX.Element {
   }
 
   const getPreviewSection = (): JSX.Element | null => {
-    return article?.pdfLink ? <iframe src={article.pdfLink} className="articleDetails-content-article-section-content-preview" /> : null
+    return article?.pdfLink ? <iframe title="Document preview" loading={"lazy"} src={article.pdfLink} className="articleDetails-content-article-section-content-preview" /> : null
   }
 
   const renderMetrics = (): JSX.Element | undefined => {
