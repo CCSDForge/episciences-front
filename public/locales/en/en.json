@@ -177,7 +177,8 @@
         "title": "Publication details",
         "publishedOn": "Published on",
         "acceptedOn": "Accepted on",
-        "submittedOn": "Submitted on"
+        "submittedOn": "Submitted on",
+        "importedOn": "Imported on"
       },
       "volumeDetails": {
         "title": "Volume",

@@ -19,6 +19,7 @@ export interface IArticle {
   acceptanceDate?: string;
   submissionDate?: string;
   modificationDate?: string;
+  isImported?: boolean;
   tag?: string;
   repositoryName: string;
   pdfLink?: string;
@@ -111,6 +112,7 @@ export type RawArticle = IPartialArticle & IArticle & {
           type?: {
             title: string;
           }
+          flag?: string;
           dates: {
             publication_date: string;
             first_submission_date: string;
