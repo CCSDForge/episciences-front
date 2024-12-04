@@ -5,6 +5,11 @@ import { Node, Root } from 'mdast'
 import he from 'he'
 
 export const generateIdFromText = (text: string): string => {
+
+  if (!text) {
+    return "";
+  }
+
   return text
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, '')
