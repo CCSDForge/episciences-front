@@ -276,21 +276,30 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
               <div className='articleDetailsSidebar-publicationDetails-content-row-publicationDate-value'>{formatDate(article?.publicationDate, language)}</div>
             </div>
           )}
-          {article?.acceptanceDate && (
-            <div className='articleDetailsSidebar-publicationDetails-content-row'>
-              <div>{t('pages.articleDetails.publicationDetails.acceptedOn')}</div>
-              <div>{formatDate(article?.acceptanceDate, language)}</div>
-            </div>
+
+          {article?.acceptanceDate && (article?.isImported === undefined || article?.isImported === false) && (
+              <div className='articleDetailsSidebar-publicationDetails-content-row'>
+                <div>{t('pages.articleDetails.publicationDetails.acceptedOn')}</div>
+                <div>{formatDate(article?.acceptanceDate, language)}</div>
+              </div>
           )}
+
           {article?.submissionDate && (
             <div className='articleDetailsSidebar-publicationDetails-content-row'>
-              <div>{t('pages.articleDetails.publicationDetails.submittedOn')}</div>
+              <div>
+                <div>
+                  {article?.isImported === true
+                      ? t('pages.articleDetails.publicationDetails.importedOn')
+                      : t('pages.articleDetails.publicationDetails.submittedOn')}
+                </div>
+
+              </div>
               <div>{formatDate(article?.submissionDate, language)}</div>
             </div>
           )}
         </div>
       </div>
-        <div className='articleDetailsSidebar-volumeDetails'>
+      <div className='articleDetailsSidebar-volumeDetails'>
           {relatedVolume && (
             <>
               {renderRelatedVolume(relatedVolume)}

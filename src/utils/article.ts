@@ -76,6 +76,11 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
       acceptanceDate = `${articleContent?.acceptance_date.year}-${articleContent?.acceptance_date.month}-${articleContent?.acceptance_date.day}`
     }
 
+    let isImported = false;
+    if (articleDB?.current.flag && articleDB?.current.flag == "imported") {
+      isImported = true;
+    }
+
     /** Format authors */
     let authors: IArticleAuthor[] = [];
     if (Array.isArray(articleContent.contributors.person_name)) {
@@ -240,6 +245,7 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
       acceptanceDate,
       submissionDate: articleDB.current.dates.first_submission_date,
       modificationDate: articleDB.current.dates.modification_date,
+      isImported,
       tag: articleDB.current.type?.title.toLowerCase(),
       repositoryName: articleDB.current.repository.name,
       pdfLink: articleDB.current.repository.paper_url.length ? articleDB.current.repository.paper_url : undefined,
