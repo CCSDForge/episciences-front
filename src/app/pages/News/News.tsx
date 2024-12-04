@@ -53,6 +53,8 @@ export default function News(): JSX.Element {
   };
 
   const onSelectYear = (year: number): void => {
+    setCurrentPage(1);
+
     const updatedYears = years.map((y) => {
       if (y.year === year) {
         return { ...y, isSelected: !y.isSelected };
