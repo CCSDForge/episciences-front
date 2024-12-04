@@ -53,9 +53,9 @@ export default function Header(): JSX.Element {
         setShowMobileMenu(false);
       }
     };
-    
+
     document.addEventListener('touchstart', handleTouchOutside);
-    
+
     return () => {
       document.removeEventListener('touchstart', handleTouchOutside);
     };
@@ -91,12 +91,20 @@ export default function Header(): JSX.Element {
 
   const shouldRenderStatistics: boolean = blocksConfiguration().some((config) => config.render)
 
-  const getSubmitManagerLink = (): string => {
-    const code = currentJournal?.code
-    if (!code) return `${import.meta.env.VITE_EPISCIENCES_MANAGER}`;
-    return `${import.meta.env.VITE_EPISCIENCES_MANAGER}/${code}`
+  const shouldRenderMenuItem = (key: string): boolean => {
+    const envValue = import.meta.env[`VITE_JOURNAL_MENU_${key}_RENDER`]
+    return envValue === undefined || envValue === 'true'
   }
 
+  const getSubmitManagerLink = (): string | null => {
+    const managerUrl = import.meta.env.VITE_EPISCIENCES_MANAGER;
+    const code = currentJournal?.code;
+
+    if (!managerUrl) return null; // Return null if VITE_EPISCIENCES_MANAGER is empty or undefined
+    return code ? `${managerUrl}/${code}` : managerUrl;
+  };
+
+  const submitManagerLink = getSubmitManagerLink();
 
   const getPostHeaderLinks = (): JSX.Element => {
     return (
@@ -108,12 +116,16 @@ export default function Header(): JSX.Element {
                 <div className='header-postheader-links-dropdown-content' onMouseLeave={(): void => toggleDropdown('content', false)}>
                   <div className={`header-postheader-links-dropdown-content-links header-postheader-links-dropdown-content-links-large ${language === 'fr' && 'header-postheader-links-dropdown-content-links-large-fr'}`}>
                     <Link to={PATHS.articles}>{t('components.header.links.articles')}</Link>
-                    <Link to={PATHS.articlesAccepted}>{t('components.header.links.articlesAccepted')}</Link>
+                    {shouldRenderMenuItem('ACCEPTED_ARTICLES') && (
+                        <Link to={PATHS.articlesAccepted}>{t('components.header.links.articlesAccepted')}</Link>
+                    )}
                     <Link to={PATHS.volumes}>{t('components.header.links.volumes')}</Link>
                     <Link to={`${PATHS.volumes}/${lastVolume?.id}`}>{t('components.header.links.lastVolume')}</Link>
                     <Link to={PATHS.sections}>{t('components.header.links.sections')}</Link>
                     <Link to={`${PATHS.volumes}?type=${VOLUME_TYPE.SPECIAL_ISSUE}`}>{t('components.header.links.specialIssues')}</Link>
-                    <Link to={`${PATHS.volumes}?type=${VOLUME_TYPE.PROCEEDINGS}`}>{t('components.header.links.proceedings')}</Link>
+                    {shouldRenderMenuItem('VOLUME_TYPE_PROCEEDINGS') && (
+                        <Link to={`${PATHS.volumes}?type=${VOLUME_TYPE.PROCEEDINGS}`}>{t('components.header.links.proceedings')}</Link>
+                    )}
                     <Link to={PATHS.authors}>{t('components.header.links.authors')}</Link>
                   </div>
                 </div>
@@ -153,12 +165,19 @@ export default function Header(): JSX.Element {
           ) : (
             <div className='header-postheader-search-submit header-postheader-search-submit-article'>
 
-              <Link to={getSubmitManagerLink()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-              >
-              <Button text={t('components.header.submit')} onClickCallback={(): void => {}} icon={externalLink} />
-            </Link>
+              {submitManagerLink && (
+                  <Link
+                      to={submitManagerLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                  >
+                    <Button
+                        text={t('components.header.submit')}
+                        onClickCallback={(): void => {}}
+                        icon={externalLink}
+                    />
+                  </Link>
+              )}
 
             </div>
           )}
