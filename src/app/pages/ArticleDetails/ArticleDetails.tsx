@@ -246,7 +246,7 @@ export default function ArticleDetails(): JSX.Element {
 
     return (
       <ul>
-        {keywords.map((keyword, index) => <li key={index}>{keyword}</li>)}
+        {keywords.map((keyword, index) => <li className="articleDetails-content-article-section-content-keywords-tag" key={index}>{keyword}</li>)}
       </ul>
     )
   }
