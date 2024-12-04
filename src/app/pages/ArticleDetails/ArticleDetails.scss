@@ -205,6 +205,18 @@
               }
             }
           }
+          &-keywords {
+            &-tag {
+                width: fit-content;
+                height: fit-content;
+                padding: 4px 8px 4px 8px;
+                margin-bottom: 20px;
+                font-size: 16px;
+                font-weight: 500;
+                background: var(--primary);
+                color: var(--primary-text);
+            }
+          }
 
           &-citedBy {
             margin-top: 10px;
