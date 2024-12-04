@@ -374,13 +374,15 @@ export default function ArticleDetails(): JSX.Element {
       <div className="articleDetails-content-article-section-content-citedBy">
       {article?.citedBy.map((cb, index) => (
         <div key={index} className="articleDetails-content-article-section-content-citedBy-row">
-          <p className="articleDetails-content-article-section-content-citedBy-row-source">{cb.source}</p>
+          <p className="articleDetails-content-article-section-content-citedBy-row-source">
+            {t('pages.articleDetails.citedBySection.source')}{cb.source}
+          </p>
           <ul className="articleDetails-content-article-section-content-citedBy-row-citations">
             {cb.citations.map((citation, index) => (
               <li key={index} className="articleDetails-content-article-section-content-citedBy-row-citations-citation">
                 <p className="articleDetails-content-article-section-content-citedBy-row-citations-citation-title">{citation.title}</p>
                 <p className="articleDetails-content-article-section-content-citedBy-row-citations-citation-source">
-                  {t('pages.articleDetails.citedBySection.source')} : {citation.sourceTitle}
+                  {citation.sourceTitle}
                 </p>
                 <p className="articleDetails-content-article-section-content-citedBy-row-citations-citation-authors">
                   {t('pages.articleDetails.citedBySection.authors')} : {citation.authors.map<ReactNode>((author, index) => (
@@ -389,7 +391,7 @@ export default function ArticleDetails(): JSX.Element {
                         {author.orcid && (
                           <Link to={`${import.meta.env.VITE_ORCID_HOMEPAGE}/${author.orcid}`} title={author.orcid} target='_blank' rel="noopener noreferrer">
                             {' '}
-                            <img src={orcid} alt='Orcid icon' />
+                            <img src={orcid} alt='ORCID icon' />
                           </Link>
                         )}
                       </Fragment>
