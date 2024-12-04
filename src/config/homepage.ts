@@ -8,12 +8,6 @@ export enum HOMEPAGE_BLOCK {
     LATEST_ACCEPTED_ARTICLES_CAROUSEL = 'latest-accepted-articles-carousel',
 }
 
-export enum HOMEPAGE_LAST_INFORMATION_BLOCK {
-    LAST_NEWS = 'last-news',
-    LAST_VOLUME = 'last-volume',
-    LAST_SPECIAL_ISSUE = 'last-special-issue'
-}
-
 export const blocksConfiguration = (): { key: HOMEPAGE_BLOCK; render: boolean }[] => [
     {
         key: HOMEPAGE_BLOCK.LATEST_ARTICLES_CAROUSEL,
@@ -45,9 +39,43 @@ export const blocksConfiguration = (): { key: HOMEPAGE_BLOCK; render: boolean }[
     }
 ];
 
-export const lastInformationBlockConfiguration = (): { key: HOMEPAGE_LAST_INFORMATION_BLOCK; render: boolean } => {
+export enum HOMEPAGE_LAST_INFORMATION_BLOCK {
+    LAST_NEWS = 'last-news',
+    LAST_VOLUME = 'last-volume',
+    LAST_SPECIAL_ISSUE = 'last-special-issue'
+}
+
+export const lastInformationBlockConfiguration = (): { key?: HOMEPAGE_LAST_INFORMATION_BLOCK; render: boolean } => {
+    const renderType: string | null = import.meta.env.VITE_JOURNAL_HOMEPAGE_LAST_INFORMATION_RENDER_TYPE;
+
+    if (!renderType) {
+        return {
+            render: false
+        }
+    }
+
+    if (renderType === HOMEPAGE_LAST_INFORMATION_BLOCK.LAST_NEWS) {
+        return {
+            key: HOMEPAGE_LAST_INFORMATION_BLOCK.LAST_NEWS,
+            render: true
+        };
+    }
+
+    if (renderType === HOMEPAGE_LAST_INFORMATION_BLOCK.LAST_VOLUME) {
+        return {
+            key: HOMEPAGE_LAST_INFORMATION_BLOCK.LAST_VOLUME,
+            render: true
+        };
+    }
+
+    if (renderType === HOMEPAGE_LAST_INFORMATION_BLOCK.LAST_SPECIAL_ISSUE) {
+        return {
+            key: HOMEPAGE_LAST_INFORMATION_BLOCK.LAST_SPECIAL_ISSUE,
+            render: true
+        };
+    }
+
     return {
-        key: HOMEPAGE_LAST_INFORMATION_BLOCK.LAST_NEWS,
-        render: import.meta.env.VITE_JOURNAL_HOMEPAGE_LAST_NEWS_RENDER !== 'false'
-    };
+        render: false
+    }
 };
