@@ -141,6 +141,8 @@ export default function Search(): JSX.Element {
   };
 
   const onCheckType = (value: string): void => {
+    setCurrentPage(1);
+
     const updatedTypes = types.map((t) => {
       if (t.value === value) {
         return { ...t, isChecked: !t.isChecked };
@@ -153,6 +155,8 @@ export default function Search(): JSX.Element {
   }
 
   const onCheckYear = (year: number): void => {
+    setCurrentPage(1);
+
     const updatedYears = years.map((y) => {
       if (y.year === year) {
         return { ...y, isChecked: !y.isChecked };
@@ -165,6 +169,8 @@ export default function Search(): JSX.Element {
   }
 
   const onCheckVolume = (id: number): void => {
+    setCurrentPage(1);
+
     const updatedVolumes = volumes.map((v) => {
       if (v.id === id) {
         return { ...v, isChecked: !v.isChecked };
@@ -177,6 +183,8 @@ export default function Search(): JSX.Element {
   }
 
   const onCheckSection = (id: number): void => {
+    setCurrentPage(1);
+
     const updatedSections = sections.map((s) => {
       if (s.id === id) {
         return { ...s, isChecked: !s.isChecked };
@@ -189,6 +197,8 @@ export default function Search(): JSX.Element {
   }
 
   const onCheckAuthor = (fullname: string): void => {
+    setCurrentPage(1);
+
     const updatedAuthors = authors.map((a) => {
       if (a.fullname === fullname) {
         return { ...a, isChecked: !a.isChecked };
