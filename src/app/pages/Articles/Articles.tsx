@@ -85,6 +85,8 @@ export default function Articles(): JSX.Element {
   };
 
   const onCheckType = (value: string): void => {
+    setCurrentPage(1);
+
     const updatedTypes = types.map((t) => {
       if (t.value === value) {
         return { ...t, isChecked: !t.isChecked };
@@ -97,6 +99,8 @@ export default function Articles(): JSX.Element {
   }
 
   const onCheckYear = (year: number): void => {
+    setCurrentPage(1);
+
     const updatedYears = years.map((y) => {
       if (y.year === year) {
         return { ...y, isChecked: !y.isChecked };

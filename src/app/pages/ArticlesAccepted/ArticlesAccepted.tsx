@@ -69,6 +69,8 @@ export default function ArticlesAccepted(): JSX.Element {
   };
 
   const onCheckType = (value: string): void => {
+    setCurrentPage(1);
+
     const updatedTypes = types.map((t) => {
       if (t.value === value) {
         return { ...t, isChecked: !t.isChecked };
