@@ -121,11 +121,16 @@ export default function Header(): JSX.Element {
                     )}
                     <Link to={PATHS.volumes}>{t('components.header.links.volumes')}</Link>
                     <Link to={`${PATHS.volumes}/${lastVolume?.id}`}>{t('components.header.links.lastVolume')}</Link>
-                    <Link to={PATHS.sections}>{t('components.header.links.sections')}</Link>
+                    {shouldRenderMenuItem('SECTIONS') && (
+                        <Link to={PATHS.sections}>{t('components.header.links.sections')}</Link>
+                    )}
+                    {shouldRenderMenuItem('SPECIAL_ISSUES') && (
                     <Link to={`${PATHS.volumes}?type=${VOLUME_TYPE.SPECIAL_ISSUE}`}>{t('components.header.links.specialIssues')}</Link>
+                    )}
                     {shouldRenderMenuItem('VOLUME_TYPE_PROCEEDINGS') && (
                         <Link to={`${PATHS.volumes}?type=${VOLUME_TYPE.PROCEEDINGS}`}>{t('components.header.links.proceedings')}</Link>
                     )}
+
                     <Link to={PATHS.authors}>{t('components.header.links.authors')}</Link>
                   </div>
                 </div>
@@ -137,14 +142,24 @@ export default function Header(): JSX.Element {
                 <div className='header-postheader-links-dropdown-content' onMouseLeave={(): void => toggleDropdown('about', false)}>
                   <div className='header-postheader-links-dropdown-content-links'>
                     <Link to={PATHS.about}>{t('components.header.links.about')}</Link>
-                    <Link to={PATHS.news}>{t('components.header.links.news')}</Link>
+                    {shouldRenderMenuItem('BOARDS') && (
+                        <Link to={PATHS.news}>{t('components.header.links.news')}</Link>
+                    )}
+
                     {shouldRenderStatistics && <Link to={PATHS.statistics}>{t('components.header.links.statistics')}</Link>}
                   </div>
                 </div>
               )}
           </div>
-          <Link to={PATHS.boards}>{t('components.header.links.boards')}</Link>
-          <Link to={PATHS.forAuthors}>{t('components.header.links.forAuthors')}</Link>
+
+
+          {shouldRenderMenuItem('BOARDS') && (
+              <Link to={PATHS.boards}>{t('components.header.links.boards')}</Link>
+          )}
+          {shouldRenderMenuItem('FOR_AUTHORS') && (
+              <Link to={PATHS.forAuthors}>{t('components.header.links.forAuthors')}</Link>
+          )}
+
         </div>
         <div className={`header-postheader-search ${isReduced && 'header-postheader-search-reduced'}`}>
           <div className='header-postheader-search-delimiter'></div>
