@@ -27,3 +27,4 @@ public/logos
 # Misc
 .env
 .firebase/*
+/external-assets/
