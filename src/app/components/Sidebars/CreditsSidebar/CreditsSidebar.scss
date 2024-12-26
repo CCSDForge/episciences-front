@@ -1,8 +1,9 @@
+@use "src/style/breakpoints.scss";
 .creditsSidebar {
   min-width: 265px;
   margin-top: 31px;
 
-  @media (max-width: $sm) {
+  @media (max-width:  breakpoints.$sm) {
     display: none;
   }
 

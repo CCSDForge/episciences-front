@@ -1,11 +1,13 @@
+@use 'variables' as *;
+
 :root {
-  --white: #FFFFFF;
-  --black: #000000;
-  --black-shadow: #0000001F;
-  --grey: #7D7D8E;
-  --grey-light: #B6B6C1;
-  --grey-dark: #4E4E5F;
-  --grey-darker: #363642;
-  --blue-navy: #04005F;
-  --blue-navy-dark: #00005E;
+  --white: #{$white};
+  --black: #{$black};
+  --black-shadow: #{$black-shadow};
+  --grey: #{$grey};
+  --grey-light: #{$grey-light};
+  --grey-dark: #{$grey-dark};
+  --grey-darker: #{$grey-darker};
+  --blue-navy: #{$blue-navy};
+  --blue-navy-dark: #{$blue-navy-dark};
 }

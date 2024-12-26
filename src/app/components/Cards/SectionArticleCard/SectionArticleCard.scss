@@ -1,3 +1,4 @@
+@use "src/style/breakpoints.scss";
 .sectionArticleCard {
   display: flex;
   flex-direction: column;
@@ -5,7 +6,7 @@
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--primary);
 
-  @media (max-width: $sm) {
+  @media (max-width:  breakpoints.$sm) {
     padding: 25px;
   }
 

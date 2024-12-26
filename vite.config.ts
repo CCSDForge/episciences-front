@@ -82,15 +82,15 @@ export default defineConfig(({ mode }) => {
                 },
             },
         ],
-        css: {
-            preprocessorOptions: {
-                scss: {
-                    additionalData: `
-            @import "src/style/breakpoints.scss";
-          `,
-                },
-            },
-        },
+        // css: {
+        //    preprocessorOptions: {
+        //        scss: {
+        //            additionalData: `
+        //    @use "src/style/breakpoints.scss" as breakpoints;
+        //  `,
+        //        },
+        //    },
+        // },
         build: {
             outDir: path.resolve(__dirname, `dist/${journalCode}`),
             rollupOptions: {

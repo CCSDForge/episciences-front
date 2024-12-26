@@ -1,3 +1,4 @@
+@use "src/style/breakpoints.scss";
 .swiperArticleCard {
   height: 180px;
   display: flex;
@@ -6,7 +7,7 @@
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--primary);
 
-  @media (max-width: $sm) {
+  @media (max-width:  breakpoints.$sm) {
     padding: 30px 24px 20px 24px;
   }
 

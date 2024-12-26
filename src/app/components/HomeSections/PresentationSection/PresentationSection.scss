@@ -1,8 +1,9 @@
+@use "src/style/breakpoints.scss";
 .presentationSection {
   display: flex;
   gap: 18px;
 
-  @media (max-width: $xsm) {
+  @media (max-width:  breakpoints.$xsm) {
     flex-direction: column;
   }
 
@@ -22,7 +23,7 @@
         margin: 16px 0px 16px 0px;
       }
 
-      @media (max-width: $xsm) {
+      @media (max-width:  breakpoints.$xsm) {
         font-size: 14px;
       }
     }
@@ -40,7 +41,7 @@
         height: 11px;
       }
 
-      @media (max-width: $xsm) {
+      @media (max-width:  breakpoints.$xsm) {
         font-size: 12px;
       }
     }
@@ -62,12 +63,12 @@
       padding-bottom: 8px;
       margin-bottom: 10px;
 
-      @media (max-width: $sm) {
+      @media (max-width:  breakpoints.$sm) {
         flex-direction: column;
         gap: 10px;
       }
 
-      @media (max-width: $xsm) {
+      @media (max-width:  breakpoints.$xsm) {
         flex-direction: row;
       }
 

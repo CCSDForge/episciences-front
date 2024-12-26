@@ -1,7 +1,8 @@
+@use "src/style/breakpoints.scss";
 .boardsSidebar {
   min-width: 265px;
 
-  @media (max-width: $sm) {
+  @media (max-width:  breakpoints.$sm) {
     display: none;
   }
 

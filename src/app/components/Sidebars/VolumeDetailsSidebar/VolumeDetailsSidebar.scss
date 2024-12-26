@@ -1,11 +1,12 @@
+@use "src/style/breakpoints.scss";
 .volumeDetailsSidebar {
   min-width: 265px;
 
-  @media (max-width: $sm) {
+  @media (max-width:  breakpoints.$sm) {
     min-width: 215px;
   }
 
-  @media (max-width: $xsm) {
+  @media (max-width:  breakpoints.$xsm) {
     display: flex;
     gap: 16px;
     align-items: flex-end;
@@ -72,7 +73,7 @@
     font-weight: 300;
     margin-bottom: 15px;
 
-    @media (max-width: $xsm) {
+    @media (max-width:  breakpoints.$xsm) {
       display: none;
     }
   }
@@ -83,7 +84,7 @@
     gap: 16px;
     margin-bottom: 42px;
 
-    @media (max-width: $xsm) {
+    @media (max-width:  breakpoints.$xsm) {
       margin-bottom: 25px;
     }
 
@@ -98,18 +99,18 @@
       border-bottom: 4px solid var(--primary);
       cursor: pointer;
 
-      @media (max-width: $sm) {
+      @media (max-width:  breakpoints.$sm) {
         max-width: 180px;
       }
 
-      @media (max-width: $xsm) {
+      @media (max-width:  breakpoints.$xsm) {
         width: auto;
       }
 
       &-text {
         font-size: 14px;
 
-        @media (max-width: $sm) {
+        @media (max-width:  breakpoints.$sm) {
           font-size: 13px;
         }
       }
@@ -121,7 +122,7 @@
     display: flex;
     flex-direction: column;
 
-    @media (max-width: $xsm) {
+    @media (max-width:  breakpoints.$xsm) {
       display: none;
     }
     

@@ -1,3 +1,4 @@
+@use "src/style/breakpoints.scss";
 .articlesMobileModal {
   position: absolute;
   left: 0px;
@@ -10,7 +11,7 @@
   flex-direction: column;
   color: var(--grey-dark);
 
-  @media (max-width: $xsm) {
+  @media (max-width:  breakpoints.$xsm) {
     top: 50px;
   }
 
@@ -22,7 +23,7 @@
     font-size: 18px;
     color: var(--primary);
 
-    @media (max-width: $xsm) {
+    @media (max-width:  breakpoints.$xsm) {
       padding: 0px 16px 12px 16px;
     }
 
@@ -39,7 +40,7 @@
     margin-top: 15px;
     padding: 0px 40px 12px 40px;
 
-    @media (max-width: $xsm) {
+    @media (max-width:  breakpoints.$xsm) {
       padding: 0px 16px 12px 16px;
     }
 
@@ -63,7 +64,7 @@
   &-filters {
     padding: 0px 40px 12px 40px;
 
-    @media (max-width: $xsm) {
+    @media (max-width:  breakpoints.$xsm) {
       padding: 0px 16px 12px 16px;
     }
 
@@ -117,7 +118,7 @@
     left: 40px;
     right: 40px;
 
-    @media (max-width: $xsm) {
+    @media (max-width:  breakpoints.$xsm) {
       left: 16px;
       right: 16px;
     }

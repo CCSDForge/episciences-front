@@ -1,8 +1,9 @@
+@use "src/style/breakpoints.scss";
 .sectionsSidebar {
   min-width: 265px;
   margin-top: -30px;
 
-  @media (max-width: $sm) {
+  @media (max-width:  breakpoints.$sm) {
     display: none;
   }
 }

@@ -1,3 +1,4 @@
+@use "src/style/breakpoints.scss";
 .news {
   &-title {
     display: flex;
@@ -34,7 +35,7 @@
   &-filtersMobile {
     display: none;
 
-    @media (max-width: $xsm) {
+    @media (max-width:  breakpoints.$xsm) {
       color: var(--primary);
       width: 100%;
       display: flex;
@@ -45,7 +46,7 @@
     }
 
     &-tile {
-      @media (max-width: $xsm) {
+      @media (max-width:  breakpoints.$xsm) {
         display: flex;
         gap: 4px;
         font-size: 14px;
@@ -72,7 +73,7 @@
         padding-left: 60px;
         margin-top: 30px;
 
-        @media (max-width: $xsm) {
+        @media (max-width:  breakpoints.$xsm) {
           flex-direction: column;
           padding-left: 0px;
         }
@@ -82,11 +83,11 @@
           gap: 15px;
           grid-template-columns: repeat(3, 1fr);
 
-          @media (max-width: $sm) {
+          @media (max-width:  breakpoints.$sm) {
             grid-template-columns: repeat(2, 1fr);
           }
 
-          @media (max-width: $xsm) {
+          @media (max-width:  breakpoints.$xsm) {
             display: flex;
             flex-direction: column;
             padding-left: 0px;
