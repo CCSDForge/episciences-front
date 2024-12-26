@@ -60,6 +60,14 @@ export default defineConfig(({ mode }) => {
                         .replace(
                             '<!-- CoarInboxUrlPlaceholder -->',
                             `${env.VITE_COAR_NOTIFY_INBOX_URL}`
+                        )
+                        .replace(
+                            /<!-- MatomoDomainPlaceholder -->/g,
+                            `${env.VITE_MATOMO_DOMAIN}`
+                        )
+                        .replace(
+                            /<!-- MatomoSiteIdPlaceholder -->/g,
+                            `${env.VITE_MATOMO_SITEID}`
                         );
                 },
             },
