@@ -1,3 +1,5 @@
+@use "breakpoints";
+
 html, body, #root {
   height: 100%;
 }
@@ -21,15 +23,15 @@ main {
   padding: 0px 80px 135px 80px;
   margin-top: 285px;
 
-  @media (max-width: $sm) {
+  @media (max-width: breakpoints.$sm) {
     padding: 0px 25px 135px 25px;
   }
 
-  @media (max-width: $sm) and (orientation:landscape) {
+  @media (max-width: breakpoints.$sm) and (orientation:landscape) {
     margin-top: 185px;
   }
 
-  @media (max-width: $xsm) {
+  @media (max-width: breakpoints.$xsm) {
     padding: 0px 16px 135px 16px;
     margin-top: 205px;
   }
@@ -38,7 +40,7 @@ main {
 h1 {
   font-size: 30px;
   letter-spacing: .1rem;
-  @media (max-width: $xsm) {
+  @media (max-width: breakpoints.$xsm) {
     font-size: 20px;
   }
 }
@@ -46,7 +48,7 @@ h1 {
 h2 {
   font-size: 24px;
   letter-spacing: .1rem;
-  @media (max-width: $xsm) {
+  @media (max-width: breakpoints.$xsm) {
     font-size: 18px;
   }
 }
@@ -54,7 +56,7 @@ h2 {
 h3 {
   font-size: 19px;
   letter-spacing: .1rem;
-  @media (max-width: $xsm) {
+  @media (max-width: breakpoints.$xsm) {
     font-size: 17px;
   }
 }
@@ -62,7 +64,7 @@ h3 {
 h4 {
   font-size: 16px;
   letter-spacing: .1rem;
-  @media (max-width: $xsm) {
+  @media (max-width: breakpoints.$xsm) {
     font-size: 15px;
   }
 }
@@ -82,7 +84,7 @@ a {
 }
 
 ul, ol {
-  @media (max-width: $xsm) {
+  @media (max-width: breakpoints.$xsm) {
     padding-left: 16px;
   }
 }

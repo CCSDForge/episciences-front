@@ -1,8 +1,9 @@
+@use "src/style/breakpoints.scss";
 .articlesAcceptedSidebar {
   min-width: 265px;
   margin-top: -46px;
 
-  @media (max-width: $sm) {
+  @media (max-width:  breakpoints.$sm) {
     display: none;
   }
 

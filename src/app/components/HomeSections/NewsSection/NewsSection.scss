@@ -1,3 +1,4 @@
+@use "src/style/breakpoints.scss";
 .newsSection {
   display: flex;
   gap: 24px;
@@ -5,7 +6,7 @@
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--primary);
 
-  @media (max-width: $xsm) {
+  @media (max-width:  breakpoints.$xsm) {
     flex-direction: column;
   }
 
@@ -16,7 +17,7 @@
     flex-direction: column;
     gap: 25px;
 
-    @media (max-width: $sm) {
+    @media (max-width:  breakpoints.$sm) {
       min-width: unset;
       max-width: unset;
     }
@@ -26,7 +27,7 @@
       font-size: 16px;
       font-weight: 600;
 
-      @media (max-width: $sm) {
+      @media (max-width:  breakpoints.$sm) {
         width: 320px;
       }
     }
@@ -42,7 +43,7 @@
   &-divider {
     border-right: 2px solid var(--primary);
 
-    @media (max-width: $xsm) {
+    @media (max-width:  breakpoints.$xsm) {
       display: none;
     }
   }

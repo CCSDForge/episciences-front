@@ -1,9 +1,10 @@
+@use "src/style/breakpoints.scss";
 .searchResultsSidebar {
   min-width: 265px;
   max-width: 265px;
   margin-top: -46px;
 
-  @media (max-width: $sm) {
+  @media (max-width:  breakpoints.$sm) {
     display: none;
   }
 

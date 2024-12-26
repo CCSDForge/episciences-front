@@ -1,8 +1,9 @@
+@use "src/style/breakpoints.scss";
 .credits {
   &-title {
     margin-bottom: 70px;
 
-    @media (max-width: $sm) {
+    @media (max-width:  breakpoints.$sm) {
       margin-bottom: 30px;
     }
   }
@@ -16,7 +17,7 @@
       flex-direction: column;
       padding-left: 60px;
 
-      @media (max-width: $sm) {
+      @media (max-width:  breakpoints.$sm) {
         padding-left: 0px;
       }
 

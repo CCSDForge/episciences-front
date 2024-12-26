@@ -1,11 +1,12 @@
+@use "src/style/breakpoints.scss";
 .sectionDetailsSidebar {
   min-width: 265px;
 
-  @media (max-width: $sm) {
+  @media (max-width:  breakpoints.$sm) {
     min-width: 215px;
   }
 
-  @media (max-width: $xsm) {
+  @media (max-width:  breakpoints.$xsm) {
     min-width: auto;
   }
 
@@ -13,7 +14,7 @@
     font-size: 21px;
     font-weight: 300;
 
-    @media (max-width: $xsm) {
+    @media (max-width:  breakpoints.$xsm) {
       margin-bottom: 16px;
     }
   }

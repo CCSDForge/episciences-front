@@ -1,13 +1,14 @@
+@use "src/style/breakpoints.scss";
 .articleDetailsSidebar {
   min-width: 370px;
   max-width: 370px;
 
-  @media (max-width: $sm) {
+  @media (max-width:  breakpoints.$sm) {
     min-width: 180px;
     max-width: unset;
   }
 
-  @media (max-width: $xsm) {
+  @media (max-width:  breakpoints.$xsm) {
     min-width: unset;
     max-width: unset;
   }
@@ -19,7 +20,7 @@
     column-gap: 16px;
     margin-bottom: 30px;
 
-    @media (max-width: $xsm) {
+    @media (max-width:  breakpoints.$xsm) {
       padding-bottom: 20px;
       border-bottom: 1px solid var(--grey-light);
       margin-bottom: 10px;
@@ -84,7 +85,7 @@
     gap: 25px;
     margin-bottom: 32px;
 
-    @media (max-width: $xsm) {
+    @media (max-width:  breakpoints.$xsm) {
       padding-bottom: 16px;
       border-bottom: 1px solid var(--grey-light);
     }
@@ -146,7 +147,7 @@
       margin-top: 8px;
       margin-bottom: 40px;
 
-      @media (max-width: $xsm) {
+      @media (max-width:  breakpoints.$xsm) {
         padding-bottom: 16px;
         border-bottom: 1px solid var(--grey-light);
       }

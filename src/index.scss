@@ -1,4 +1,4 @@
-@import './style/theme.scss';
-@import './style/breakpoints.scss';
-@import './style/fonts.scss';
-@import './style/layout.scss';
+@use "style/theme";
+@use "style/breakpoints";
+@use "style/fonts";
+@use "style/layout";

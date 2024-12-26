@@ -1,3 +1,4 @@
+@use "src/style/breakpoints.scss";
 .boardCard {
   display: flex;
   flex-direction: column;
@@ -69,13 +70,13 @@
     flex-direction: row;
     gap: 40px;
 
-    @media (max-width: $sm) {
+    @media (max-width:  breakpoints.$sm) {
       flex-direction: column;
       grid-column: auto;
       grid-row: 3 / -1;
     }
 
-    @media (max-width: $xsm) {
+    @media (max-width:  breakpoints.$xsm) {
       grid-column: 1 / -1;
       grid-row: auto;
     }
@@ -84,7 +85,7 @@
       min-width: 320px;
       max-width: 320px;
 
-      @media (max-width: $xsm) {
+      @media (max-width:  breakpoints.$xsm) {
         min-width: auto;
         max-width: none;
       }

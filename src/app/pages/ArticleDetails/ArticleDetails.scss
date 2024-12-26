@@ -1,3 +1,4 @@
+@use "src/style/breakpoints.scss";
 .articleDetails {
   &-tag {
     width: fit-content;
@@ -15,7 +16,7 @@
     gap: 60px;
     flex-direction: row-reverse;
 
-    @media (max-width: $xsm) {
+    @media (max-width:  breakpoints.$xsm) {
       gap: 20px;
       flex-direction: column;
     }
@@ -28,14 +29,14 @@
         font-size: 24px;
         margin-bottom: 8px;
 
-        @media (max-width: $xsm) {
+        @media (max-width:  breakpoints.$xsm) {
           display: none;
         }
 
         &-mobile {
           display: none;
 
-          @media (max-width: $xsm) {
+          @media (max-width:  breakpoints.$xsm) {
             display: block;
           }
         }
@@ -46,14 +47,14 @@
         font-size: 20px;
         margin-bottom: 40px;
 
-        @media (max-width: $xsm) {
+        @media (max-width:  breakpoints.$xsm) {
           display: none;
         }
 
         &-mobile {
           display: none;
 
-          @media (max-width: $xsm) {
+          @media (max-width:  breakpoints.$xsm) {
             display: block;
             margin-bottom: 0px;
             padding-bottom: 16px;
@@ -68,14 +69,14 @@
           padding-bottom: 8px;
           margin-bottom: 8px;
 
-          @media (max-width: $xsm) {
+          @media (max-width:  breakpoints.$xsm) {
             display: none;
           }
 
           &-caret {
             cursor: pointer;
 
-            @media (max-width: $xsm) {
+            @media (max-width:  breakpoints.$xsm) {
               align-self: flex-end;
             }
           }
@@ -83,7 +84,7 @@
           &-mobile {
             display: none;
   
-            @media (max-width: $xsm) {
+            @media (max-width:  breakpoints.$xsm) {
               display: flex;
             }
           }
@@ -95,14 +96,14 @@
         font-size: 18px;
         margin-bottom: 40px;
 
-        @media (max-width: $xsm) {
+        @media (max-width:  breakpoints.$xsm) {
           display: none;
         }
 
         &-mobile {
           display: none;
 
-          @media (max-width: $xsm) {
+          @media (max-width:  breakpoints.$xsm) {
             display: block;
             margin-bottom: 0px;
             padding-bottom: 16px;
@@ -130,7 +131,7 @@
             font-weight: bold;
             color: var(--primary);
 
-            @media (max-width: $sm) {
+            @media (max-width:  breakpoints.$sm) {
               font-size: 17px;
             }
           }
@@ -181,7 +182,7 @@
               }
 
               &-img {
-                @media (max-width: $xsm) {
+                @media (max-width:  breakpoints.$xsm) {
                   width: 100%;
                 }
               }

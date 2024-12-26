@@ -1,10 +1,11 @@
+@use "src/style/breakpoints.scss";
 .boards {
   &-title {
     display: flex;
     align-items: center;
     margin-bottom: 30px;
 
-    @media (max-width: $sm) {
+    @media (max-width:  breakpoints.$sm) {
       align-items: flex-start;
       flex-direction: column;
       gap: 12px;
@@ -13,7 +14,7 @@
     &-text {
       min-width: 265px;
 
-      @media (max-width: $sm) {
+      @media (max-width:  breakpoints.$sm) {
         min-width: unset;
       }
     }
@@ -24,7 +25,7 @@
       font-weight: 300;
       padding-left: 60px;
 
-      @media (max-width: $sm) {
+      @media (max-width:  breakpoints.$sm) {
         padding-left: 0px;
       }
     }
@@ -39,14 +40,14 @@
       flex-direction: column;
       padding-left: 60px;
 
-      @media (max-width: $sm) {
+      @media (max-width:  breakpoints.$sm) {
         padding-left: 0px;
       }
 
       &-group {
         margin-bottom: 45px;
 
-        @media (max-width: $sm) {
+        @media (max-width:  breakpoints.$sm) {
           margin-bottom: 15px;
         }
 
@@ -79,11 +80,11 @@
             gap: 15px;
             grid-template-columns: repeat(3, 1fr);
 
-            @media (max-width: $sm) {
+            @media (max-width:  breakpoints.$sm) {
               grid-template-columns: repeat(2, 1fr);
             }
 
-            @media (max-width: $xsm) {
+            @media (max-width:  breakpoints.$xsm) {
               grid-template-columns: repeat(1, 1fr);
             }
           }

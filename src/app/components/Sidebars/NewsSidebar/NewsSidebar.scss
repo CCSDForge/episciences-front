@@ -1,12 +1,13 @@
+@use "src/style/breakpoints.scss";
 .newsSidebar {
   min-width: 265px;
   font-size: 16px;
 
-  @media (max-width: $sm) {
+  @media (max-width:  breakpoints.$sm) {
     min-width: 115px;
   }
 
-  @media (max-width: $xsm) {
+  @media (max-width:  breakpoints.$xsm) {
     display: none;
   }
 
