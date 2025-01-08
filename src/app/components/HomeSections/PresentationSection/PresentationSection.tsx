@@ -30,7 +30,7 @@ export default function PresentationSection({ language, t, aboutContent, lastInf
       {aboutContent && aboutContent[language] && (
         <div className='presentationSection-about'>
           <div className='presentationSection-about-content'>
-            <ReactMarkdown>{`${aboutContent[language].substring(0, MAX_ABOUT_CONTENT_LENGTH)}...`}</ReactMarkdown>
+            <ReactMarkdown>{`${aboutContent[language]?.substring(0, MAX_ABOUT_CONTENT_LENGTH) ?? ''}...`}</ReactMarkdown>
             </div>
           <Link to={PATHS.about}>
             <div className='presentationSection-about-seeMore'>
@@ -48,7 +48,7 @@ export default function PresentationSection({ language, t, aboutContent, lastInf
                 <div className='presentationSection-new-title-date'>{formatDate((lastInformation.information as INews).publicationDate, language)}</div>
                 <div className='presentationSection-new-title-text'>{(lastInformation.information as INews).title[language]}</div>
               </div>
-              {(lastInformation.information as INews).content && <div className='presentationSection-new-description'>{`${(lastInformation.information as INews).content![language].substring(0, MAX_NEWS_CONTENT_LENGTH)}...`}</div>}
+              {(lastInformation.information as INews).content && <div className='presentationSection-new-description'>{`${(lastInformation.information as INews).content![language]?.substring(0, MAX_NEWS_CONTENT_LENGTH) ?? ''}...`}</div>}
               <Link to={PATHS.news}>
                 <div className='presentationSection-new-seeMore'>
                   <div className='presentationSection-new-seeMore-text'>{t('common.seeMore')}</div>
@@ -63,7 +63,7 @@ export default function PresentationSection({ language, t, aboutContent, lastInf
                 <div className='presentationSection-new-title-date'>{(lastInformation.information as IVolume).year}</div>
                 <div className='presentationSection-new-title-text'>{(lastInformation.information as IVolume).title ? (lastInformation.information as IVolume).title![language] : ''}</div>
               </div>
-              {(lastInformation.information as IVolume).description && <div className='presentationSection-new-description'>{`${(lastInformation.information as IVolume).description![language].substring(0, MAX_NEWS_CONTENT_LENGTH)}...`}</div>}
+              {(lastInformation.information as IVolume).description && <div className='presentationSection-new-description'>{`${(lastInformation.information as IVolume).description![language]?.substring(0, MAX_NEWS_CONTENT_LENGTH) ?? ''}...`}</div>}
               <Link to={lastInformation.type === HOMEPAGE_LAST_INFORMATION_BLOCK.LAST_VOLUME ? PATHS.volumes : `${PATHS.volumes}?type=${VOLUME_TYPE.SPECIAL_ISSUE}`}>
                 <div className='presentationSection-new-seeMore'>
                   <div className='presentationSection-new-seeMore-text'>{t('common.seeMore')}</div>
