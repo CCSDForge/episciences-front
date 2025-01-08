@@ -1,0 +1,20 @@
+# Episciences robots.txt
+User-Agent: *
+Disallow: /search
+Disallow: */tei
+Disallow: */bibtex
+Disallow: */dc
+Disallow: */datacite
+Disallow: */openaire
+Disallow: */crossref
+Disallow: */doaj
+Disallow: */zbjats
+Disallow: */json
+Disallow: */jsonv2
+Disallow: /login
+Disallow: /logout
+Disallow: /submit
+Disallow: /user
+Disallow: /error
+User-agent: barkrowler
+Disallow: /

@@ -16,12 +16,11 @@ interface ILanguageDropdownProps {
 
 export default function LanguageDropdown({ withWhiteCaret }: ILanguageDropdownProps) {
   const dispatch = useAppDispatch();
-
   const language = useAppSelector(state => state.i18nReducer.language);
-
   const [showDropdown, setShowDropdown] = useState(false);
-
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  const acceptedLanguages = import.meta.env.VITE_JOURNAL_ACCEPTED_LANGUAGES.split(',');
 
   useEffect(() => {
     const handleTouchOutside = (event: TouchEvent): void => {
@@ -47,6 +46,10 @@ export default function LanguageDropdown({ withWhiteCaret }: ILanguageDropdownPr
     dispatch(setLanguage(updatedLanguage));
     i18next.changeLanguage(updatedLanguage)
   };
+
+  if (acceptedLanguages.length <= 1) {
+    return null; // Do not render the dropdown if there is only one accepted language
+  }
 
   return (
     <div
