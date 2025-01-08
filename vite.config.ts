@@ -81,16 +81,23 @@ export default defineConfig(({ mode }) => {
                     });
                 },
             },
+            {
+                // Custom plugin to copy robots.txt during build
+                name: 'copy-robots-txt',
+                apply: 'build',
+                buildStart() {
+                    const robotsSourcePath = path.resolve(__dirname, 'public/robots.txt');
+                    const robotsTargetPath = path.resolve(__dirname, `dist/${journalCode}/robots.txt`);
+
+                    if (fs.existsSync(robotsSourcePath)) {
+                        fs.copyFileSync(robotsSourcePath, robotsTargetPath);
+                        console.log(`Copied robots.txt to ${robotsTargetPath}`);
+                    } else {
+                        console.warn(`robots.txt not found: ${robotsSourcePath}`);
+                    }
+                },
+            },
         ],
-        // css: {
-        //    preprocessorOptions: {
-        //        scss: {
-        //            additionalData: `
-        //    @use "src/style/breakpoints.scss" as breakpoints;
-        //  `,
-        //        },
-        //    },
-        // },
         build: {
             outDir: path.resolve(__dirname, `dist/${journalCode}`),
             rollupOptions: {
