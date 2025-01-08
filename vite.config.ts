@@ -53,10 +53,10 @@ export default defineConfig(({ mode }) => {
 
         if (fs.existsSync(robotsSourcePath)) {
             let robotsContent = fs.readFileSync(robotsSourcePath, 'utf-8');
-            console.log('Original robots.txt content:', robotsContent); // Log original content
+            //console.log('Original robots.txt content:', robotsContent); // Log original content
 
             robotsContent += `\nSitemap: https://${journalCode}.episciences.org/sitemap.xml`;
-            console.log('Updated robots.txt content:', robotsContent); // Log updated content
+            //console.log('Updated robots.txt content:', robotsContent); // Log updated content
 
             fs.writeFileSync(robotsTargetPath, robotsContent);
             console.log(`Updated robots.txt with sitemap.xml: ${robotsTargetPath}`);
