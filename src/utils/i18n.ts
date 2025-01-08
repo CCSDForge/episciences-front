@@ -1,4 +1,4 @@
-export const defaultLanguage = 'en';
+export const defaultLanguage: string = import.meta.env.VITE_JOURNAL_DEFAULT_LANGUAGE || 'en';
 
 export const availableLanguages = [
   defaultLanguage,

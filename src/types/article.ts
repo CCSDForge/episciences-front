@@ -50,7 +50,6 @@ export type IArticleRecordKeywords = {
 };
 
 export interface IArticleKeywords extends IArticleRecordKeywords {
-  [index: number]: string;
 }
 
 export interface IArticleReference {
