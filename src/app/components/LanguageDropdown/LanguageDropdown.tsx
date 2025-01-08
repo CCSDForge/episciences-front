@@ -69,7 +69,7 @@ export default function LanguageDropdown({ withWhiteCaret }: ILanguageDropdownPr
       </div>
       <div className={`languageDropdown-content ${showDropdown && 'languageDropdown-content-displayed'}`}>
         <div className='languageDropdown-content-links'>
-          {availableLanguages.map((availableLanguage, index) => (
+          {availableLanguages.map((availableLanguage: AvailableLanguage, index: number) => (
             <span key={index} onClick={(): void => switchLanguage(availableLanguage)} onTouchEnd={(): void => switchLanguage(availableLanguage)}>{availableLanguage.toUpperCase()}</span>
           ))}
         </div>
