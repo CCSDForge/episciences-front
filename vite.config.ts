@@ -7,6 +7,8 @@ export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, process.cwd(), '');
     const journalCode = env.VITE_JOURNAL_RVCODE;
 
+    //console.log('Environment Variables:', env); // Add this line to log environment variables
+
     // Paths for logo sources and target
     const logoSourceDir = path.resolve(__dirname, 'external-assets/logos');
     const logoTargetDir = path.resolve(__dirname, `public/logos`);
@@ -40,6 +42,26 @@ export default defineConfig(({ mode }) => {
             } else {
                 console.warn(`Small logo not found: ${smallLogo}`);
             }
+        }
+    }
+
+    function updateRobotsTxt() {
+        const robotsSourcePath = path.resolve(__dirname, 'public/robots.txt');
+        const robotsTargetPath = path.resolve(__dirname, `dist/${journalCode}/robots.txt`);
+
+        console.log(`Updating robots.txt at: ${robotsTargetPath}`); // Log the target path
+
+        if (fs.existsSync(robotsSourcePath)) {
+            let robotsContent = fs.readFileSync(robotsSourcePath, 'utf-8');
+            console.log('Original robots.txt content:', robotsContent); // Log original content
+
+            robotsContent += `\nSitemap: https://${journalCode}.episciences.org/sitemap.xml`;
+            console.log('Updated robots.txt content:', robotsContent); // Log updated content
+
+            fs.writeFileSync(robotsTargetPath, robotsContent);
+            console.log(`Updated robots.txt with sitemap.xml: ${robotsTargetPath}`);
+        } else {
+            console.warn(`robots.txt not found: ${robotsSourcePath}`);
         }
     }
 
@@ -82,19 +104,11 @@ export default defineConfig(({ mode }) => {
                 },
             },
             {
-                // Custom plugin to copy robots.txt during build
+                // Custom plugin to copy and update robots.txt during build
                 name: 'copy-robots-txt',
                 apply: 'build',
-                buildStart() {
-                    const robotsSourcePath = path.resolve(__dirname, 'public/robots.txt');
-                    const robotsTargetPath = path.resolve(__dirname, `dist/${journalCode}/robots.txt`);
-
-                    if (fs.existsSync(robotsSourcePath)) {
-                        fs.copyFileSync(robotsSourcePath, robotsTargetPath);
-                        console.log(`Copied robots.txt to ${robotsTargetPath}`);
-                    } else {
-                        console.warn(`robots.txt not found: ${robotsSourcePath}`);
-                    }
+                writeBundle() {
+                    updateRobotsTxt();
                 },
             },
         ],
