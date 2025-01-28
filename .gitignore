@@ -28,3 +28,4 @@ public/logos
 .env
 .firebase/*
 /external-assets/
+/.next/
