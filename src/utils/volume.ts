@@ -30,7 +30,7 @@ export const formatVolume = (rvcode: string, language: AvailableLanguage, volume
     year: volume['vol_year'],
     types: volume['vol_type'],
     articles: volume['papers'],
-    downloadLink: `https://${rvcode}.episciences.org/volumes/${volume['vid']}/${volume['vid']}.pdf`,
+    downloadLink: `https://${rvcode}.episciences.org/volumes-full/${volume['vid']}/${volume['vid']}.pdf`,
     metadatas: metadatas,
     tileImageURL,
     settingsProceeding: settingsProceeding
