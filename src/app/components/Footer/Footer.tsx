@@ -56,7 +56,7 @@ export default function Footer(): JSX.Element {
 
   const getTermsOfUseLink = (): string => language === 'fr' ? import.meta.env.VITE_EPISCIENCES_LEGAL_PRIVACY_TERMS_OF_USE_PAGE_FR : import.meta.env.VITE_EPISCIENCES_LEGAL_PRIVACY_TERMS_OF_USE_PAGE
 
-  const getPublishingPolicyAnchor = (): string => language === 'fr' ? `${PATHS.about}#politiques-de-publication` : `${PATHS.about}#publishing-policy`
+  const getPublishingPolicyAnchor = (): string => language === 'fr' ? `${PATHS.about}#politiques-de-publication` : `${PATHS.about}#publishing-policies`
 
   return (
     <footer className={`footer ${!enabled && 'footer-disabled'}`}>
