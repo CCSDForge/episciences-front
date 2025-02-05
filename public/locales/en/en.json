@@ -28,7 +28,7 @@
     "citeSuccess": "{{template}} citation has been copied to clipboard",
     "week": "week",
     "weeks": "weeks",
-    "content": "Content",
+    "content": "Articles & Issues",
     "publishedOn": "Published on",
     "acceptedOn": "Accepted on",
     "abstract": "Abstract",
@@ -62,7 +62,7 @@
   "components": {
     "header": {
       "journal": "Open Access journals",
-      "content": "Content",
+      "content": "Articles & Issues",
       "about": "About",
       "links": {
         "articles": "All articles",
