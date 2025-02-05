@@ -28,7 +28,7 @@
     "citeSuccess": "La citation {{template}} a été copiée dans le presse-papier",
     "week": "semaine",
     "weeks": "semaines",
-    "content": "Contenu",
+    "content": "Articles & volumes",
     "publishedOn": "Publié le",
     "acceptedOn": "Accepté le",
     "abstract": "Abstract",
@@ -62,7 +62,7 @@
   "components": {
     "header": {
       "journal": "Revues en libre accès",
-      "content": "Contenu",
+      "content": "Articles & volumes",
       "about": "À propos",
       "links": {
         "articles": "Tous les articles",
