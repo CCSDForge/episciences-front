@@ -11,7 +11,7 @@ export default function Button({ text, onClickCallback, icon }: IButtonProps): J
     return (
       <button className='button button-withIcon' onClick={onClickCallback}>
         {text}
-        <img src={icon} className='button-withIcon-icon' />
+        <img src={icon} className='button-withIcon-icon' aria-hidden='true'/>
       </button>
     )
   }
