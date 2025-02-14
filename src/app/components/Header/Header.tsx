@@ -149,7 +149,7 @@ export default function Header(): JSX.Element {
                 <div className='header-postheader-links-dropdown-content' onMouseLeave={(): void => toggleDropdown('about', false)}>
                   <div className='header-postheader-links-dropdown-content-links'>
                     <Link to={PATHS.about}>{t('components.header.links.about')}</Link>
-                    {shouldRenderMenuItem('BOARDS') && (
+                    {shouldRenderMenuItem('NEWS') && (
                         <Link to={PATHS.news}>{t('components.header.links.news')}</Link>
                     )}
 
@@ -216,26 +216,46 @@ export default function Header(): JSX.Element {
             <div className='header-postheader-burger-content-links-section header-postheader-burger-content-links-section-bordered'>
               <div className='header-postheader-burger-content-links-section-links'>
                 <span onTouchEnd={(): void => navigate(PATHS.articles)}>{t('components.header.links.articles')}</span>
+                {shouldRenderMenuItem('ACCEPTED_ARTICLES') && (
                 <span onTouchEnd={(): void => navigate(PATHS.articlesAccepted)}>{t('components.header.links.articlesAccepted')}</span>
+                )}
+                {shouldRenderMenuItem('VOLUMES') && (
                 <span onTouchEnd={(): void => navigate(PATHS.volumes)}>{t('components.header.links.volumes')}</span>
+                )}
+                {shouldRenderMenuItem('LAST_VOLUME') && (
                 <span onTouchEnd={(): void => navigate(`${PATHS.volumes}/${lastVolume?.id}`)}>{t('components.header.links.lastVolume')}</span>
+                )}
+                {shouldRenderMenuItem('SECTIONS') && (
                 <span onTouchEnd={(): void => navigate(PATHS.sections)}>{t('components.header.links.sections')}</span>
+                )}
+                {shouldRenderMenuItem('SPECIAL_ISSUES') && (
                 <span onTouchEnd={(): void => navigate(`${PATHS.volumes}?type=${VOLUME_TYPE.SPECIAL_ISSUE}`)}>{t('components.header.links.specialIssues')}</span>
+                )}
+                {shouldRenderMenuItem('VOLUME_TYPE_PROCEEDINGS') && (
                 <span onTouchEnd={(): void => navigate(`${PATHS.volumes}?type=${VOLUME_TYPE.PROCEEDINGS}`)}>{t('components.header.links.proceedings')}</span>
+                )}
                 <span onTouchEnd={(): void => navigate(PATHS.authors)}>{t('components.header.links.authors')}</span>
               </div>
             </div>
             <div className='header-postheader-burger-content-links-section header-postheader-burger-content-links-section-bordered'>
               <div className='header-postheader-burger-content-links-section-links'>
                 <span onTouchEnd={(): void => navigate(PATHS.about)}>{t('components.header.links.about')}</span>
+                  {shouldRenderMenuItem('NEWS') && (
                 <span onTouchEnd={(): void => navigate(PATHS.news)}>{t('components.header.links.news')}</span>
-                <span onTouchEnd={(): void => navigate(PATHS.statistics)}>{t('components.header.links.statistics')}</span>
+                    )}
+                  {shouldRenderStatistics && (
+                  <span onTouchEnd={(): void => navigate(PATHS.statistics)}>{t('components.header.links.statistics')}</span>
+                    )}
               </div>
             </div>
             <div className='header-postheader-burger-content-links-section'>
               <div className='header-postheader-burger-content-links-section-links'>
+                  {shouldRenderMenuItem('BOARDS') && (
                 <span onTouchEnd={(): void => navigate(PATHS.boards)}>{t('components.header.links.boards')}</span>
+                  )}
+                  {shouldRenderMenuItem('FOR_AUTHORS') && (
                 <span onTouchEnd={(): void => navigate(PATHS.forAuthors)}>{t('components.header.links.forAuthors')}</span>
+                  )}
               </div>
             </div>
           </div>
