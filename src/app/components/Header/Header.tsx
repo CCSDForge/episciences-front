@@ -119,8 +119,15 @@ export default function Header(): JSX.Element {
                     {shouldRenderMenuItem('ACCEPTED_ARTICLES') && (
                         <Link to={PATHS.articlesAccepted}>{t('components.header.links.articlesAccepted')}</Link>
                     )}
+
+                    {shouldRenderMenuItem('VOLUMES') && (
                     <Link to={PATHS.volumes}>{t('components.header.links.volumes')}</Link>
+                    )}
+
+                    {shouldRenderMenuItem('LAST_VOLUME') && (
                     <Link to={`${PATHS.volumes}/${lastVolume?.id}`}>{t('components.header.links.lastVolume')}</Link>
+                    )}
+
                     {shouldRenderMenuItem('SECTIONS') && (
                         <Link to={PATHS.sections}>{t('components.header.links.sections')}</Link>
                     )}
