@@ -18,3 +18,9 @@
 2. `npm run build`
 3. `npm run preview` (optional preview build)
 4. copy `dist` folder to production
+
+
+## Updating Projects with assets
+1. update application code: `git pull`
+2. update assets: `cd external-assets;git pull`
+3. build: `cd ..; npm run build`
