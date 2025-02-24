@@ -92,6 +92,7 @@ export type RawArticle = IPartialArticle & IArticle & {
       }
       database: {
         current: {
+          'mainPdfUrl': string;
           cited_by?: {
             [key: number]: {
               source_id_name: string;
