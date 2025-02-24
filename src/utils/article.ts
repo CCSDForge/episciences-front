@@ -248,7 +248,7 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
       isImported,
       tag: articleDB.current.type?.title.toLowerCase(),
       repositoryName: articleDB.current.repository.name,
-      pdfLink: articleDB.current.repository.paper_url.length ? articleDB.current.repository.paper_url : undefined,
+      pdfLink: articleDB.current.mainPdfUrl.length ? articleDB.current.mainPdfUrl : undefined,
       docLink: articleDB.current.repository.doc_url.length ? articleDB.current.repository.doc_url : undefined,
       repositoryIdentifier: articleDB.current.identifiers.repository_identifier,
       keywords: articleContent.keywords,
