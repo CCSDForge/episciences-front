@@ -72,8 +72,7 @@
         }
 
         &-link {
-          text-decoration: underline !important;
-          color: inherit;
+          text-decoration: underline;
         }
 
         &-cards {
@@ -116,6 +115,9 @@
               @media (max-width:  breakpoints.$xsm) {
                 border-left: none;
                 padding-left: 0px;
+              }
+              p {
+                text-decoration: underline;
               }
 
               &-title {
