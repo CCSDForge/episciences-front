@@ -48,13 +48,12 @@
         }
       }
 
-      &-blank {
+      &-title {
         width: 100%;
         background: var(--primary);
-
-        @media (max-width:  breakpoints.$xsm) {
-          display: none;
-        }
+        color: var(--primary-text);
+        padding: 10px;
+        z-index: 10;
       }
 
       &-dropdown {
@@ -284,17 +283,13 @@
           margin-right: 20px;
 
           &:placeholder-shown {
-           text-overflow: ellipsis; 
+           text-overflow: ellipsis;
           }
         }
       }
 
       &-submit {
         height: 100%;
-
-        @media (max-width:  breakpoints.$sm) {
-          display: none;
-        }
 
         &-search {
           height: 43px;
@@ -316,7 +311,7 @@
         display: flex;
         align-items: center;
       }
-      
+
       &-icon {
         height: 40px;
         cursor: pointer;
