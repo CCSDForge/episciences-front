@@ -48,13 +48,12 @@
         }
       }
 
-      &-blank {
+      &-title {
         width: 100%;
         background: var(--primary);
-
-        @media (max-width:  breakpoints.$xsm) {
-          display: none;
-        }
+        color: var(--primary-text);
+        padding: 10px;
+        z-index: 10;
       }
 
       &-dropdown {

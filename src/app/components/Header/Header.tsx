@@ -285,7 +285,9 @@ export default function Header(): JSX.Element {
               <img src={getLogoOfJournal('small')} alt='Reduced journal logo' />
             </Link>
           </div>
-          <div className='header-reduced-journal-blank'></div>
+          <div className='header-reduced-journal-title'>
+            {journalName}
+          </div>
           {availableLanguages.length > 1 && (
             <div className='header-reduced-journal-dropdown'>
               <LanguageDropdown withWhiteCaret={isMobileReduced()} />
