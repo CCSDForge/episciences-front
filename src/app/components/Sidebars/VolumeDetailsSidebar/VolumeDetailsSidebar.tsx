@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import { TFunction } from 'i18next';
 
 import download from '/icons/download-blue.svg';
-import { PATHS } from '../../../../config/paths';
 import { IArticle } from '../../../../types/article';
 import { IJournal } from '../../../../types/journal';
 import { IVolume, IVolumeMetadata } from '../../../../types/volume';
@@ -97,23 +96,23 @@ export default function VolumeDetailsSidebar({ language, t, volume, articles, cu
         ))}
       </div>
       {relatedVolumes.length > 0 && (
-        <div className='volumeDetailsSidebar-relatedVolumes'>
-          <div className='volumeDetailsSidebar-relatedVolumes-title'>{renderRelatedVolumesTitle()}</div>
-          <div className='volumeDetailsSidebar-relatedVolumes-volumes'>
-            <div className='volumeDetailsSidebar-relatedVolumes-volumes-list'>
-              {relatedVolumes.map((relatedVolume, index) => (
-                <Link
-                  key={index}
-                  to={`${PATHS.volumes}/${relatedVolume.id}`}
-                  className={`volumeDetailsSidebar-relatedVolumes-volumes-list-volume ${relatedVolume.id === volume?.id && 'volumeDetailsSidebar-relatedVolumes-volumes-list-volume-current'}`}
-                >
-                  {relatedVolume.title ? relatedVolume.title[language] : ''}
-                </Link>
-              ))}
+          <div className='volumeDetailsSidebar-relatedVolumes'>
+            <div className='volumeDetailsSidebar-relatedVolumes-title'>{renderRelatedVolumesTitle()}</div>
+            <div className='volumeDetailsSidebar-relatedVolumes-volumes'>
+              <div className='volumeDetailsSidebar-relatedVolumes-volumes-list'>
+                {relatedVolumes.map((relatedVolume, index) => (
+                    <div
+                        key={index}
+                        className={`volumeDetailsSidebar-relatedVolumes-volumes-list-volume ${relatedVolume.id === volume?.id && 'volumeDetailsSidebar-relatedVolumes-volumes-list-volume-current'}`}
+                    >
+                      {relatedVolume.title ? relatedVolume.title[language] : ''}
+                    </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
       )}
+
     </div>
   )
 }

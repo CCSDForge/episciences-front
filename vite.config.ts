@@ -128,6 +128,11 @@ export default defineConfig(({ mode }) => {
             },
             chunkSizeWarningLimit: 500,
         },
+        resolve: {
+            alias: {
+                'src': path.resolve(__dirname, 'src'),
+            },
+        },
         server: {
             watch: {
                 ignored: ['!**/external-assets/logos/**'],
