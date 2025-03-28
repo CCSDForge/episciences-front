@@ -7,6 +7,7 @@ export interface IJournal {
   id: number;
   code: string;
   name: string;
+  subtitle:string;
   settings: IJournalSettings[];
 }
 

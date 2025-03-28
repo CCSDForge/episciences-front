@@ -31,6 +31,7 @@ export default function Header(): JSX.Element {
   const search = useAppSelector(state => state.searchReducer.search);
   const language = useAppSelector(state => state.i18nReducer.language);
   const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name);
+  const journalSubtitle = useAppSelector(state => state.journalReducer.currentJournal?.subtitle)
   const lastVolume = useAppSelector(state => state.volumeReducer.lastVolume);
   const currentJournal = useAppSelector(state => state.journalReducer.currentJournal);
 
@@ -333,7 +334,10 @@ export default function Header(): JSX.Element {
             <img src={getLogoOfJournal('big')} alt='Journal logo' />
           </Link>
         </div>
-        <div className='header-journal-title'>{journalName}</div>
+        <div className='header-journal-titles'>
+          <div className='header-journal-title'>{journalName}</div>
+          <div className='header-journal-subtitle'>{journalSubtitle}</div>
+      </div>
       </div>
       <div className='header-postheader' ref={mobileMenuDropdownRef}>
         <div className='header-postheader-burger' onTouchEnd={(): void => setShowMobileMenu(!showMobileMenu)}>
