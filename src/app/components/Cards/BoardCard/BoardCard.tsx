@@ -1,7 +1,7 @@
 import { TFunction } from 'i18next';
 import { Link } from 'react-router-dom';
 
-import at from '/icons/at.svg';
+//import at from '/icons/at.svg';
 import orcid from '/icons/orcid.svg';
 import externalLink from '/icons/external-link-red.svg';
 import twitter from '/icons/twitter.svg';
@@ -54,14 +54,16 @@ export default function BoardCard({ language, t, member, fullCard, blurCard, set
           {member.assignedSections.length > 0 && <div className='boardCard-full-initial-assignedSections'>{member.assignedSections.map((assignedSection) => assignedSection.title[language]).join(', ')}</div>}
         </div>
         <div className='boardCard-full-expanded'>
-          {member.email && (
+
+{/*          {member.email && (
             <Link to={`mailto:${member.email}`} target='_blank' onClick={(e) => e.stopPropagation()}>
               <div className='boardCard-full-expanded-email'>
                 <img className='boardCard-full-expanded-email-at' src={at} alt={`At ${member.email} icon`}/>
                 <div>{member.email}</div>
               </div>
             </Link>
-          )}
+          )}*/}
+
           <div className='boardCard-full-expanded-biography'>{member.biography}</div>
           <div className='boardCard-full-expanded-social'>
             {(member.twitter || member.mastodon) && (
