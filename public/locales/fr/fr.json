@@ -8,10 +8,10 @@
     "volumes": "volumes",
     "section": "rubrique",
     "sections": "rubriques",
-    "author": "auteur",
-    "authorFor": "auteur pour",
-    "authors": "auteurs",
-    "authorsFor": "auteurs pour",
+    "author": "auteur/autrice",
+    "authorFor": "auteur/autrice pour",
+    "authors": "auteurs/autrices",
+    "authorsFor": "auteurs/autrices pour",
     "member": "membre",
     "members": "membres",
     "about": "À propos",
@@ -31,7 +31,7 @@
     "content": "Articles & volumes",
     "publishedOn": "Publié le",
     "acceptedOn": "Accepté le",
-    "abstract": "Abstract",
+    "abstract": "Résumé",
     "toggleAbstracts": {
       "hideAll": "Cacher tous les abstracts",
       "showAll": "Afficher tous les abstracts"
@@ -72,7 +72,7 @@
         "sections": "Rubriques",
         "specialIssues": "Volumes spéciaux",
         "proceedings": "Actes de conférences",
-        "authors": "Auteurs",
+        "authors": "Auteurs/Autrices",
         "about": "La revue",
         "news": "Actualités",
         "statistics": "Statistiques",
@@ -154,7 +154,7 @@
       },
       "citedBySection": {
         "source": "Source : ",
-        "authors": "Auteurs",
+        "authors": "Auteurs/Autrice",
         "reference": "Référence de la revue",
         "volume": "Volume",
         "page": "pp.",
@@ -312,7 +312,7 @@
       "title": "Rubrique"
     },
     "authors": {
-      "title": "Auteurs",
+      "title": "Auteurs/Autrices",
       "searchName": "rechercher un nom",
       "others": "Autres"
     },
@@ -353,15 +353,15 @@
         "technicalBoard": "Comité technique",
         "editorialBoard": "Comité éditorial",
         "scientificAdvisoryBoard": "Comité scientifique",
-        "formerMember": "Ancien membre"
+        "formerMember": "Ancien/Ancienne membre"
       },
       "roles": {
         "member": "Membre",
-        "guestEditor": "Rédacteur invité",
-        "editor": "Rédacteur",
-        "chiefEditor": "Rédacteur en chef",
+        "guestEditor": "Rédacteur/Rédactrice invité/invitée",
+        "editor": "Rédacteur/Rédactrice",
+        "chiefEditor": "Rédacteur/Rédactrice en chef",
         "secretary": "Secrétaire de rédaction",
-        "formerMember": "Ancien membre"
+        "formerMember": "Ancien/Ancienne membre"
       }
     },
     "forAuthors": {
