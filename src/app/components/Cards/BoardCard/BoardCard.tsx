@@ -18,10 +18,11 @@ interface IBoardCardProps {
   member: IBoardMember;
   fullCard: boolean;
   blurCard: boolean;
+  currentPageCode: string;
   setFullMemberIndexCallback: () => void;
 }
 
-export default function BoardCard({ language, t, member, fullCard, blurCard, setFullMemberIndexCallback }: IBoardCardProps): JSX.Element {
+export default function BoardCard({ language, t, member, fullCard, blurCard, currentPageCode, setFullMemberIndexCallback }: IBoardCardProps): JSX.Element {
   if (fullCard) {
     return (
       <div className='boardCard boardCard-full' onClick={setFullMemberIndexCallback}>
@@ -44,7 +45,9 @@ export default function BoardCard({ language, t, member, fullCard, blurCard, set
                 )}
               </div>
               {member.roles.length > 0 ? (
-                <div className='boardCard-full-initial-person-title-role'>{getBoardRoles(t, member.roles)}</div>
+                <div className='boardCard-full-initial-person-title-role'>{getBoardRoles(t, member.roles.filter(role =>
+                    role !== currentPageCode && `${role}s` !== currentPageCode
+                ))}</div>
               ) : (
                 <div className='boardCard-full-initial-person-title-role'>{defaultBoardRole(t).label}</div>
               )}
@@ -114,7 +117,9 @@ export default function BoardCard({ language, t, member, fullCard, blurCard, set
             )}
           </div>
           {member.roles.length > 0 ? (
-            <div className='boardCard-person-title-role'>{getBoardRoles(t, member.roles)}</div>
+            <div className='boardCard-person-title-role'>{getBoardRoles(t, member.roles.filter(role =>
+                role !== currentPageCode && `${role}s` !== currentPageCode
+            ))}</div>
           ) : (
             <div className='boardCard-person-title-role'>{defaultBoardRole(t).label}</div>
           )}
