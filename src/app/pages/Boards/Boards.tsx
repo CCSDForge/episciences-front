@@ -33,14 +33,27 @@ export default function Boards(): JSX.Element {
   const [activeGroupIndex, setActiveGroupIndex] = useState(0);
   const [fullMemberIndex, setFullMemberIndex] = useState(-1);
 
+  const getTitleSortOrder = (pageTitle: string): number => {
+    const lowerTitle = pageTitle.toLowerCase();
+
+    if (lowerTitle.includes("scientifique") || lowerTitle.includes("technical")) return 1;
+    if (lowerTitle.includes("éditorial") || lowerTitle.includes("editorial")) return 2;
+    if (lowerTitle.includes("partenaires") || lowerTitle.includes("partners")) return 3;
+    if (lowerTitle.includes("ancien") || lowerTitle.includes("former")) return 999;
+
+    return 500;
+  };
+
   const getPagesLabels = (): string [] => {
     if (!pages || !pages.length) return [];
 
-    const labels: string[] = [];
+    const labels: string[] = pages.map(page => page.title[language]);
 
-    pages.forEach((page) => {
-      labels.push(page.title[language])
-    })
+    labels.sort((a, b) => {
+      const orderA = getTitleSortOrder(a);
+      const orderB = getTitleSortOrder(b);
+      return orderA - orderB;
+    });
 
     return labels;
   }
@@ -49,23 +62,26 @@ export default function Boards(): JSX.Element {
     if (!pages || !pages.length) return [];
     if (!members || !members.length) return [];
 
+    const sortedTitles = getPagesLabels();
     const boardsPerTitle: IBoardPerTitle[] = [];
 
-    pages.forEach((page) => {
-      const title = page.title[language];
-      const description = page.content[language];
+    sortedTitles.forEach(title => {
+      const page = pages.find(p => p.title[language] === title);
+      if (page) {
+        const description = page.content[language];
 
-      const pageMembers = members.filter((member) => {
-        const pluralRoles = member.roles.map((role) => `${role}s`)
-        return member.roles.includes(page.page_code) || pluralRoles.includes(page.page_code);
-      });
+        const pageMembers = members.filter((member) => {
+          const pluralRoles = member.roles.map((role) => `${role}s`)
+          return member.roles.includes(page.page_code) || pluralRoles.includes(page.page_code);
+        });
 
-      boardsPerTitle.push({
-        title,
-        description,
-        members: pageMembers
-      })
-    })
+        boardsPerTitle.push({
+          title,
+          description,
+          members: pageMembers
+        });
+      }
+    });
 
     return boardsPerTitle;
   }
