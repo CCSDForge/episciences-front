@@ -18,6 +18,7 @@ interface IBoardPerTitle {
   title: string;
   description: string;
   members: IBoardMember[];
+  pageCode:string;
 }
 
 export default function Boards(): JSX.Element {
@@ -54,16 +55,18 @@ export default function Boards(): JSX.Element {
     pages.forEach((page) => {
       const title = page.title[language];
       const description = page.content[language];
+      const pageCode = page.page_code;
 
       const pageMembers = members.filter((member) => {
         const pluralRoles = member.roles.map((role) => `${role}s`)
-        return member.roles.includes(page.page_code) || pluralRoles.includes(page.page_code);
+        return member.roles.includes(pageCode) || pluralRoles.includes(pageCode);
       });
 
       boardsPerTitle.push({
         title,
         description,
-        members: pageMembers
+        members: pageMembers,
+        pageCode,
       })
     })
 
@@ -120,6 +123,7 @@ export default function Boards(): JSX.Element {
                         language={language}
                         t={t}
                         member={member}
+                        currentPageCode={boardPerTitle.pageCode}
                         fullCard={fullMemberIndex === index}
                         blurCard={fullMemberIndex !== -1 && fullMemberIndex !== index}
                         setFullMemberIndexCallback={(): void => fullMemberIndex !== index ? setFullMemberIndex(index) : setFullMemberIndex(-1)}
