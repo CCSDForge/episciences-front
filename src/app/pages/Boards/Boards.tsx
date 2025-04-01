@@ -18,6 +18,7 @@ interface IBoardPerTitle {
   title: string;
   description: string;
   members: IBoardMember[];
+  pageCode: string;
 }
 
 export default function Boards(): JSX.Element {
@@ -54,16 +55,18 @@ export default function Boards(): JSX.Element {
     pages.forEach((page) => {
       const title = page.title[language];
       const description = page.content[language];
+      const pageCode = page.page_code;
 
       const pageMembers = members.filter((member) => {
         const pluralRoles = member.roles.map((role) => `${role}s`)
-        return member.roles.includes(page.page_code) || pluralRoles.includes(page.page_code);
+        return member.roles.includes(pageCode) || pluralRoles.includes(pageCode);
       });
 
       boardsPerTitle.push({
         title,
         description,
-        members: pageMembers
+        members: pageMembers,
+        pageCode
       })
     })
 
@@ -75,63 +78,64 @@ export default function Boards(): JSX.Element {
   };
 
   return (
-    <main className='boards'>
+      <main className='boards'>
 
-      <Helmet>
-        <title>{t('pages.boards.title')} | {journalName ?? ''}</title>
-      </Helmet>
+        <Helmet>
+          <title>{t('pages.boards.title')} | {journalName ?? ''}</title>
+        </Helmet>
 
-      <Breadcrumb parents={[
-        { path: 'home', label: `${t('pages.home.title')} >` }
-      ]} crumbLabel={t('pages.boards.title')} />
-      <div className='boards-title'>
-        <h1 className='boards-title-text'>{t('pages.boards.title')}</h1>
-        {members && members.length > 0 && (
-          members.length > 1 ? (
-            <div className='boards-title-count'>{members.length} {t('common.members')}</div>
-        ) : (
-            <div className='boards-title-count'>{members.length} {t('common.member')}</div>
-        ))}
-      </div>
-      {isFetchingPages || isFetchingMembers ? (
-        <Loader />
-      ) : (
-        <div className='boards-content'>
-          <BoardsSidebar t={t} groups={getPagesLabels()} activeGroupIndex={activeGroupIndex} onSetActiveGroupCallback={handleGroupToggle} />
-          <div className='boards-content-groups'>
-            {getBoardsPerTitle().map((boardPerTitle, index) => (
-              <div key={index} className='boards-content-groups-group'>
-                <div className='boards-content-groups-group-title' onClick={(): void => activeGroupIndex === index ? handleGroupToggle(-1) : handleGroupToggle(index)}>
-                  <h2>{boardPerTitle.title}</h2>
-                  {activeGroupIndex === index ? (
-                    <img className='boards-content-groups-group-caret' src={caretUp} alt='Caret up icon' />
-                  ) : (
-                    <img className='boards-content-groups-group-caret' src={caretDown} alt='Caret down icon' />
-                  )}
-                </div>
-                <div className={`boards-content-groups-group-content ${activeGroupIndex === index && 'boards-content-groups-group-content-active'}`}>
-                  <div className='boards-content-groups-group-content-description'>
-                    <ReactMarkdown>{boardPerTitle.description}</ReactMarkdown>
-                  </div>
-                  <div className='boards-content-groups-group-content-grid'>
-                    {boardPerTitle.members.map((member, index) => (
-                      <BoardCard
-                        key={index}
-                        language={language}
-                        t={t}
-                        member={member}
-                        fullCard={fullMemberIndex === index}
-                        blurCard={fullMemberIndex !== -1 && fullMemberIndex !== index}
-                        setFullMemberIndexCallback={(): void => fullMemberIndex !== index ? setFullMemberIndex(index) : setFullMemberIndex(-1)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+        <Breadcrumb parents={[
+          { path: 'home', label: `${t('pages.home.title')} >` }
+        ]} crumbLabel={t('pages.boards.title')} />
+        <div className='boards-title'>
+          <h1 className='boards-title-text'>{t('pages.boards.title')}</h1>
+          {members && members.length > 0 && (
+              members.length > 1 ? (
+                  <div className='boards-title-count'>{members.length} {t('common.members')}</div>
+              ) : (
+                  <div className='boards-title-count'>{members.length} {t('common.member')}</div>
+              ))}
         </div>
-      )}
-    </main>
+        {isFetchingPages || isFetchingMembers ? (
+            <Loader />
+        ) : (
+            <div className='boards-content'>
+              <BoardsSidebar t={t} groups={getPagesLabels()} activeGroupIndex={activeGroupIndex} onSetActiveGroupCallback={handleGroupToggle} />
+              <div className='boards-content-groups'>
+                {getBoardsPerTitle().map((boardPerTitle, index) => (
+                    <div key={index} className='boards-content-groups-group'>
+                      <div className='boards-content-groups-group-title' onClick={(): void => activeGroupIndex === index ? handleGroupToggle(-1) : handleGroupToggle(index)}>
+                        <h2>{boardPerTitle.title}</h2>
+                        {activeGroupIndex === index ? (
+                            <img className='boards-content-groups-group-caret' src={caretUp} alt='Caret up icon' />
+                        ) : (
+                            <img className='boards-content-groups-group-caret' src={caretDown} alt='Caret down icon' />
+                        )}
+                      </div>
+                      <div className={`boards-content-groups-group-content ${activeGroupIndex === index && 'boards-content-groups-group-content-active'}`}>
+                        <div className='boards-content-groups-group-content-description'>
+                          <ReactMarkdown>{boardPerTitle.description}</ReactMarkdown>
+                        </div>
+                        <div className='boards-content-groups-group-content-grid'>
+                          {boardPerTitle.members.map((member, index) => (
+                              <BoardCard
+                                  key={index}
+                                  language={language}
+                                  t={t}
+                                  member={member}
+                                  currentPageCode={boardPerTitle.pageCode}
+                                  fullCard={fullMemberIndex === index}
+                                  blurCard={fullMemberIndex !== -1 && fullMemberIndex !== index}
+                                  setFullMemberIndexCallback={(): void => fullMemberIndex !== index ? setFullMemberIndex(index) : setFullMemberIndex(-1)}
+                              />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                ))}
+              </div>
+            </div>
+        )}
+      </main>
   )
 }
