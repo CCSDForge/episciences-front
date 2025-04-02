@@ -18,6 +18,7 @@ interface IBoardPerTitle {
   title: string;
   description: string;
   members: IBoardMember[];
+  pageCode: string;
 }
 
 export default function Boards(): JSX.Element {
@@ -76,9 +77,10 @@ export default function Boards(): JSX.Element {
         });
 
         boardsPerTitle.push({
-          title,
-          description,
-          members: pageMembers
+          title: title,
+          description: description,
+          members: pageMembers,
+          pageCode: page.page_code,
         });
       }
     });
@@ -136,6 +138,7 @@ export default function Boards(): JSX.Element {
                         language={language}
                         t={t}
                         member={member}
+                        currentPageCode={boardPerTitle.pageCode}
                         fullCard={fullMemberIndex === index}
                         blurCard={fullMemberIndex !== -1 && fullMemberIndex !== index}
                         setFullMemberIndexCallback={(): void => fullMemberIndex !== index ? setFullMemberIndex(index) : setFullMemberIndex(-1)}

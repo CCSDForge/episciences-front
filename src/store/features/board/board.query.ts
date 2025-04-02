@@ -17,7 +17,7 @@ export const boardApi = createApi({
       },
     }),
     fetchBoardMembers: build.query<IBoardMember[], string>({
-      query: (rvcode: string) => `journals/boards/${rvcode}`,
+      query: (rvcode: string) => `journals/boards/${rvcode}?page=1&itemsPerPage=100&pagination=false`,
       transformResponse(baseQueryReturnValue: RawBoardMember[]) {
         const formattedBoardMembers = baseQueryReturnValue.map((board) => {
           const roles = board.roles.length > 0 ? board.roles[0].map(role => role.replace(/_/g, '-')) : []
