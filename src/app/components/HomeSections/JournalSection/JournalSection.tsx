@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 
-import externalLink from '/icons/external-link-red.svg';
 import { AvailableLanguage } from '../../../../utils/i18n';
 import './JournalSection.scss'
 
@@ -19,7 +18,6 @@ export default function JournalSection({ content, language }: IJournalSectionPro
               a: ({ ...props }) => (
                 <Link to={props.href!} target='_blank'>
                   <span>{props.children?.toString()}</span>
-                  <img src={externalLink} alt='Journal link icon' />
                 </Link>
               ),
             }}
