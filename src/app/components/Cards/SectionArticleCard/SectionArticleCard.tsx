@@ -11,6 +11,7 @@ import { IArticle } from '../../../../types/article';
 import { articleTypes } from '../../../../utils/article';
 import { formatDate } from '../../../../utils/date';
 import { AvailableLanguage } from '../../../../utils/i18n';
+import DisplayAbstract from '../DisplayAbstract/DisplayAbstract';
 import './SectionArticleCard.scss'
 
 interface ISectionArticleCardProps {
@@ -44,7 +45,7 @@ export default function SectionArticleCard({ language, t, article }: ISectionArt
             )}
           </div>
           <div className={`sectionArticleCard-abstract-content ${openedAbstract && 'sectionArticleCard-abstract-content-opened'}`}>
-            <MathJax dynamic>{article.abstract}</MathJax>
+              <DisplayAbstract abstract={article.abstract} language={language} />
           </div>
         </div>
       )}

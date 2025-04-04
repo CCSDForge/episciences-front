@@ -3,6 +3,7 @@ import { Cite, plugins, util } from '@citation-js/core'
 import '@citation-js/plugin-csl'
 import '@citation-js/plugin-doi'
 
+
 import { IArticle, IArticleAuthor, IArticleCitedBy, IArticleReference, IArticleRelatedItem, RawArticle } from "../types/article";
 import { toastSuccess } from './toast';
 
@@ -19,20 +20,38 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
 /* Handling simple values only
  *  const abstract = typeof articleContent.abstract?.value === 'string' ? articleContent.abstract?.value : articleContent.abstract?.value.value
  */
-    let abstract = '';
+    type AbstractItem = { '@xml:lang': string; value: string };
+    type AbstractObject = { value: AbstractItem[] } | undefined;
 
-    if (typeof articleContent.abstract?.value === 'string') {
-      // Case 1: When `abstract.value` is a single string
-      abstract = articleContent.abstract.value;
-    } else if (Array.isArray(articleContent.abstract?.value)) {
-      // Case 2: When `abstract.value` is an array
-      abstract = articleContent.abstract.value
-          .map(item => (typeof item === 'string' ? item : item.value)) // Extract strings or nested `value`
-          .join(' '); // Join them with a space
-    } else if (typeof articleContent.abstract?.value?.value === 'string') {
-      // Case 3: When `abstract.value` is an object with `value` as a string
-      abstract = articleContent.abstract.value.value;
+    let abstract: AbstractObject = undefined;
+
+    if (articleContent.abstract?.value) {
+      const value = articleContent.abstract.value;
+      // Case 1: The abstract value is an array
+      if (Array.isArray(value)) {
+        abstract = {
+          value: value
+              .filter((item): item is AbstractItem =>
+                  typeof item === 'object' &&
+                  item !== null &&
+                  typeof item.value === 'string' &&
+                  typeof item['@xml:lang'] === 'string'
+              )
+        };
+      }  else if (typeof value === 'object' && !Array.isArray(value)) {
+        // Case 2: A single object representing a single language abstract
+        const singleValue = value as { '@xml:lang'?: string; value?: string };
+
+        // Convert the single object into an array of AbstractItem
+        abstract = {
+          value: [{
+            '@xml:lang': singleValue['@xml:lang'] ?? 'unknown',
+            value: singleValue.value ?? ''
+          }]
+        };
+      }
     }
+
 
     /** Format references */
     let references: IArticleReference[] = []
@@ -238,7 +257,7 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
       ...article,
       id: article.paperid,
       title: articleContent.titles.title,
-      abstract,
+      abstract: abstract,
       graphicalAbstract: articleDB.current.graphical_abstract_file,
       authors,
       publicationDate: articleDB.current.dates.publication_date,
