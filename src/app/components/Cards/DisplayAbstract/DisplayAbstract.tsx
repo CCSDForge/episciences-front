@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { AvailableLanguage } from '../../../../utils/i18n';
 import { AbstractType } from '../../../../types/article';
 import './DisplayAbstract.scss';
@@ -18,11 +18,11 @@ interface DisplayAbstractProps {
 }
 
 
-const DisplayAbstract: React.FC<DisplayAbstractProps> = ({
-                                                             abstract,
-                                                             language,
-                                                             showLanguageLabels = true
-                                                         }) => {
+const DisplayAbstract = ({
+                             abstract,
+                             language,
+                             showLanguageLabels = true
+                         }: DisplayAbstractProps) => {
     const [sortedAbstracts, setSortedAbstracts] = useState<AbstractResult[]>([]);
 
     // Function to extract abstracts from specific formats
