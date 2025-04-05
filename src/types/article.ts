@@ -1,5 +1,24 @@
 import { AvailableLanguage } from "../utils/i18n";
 
+export interface AbstractItem {
+  '@xml:lang': string;
+  value: string;
+}
+
+export interface AbstractWithArray {
+  value: AbstractItem[];
+}
+
+export interface AbstractWithObject {
+  value: {
+    '@xml:lang': string;
+    value: string;
+  };
+}
+
+// Union type for different abstract structures in English
+export type AbstractType = AbstractWithArray | AbstractWithObject;
+
 export interface IPartialArticle {
   '@id': string;
   '@type': string;
@@ -12,7 +31,7 @@ export type PartialVolumeArticle = IPartialArticle;
 export interface IArticle {
   id: number;
   title: string;
-  abstract?: string;
+  abstract?: AbstractType;
   graphicalAbstract?: string;
   authors: IArticleAuthor[];
   publicationDate: string;

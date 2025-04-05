@@ -24,7 +24,9 @@ import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from "../../components/Loader/Loader";
 import ArticleMeta from "../../components/Meta/ArticleMeta/ArticleMeta";
 import ArticleDetailsSidebar from "../../components/Sidebars/ArticleDetailsSidebar/ArticleDetailsSidebar";
+import DisplayAbstract from '../../components/Cards/DisplayAbstract/DisplayAbstract';
 import './ArticleDetails.scss'
+
 
 enum ARTICLE_SECTION {
   GRAPHICAL_ABSTRACT = 'graphicalAbstract',
@@ -215,7 +217,9 @@ export default function ArticleDetails(): JSX.Element {
   }
 
   const getAbstractSection = (): JSX.Element | null => {
-    return article?.abstract ? <MathJax dynamic>{article.abstract}</MathJax> : null
+    return article?.abstract ?
+        <DisplayAbstract abstract={article.abstract} language={language} /> :
+        null;
   }
 
   const getKeywords = (): string[] => {

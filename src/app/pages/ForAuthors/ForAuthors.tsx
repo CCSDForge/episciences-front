@@ -22,6 +22,7 @@ interface IForAuthorsSection {
   value: string;
   opened: boolean;
   cards?: { id: string; title: string; content: string; index: number }[];
+  title: string;
 }
 
 export default function ForAuthors(): JSX.Element {
@@ -38,6 +39,25 @@ export default function ForAuthors(): JSX.Element {
   const { data: ethicalCharterPage, isFetching: isFetchingEthicalCharter } = useFetchEthicalCharterPageQuery(rvcode!, { skip: !rvcode });
   const { data: prepareSubmissionPage, isFetching: isFetchingPrepareSubmission } = useFetchPrepareSubmissionPageQuery(rvcode!, { skip: !rvcode });
 
+  const getSectionSortOrder = (sectionTitle: string): number => {
+
+    if (!sectionTitle) return 500;
+
+    const lowerTitle = sectionTitle.toLowerCase();
+
+    if (lowerTitle.includes('charte éthique') ||lowerTitle.includes('ethical charter')) {
+      return 1;
+    }
+    if (lowerTitle.includes('flux éditorial') || lowerTitle.includes('editorial flow')) {
+      return 2;
+    }
+
+    if (lowerTitle.includes('préparer') || lowerTitle.includes('prepare')) {
+      return 3;
+    }
+
+    return 500;
+  };
   const parseContentSections = (toBeParsed: Record<ForAuthorsSectionType, { title: string | undefined; content: string | undefined }>): IForAuthorsSection[] => {
     const sections: IForAuthorsSection[] = [];
 
@@ -50,7 +70,7 @@ export default function ForAuthors(): JSX.Element {
       const parsedContent = `## ${title} \n\n\n ${adjustedContent}`;
       const tree = unifiedProcessor.parse(parsedContent);
 
-      let currentSection: IForAuthorsSection = withNumerotation ? { id: '', value: '', opened: true, cards: [] } : { id: '', value: '', opened: true };
+      let currentSection: IForAuthorsSection = withNumerotation ? { id: '', value: '', title: title || '', opened: true, cards: [] } : { id: '', value: '',title: title || '', opened: true };
       let h3Counter = 0;
       let currentCardContent = '';
 
@@ -58,7 +78,7 @@ export default function ForAuthors(): JSX.Element {
         if (node.type === 'heading' && node.depth === 2) {
           if (currentSection.id) {
             sections.push(currentSection);
-            currentSection = withNumerotation ? { id: '', value: '', opened: true, cards: [] } : { id: '', value: '', opened: true };
+            currentSection = withNumerotation ? { id: '', value: '', title:title || '', opened: true, cards: [] } : { id: '', value: '', title: title || '', opened: true };
           }
 
           const titleText = node.children
@@ -103,14 +123,19 @@ export default function ForAuthors(): JSX.Element {
         sections.push(currentSection);
       }
     });
-
+    sections.sort((a, b) => {
+      const orderA = getSectionSortOrder(a.title);
+      const orderB = getSectionSortOrder(b.title);
+      return orderA - orderB;
+    });
     return sections;
   };
 
   const parseSidebarHeaders = (toBeParsed: Record<ForAuthorsSectionType, { title: string | undefined; content: string | undefined }>): IForAuthorsHeader[] => {
-    const headings: IForAuthorsHeader[] = [];
 
-    Object.entries(toBeParsed).map((toBeParsedEntry) => {
+    const headerMap: Record<string, IForAuthorsHeader> = {};
+
+    Object.entries(toBeParsed).forEach((toBeParsedEntry) => {
       const withNumerotation = toBeParsedEntry[0] === 'prepareSubmission';
       const title = toBeParsedEntry[1].title ?? '';
       const content = toBeParsedEntry[1].content ?? '';
@@ -144,7 +169,7 @@ export default function ForAuthors(): JSX.Element {
 
             if (node.depth === 2) {
               lastH2 = header;
-              headings.push(header);
+              headerMap[title] = header;
               h3Counter = 0;
             } else if (node.depth === 3 && lastH2) {
               lastH2.children.push(header);
@@ -152,6 +177,19 @@ export default function ForAuthors(): JSX.Element {
           }
         }
       }
+    });
+
+    const sectionTitles = Object.keys(headerMap);
+
+    sectionTitles.sort((a, b) => {
+      const orderA = getSectionSortOrder(a);
+      const orderB = getSectionSortOrder(b);
+      return orderA - orderB;
+    });
+
+    const headings: IForAuthorsHeader[] = [];
+    sectionTitles.forEach(title => {
+      headings.push(headerMap[title]);
     });
 
     return headings;

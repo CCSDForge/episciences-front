@@ -13,6 +13,7 @@ import { IArticle } from "../../../../types/article";
 import { CITATION_TEMPLATE, ICitation, METADATA_TYPE, articleTypes, copyToClipboardCitation, getCitations } from '../../../../utils/article';
 import { formatDate } from '../../../../utils/date';
 import { AvailableLanguage } from '../../../../utils/i18n';
+import DisplayAbstract from '../DisplayAbstract/DisplayAbstract';
 import './SearchResultCard.scss'
 
 export interface ISearchResultCard extends IArticle {
@@ -89,7 +90,7 @@ export default function SearchResultCard({ language, rvcode, t, searchResult, to
             )}
           </div>
           <div className={`searchResultCard-abstract-content ${searchResult.openedAbstract && 'searchResultCard-abstract-content-opened'}`}>
-            <MathJax dynamic>{searchResult.abstract}</MathJax>
+            <DisplayAbstract abstract={searchResult.abstract} language={language} />
           </div>
         </div>
       )}

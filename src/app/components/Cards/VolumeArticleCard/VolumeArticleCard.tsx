@@ -11,6 +11,7 @@ import { IArticle } from '../../../../types/article';
 import { articleTypes } from '../../../../utils/article';
 import { formatDate } from '../../../../utils/date';
 import { AvailableLanguage } from '../../../../utils/i18n';
+import DisplayAbstract from '../DisplayAbstract/DisplayAbstract';
 import './VolumeArticleCard.scss'
 
 interface IVolumeArticleCardProps {
@@ -44,7 +45,7 @@ export default function VolumeArticleCard({ language, t, article }: IVolumeArtic
             )}
           </div>
           <div className={`volumeArticleCard-abstract-content ${openedAbstract && 'volumeArticleCard-abstract-content-opened'}`}>
-            <MathJax dynamic>{article.abstract}</MathJax>
+                  <DisplayAbstract abstract={article.abstract} language={language} />
           </div>
         </div>
       )}
