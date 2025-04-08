@@ -5,6 +5,7 @@ export interface AbstractItem {
   value: string;
 }
 
+
 export interface AbstractWithArray {
   value: AbstractItem[];
 }

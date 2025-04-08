@@ -32,8 +32,9 @@ const DisplayAbstract = ({
         if (Array.isArray(abstract.value)) {
             // CASE 1.1 abstract.value is an array of string
             if (abstract.value.length > 0 && typeof abstract.value[0] === 'string') {
+                const defaultLang = import.meta.env.VITE_JOURNAL_DEFAULT_LANGUAGE || 'fr';
                     results.push({
-                        lang: language,
+                        lang: defaultLang,
                         text: abstract.value[0]
                 });
             } else {
@@ -59,9 +60,10 @@ const DisplayAbstract = ({
         }
         // CASE 3: abstract.value is a string
         else {
+            const defaultLang = import.meta.env.VITE_JOURNAL_DEFAULT_LANGUAGE || 'fr';
             results.push({
-                lang: language,
-                text: abstract.value as string,
+                lang: defaultLang,
+                text: abstract.value
             });
         }
         return results;
