@@ -56,6 +56,11 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
             value: singleValue.value ?? ''
           }]
         };
+        // CASE 3: abstract.value is a string
+      } else if (typeof value === 'string') {
+        abstract = {
+          value: value
+        };
       }
     }
 

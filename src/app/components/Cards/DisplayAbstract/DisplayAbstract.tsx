@@ -29,19 +29,17 @@ const DisplayAbstract = ({
     const getAbstracts = (abstract: AbstractType): AbstractResult[] => {
         const results: AbstractResult[] = [];
 
-
         if (Array.isArray(abstract.value)) {
             // CASE 1.1 abstract.value is an array of string
             if (abstract.value.length > 0 && typeof abstract.value[0] === 'string') {
                     results.push({
                         lang: language,
                         text: abstract.value[0]
-
                 });
             } else {
                 // CASE 1.2: abstract.value is an array of objects (multiple languages)
                 abstract.value.forEach(item => {
-                    if (typeof item === 'object' && item !== null && '@xml:lang' in item && 'value' in item) {
+                    if (typeof item === 'object' && item !== null && '@xml:lang' in item && 'value' in item  && typeof item['@xml:lang'] === 'string' && typeof item.value === 'string') {
                         results.push({
                             lang: item['@xml:lang'],
                             text: item.value
@@ -51,13 +49,21 @@ const DisplayAbstract = ({
             }
         }
         // CASE 2: abstract.value is an object with a single language
-        else if (abstract.value && typeof abstract.value === 'object') {
+        else if (typeof abstract.value === 'object' && abstract.value !== null) {
+            if ('@xml:lang' in abstract.value && 'value' in abstract.value && typeof abstract.value['@xml:lang'] === 'string' && typeof abstract.value.value === 'string') {
+                results.push({
+                    lang: abstract.value['@xml:lang'],
+                    text: abstract.value.value,
+                });
+            }
+        }
+        // CASE 3: abstract.value is a string
+        else {
             results.push({
-                lang: abstract.value['@xml:lang'],
-                text: abstract.value.value
+                lang: language,
+                text: abstract.value as string,
             });
         }
-
         return results;
     };
 
