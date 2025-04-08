@@ -16,8 +16,11 @@ export interface AbstractWithObject {
   };
 }
 
+export interface AbstractWithStringArray {
+  value: string[];
+}
 // Union type for different abstract structures in English
-export type AbstractType = AbstractWithArray | AbstractWithObject;
+export type AbstractType = AbstractWithArray | AbstractWithObject | AbstractWithStringArray;
 
 export interface IPartialArticle {
   '@id': string;

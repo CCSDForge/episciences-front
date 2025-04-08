@@ -4,7 +4,7 @@ import '@citation-js/plugin-csl'
 import '@citation-js/plugin-doi'
 
 
-import { IArticle, IArticleAuthor, IArticleCitedBy, IArticleReference, IArticleRelatedItem, RawArticle } from "../types/article";
+import { IArticle, IArticleAuthor, IArticleCitedBy, IArticleReference, IArticleRelatedItem, RawArticle, AbstractItem, AbstractType } from "../types/article";
 import { toastSuccess } from './toast';
 
 export type FetchedArticle = IArticle | undefined;
@@ -20,15 +20,21 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
 /* Handling simple values only
  *  const abstract = typeof articleContent.abstract?.value === 'string' ? articleContent.abstract?.value : articleContent.abstract?.value.value
  */
-    type AbstractItem = { '@xml:lang': string; value: string };
-    type AbstractObject = { value: AbstractItem[] } | undefined;
 
-    let abstract: AbstractObject = undefined;
+    let abstract: AbstractType | undefined = undefined;
 
+    // Case 1: The abstract value is an array
     if (articleContent.abstract?.value) {
       const value = articleContent.abstract.value;
-      // Case 1: The abstract value is an array
+      // Case 1.1: Array of strings
       if (Array.isArray(value)) {
+
+        if (value.length > 0 && typeof value[0] === 'string') {
+          abstract = {
+            value: value as string[]
+          };
+        } else {
+          //case 1.2 :Case 1.2: Array of objects containing abstracts in different languages
         abstract = {
           value: value
               .filter((item): item is AbstractItem =>
@@ -38,7 +44,8 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
                   typeof item['@xml:lang'] === 'string'
               )
         };
-      }  else if (typeof value === 'object' && !Array.isArray(value)) {
+      }
+      } else if (typeof value === 'object' && !Array.isArray(value)) {
         // Case 2: A single object representing a single language abstract
         const singleValue = value as { '@xml:lang'?: string; value?: string };
 
