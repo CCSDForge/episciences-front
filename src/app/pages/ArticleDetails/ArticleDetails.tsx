@@ -223,19 +223,19 @@ export default function ArticleDetails(): JSX.Element {
   const getAvailableKeywordsLanguages = (): AvailableLanguage[] => {
     if (!article?.keywords) return [];
 
-    const languages: AvailableLanguage[] = [];
-
     console.log("All keys in keywords:", Object.keys(article.keywords));
 
-    Object.keys(article.keywords).forEach(key => {
-      if (availableLanguages.includes(key as AvailableLanguage)) {
-        console.log("Language detected:", key);
-        languages.push(key as AvailableLanguage);
-      }
-    });
-
-    return languages;
+    return Object.keys(article.keywords)
+        .filter(key => key !== "0");
   };
+
+  const availableKeywordsLanguages = getAvailableKeywordsLanguages();
+
+  useEffect(() => {
+    if (availableKeywordsLanguages.length > 0 && !availableKeywordsLanguages.includes(selectedKeywordsLanguage)) {
+      setSelectedKeywordsLanguage(availableKeywordsLanguages[0]);
+    }
+  }, [availableKeywordsLanguages]);
 
   const getDomains = (): string[] => {
     if (!article?.keywords || !article.keywords['0']) return [];
@@ -277,6 +277,8 @@ export default function ArticleDetails(): JSX.Element {
   const getKeywordsSection = (): JSX.Element | null => {
     const availableKeywordsLanguages = getAvailableKeywordsLanguages();
     console.log("Available languages in getKeywordsSection:", availableKeywordsLanguages);
+
+
     const keywords = getKeywordsByLanguage(selectedKeywordsLanguage);
     const domains = getDomains();
 
@@ -284,7 +286,6 @@ export default function ArticleDetails(): JSX.Element {
 
     return (
         <div className="articleDetails-content-article-section-content-keywords-container">
-          {/* Title and language buttons - ALWAYS display buttons if there is more than one language */}
           <div className="keywords-header">
             <div className="language-selector">
               <span className="language-label">{t('pages.articleDetails.sections.keywords')}</span>
