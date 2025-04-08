@@ -29,14 +29,26 @@ const DisplayAbstract = ({
     const getAbstracts = (abstract: AbstractType): AbstractResult[] => {
         const results: AbstractResult[] = [];
 
-        // CASE 1: abstract.value is an array of objects (multiple languages)
+
         if (Array.isArray(abstract.value)) {
-            abstract.value.forEach(item => {
-                results.push({
-                    lang: item['@xml:lang'],
-                    text: item.value
+            // CASE 1.1 abstract.value is an array of string
+            if (abstract.value.length > 0 && typeof abstract.value[0] === 'string') {
+                    results.push({
+                        lang: language,
+                        text: abstract.value[0]
+
                 });
-            });
+            } else {
+                // CASE 1.2: abstract.value is an array of objects (multiple languages)
+                abstract.value.forEach(item => {
+                    if (typeof item === 'object' && item !== null && '@xml:lang' in item && 'value' in item) {
+                        results.push({
+                            lang: item['@xml:lang'],
+                            text: item.value
+                        });
+                    }
+                });
+            }
         }
         // CASE 2: abstract.value is an object with a single language
         else if (abstract.value && typeof abstract.value === 'object') {
