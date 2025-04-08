@@ -4,7 +4,12 @@ import '@citation-js/plugin-csl'
 import '@citation-js/plugin-doi'
 
 
-import { IArticle, IArticleAuthor, IArticleCitedBy, IArticleReference, IArticleRelatedItem, RawArticle, AbstractItem, AbstractType } from "../types/article";
+import { IArticle, IArticleAuthor, IArticleCitedBy, IArticleReference, IArticleRelatedItem, RawArticle, AbstractItem, AbstractType ,
+
+  AbstractWithArray,
+  AbstractWithObject,
+  AbstractWithStringArray,
+  AbstractWithString} from "../types/article";
 import { toastSuccess } from './toast';
 
 export type FetchedArticle = IArticle | undefined;
@@ -23,47 +28,95 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
 
     let abstract: AbstractType | undefined = undefined;
 
-    // Case 1: The abstract value is an array
     if (articleContent.abstract?.value) {
       const value = articleContent.abstract.value;
-      // Case 1.1: Array of strings
+
+      console.log("Original value array:", value);
+
       if (Array.isArray(value)) {
+        // Case 1.1: Mixed array - first item is string, others are objects
+        if (value.length > 0 && typeof value[0] === 'string' &&
+            value.some((item, index) => index > 0 && typeof item === 'object' && item !== null)) {
 
-        if (value.length > 0 && typeof value[0] === 'string') {
-          abstract = {
-            value: value as string[]
-          };
-        } else {
-          //case 1.2 :Case 1.2: Array of objects containing abstracts in different languages
-        abstract = {
-          value: value
-              .filter((item): item is AbstractItem =>
+          // Use type assertion to inform TypeScript about the array type
+          const remainingItems = value.slice(1) as Array<unknown>;
+
+          const abstractItems: AbstractItem[] = remainingItems
+              .filter((item): item is Record<string, unknown> =>
                   typeof item === 'object' &&
-                  item !== null &&
-                  typeof item.value === 'string' &&
-                  typeof item['@xml:lang'] === 'string'
+                  item !== null
               )
-        };
-      }
-      } else if (typeof value === 'object' && !Array.isArray(value)) {
-        // Case 2: A single object representing a single language abstract
-        const singleValue = value as { '@xml:lang'?: string; value?: string };
+              .filter((item) =>
+                  item['@xml:lang'] !== undefined &&
+                  item.value !== undefined &&
+                  typeof item['@xml:lang'] === 'string' &&
+                  typeof item.value === 'string'
+              )
+              .map((item): AbstractItem => ({
+                '@xml:lang': item['@xml:lang'] as string,
+                value: item.value as string
+              }));
 
-        // Convert the single object into an array of AbstractItem
-        abstract = {
-          value: [{
-            '@xml:lang': singleValue['@xml:lang'] ?? 'unknown',
-            value: singleValue.value ?? ''
-          }]
-        };
-        // CASE 3: abstract.value is a string
-      } else if (typeof value === 'string') {
+          if (abstractItems.length > 0) {
+            abstract = {
+              value: abstractItems
+            } as AbstractWithArray;
+          }
+        }
+        // Case 1.2: Pure string array
+        else if (value.length > 0 && value.every((item): item is string => typeof item === 'string')) {
+          abstract = {
+            value: value
+          } as AbstractWithStringArray;
+
+        }
+        // Case 1.3: Array of objects with value and @xml:lang properties
+        else if (value.length > 0) {
+          // Define a type guard function to check if an item is compatible with AbstractItem
+          const isAbstractItemCompatible = (item: unknown): item is { '@xml:lang': string; value: string } => {
+            if (typeof item !== 'object' || item === null) return false;
+
+            const obj = item as Record<string, unknown>;
+            return (
+                '@xml:lang' in obj &&
+                'value' in obj &&
+                typeof obj['@xml:lang'] === 'string' &&
+                typeof obj.value === 'string'
+            );
+          };
+
+          if (value.every(isAbstractItemCompatible)) {
+            const abstractItems: AbstractItem[] = value.map((item) => ({
+              '@xml:lang': item['@xml:lang'],
+              value: item.value
+            }));
+
+            abstract = {
+              value: abstractItems
+            } as AbstractWithArray;
+          }
+        }
+      }
+      // Case 2: A single object
+      else if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
+        const objectValue = value as Record<string, unknown>;
+
+        if (objectValue['@xml:lang'] !== undefined && objectValue.value !== undefined) {
+          abstract = {
+            value: {
+              '@xml:lang': String(objectValue['@xml:lang']),
+              value: String(objectValue.value)
+            }
+          } as AbstractWithObject;
+        }
+      }
+      // Case 3: A string
+      else if (typeof value === 'string') {
         abstract = {
           value: value
-        };
+        } as AbstractWithString;
       }
     }
-
 
     /** Format references */
     let references: IArticleReference[] = []
