@@ -218,6 +218,41 @@ export default function ArticleDetails(): JSX.Element {
     return article?.abstract ? <MathJax dynamic>{article.abstract}</MathJax> : null
   }
 
+  const [selectedKeywordsLanguage, setSelectedKeywordsLanguage] = useState<AvailableLanguage>(language as AvailableLanguage);
+
+  const getAvailableKeywordsLanguages = (): AvailableLanguage[] => {
+    if (!article?.keywords) return [];
+
+    const languages: AvailableLanguage[] = [];
+
+    console.log("All keys in keywords:", Object.keys(article.keywords));
+
+    Object.keys(article.keywords).forEach(key => {
+      if (availableLanguages.includes(key as AvailableLanguage)) {
+        console.log("Language detected:", key);
+        languages.push(key as AvailableLanguage);
+      }
+    });
+
+    return languages;
+  };
+
+  const getDomains = (): string[] => {
+    if (!article?.keywords || !article.keywords['0']) return [];
+
+    return Array.isArray(article.keywords['0'])
+        ? article.keywords['0']
+        : [article.keywords['0']];
+  };
+
+  const getKeywordsByLanguage = (lang: AvailableLanguage): string[] => {
+    if (!article?.keywords || !article.keywords[lang]) return [];
+
+    return Array.isArray(article.keywords[lang])
+        ? article.keywords[lang]
+        : [article.keywords[lang]];
+  };
+
   const getKeywords = (): string[] => {
     const keywords: string[] = []
 
@@ -232,7 +267,7 @@ export default function ArticleDetails(): JSX.Element {
           keywords.push(...values)
         }
       } else {
-        keywords.push(values)
+        keywords.push(...(Array.isArray(values) ? values : [values]));
       }
     })
 
@@ -240,15 +275,70 @@ export default function ArticleDetails(): JSX.Element {
   }
 
   const getKeywordsSection = (): JSX.Element | null => {
-    const keywords = getKeywords()
+    const availableKeywordsLanguages = getAvailableKeywordsLanguages();
+    console.log("Available languages in getKeywordsSection:", availableKeywordsLanguages);
+    const keywords = getKeywordsByLanguage(selectedKeywordsLanguage);
+    const domains = getDomains();
 
-    if (!keywords.length) return null
+    if (!keywords.length && !domains.length) return null
 
     return (
-      <ul>
-        {keywords.map((keyword, index) => <li className="articleDetails-content-article-section-content-keywords-tag" key={index}>{keyword}</li>)}
-      </ul>
-    )
+        <div className="articleDetails-content-article-section-content-keywords-container">
+          {/* Title and language buttons - ALWAYS display buttons if there is more than one language */}
+          <div className="keywords-header">
+            <div className="language-selector">
+              <span className="language-label">{t('pages.articleDetails.sections.keywords')}</span>
+              {availableKeywordsLanguages.length > 0 && (
+                  <div className="language-buttons">
+                    {availableKeywordsLanguages.map(lang => (
+                        <button
+                            key={lang}
+                            type="button"
+                            className={`language-button ${lang === selectedKeywordsLanguage ? 'active' : ''}`}
+                            onClick={() => setSelectedKeywordsLanguage(lang)}
+                        >
+                          {lang}
+                        </button>
+                    ))}
+                  </div>
+              )}
+            </div>
+          </div>
+
+          {/* Keywords list */}
+          {keywords.length > 0 && (
+              <div className="keywords-list">
+                {keywords.map((keyword, index) => (
+                    <div
+                        key={index}
+                        className="articleDetails-content-article-section-content-keywords-tag"
+                    >
+                      {keyword}
+                    </div>
+                ))}
+              </div>
+          )}
+
+          {/* Domains */}
+          {domains.length > 0 && (
+              <div className="domains-section">
+                <div className="domains-header">
+                  <span className="domains-label">{t('common.domains')}</span>
+                </div>
+                <div className="domains-list">
+                  {domains.map((domain, index) => (
+                      <div
+                          key={index}
+                          className="articleDetails-content-article-section-content-domain-tag"
+                      >
+                        {domain}
+                      </div>
+                  ))}
+                </div>
+              </div>
+          )}
+        </div>
+    );
   }
 
   const getLinkedPublicationsSection = (): JSX.Element | null => {
