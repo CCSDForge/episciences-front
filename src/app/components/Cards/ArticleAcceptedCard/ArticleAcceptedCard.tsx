@@ -9,6 +9,7 @@ import { IArticle } from "../../../../types/article";
 import { articleTypes } from '../../../../utils/article';
 import { formatDate } from '../../../../utils/date';
 import { AvailableLanguage } from '../../../../utils/i18n';
+import DisplayAbstract from '../DisplayAbstract/DisplayAbstract';
 import './ArticleAcceptedCard.scss'
 
 export interface IArticleAcceptedCard extends IArticle {
@@ -45,7 +46,7 @@ export default function ArticleAcceptedCard({ language, t, article, toggleAbstra
             )}
           </div>
           <div className={`articleAcceptedCard-abstract-content ${article.openedAbstract && 'articleAcceptedCard-abstract-content-opened'}`}>
-            <MathJax dynamic>{article.abstract}</MathJax>
+              <DisplayAbstract abstract={article.abstract} language={language} />
           </div>
         </div>
       )}
