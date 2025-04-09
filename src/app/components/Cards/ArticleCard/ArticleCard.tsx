@@ -13,7 +13,9 @@ import { IArticle } from "../../../../types/article";
 import { CITATION_TEMPLATE, ICitation, METADATA_TYPE, articleTypes, copyToClipboardCitation, getCitations } from '../../../../utils/article';
 import { formatDate } from '../../../../utils/date';
 import { AvailableLanguage } from '../../../../utils/i18n';
+import DisplayAbstract from '../DisplayAbstract/DisplayAbstract';
 import './ArticleCard.scss'
+
 
 export interface IArticleCard extends IArticle {
   openedAbstract: boolean;
@@ -35,6 +37,8 @@ export default function ArticleCard({ language, rvcode, t, article, toggleAbstra
   const { data: metadataBibTeX } = useFetchArticleMetadataQuery({ rvcode: rvcode!, paperid: article.id.toString(), type: METADATA_TYPE.BIBTEX }, { skip: !article.id || !rvcode });
 
   const citationsDropdownRef = useRef<HTMLDivElement | null>(null);
+
+
 
   useEffect(() => {
     const handleTouchOutside = (event: TouchEvent): void => {
@@ -89,7 +93,7 @@ export default function ArticleCard({ language, rvcode, t, article, toggleAbstra
             )}
           </div>
           <div className={`articleCard-abstract-content ${article.openedAbstract && 'articleCard-abstract-content-opened'}`}>
-            <MathJax dynamic>{article.abstract}</MathJax>
+            <DisplayAbstract abstract={article.abstract} language={language} />
           </div>
         </div>
       )}
