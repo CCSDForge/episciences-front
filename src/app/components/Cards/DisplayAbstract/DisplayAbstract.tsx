@@ -32,9 +32,8 @@ const DisplayAbstract = ({
         if (Array.isArray(abstract.value)) {
             // CASE 1.1 abstract.value is an array of string
             if (abstract.value.length > 0 && typeof abstract.value[0] === 'string') {
-                const defaultLang = import.meta.env.VITE_JOURNAL_DEFAULT_LANGUAGE || 'fr';
                     results.push({
-                        lang: defaultLang,
+                        lang: "",
                         text: abstract.value[0]
                 });
             } else {
@@ -60,9 +59,8 @@ const DisplayAbstract = ({
         }
         // CASE 3: abstract.value is a string
         else {
-            const defaultLang = import.meta.env.VITE_JOURNAL_DEFAULT_LANGUAGE || 'fr';
             results.push({
-                lang: defaultLang,
+                lang: "",
                 text: abstract.value
             });
         }
@@ -113,9 +111,9 @@ const DisplayAbstract = ({
                     {sortedAbstracts.map((item, index) => (
                         <div key={index} className="abstract-item">
                             <div className="abstract-content">
-                                {showLanguageLabels && (
+                                {showLanguageLabels && item.lang !== "" && (
                                     <span className="abstract-language-label">
-                                    {(item.lang || 'unknown').toUpperCase()}&nbsp;
+                                    {item.lang.toUpperCase()}&nbsp;
                                 </span>
                                 )}
                                 <MathJax dynamic>
