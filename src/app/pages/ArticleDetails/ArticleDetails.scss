@@ -10,13 +10,13 @@
     background: var(--primary);
     color: var(--primary-text);
   }
-  
+
   &-content {
     display: flex;
     gap: 60px;
     flex-direction: row-reverse;
 
-    @media (max-width:  breakpoints.$xsm) {
+    @media (max-width: breakpoints.$xsm) {
       gap: 20px;
       flex-direction: column;
     }
@@ -29,14 +29,14 @@
         font-size: 24px;
         margin-bottom: 8px;
 
-        @media (max-width:  breakpoints.$xsm) {
+        @media (max-width: breakpoints.$xsm) {
           display: none;
         }
 
         &-mobile {
           display: none;
 
-          @media (max-width:  breakpoints.$xsm) {
+          @media (max-width: breakpoints.$xsm) {
             display: block;
           }
         }
@@ -47,14 +47,14 @@
         font-size: 20px;
         margin-bottom: 40px;
 
-        @media (max-width:  breakpoints.$xsm) {
+        @media (max-width: breakpoints.$xsm) {
           display: none;
         }
 
         &-mobile {
           display: none;
 
-          @media (max-width:  breakpoints.$xsm) {
+          @media (max-width: breakpoints.$xsm) {
             display: block;
             margin-bottom: 0px;
             padding-bottom: 16px;
@@ -69,22 +69,22 @@
           padding-bottom: 8px;
           margin-bottom: 8px;
 
-          @media (max-width:  breakpoints.$xsm) {
+          @media (max-width: breakpoints.$xsm) {
             display: none;
           }
 
           &-caret {
             cursor: pointer;
 
-            @media (max-width:  breakpoints.$xsm) {
+            @media (max-width: breakpoints.$xsm) {
               align-self: flex-end;
             }
           }
 
           &-mobile {
             display: none;
-  
-            @media (max-width:  breakpoints.$xsm) {
+
+            @media (max-width: breakpoints.$xsm) {
               display: flex;
             }
           }
@@ -96,14 +96,14 @@
         font-size: 18px;
         margin-bottom: 40px;
 
-        @media (max-width:  breakpoints.$xsm) {
+        @media (max-width: breakpoints.$xsm) {
           display: none;
         }
 
         &-mobile {
           display: none;
 
-          @media (max-width:  breakpoints.$xsm) {
+          @media (max-width: breakpoints.$xsm) {
             display: block;
             margin-bottom: 0px;
             padding-bottom: 16px;
@@ -114,29 +114,29 @@
 
       &-section {
         margin-bottom: 40px;
-    
+
         &-title {
           display: flex;
           justify-content: space-between;
           gap: 8px;
           border-bottom: 1px solid var(--primary);
           cursor: pointer;
-    
+
           &-closed {
             width: 100px;
           }
-    
+
           &-text {
             font-size: 24px;
             font-weight: bold;
             color: var(--primary);
 
-            @media (max-width:  breakpoints.$sm) {
+            @media (max-width: breakpoints.$sm) {
               font-size: 17px;
             }
           }
         }
-    
+
         &-content {
           display: none;
           font-size: 16px;
@@ -147,7 +147,7 @@
             margin-bottom: 15px;
             overflow-wrap: break-word;
           }
-    
+
           &-opened {
             width: 100%;
             display: block;
@@ -182,7 +182,7 @@
               }
 
               &-img {
-                @media (max-width:  breakpoints.$xsm) {
+                @media (max-width: breakpoints.$xsm) {
                   width: 100%;
                 }
               }
@@ -206,43 +206,140 @@
               }
             }
           }
+
           &-keywords {
+            &-container {
+              margin-top: 15px;
+            }
+
             &-tag {
-                width: fit-content;
-                height: fit-content;
-                padding: 4px 8px 4px 8px;
-                margin-bottom: 20px;
-                font-size: 16px;
-                font-weight: 500;
-                background: var(--primary);
-                color: var(--primary-text);
+              display: inline-block;
+              width: fit-content;
+              height: fit-content;
+              padding: 4px 8px;
+              margin-right: 10px;
+              margin-bottom: 20px;
+              font-size: 16px;
+              font-weight: 500;
+              background: var(--primary);
+              color: var(--primary-text);
+              border-radius: 4px;
+              @media (max-width: breakpoints.$xsm) {
+                margin-right: 8px;
+                margin-bottom: 12px;
+                font-size: 14px;
+              }
             }
           }
 
-          &-citedBy {
+          .keywords-header {
+            display: flex;
+            margin-bottom: 5px;
+
+            .language-selector {
+              .language-buttons {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-bottom: 5px;
+
+                .language-button {
+                  padding: 5px 10px;
+                  border: 1px solid var(--grey-light);
+                  border-radius: 4px;
+                  background: transparent;
+                  color: var(--grey-dark);
+                  font-size: 14px;
+                  font-weight: bold;
+                  cursor: pointer;
+                  transition: all 0.2s;
+
+                  &:hover {
+                    background: var(--grey-light);
+                  }
+
+                  &.active {
+                    background: var(--primary);
+                    color: var(--primary-text);
+                    border-color: var(--primary);
+                  }
+                }
+              }
+            }
+          }
+
+          .keywords-list {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 5px;
+          }
+
+          .domains-section {
             margin-top: 10px;
 
-            &-row {
-              &-source {
-                font-weight: bold;
-                margin-bottom: 10px;
+            .domains-header {
+              margin-bottom: 8px;
+
+              .domains-label {
+                font-size: 16px;
+                font-weight: 600;
+                color: var(--primary);
+
+                @media (max-width: breakpoints.$xsm) {
+                  font-size: 15px;
+                }
               }
+            }
+            .domains-list {
+              display: flex;
+              flex-wrap: wrap;
+            }
 
-              &-citations {
-                &-citation {
-                  &-title {
-                    margin-bottom: 10px;
-                  }
+            .articleDetails-content-article-section-content-domain-tag {
+              display: inline-block;
+              width: fit-content;
+              height: fit-content;
+              padding: 4px 8px;
+              margin-right: 10px;
+              margin-bottom: 12px;
+              font-size: 16px;
+              font-weight: 500;
+              background: var(--primary);
+              color: var(--primary-text);
+              border-radius: 4px;
 
-                  &-source, &-authors, &-reference, &-doi {
-                    font-size: 15px;
-                  }
+              @media (max-width: breakpoints.$xsm) {
+                margin-right: 8px;
+                margin-bottom: 10px;
+                font-size: 14px;
+              }
+            }
 
-                  &-doi {
-                    display: flex;
-                    gap: 5px;
-                    color: var(--primary);
-                    text-decoration: underline;
+            &-citedBy {
+              margin-top: 10px;
+
+              &-row {
+                &-source {
+                  font-weight: bold;
+                  margin-bottom: 10px;
+                }
+
+                &-citations {
+                  &-citation {
+                    &-title {
+                      margin-bottom: 10px;
+                    }
+
+                    &-source, &-authors, &-reference, &-doi {
+                      font-size: 15px;
+                    }
+
+                    &-doi {
+                      display: flex;
+                      gap: 5px;
+                      color: var(--primary);
+                      text-decoration: underline;
+                    }
                   }
                 }
               }

@@ -223,8 +223,6 @@ export default function ArticleDetails(): JSX.Element {
   const getAvailableKeywordsLanguages = (): AvailableLanguage[] => {
     if (!article?.keywords) return [];
 
-    console.log("All keys in keywords:", Object.keys(article.keywords));
-
     return Object.keys(article.keywords)
         .filter(key => key !== "0");
   };
@@ -276,9 +274,6 @@ export default function ArticleDetails(): JSX.Element {
 
   const getKeywordsSection = (): JSX.Element | null => {
     const availableKeywordsLanguages = getAvailableKeywordsLanguages();
-    console.log("Available languages in getKeywordsSection:", availableKeywordsLanguages);
-
-
     const keywords = getKeywordsByLanguage(selectedKeywordsLanguage);
     const domains = getDomains();
 
@@ -286,11 +281,11 @@ export default function ArticleDetails(): JSX.Element {
 
     return (
         <div className="articleDetails-content-article-section-content-keywords-container">
-          <div className="keywords-header">
-            <div className="language-selector">
-              <span className="language-label">{t('pages.articleDetails.sections.keywords')}</span>
+
               {availableKeywordsLanguages.length > 0 && (
-                  <div className="language-buttons">
+                  <div className="keywords-header">
+                    <div className="language-selector">
+                      <div className="language-buttons">
                     {availableKeywordsLanguages.map(lang => (
                         <button
                             key={lang}
@@ -298,20 +293,21 @@ export default function ArticleDetails(): JSX.Element {
                             className={`language-button ${lang === selectedKeywordsLanguage ? 'active' : ''}`}
                             onClick={() => setSelectedKeywordsLanguage(lang)}
                         >
-                          {lang}
+                          {lang.toUpperCase()}
                         </button>
                     ))}
                   </div>
+                    </div>
+                    </div>
               )}
-            </div>
-          </div>
+
 
           {/* Keywords list */}
           {keywords.length > 0 && (
               <div className="keywords-list">
                 {keywords.map((keyword, index) => (
                     <div
-                        key={index}
+                        key={`keyword-${index}`}
                         className="articleDetails-content-article-section-content-keywords-tag"
                     >
                       {keyword}
@@ -324,12 +320,14 @@ export default function ArticleDetails(): JSX.Element {
           {domains.length > 0 && (
               <div className="domains-section">
                 <div className="domains-header">
-                  <span className="domains-label">{t('common.domains')}</span>
+                   <span className="domains-label">
+                      {import.meta.env.VITE_JOURNAL_DEFAULT_LANGUAGE === "fr" ? "Domaines" : "Domains"}
+                    </span>
                 </div>
                 <div className="domains-list">
                   {domains.map((domain, index) => (
                       <div
-                          key={index}
+                          key={`domain-${index}`}
                           className="articleDetails-content-article-section-content-domain-tag"
                       >
                         {domain}
