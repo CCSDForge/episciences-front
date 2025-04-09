@@ -223,8 +223,10 @@ export default function ArticleDetails(): JSX.Element {
   const getAvailableKeywordsLanguages = (): AvailableLanguage[] => {
     if (!article?.keywords) return [];
 
+    if (Array.isArray(article.keywords)) return [];
+
     return Object.keys(article.keywords)
-        .filter(key => key !== "0");
+        .filter(key => !key.match(/^\d+$/)) as AvailableLanguage[];
   };
 
   const availableKeywordsLanguages = getAvailableKeywordsLanguages();
@@ -235,16 +237,9 @@ export default function ArticleDetails(): JSX.Element {
     }
   }, [availableKeywordsLanguages]);
 
-  const getDomains = (): string[] => {
-    if (!article?.keywords || !article.keywords['0']) return [];
-
-    return Array.isArray(article.keywords['0'])
-        ? article.keywords['0']
-        : [article.keywords['0']];
-  };
-
   const getKeywordsByLanguage = (lang: AvailableLanguage): string[] => {
-    if (!article?.keywords || !article.keywords[lang]) return [];
+
+    if (!article?.keywords || Array.isArray(article.keywords) || !article.keywords[lang]) return [];
 
     return Array.isArray(article.keywords[lang])
         ? article.keywords[lang]
@@ -256,33 +251,53 @@ export default function ArticleDetails(): JSX.Element {
 
     if (!article?.keywords) return keywords
 
-    Object.entries(article.keywords).map((keyword) => {
-      const key = keyword[0]
-      const values = keyword[1]
+    if (Array.isArray(article.keywords)) {
+      return article.keywords;
+    }
 
-      if (availableLanguages.includes(key as AvailableLanguage)) {
-        if (key === language) {
-          keywords.push(...values)
-        }
-      } else {
+    Object.entries(article.keywords).forEach(([key, values]) => {
+      if (key === language) {
+        keywords.push(...(Array.isArray(values) ? values : [values]));
+      } else if (!availableLanguages.includes(key as AvailableLanguage) && !key.match(/^\d+$/)) {
+        // Ajouter les valeurs qui ne sont ni des langues ni des indices numériques
         keywords.push(...(Array.isArray(values) ? values : [values]));
       }
-    })
+    });
 
     return keywords
   }
 
-  const getKeywordsSection = (): JSX.Element | null => {
-    const availableKeywordsLanguages = getAvailableKeywordsLanguages();
-    const keywords = getKeywordsByLanguage(selectedKeywordsLanguage);
-    const domains = getDomains();
 
-    if (!keywords.length && !domains.length) return null
+  const getKeywordsSection = (): JSX.Element | null => {
+
+    if (!article?.keywords) return null;
+
+    //CASE 1: Keywords is a direct array
+    if (Array.isArray(article.keywords)) {
+      return (
+          <div className="articleDetails-content-article-section-content-keywords-container">
+            <div className="keywords-list">
+              {article.keywords.map((keyword, index) => (
+                  <div
+                      key={`keyword-${index}`}
+                      className="articleDetails-content-article-section-content-keywords-tag"
+                  >
+                    {keyword}
+                  </div>
+              ))}
+            </div>
+          </div>
+      );
+    }
+
+    //  CASE 2: Keywords is an object with different languages
+    const availableKeywordsLanguages = getAvailableKeywordsLanguages();
+    if (availableKeywordsLanguages.length === 0) return null;
+    const keywords = getKeywordsByLanguage(selectedKeywordsLanguage);
 
     return (
         <div className="articleDetails-content-article-section-content-keywords-container">
-
-              {availableKeywordsLanguages.length > 0 && (
+              {availableKeywordsLanguages.length > 1 && (
                   <div className="keywords-header">
                     <div className="language-selector">
                       <div className="language-buttons">
@@ -301,8 +316,6 @@ export default function ArticleDetails(): JSX.Element {
                     </div>
               )}
 
-
-          {/* Keywords list */}
           {keywords.length > 0 && (
               <div className="keywords-list">
                 {keywords.map((keyword, index) => (
@@ -313,27 +326,6 @@ export default function ArticleDetails(): JSX.Element {
                       {keyword}
                     </div>
                 ))}
-              </div>
-          )}
-
-          {/* Domains */}
-          {domains.length > 0 && (
-              <div className="domains-section">
-                <div className="domains-header">
-                   <span className="domains-label">
-                      {import.meta.env.VITE_JOURNAL_DEFAULT_LANGUAGE === "fr" ? "Domaines" : "Domains"}
-                    </span>
-                </div>
-                <div className="domains-list">
-                  {domains.map((domain, index) => (
-                      <div
-                          key={`domain-${index}`}
-                          className="articleDetails-content-article-section-content-domain-tag"
-                      >
-                        {domain}
-                      </div>
-                  ))}
-                </div>
               </div>
           )}
         </div>

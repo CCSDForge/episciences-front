@@ -274,47 +274,6 @@
             margin-bottom: 5px;
           }
 
-          .domains-section {
-            margin-top: 10px;
-
-            .domains-header {
-              margin-bottom: 8px;
-
-              .domains-label {
-                font-size: 16px;
-                font-weight: 600;
-                color: var(--primary);
-
-                @media (max-width: breakpoints.$xsm) {
-                  font-size: 15px;
-                }
-              }
-            }
-            .domains-list {
-              display: flex;
-              flex-wrap: wrap;
-            }
-
-            .articleDetails-content-article-section-content-domain-tag {
-              display: inline-block;
-              width: fit-content;
-              height: fit-content;
-              padding: 4px 8px;
-              margin-right: 10px;
-              margin-bottom: 12px;
-              font-size: 16px;
-              font-weight: 500;
-              background: var(--primary);
-              color: var(--primary-text);
-              border-radius: 4px;
-
-              @media (max-width: breakpoints.$xsm) {
-                margin-right: 8px;
-                margin-bottom: 10px;
-                font-size: 14px;
-              }
-            }
-
             &-citedBy {
               margin-top: 10px;
 
@@ -349,4 +308,3 @@
       }
     }
   }
-}
