@@ -22,8 +22,13 @@ export const unifiedProcessor = unified()
   .use(remarkParse)
   .use(remarkStringify);
 
-export const serializeMarkdown = (node: Node) => unifiedProcessor.stringify(node as Root);
-
+export const serializeMarkdown = (node: Node) => {
+  const serialized= unifiedProcessor.stringify(node as Root);
+  return serialized + (needsExtraLineBreaks(node) ? '\n\n' : '\n');
+}
+function needsExtraLineBreaks(node: Node): boolean {
+  return ['paragraph', 'list', 'heading'].includes(node.type);
+}
 export const getMarkdownImageURL = (path: string, rvcode: string) => `https://${rvcode}.episciences.org${path}`
 
 export const decodeText = (text: string): string => {
@@ -39,10 +44,27 @@ export const decodeText = (text: string): string => {
   ;
 }
 
-export const adjustNestedListsInMarkdownContent = (content?: string): string | undefined => {
-  return content?.replace(/(- [^\n]+:\n)((- .+\n)+)/g, (_: string, parent: string, children: string) => {
-    const indentedChildren = children.replace(/(- )/g, '  $1')
+export const adjustNestedListsInMarkdownContent = (content?: string): string => {
+  if (!content) return '';
+  // First fix single bullet points after headers
+  let fixedContent = content
+      .replace(/(#{1,6}\s+[^\n]+\n+)\s*-\s+([^\n]+)/g, '$1$2');
 
-    return parent + indentedChildren
-  })
+  // Preserve proper multi-item lists
+  fixedContent = fixedContent.replace(
+      /(#{1,6}\s+[^\n]+\n+)(\s*-\s+[^\n]+\n+)(\s*-\s+[^\n]+\n+)/g,
+      '$1\n$2$3'
+  );
+
+  // Handle nested lists with colons
+  fixedContent = fixedContent.replace(/(- [^\n]+:\n)((- .+\n)+)/g,
+      (_: string, parent: string, children: string) => {
+        const indentedChildren = children.replace(/(- )/g, '  $1');
+        return parent + indentedChildren;
+      }
+  );
+
+  return fixedContent;
 }
+
+
