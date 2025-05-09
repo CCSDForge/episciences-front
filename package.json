@@ -18,7 +18,7 @@
     "citation-js": "^0.7.14",
     "events": "^3.3.0",
     "he": "^1.2.0",
-    "i18next": "^23.11.4",
+    "i18next": "^24.0.0",
     "i18next-browser-languagedetector": "^8.0.0",
     "i18next-http-backend": "^2.5.1",
     "query-string": "^9.0.0",
