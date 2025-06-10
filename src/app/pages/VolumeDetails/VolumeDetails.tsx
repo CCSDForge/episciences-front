@@ -144,7 +144,7 @@ export default function VolumeDetails(): JSX.Element {
       return (
         <div className={className}>
           {(!volume?.types || !volume?.types.includes(VOLUME_TYPE.PROCEEDINGS)) && (
-            <span className="volumeDetails-content-results-content-committee-note">{t('common.volumeCommittee')} :</span>
+            <span className="volumeDetails-content-results-content-committee-note">{t('common.volumeCommittee')}</span>
           )}
           {volume?.committee.map((member) => member.screenName).join(', ')}
         </div>
