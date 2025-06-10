@@ -484,7 +484,8 @@ export default function ArticleDetails(): JSX.Element {
               {renderSection(ARTICLE_SECTION.LINKED_PUBLICATIONS, t('pages.articleDetails.sections.linkedPublications'), getLinkedPublicationsSection())}
               {renderSection(ARTICLE_SECTION.CITED_BY, t('pages.articleDetails.sections.citedBy'), getCitedBySection())}
               {renderSection(ARTICLE_SECTION.REFERENCES, t('pages.articleDetails.sections.references'), getReferencesSection())}
-              {renderSection(ARTICLE_SECTION.PREVIEW, t('pages.articleDetails.sections.preview'), getPreviewSection())}
+              {/* do no show section PREVIEW if repositoryName is 'Zenodo' */}
+              {article?.repositoryName !== 'Zenodo' && renderSection(ARTICLE_SECTION.PREVIEW, t('pages.articleDetails.sections.preview'), getPreviewSection())}
               {isMobileOnly && renderMetrics()}
             </div>
           </div>
