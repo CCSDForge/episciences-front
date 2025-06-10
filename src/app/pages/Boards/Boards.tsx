@@ -37,9 +37,10 @@ export default function Boards(): JSX.Element {
   const getTitleSortOrder = (pageTitle: string): number => {
     const lowerTitle = pageTitle.toLowerCase();
 
-    if (lowerTitle.includes("scientifique") || lowerTitle.includes("technical")) return 1;
-    if (lowerTitle.includes("éditorial") || lowerTitle.includes("editorial")) return 2;
-    if (lowerTitle.includes("partenaires") || lowerTitle.includes("partners")) return 3;
+    if (lowerTitle.includes("éditorial") || lowerTitle.includes("editorial")) return 1;
+    if (lowerTitle.includes("scientifique") || lowerTitle.includes("scientific")) return 2;
+    if (lowerTitle.includes("technique") || lowerTitle.includes("technical")) return 3;
+    if (lowerTitle.includes("partenaires") || lowerTitle.includes("partners")) return 4;
     if (lowerTitle.includes("ancien") || lowerTitle.includes("former")) return 999;
 
     return 500;
