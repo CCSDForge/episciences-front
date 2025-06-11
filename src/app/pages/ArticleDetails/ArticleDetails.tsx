@@ -222,37 +222,118 @@ export default function ArticleDetails(): JSX.Element {
         null;
   }
 
+  const [selectedKeywordsLanguage, setSelectedKeywordsLanguage] = useState<AvailableLanguage>(language as AvailableLanguage);
+
+  const getAvailableKeywordsLanguages = (): AvailableLanguage[] => {
+    if (!article?.keywords) return [];
+
+    if (Array.isArray(article.keywords)) return [];
+
+    return Object.keys(article.keywords)
+        .filter(key => !key.match(/^\d+$/)) as AvailableLanguage[];
+  };
+
+  const availableKeywordsLanguages = getAvailableKeywordsLanguages();
+
+  useEffect(() => {
+    if (availableKeywordsLanguages.length > 0 && !availableKeywordsLanguages.includes(selectedKeywordsLanguage)) {
+      setSelectedKeywordsLanguage(availableKeywordsLanguages[0]);
+    }
+  }, [availableKeywordsLanguages]);
+
+  const getKeywordsByLanguage = (lang: AvailableLanguage): string[] => {
+
+    if (!article?.keywords || Array.isArray(article.keywords) || !article.keywords[lang]) return [];
+
+    return Array.isArray(article.keywords[lang])
+        ? article.keywords[lang]
+        : [article.keywords[lang]];
+  };
+
   const getKeywords = (): string[] => {
     const keywords: string[] = []
 
     if (!article?.keywords) return keywords
 
-    Object.entries(article.keywords).map((keyword) => {
-      const key = keyword[0]
-      const values = keyword[1]
+    if (Array.isArray(article.keywords)) {
+      return article.keywords;
+    }
 
-      if (availableLanguages.includes(key as AvailableLanguage)) {
-        if (key === language) {
-          keywords.push(...values)
-        }
-      } else {
-        keywords.push(values)
+    Object.entries(article.keywords).forEach(([key, values]) => {
+      if (key === language) {
+        keywords.push(...(Array.isArray(values) ? values : [values]));
+      } else if (!availableLanguages.includes(key as AvailableLanguage) && !key.match(/^\d+$/)) {
+        // Ajouter les valeurs qui ne sont ni des langues ni des indices numériques
+        keywords.push(...(Array.isArray(values) ? values : [values]));
       }
-    })
+    });
 
     return keywords
   }
 
-  const getKeywordsSection = (): JSX.Element | null => {
-    const keywords = getKeywords()
 
-    if (!keywords.length) return null
+  const getKeywordsSection = (): JSX.Element | null => {
+
+    if (!article?.keywords) return null;
+
+    //CASE 1: Keywords is a direct array
+    if (Array.isArray(article.keywords)) {
+      return (
+          <div className="articleDetails-content-article-section-content-keywords-container">
+            <div className="keywords-list">
+              {article.keywords.map((keyword, index) => (
+                  <div
+                      key={`keyword-${index}`}
+                      className="articleDetails-content-article-section-content-keywords-tag"
+                  >
+                    {keyword}
+                  </div>
+              ))}
+            </div>
+          </div>
+      );
+    }
+
+    //  CASE 2: Keywords is an object with different languages
+    const availableKeywordsLanguages = getAvailableKeywordsLanguages();
+    if (availableKeywordsLanguages.length === 0) return null;
+    const keywords = getKeywordsByLanguage(selectedKeywordsLanguage);
 
     return (
-      <ul>
-        {keywords.map((keyword, index) => <li className="articleDetails-content-article-section-content-keywords-tag" key={index}>{keyword}</li>)}
-      </ul>
-    )
+        <div className="articleDetails-content-article-section-content-keywords-container">
+              {availableKeywordsLanguages.length > 1 && (
+                  <div className="keywords-header">
+                    <div className="language-selector">
+                      <div className="language-buttons">
+                    {availableKeywordsLanguages.map(lang => (
+                        <button
+                            key={lang}
+                            type="button"
+                            className={`language-button ${lang === selectedKeywordsLanguage ? 'active' : ''}`}
+                            onClick={() => setSelectedKeywordsLanguage(lang)}
+                        >
+                          {lang.toUpperCase()}
+                        </button>
+                    ))}
+                  </div>
+                    </div>
+                    </div>
+              )}
+
+          {keywords.length > 0 && (
+              <div className="keywords-list">
+                {keywords.map((keyword, index) => (
+                    <div
+                        key={`keyword-${index}`}
+                        className="articleDetails-content-article-section-content-keywords-tag"
+                    >
+                      {keyword}
+                    </div>
+                ))}
+              </div>
+          )}
+        </div>
+    );
   }
 
   const getLinkedPublicationsSection = (): JSX.Element | null => {
