@@ -213,7 +213,7 @@ export default function ArticleDetails(): JSX.Element {
   const getGraphicalAbstractSection = (): JSX.Element | null => {
     const graphicalAbstractURL = (rvcode && article?.graphicalAbstract) ? `https://${rvcode}.episciences.org/public/documents/${article.id}/${article?.graphicalAbstract}` : null
     
-    return graphicalAbstractURL ? <img src={graphicalAbstractURL} className="articleDetails-content-article-section-content-graphicalAbstract" /> : null
+    return graphicalAbstractURL ? <img src={graphicalAbstractURL} className="articleDetails-content-article-section-content-graphicalAbstract" alt="Graphical abstract" /> : null
   }
 
   const getAbstractSection = (): JSX.Element | null => {
