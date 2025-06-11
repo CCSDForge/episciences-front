@@ -21,6 +21,21 @@ export const formatVolume = (rvcode: string, language: AvailableLanguage, volume
     settingsProceeding = volume['settings_proceeding']
   }
 
+  // Tri des articles selon paperPosition (conversion explicite en nombre)
+  let sortedPapers = [];
+  if (Array.isArray(volume['papers'])) {
+    sortedPapers = [...volume['papers']].sort((a, b) => {
+      const posA = Number(a.paperPosition);
+      const posB = Number(b.paperPosition);
+      const isValidA = !isNaN(posA);
+      const isValidB = !isNaN(posB);
+      if (!isValidA && !isValidB) return 0;
+      if (!isValidA) return 1;
+      if (!isValidB) return -1;
+      return posA - posB;
+    });
+  }
+
   return {
     ...volume,
     id: volume['vid'],
@@ -29,7 +44,7 @@ export const formatVolume = (rvcode: string, language: AvailableLanguage, volume
     description: volume['descriptions'],
     year: volume['vol_year'],
     types: volume['vol_type'],
-    articles: volume['papers'],
+    articles: sortedPapers,
     downloadLink: `https://${rvcode}.episciences.org/volumes-full/${volume['vid']}/${volume['vid']}.pdf`,
     metadatas: metadatas,
     tileImageURL,
