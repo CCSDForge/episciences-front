@@ -31,6 +31,7 @@ export interface IPartialArticle {
   '@id': string;
   '@type': string;
   paperid: number;
+  position: number;
 }
 
 export type PartialSectionArticle = IPartialArticle;
@@ -55,6 +56,7 @@ export interface IArticle {
   keywords?: string[] | IArticleKeywords;
   doi: string;
   volumeId?: number;
+  position?: number;
   references?: IArticleReference[];
   citedBy?: IArticleCitedBy[];
   relatedItems?: IArticleRelatedItem[];

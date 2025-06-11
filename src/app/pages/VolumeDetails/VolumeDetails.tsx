@@ -289,7 +289,9 @@ export default function VolumeDetails(): JSX.Element {
                   </div>
                 )}
                 <div className='volumeDetails-content-results-content-cards'>
-                  {articles?.filter((article) => article).map((article, index) => (
+                  {articles?.filter((article) => article !==null)
+                      .sort((a, b) => (a?.position ?? 999) - (b?.position ?? 999))
+                      .map((article, index) => (
                     <VolumeArticleCard
                       key={index}
                       language={language}
