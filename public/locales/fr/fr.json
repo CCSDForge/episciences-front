@@ -144,8 +144,8 @@
     "articleDetails": {
       "title": "Article",
       "sections": {
-        "graphicalAbstract": "Abstract graphique",
-        "abstract": "Abstract",
+        "graphicalAbstract": "Résumé graphique",
+        "abstract": "Résumé",
         "keywords": "Mots-clés",
         "references": "Références",
         "linkedPublications": "Publications liées -  jeux de données - logiciel",
