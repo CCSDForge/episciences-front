@@ -69,6 +69,13 @@ export default defineConfig(({ mode }) => {
     copyLogos();
 
     return {
+        css: {
+            preprocessorOptions: {
+                scss: {
+                    api: 'modern-compiler'
+                }
+            }
+        },
         plugins: [
             react(),
             {
