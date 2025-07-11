@@ -125,32 +125,9 @@ export default defineConfig(({ mode }) => {
                 output: {
                     manualChunks(id) {
                         if (id.includes('node_modules')) {
-                            // React ecosystem
-                            if (id.includes('react') || id.includes('react-dom')) return 'react';
-                            if (id.includes('react-router') || id.includes('react-helmet') || id.includes('react-hook-form')) return 'react-libs';
-                            if (id.includes('react-redux') || id.includes('@reduxjs/toolkit') || id.includes('redux-persist')) return 'redux';
-                            
-                            // Charts and visualization
                             if (id.includes('recharts')) return 'recharts';
-                            
-                            // Citation libraries
                             if (id.includes('@citation-js/plugin-csl')) return 'plugin-csl';
                             if (id.includes('citation-js')) return 'citation-js';
-                            
-                            // UI libraries
-                            if (id.includes('swiper')) return 'swiper';
-                            if (id.includes('react-share') || id.includes('react-paginate') || id.includes('react-toastify')) return 'ui-libs';
-                            
-                            // i18n
-                            if (id.includes('i18next')) return 'i18n';
-                            
-                            // Math and markdown
-                            if (id.includes('mathjax') || id.includes('react-markdown') || id.includes('remark') || id.includes('unified')) return 'content-processing';
-                            
-                            // Utilities
-                            if (id.includes('query-string') || id.includes('he') || id.includes('xml2js') || id.includes('events')) return 'utilities';
-                            
-                            // Remaining vendor code
                             return 'vendor';
                         }
                     },
