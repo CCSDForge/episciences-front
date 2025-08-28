@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { AvailableLanguage } from '../../../../utils/i18n';
+import { AvailableLanguage, getLanguageAttributes } from '../../../../utils/i18n';
 import { AbstractType } from '../../../../types/article';
 import './DisplayAbstract.scss';
 import { MathJax } from 'better-react-mathjax';
@@ -117,7 +117,12 @@ const DisplayAbstract = ({
                                 </span>
                                 )}
                                 <MathJax dynamic>
-                                    <span className="abstract-text">{item.text}</span>
+                                    <span 
+                                        className="abstract-text"
+                                        {...(item.lang ? getLanguageAttributes(item.lang) : {})}
+                                    >
+                                        {item.text}
+                                    </span>
                                 </MathJax>
                             </div>
                             {index !== sortedAbstracts.length - 1 && <hr className="separator" />}
