@@ -46,15 +46,8 @@ export const decodeText = (text: string): string => {
 
 export const adjustNestedListsInMarkdownContent = (content?: string): string => {
   if (!content) return '';
-  // First fix single bullet points after headers
-  let fixedContent = content
-      .replace(/(#{1,6}\s+[^\n]+\n+)\s*-\s+([^\n]+)/g, '$1$2');
 
-  // Preserve proper multi-item lists
-  fixedContent = fixedContent.replace(
-      /(#{1,6}\s+[^\n]+\n+)(\s*-\s+[^\n]+\n+)(\s*-\s+[^\n]+\n+)/g,
-      '$1\n$2$3'
-  );
+  let fixedContent = content;
 
   // Handle nested lists with colons
   fixedContent = fixedContent.replace(/(- [^\n]+:\n)((- .+\n)+)/g,
