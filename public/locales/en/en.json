@@ -367,6 +367,18 @@
     "forAuthors": {
       "title": "For authors"
     },
+    "pdfViewer": {
+      "loading": "Loading PDF...",
+      "error": "Unable to load PDF",
+      "errorInfo": "The PDF cannot be displayed directly in the browser. Click the button below to open it in a new tab.",
+      "fallback": "Trying with alternative viewer...",
+      "page": "Page",
+      "of": "of",
+      "previous": "Previous",
+      "next": "Next",
+      "download": "Download PDF",
+      "openInNewTab": "Open PDF in new tab"
+    },
     "credits": {
       "title": "Credits"
     }

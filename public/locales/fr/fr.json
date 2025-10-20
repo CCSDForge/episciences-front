@@ -367,6 +367,18 @@
     "forAuthors": {
       "title": "Pour les auteurs"
     },
+    "pdfViewer": {
+      "loading": "Chargement du PDF...",
+      "error": "Impossible de charger le PDF",
+      "errorInfo": "Le PDF ne peut pas être affiché directement dans le navigateur. Cliquez sur le bouton ci-dessous pour l'ouvrir dans un nouvel onglet.",
+      "fallback": "Tentative avec un lecteur alternatif...",
+      "page": "Page",
+      "of": "sur",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "download": "Télécharger le PDF",
+      "openInNewTab": "Ouvrir le PDF dans un nouvel onglet"
+    },
     "credits": {
       "title": "Crédits"
     }
