@@ -25,6 +25,7 @@ import Loader from "../../components/Loader/Loader";
 import ArticleMeta from "../../components/Meta/ArticleMeta/ArticleMeta";
 import ArticleDetailsSidebar from "../../components/Sidebars/ArticleDetailsSidebar/ArticleDetailsSidebar";
 import DisplayAbstract from '../../components/Cards/DisplayAbstract/DisplayAbstract';
+import PDFViewer from '../../components/PDFViewer/PDFViewer';
 import './ArticleDetails.scss'
 
 
@@ -496,7 +497,7 @@ export default function ArticleDetails(): JSX.Element {
   }
 
   const getPreviewSection = (): JSX.Element | null => {
-    return article?.pdfLink ? <iframe title="Document preview" loading={"lazy"} src={article.pdfLink} className="articleDetails-content-article-section-content-preview" /> : null
+    return article?.pdfLink ? <PDFViewer pdfUrl={article.pdfLink} /> : null
   }
 
   const renderMetrics = (): JSX.Element | undefined => {
@@ -565,8 +566,7 @@ export default function ArticleDetails(): JSX.Element {
               {renderSection(ARTICLE_SECTION.LINKED_PUBLICATIONS, t('pages.articleDetails.sections.linkedPublications'), getLinkedPublicationsSection())}
               {renderSection(ARTICLE_SECTION.CITED_BY, t('pages.articleDetails.sections.citedBy'), getCitedBySection())}
               {renderSection(ARTICLE_SECTION.REFERENCES, t('pages.articleDetails.sections.references'), getReferencesSection())}
-              {/* do no show section PREVIEW if repositoryName is 'Zenodo' */}
-              {article?.repositoryName !== 'Zenodo' && renderSection(ARTICLE_SECTION.PREVIEW, t('pages.articleDetails.sections.preview'), getPreviewSection())}
+              {renderSection(ARTICLE_SECTION.PREVIEW, t('pages.articleDetails.sections.preview'), getPreviewSection())}
               {isMobileOnly && renderMetrics()}
             </div>
           </div>

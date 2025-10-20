@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async'
 import { IArticle, IArticleAuthor } from '../../../../types/article'
 import { IJournal } from '../../../../types/journal';
 import { AvailableLanguage } from '../../../../utils/i18n'
+import { extractAbstractText } from '../../../../utils/article'
 
 interface IArticleMetaProps {
   language: AvailableLanguage;
@@ -24,7 +25,7 @@ export default function ArticleMeta({ language, article, currentJournal, keyword
             </title>
         )}
 
-      {article?.abstract && <meta name='description' content={article.abstract} />}
+      {article?.abstract && <meta name='description' content={extractAbstractText(article.abstract)} />}
 
       {keywords.length > 0 && keywords.map((keyword, index) => (
         <meta key={index} name='keywords' content={keyword} />
@@ -79,7 +80,7 @@ export default function ArticleMeta({ language, article, currentJournal, keyword
       {article?.docLink && <meta name="DC.identifier" content={article.docLink} />}
       {article?.pdfLink && <meta name="DC.identifier" content={article.pdfLink} />}
 
-      {article?.abstract && <meta name='DC.description' content={article.abstract} />}
+      {article?.abstract && <meta name='DC.description' content={extractAbstractText(article.abstract)} />}
 
       {keywords.length > 0 && keywords.map((keyword, index) => (
         <meta key={index} name='DC.subject' content={keyword} />
@@ -112,7 +113,7 @@ export default function ArticleMeta({ language, article, currentJournal, keyword
 
       {article?.docLink && <meta name="og:url" content={article.docLink} />}
 
-      {article?.abstract && <meta name='og:description' content={article.abstract} />}
+      {article?.abstract && <meta name='og:description' content={extractAbstractText(article.abstract)} />}
 
       {/* Constant */}
       <meta name="og:site_name" content="Episciences.org" />
@@ -125,7 +126,7 @@ export default function ArticleMeta({ language, article, currentJournal, keyword
 
       {article?.title && <meta name='twitter:title' content={article.title} />}
 
-      {article?.abstract && <meta name='twitter:description' content={article.abstract} />}
+      {article?.abstract && <meta name='twitter:description' content={extractAbstractText(article.abstract)} />}
 
       {/* Constant */}
       <link href="https://inbox.episciences.org/" rel="http://www.w3.org/ns/ldp#inbox" />

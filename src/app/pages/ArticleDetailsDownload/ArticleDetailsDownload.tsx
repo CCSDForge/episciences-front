@@ -5,6 +5,7 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { PATHS } from '../../../config/paths'
 import { useFetchArticleQuery } from "../../../store/features/article/article.query";
 import Loader from "../../components/Loader/Loader";
+import PDFViewer from '../../components/PDFViewer/PDFViewer';
 import './ArticleDetailsDownload.scss'
 
 export default function ArticleDetailsDownload(): JSX.Element {
@@ -21,7 +22,7 @@ export default function ArticleDetailsDownload(): JSX.Element {
   }, [article, isError, error])
 
   const getLink = (): JSX.Element | null => {
-    return article?.pdfLink ? <iframe title="Document preview" loading={"lazy"} src={article.pdfLink} className="articleDetailsDownload-iframe" /> : null
+    return article?.pdfLink ? <PDFViewer pdfUrl={article.pdfLink} showDownloadButton={true} prominentDownload={true} /> : null
   }
 
   return isFetching ? <Loader /> : <>{getLink()}</>

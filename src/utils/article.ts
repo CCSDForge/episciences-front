@@ -14,6 +14,53 @@ import { toastSuccess } from './toast';
 
 export type FetchedArticle = IArticle | undefined;
 
+/**
+ * Extracts the first available abstract text from an AbstractType for use in meta tags.
+ * Handles all AbstractType variants: AbstractWithArray, AbstractWithObject, AbstractWithStringArray, AbstractWithString
+ * @param abstract - The abstract object to extract text from
+ * @returns The first available abstract text as a string, or undefined if no text is found
+ */
+export const extractAbstractText = (abstract: AbstractType): string | undefined => {
+  if (!abstract || !abstract.value) {
+    return undefined;
+  }
+
+  // Case 1: abstract.value is an array
+  if (Array.isArray(abstract.value)) {
+    if (abstract.value.length === 0) {
+      return undefined;
+    }
+
+    // Case 1.1: array of strings - take the first one
+    if (typeof abstract.value[0] === 'string') {
+      return abstract.value[0];
+    }
+
+    // Case 1.2: array of objects (AbstractItem[]) - take the first object's value
+    const firstItem = abstract.value[0];
+    if (typeof firstItem === 'object' && firstItem !== null && 'value' in firstItem && typeof firstItem.value === 'string') {
+      return firstItem.value;
+    }
+
+    return undefined;
+  }
+
+  // Case 2: abstract.value is an object with @xml:lang and value properties
+  if (typeof abstract.value === 'object' && abstract.value !== null) {
+    if ('value' in abstract.value && typeof abstract.value.value === 'string') {
+      return abstract.value.value;
+    }
+    return undefined;
+  }
+
+  // Case 3: abstract.value is a string
+  if (typeof abstract.value === 'string') {
+    return abstract.value;
+  }
+
+  return undefined;
+};
+
 export const formatArticle = (article: RawArticle): FetchedArticle => {
   if (article['@id']) {
     const articleJournal = article.document.journal
