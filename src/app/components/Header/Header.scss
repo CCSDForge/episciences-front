@@ -153,22 +153,43 @@
       }
     }
 
-    &-title {
+    &-titles{
       width: 100%;
-      padding-right: 80px;
       background: var(--primary);
-      font-size: 40px;
       font-weight: bold;
       color: var(--primary-text);
       display: flex;
-      align-items: center;
+      flex-direction:column;
+      align-items: end;
+      padding-right: 80px;
+      padding-bottom: 40px;
       justify-content: flex-end;
+    }
+
+    &-title{
+      font-size: 40px;
+      font-weight: bold;
+      display: flex;
 
       @media (max-width:  breakpoints.$xsm),
       (max-width:  breakpoints.$sm) and (orientation:landscape) {
         padding: 0px 16px 0px 16px;
         text-align: end;
         font-size: 14px;
+      }
+    }
+
+    &-subtitle{
+      font-size: 24px;
+      font-weight: bold;
+      padding-top:10px;
+      display: flex;
+
+      @media (max-width:  breakpoints.$xsm),
+      (max-width:  breakpoints.$sm) and (orientation:landscape) {
+        padding: 0px 16px 0px 16px;
+        text-align: end;
+        font-size: 12px;
       }
     }
   }
