@@ -56,6 +56,14 @@ export default function Footer(): JSX.Element {
 
   const getTermsOfUseLink = (): string => language === 'fr' ? import.meta.env.VITE_EPISCIENCES_LEGAL_PRIVACY_TERMS_OF_USE_PAGE_FR : import.meta.env.VITE_EPISCIENCES_LEGAL_PRIVACY_TERMS_OF_USE_PAGE
 
+  const getManagerLink = (): string | null => {
+    const managerUrl = import.meta.env.VITE_EPISCIENCES_MANAGER;
+    const code = currentJournal?.code;
+
+    if (!managerUrl) return null;
+    return code ? `${managerUrl}/${code}` : managerUrl;
+  }
+
   const getPublishingPolicyAnchor = (): string => language === 'fr' ? `${PATHS.about}#politiques-de-publication` : `${PATHS.about}#publishing-policies`
 
   return (
@@ -69,6 +77,8 @@ export default function Footer(): JSX.Element {
             {getContact() && <Link to={getContact()!} target='_blank' rel="noopener noreferrer">{t('components.footer.links.contact')}</Link>}
             <div className='footer-journal-links-journal-divider'>|</div>
             <Link to={PATHS.credits}>{t('components.footer.links.credits')}</Link>
+            <div className='footer-journal-links-journal-divider'>|</div>
+            {getManagerLink() && <Link to={getManagerLink()!} target='_blank' rel="noopener noreferrer">{t('components.footer.links.manageJournal')}</Link>}
           </div>
           <div className='footer-journal-links-rss'>
             {getISSN() && <div>{`eISSN ${getISSN()}`}</div>}

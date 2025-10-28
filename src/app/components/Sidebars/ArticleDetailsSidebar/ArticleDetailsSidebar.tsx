@@ -133,12 +133,15 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
     <div className='articleDetailsSidebar'>
       <div className='articleDetailsSidebar-links'>
         {article?.pdfLink && (
-          <Link to={`/${PATHS.articles}/${article.id}/download`}>
-            <div className='articleDetailsSidebar-links-link'>
-              <img className='articleDetailsSidebar-links-link-icon' src={download} alt='Download icon' />
-              <div className='articleDetailsSidebar-links-link-text'>{t('pages.articleDetails.actions.download')}</div>
-            </div>
-          </Link>
+          <a
+            href={`/${PATHS.articles}/${article.id}/download`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className='articleDetailsSidebar-links-link'
+          >
+            <img className='articleDetailsSidebar-links-link-icon' src={download} alt='Download icon' />
+            <div className='articleDetailsSidebar-links-link-text'>{t('pages.articleDetails.actions.download')}</div>
+          </a>
         )}
         {article?.docLink && (
             <a

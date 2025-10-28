@@ -85,9 +85,10 @@
     },
     "footer": {
       "links": {
-        "notice": "Journal’s leaflet",
+        "notice": "Journal's leaflet",
         "contact": "Contact",
         "credits": "Credits",
+        "manageJournal": "Manage journal",
         "rss": "RSS",
         "documentation": "Documentation",
         "acknowledgements": "Acknowledgements",
@@ -372,12 +373,14 @@
       "error": "Unable to load PDF",
       "errorInfo": "The PDF cannot be displayed directly in the browser. Click the button below to open it in a new tab.",
       "fallback": "Trying with alternative viewer...",
+      "pages": "Pages",
       "page": "Page",
       "of": "of",
       "previous": "Previous",
       "next": "Next",
       "download": "Download PDF",
-      "openInNewTab": "Open PDF in new tab"
+      "openInNewTab": "Open PDF in new tab",
+      "closeTab": "Close tab"
     },
     "credits": {
       "title": "Credits"

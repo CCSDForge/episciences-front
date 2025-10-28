@@ -1,14 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
-import { Document, Page, pdfjs } from 'react-pdf';
+import { useState, useMemo, useCallback } from 'react';
+import { Document, Page, Thumbnail, pdfjs } from 'react-pdf';
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
 import { useTranslation } from 'react-i18next';
 
-import caretLeft from '/icons/caret-left-grey.svg';
-import caretRight from '/icons/caret-right-grey.svg';
+import Loader from '../Loader/Loader';
 import downloadIcon from '/icons/download-black.svg';
 import './PDFViewer.scss';
 
-// Configure PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+// Configure PDF.js worker - use local worker from node_modules
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url,
+).toString();
 
 interface IPDFViewerProps {
   pdfUrl: string;
@@ -19,47 +23,20 @@ interface IPDFViewerProps {
 export default function PDFViewer({ pdfUrl, showDownloadButton = false, prominentDownload = false }: IPDFViewerProps): JSX.Element {
   const { t } = useTranslation();
 
-  const [useIframe, setUseIframe] = useState(true);
-  const [iframeError, setIframeError] = useState(false);
   const [numPages, setNumPages] = useState<number | null>(null);
-  const [pageNumber, setPageNumber] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [error, setError] = useState<string | null>(null);
 
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  // Detect if PDF is from Zenodo - use react-pdf for better compatibility
+  const isZenodo = useMemo(() => pdfUrl.includes('zenodo.org'), [pdfUrl]);
 
-  // Handle iframe load error
-  const handleIframeError = (): void => {
-    console.warn('Iframe failed to load PDF, switching to react-pdf');
-    setIframeError(true);
-    setUseIframe(false);
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-  };
-
-  // Handle iframe load success
-  const handleIframeLoad = (): void => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-  };
-
-  // Set timeout for iframe loading
-  useEffect(() => {
-    if (useIframe && !iframeError) {
-      timeoutRef.current = setTimeout(() => {
-        console.warn('Iframe loading timeout, switching to react-pdf');
-        setUseIframe(false);
-      }, 8000); // 8 second timeout for all repositories
-
-      return () => {
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
-        }
-      };
-    }
-  }, [useIframe, iframeError, pdfUrl]);
+  // Memoize file and options to prevent unnecessary re-renders
+  const fileConfig = useMemo(() => ({ url: pdfUrl }), [pdfUrl]);
+  const documentOptions = useMemo(() => ({
+    cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
+    cMapPacked: true,
+    standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/standard_fonts/`,
+  }), []);
 
   // Handle PDF document load success
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }): void => {
@@ -73,14 +50,14 @@ export default function PDFViewer({ pdfUrl, showDownloadButton = false, prominen
     setError('pdfError');
   };
 
-  // Handle page change
-  const goToPreviousPage = (): void => {
-    setPageNumber((prev) => Math.max(1, prev - 1));
-  };
-
-  const goToNextPage = (): void => {
-    setPageNumber((prev) => Math.min(numPages || 1, prev + 1));
-  };
+  // Handle thumbnail click - scroll to the corresponding page
+  const scrollToPage = useCallback((pageNumber: number): void => {
+    const pageElement = document.getElementById(`page-${pageNumber}`);
+    if (pageElement) {
+      pageElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setCurrentPage(pageNumber);
+    }
+  }, []);
 
   // Handle download
   const handleDownload = (): void => {
@@ -102,35 +79,6 @@ export default function PDFViewer({ pdfUrl, showDownloadButton = false, prominen
     );
   };
 
-  // Render navigation controls
-  const renderControls = (): JSX.Element | null => {
-    if (useIframe || !numPages || numPages <= 1) return null;
-
-    return (
-      <div className="pdfViewer-controls">
-        <div
-          className={`pdfViewer-controls-button ${pageNumber === 1 ? 'pdfViewer-controls-button-disabled' : ''}`}
-          onClick={goToPreviousPage}
-        >
-          <img src={caretLeft} className="pdfViewer-controls-button-icon" alt="" />
-          <span className="pdfViewer-controls-button-text">{t('pages.pdfViewer.previous')}</span>
-        </div>
-
-        <div className="pdfViewer-controls-pageInfo">
-          {t('pages.pdfViewer.page')} {pageNumber} {t('pages.pdfViewer.of')} {numPages}
-        </div>
-
-        <div
-          className={`pdfViewer-controls-button ${pageNumber === numPages ? 'pdfViewer-controls-button-disabled' : ''}`}
-          onClick={goToNextPage}
-        >
-          <span className="pdfViewer-controls-button-text">{t('pages.pdfViewer.next')}</span>
-          <img src={caretRight} className="pdfViewer-controls-button-icon" alt="" />
-        </div>
-      </div>
-    );
-  };
-
   // Render error state
   if (error) {
     return (
@@ -147,47 +95,91 @@ export default function PDFViewer({ pdfUrl, showDownloadButton = false, prominen
     );
   }
 
-  // Render iframe or react-pdf based on state
+  // For Zenodo PDFs, use react-pdf with thumbnails and scrolling
+  // For other PDFs, use simple iframe
+  if (isZenodo) {
+    return (
+      <div className="pdfViewer">
+        {prominentDownload && renderDownloadButton()}
+
+        <div className="pdfViewer-split">
+          {/* Thumbnail sidebar */}
+          <div className="pdfViewer-thumbnails">
+            <div className="pdfViewer-thumbnails-header">
+              {t('pages.pdfViewer.pages')}
+            </div>
+            <div className="pdfViewer-thumbnails-container">
+              <Document
+                file={fileConfig}
+                options={documentOptions}
+                onLoadSuccess={onDocumentLoadSuccess}
+                onLoadError={onDocumentLoadError}
+              >
+                {Array.from(new Array(numPages), (_, index) => (
+                  <div
+                    key={`thumb_${index + 1}`}
+                    className={`pdfViewer-thumbnail ${currentPage === index + 1 ? 'pdfViewer-thumbnail-active' : ''}`}
+                    onClick={() => scrollToPage(index + 1)}
+                  >
+                    <Thumbnail
+                      pageNumber={index + 1}
+                      width={120}
+                      className="pdfViewer-thumbnail-image"
+                    />
+                    <div className="pdfViewer-thumbnail-label">
+                      {index + 1}
+                    </div>
+                  </div>
+                ))}
+              </Document>
+            </div>
+          </div>
+
+          {/* Main pages container with scroll */}
+          <div className="pdfViewer-pages">
+            {!prominentDownload && renderDownloadButton()}
+            <Document
+              file={fileConfig}
+              options={documentOptions}
+              onLoadSuccess={onDocumentLoadSuccess}
+              onLoadError={onDocumentLoadError}
+              loading={<Loader />}
+              className="pdfViewer-pages-document"
+            >
+              {Array.from(new Array(numPages), (_, index) => (
+                <div
+                  key={`page_${index + 1}`}
+                  id={`page-${index + 1}`}
+                  className="pdfViewer-page-wrapper"
+                >
+                  <Page
+                    pageNumber={index + 1}
+                    width={800}
+                    className="pdfViewer-page"
+                    renderTextLayer={true}
+                    renderAnnotationLayer={true}
+                    loading={<Loader />}
+                  />
+                </div>
+              ))}
+            </Document>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // For non-Zenodo PDFs, use simple iframe (faster, native browser viewer)
   return (
     <div className="pdfViewer">
       {prominentDownload && renderDownloadButton()}
-
-      {useIframe ? (
-        <iframe
-          ref={iframeRef}
-          title="Document preview"
-          loading="lazy"
-          src={pdfUrl}
-          className="pdfViewer-iframe"
-          onError={handleIframeError}
-          onLoad={handleIframeLoad}
-          allow="fullscreen"
-        />
-      ) : (
-        <div className="pdfViewer-reactPdf">
-          {!prominentDownload && renderDownloadButton()}
-          {renderControls()}
-          <Document
-            file={{ url: pdfUrl }}
-            options={{
-              cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
-              cMapPacked: true,
-              standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/standard_fonts/`,
-            }}
-            onLoadSuccess={onDocumentLoadSuccess}
-            onLoadError={onDocumentLoadError}
-            loading={<div className="pdfViewer-loading">{t('pages.pdfViewer.loading')}</div>}
-            className="pdfViewer-reactPdf-document"
-          >
-            <Page
-              pageNumber={pageNumber}
-              className="pdfViewer-reactPdf-page"
-              renderTextLayer={true}
-              renderAnnotationLayer={true}
-            />
-          </Document>
-        </div>
-      )}
+      <iframe
+        title="Document preview"
+        loading="lazy"
+        src={pdfUrl}
+        className="pdfViewer-iframe"
+        allow="fullscreen"
+      />
     </div>
   );
 }

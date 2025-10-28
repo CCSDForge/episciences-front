@@ -160,10 +160,16 @@
 
           &-preview {
             width: 100%;
-          }
-
-          &-preview {
             height: 600px;
+            overflow: hidden;
+
+            @media (max-width: breakpoints.$sm) {
+              height: 70vh;
+            }
+
+            @media (max-width: breakpoints.$xsm) {
+              height: 80vh;
+            }
           }
 
           &-linkedPublications {

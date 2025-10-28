@@ -53,7 +53,7 @@ export default function VolumeArticleCard({ language, t, article }: IVolumeArtic
         <div className='volumeArticleCard-anchor-publicationDate'>{`${t('common.publishedOn')} ${formatDate(article?.publicationDate!, language)}`}</div>
         <div className="volumeArticleCard-anchor-icons">
           {article.pdfLink && (
-            <Link to={article.pdfLink} target='_blank'>
+            <Link to={`/${PATHS.articles}/${article.id}/download`} target='_blank' rel="noopener noreferrer">
               <div className="volumeArticleCard-anchor-icons-download">
                 <img className="volumeArticleCard-anchor-icons-download-download-icon" src={download} alt='Download icon' />
                 <div className="volumeArticleCard-anchor-icons-download-text">{t('common.pdf')}</div>

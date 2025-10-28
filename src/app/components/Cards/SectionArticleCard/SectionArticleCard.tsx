@@ -53,7 +53,7 @@ export default function SectionArticleCard({ language, t, article }: ISectionArt
         <div className='sectionArticleCard-anchor-publicationDate'>{formatDate(article.publicationDate, language)}</div>
         <div className="sectionArticleCard-anchor-icons">
           {article.pdfLink && (
-            <Link to={article.pdfLink} target='_blank'>
+            <Link to={`/${PATHS.articles}/${article.id}/download`} target='_blank' rel="noopener noreferrer">
               <div className="sectionArticleCard-anchor-icons-download">
                 <img className="sectionArticleCard-anchor-icons-download-download-icon" src={download} alt='Download icon' />
                 <div className="sectionArticleCard-anchor-icons-download-text">{t('common.pdf')}</div>
