@@ -66,13 +66,13 @@ export default function Volumes(): JSX.Element {
             ...type,
             isChecked: parsedQuery.type === type.value
         }));
-  
+
         return newTypes;
     });
 
       setInitQueryFilters(true)
     }
-  }, [types, initQueryFilters])
+  }, [initQueryFilters, parsedQuery.type])
 
   useEffect(() => {
     setTypes(currentTypes => {
@@ -102,7 +102,7 @@ export default function Volumes(): JSX.Element {
 
       setTypes(initTypes)
     }
-  }, [volumes?.range, volumes?.range?.types, types])
+  }, [volumes?.range, volumes?.range?.types])
 
   useEffect(() => {
     if (volumes?.range && volumes.range.years && years.length === 0) {
@@ -113,7 +113,7 @@ export default function Volumes(): JSX.Element {
 
       setYears(initYears)
     }
-  }, [volumes?.range, volumes?.range?.years, years])
+  }, [volumes?.range, volumes?.range?.years])
   
   const handlePageClick = (selectedItem: { selected: number }): void => {
     setCurrentPage(selectedItem.selected + 1);

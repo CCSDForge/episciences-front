@@ -88,6 +88,7 @@
         "notice": "Notice de la revue",
         "contact": "Contact",
         "credits": "Crédits",
+        "manageJournal": "Gérer la revue",
         "rss": "RSS",
         "documentation": "Documentation",
         "acknowledgements": "Remerciements",
@@ -372,12 +373,14 @@
       "error": "Impossible de charger le PDF",
       "errorInfo": "Le PDF ne peut pas être affiché directement dans le navigateur. Cliquez sur le bouton ci-dessous pour l'ouvrir dans un nouvel onglet.",
       "fallback": "Tentative avec un lecteur alternatif...",
+      "pages": "Pages",
       "page": "Page",
       "of": "sur",
       "previous": "Précédent",
       "next": "Suivant",
       "download": "Télécharger le PDF",
-      "openInNewTab": "Ouvrir le PDF dans un nouvel onglet"
+      "openInNewTab": "Ouvrir le PDF dans un nouvel onglet",
+      "closeTab": "Fermer l'onglet"
     },
     "credits": {
       "title": "Crédits"

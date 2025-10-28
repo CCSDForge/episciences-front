@@ -340,17 +340,19 @@ export default function ArticleDetails(): JSX.Element {
   const getLinkedPublicationsSection = (): JSX.Element | null => {
     if (!article?.relatedItems || !article.relatedItems.length) return null
 
+    const filteredItems = article.relatedItems.filter(
+        (relatedItem) =>
+            relatedItem.relationshipType !== INTER_WORK_RELATIONSHIP.IS_SAME_AS &&
+            relatedItem.relationshipType !== INTER_WORK_RELATIONSHIP.HAS_PREPRINT
+    )
+
+    if (!filteredItems.length) return null
+
     return (
         <ul>
-          {article?.relatedItems
-              .filter(
-                  (relatedItem) =>
-                      relatedItem.relationshipType !== INTER_WORK_RELATIONSHIP.IS_SAME_AS &&
-                      relatedItem.relationshipType !== INTER_WORK_RELATIONSHIP.HAS_PREPRINT
-              )
-              .map((relatedItem, index) => (
-                  <li key={index}>{getLinkedPublicationRow(relatedItem)}</li>
-              ))}
+          {filteredItems.map((relatedItem, index) => (
+              <li key={index}>{getLinkedPublicationRow(relatedItem)}</li>
+          ))}
         </ul>
     )
   }
@@ -497,7 +499,11 @@ export default function ArticleDetails(): JSX.Element {
   }
 
   const getPreviewSection = (): JSX.Element | null => {
-    return article?.pdfLink ? <PDFViewer pdfUrl={article.pdfLink} /> : null
+    return article?.pdfLink ? (
+      <div className="articleDetails-content-article-section-content-preview">
+        <PDFViewer pdfUrl={article.pdfLink} />
+      </div>
+    ) : null
   }
 
   const renderMetrics = (): JSX.Element | undefined => {
