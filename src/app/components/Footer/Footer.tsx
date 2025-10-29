@@ -98,6 +98,8 @@ export default function Footer(): JSX.Element {
             <Link to={getPublishingPolicyAnchor()}>{t('components.footer.links.publishingPolicy')}</Link>
           </div>
           <div className='footer-episciences-links-legal'>
+            <Link to={PATHS.accessibility}>{t('components.footer.links.accessibility')}</Link>
+            <div className='footer-episciences-links-legal-divider'>|</div>
             <Link to={getLegalTermsLink()} target='_blank' rel="noopener noreferrer">{t('components.footer.links.legalMentions')}</Link>
             <div className='footer-episciences-links-legal-divider'>|</div>
             <Link to={getLegalPrivacyStatementLink()} target='_blank' rel="noopener noreferrer">{t('components.footer.links.privacyStatement')}</Link>

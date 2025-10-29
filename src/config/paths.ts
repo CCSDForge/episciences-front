@@ -16,6 +16,7 @@ export const PATHS = {
   sectionDetails: '/sections/:id',
   about: '/about',
   credits: '/credits',
+  accessibility: '/accessibility',
   news: '/news',
   statistics: '/statistics',
   forAuthors: '/for-authors'
