@@ -127,6 +127,12 @@ Please create it from the example:
     source "$CONFIG_FILE"
 }
 
+run_as_deploy_user() {
+    local cmd="$@"
+    log INFO "Running as $DEPLOY_USER: $cmd"
+    sudo -u "$DEPLOY_USER" bash -c "$cmd"
+}
+
 parse_arguments() {
     if [ $# -eq 0 ]; then
         show_help
@@ -260,7 +266,7 @@ migrate_journal() {
     # Create symbolic link
     log INFO "Creating symbolic link..."
     local link_target="../dist-versions/$journal/$MIGRATION_DATE"
-    if ! ln -s "$link_target" "$journal_dir"; then
+    if ! run_as_deploy_user "ln -s '$link_target' '$journal_dir'"; then
         error_exit "Failed to create symbolic link for: $journal"
     fi
 
