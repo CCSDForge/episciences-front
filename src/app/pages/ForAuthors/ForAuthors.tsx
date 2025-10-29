@@ -30,7 +30,7 @@ export default function ForAuthors(): JSX.Element {
 
   const language = useAppSelector(state => state.i18nReducer.language);
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code);
-  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name)
+  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name);
 
   const [pageSections, setPageSections] = useState<IForAuthorsSection[]>([]);
   const [sidebarHeaders, setSidebarHeaders] = useState<IForAuthorsHeader[]>([]);
