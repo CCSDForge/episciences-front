@@ -1,5 +1,5 @@
-import { useState, useMemo, useCallback } from 'react';
-import { Document, Page, Thumbnail, pdfjs } from 'react-pdf';
+import { useState, useMemo } from 'react';
+import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +24,6 @@ export default function PDFViewer({ pdfUrl, showDownloadButton = false, prominen
   const { t } = useTranslation();
 
   const [numPages, setNumPages] = useState<number | null>(null);
-  const [currentPage, setCurrentPage] = useState<number>(1);
   const [error, setError] = useState<string | null>(null);
 
   // Detect if PDF is from Zenodo - use react-pdf for better compatibility
@@ -49,15 +48,6 @@ export default function PDFViewer({ pdfUrl, showDownloadButton = false, prominen
     console.error('Error loading PDF:', error);
     setError('pdfError');
   };
-
-  // Handle thumbnail click - scroll to the corresponding page
-  const scrollToPage = useCallback((pageNumber: number): void => {
-    const pageElement = document.getElementById(`page-${pageNumber}`);
-    if (pageElement) {
-      pageElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setCurrentPage(pageNumber);
-    }
-  }, []);
 
   // Handle download
   const handleDownload = (): void => {
@@ -95,75 +85,40 @@ export default function PDFViewer({ pdfUrl, showDownloadButton = false, prominen
     );
   }
 
-  // For Zenodo PDFs, use react-pdf with thumbnails and scrolling
+  // For Zenodo PDFs, use react-pdf for better compatibility
   // For other PDFs, use simple iframe
   if (isZenodo) {
     return (
       <div className="pdfViewer">
         {prominentDownload && renderDownloadButton()}
 
-        <div className="pdfViewer-split">
-          {/* Thumbnail sidebar */}
-          <div className="pdfViewer-thumbnails">
-            <div className="pdfViewer-thumbnails-header">
-              {t('pages.pdfViewer.pages')}
-            </div>
-            <div className="pdfViewer-thumbnails-container">
-              <Document
-                file={fileConfig}
-                options={documentOptions}
-                onLoadSuccess={onDocumentLoadSuccess}
-                onLoadError={onDocumentLoadError}
+        <div className="pdfViewer-pages">
+          {!prominentDownload && renderDownloadButton()}
+          <Document
+            file={fileConfig}
+            options={documentOptions}
+            onLoadSuccess={onDocumentLoadSuccess}
+            onLoadError={onDocumentLoadError}
+            loading={<Loader />}
+            className="pdfViewer-pages-document"
+          >
+            {Array.from(new Array(numPages), (_, index) => (
+              <div
+                key={`page_${index + 1}`}
+                id={`page-${index + 1}`}
+                className="pdfViewer-page-wrapper"
               >
-                {Array.from(new Array(numPages), (_, index) => (
-                  <div
-                    key={`thumb_${index + 1}`}
-                    className={`pdfViewer-thumbnail ${currentPage === index + 1 ? 'pdfViewer-thumbnail-active' : ''}`}
-                    onClick={() => scrollToPage(index + 1)}
-                  >
-                    <Thumbnail
-                      pageNumber={index + 1}
-                      width={120}
-                      className="pdfViewer-thumbnail-image"
-                    />
-                    <div className="pdfViewer-thumbnail-label">
-                      {index + 1}
-                    </div>
-                  </div>
-                ))}
-              </Document>
-            </div>
-          </div>
-
-          {/* Main pages container with scroll */}
-          <div className="pdfViewer-pages">
-            {!prominentDownload && renderDownloadButton()}
-            <Document
-              file={fileConfig}
-              options={documentOptions}
-              onLoadSuccess={onDocumentLoadSuccess}
-              onLoadError={onDocumentLoadError}
-              loading={<Loader />}
-              className="pdfViewer-pages-document"
-            >
-              {Array.from(new Array(numPages), (_, index) => (
-                <div
-                  key={`page_${index + 1}`}
-                  id={`page-${index + 1}`}
-                  className="pdfViewer-page-wrapper"
-                >
-                  <Page
-                    pageNumber={index + 1}
-                    width={800}
-                    className="pdfViewer-page"
-                    renderTextLayer={true}
-                    renderAnnotationLayer={true}
-                    loading={<Loader />}
-                  />
-                </div>
-              ))}
-            </Document>
-          </div>
+                <Page
+                  pageNumber={index + 1}
+                  width={800}
+                  className="pdfViewer-page"
+                  renderTextLayer={true}
+                  renderAnnotationLayer={true}
+                  loading={<Loader />}
+                />
+              </div>
+            ))}
+          </Document>
         </div>
       </div>
     );

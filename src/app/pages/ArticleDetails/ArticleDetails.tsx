@@ -279,6 +279,7 @@ export default function ArticleDetails(): JSX.Element {
 
     //CASE 1: Keywords is a direct array
     if (Array.isArray(article.keywords)) {
+      if (article.keywords.length === 0) return null;
       return (
           <div className="articleDetails-content-article-section-content-keywords-container">
             <div className="keywords-list">
@@ -299,6 +300,7 @@ export default function ArticleDetails(): JSX.Element {
     const availableKeywordsLanguages = getAvailableKeywordsLanguages();
     if (availableKeywordsLanguages.length === 0) return null;
     const keywords = getKeywordsByLanguage(selectedKeywordsLanguage);
+    if (keywords.length === 0) return null;
 
     return (
         <div className="articleDetails-content-article-section-content-keywords-container">
