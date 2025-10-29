@@ -1,4 +1,5 @@
 import { TFunction } from 'i18next';
+import { IBoardMember } from '../types/board';
 
 export enum BOARD_TYPE {
   EDITORIAL_BOARD = 'editorial-board',
@@ -44,4 +45,38 @@ export const getBoardRoles = (t: TFunction<"translation", undefined>, roles: str
   ]
 
   return rolesWithLabels.filter(roleWithLabel => roles.includes(roleWithLabel.key)).map(roleWithLabel => roleWithLabel.label).join(', ')
+}
+
+/**
+ * Sort board members by role priority, then by lastname, then by firstname
+ * Priority order: chief-editor (1), editor (2), others (3)
+ * @param members - Array of board members to sort
+ * @returns Sorted array of board members
+ */
+export const sortBoardMembers = (members: IBoardMember[]): IBoardMember[] => {
+  return [...members].sort((a, b) => {
+    // Helper function to get role priority
+    const getRolePriority = (roles: string[]): number => {
+      if (roles.includes(BOARD_ROLE.CHIEF_EDITOR)) return 1;
+      if (roles.includes(BOARD_ROLE.EDITOR)) return 2;
+      return 3;
+    };
+
+    // Compare by role priority first
+    const rolePriorityA = getRolePriority(a.roles);
+    const rolePriorityB = getRolePriority(b.roles);
+
+    if (rolePriorityA !== rolePriorityB) {
+      return rolePriorityA - rolePriorityB;
+    }
+
+    // If same role priority, compare by lastname
+    const lastnameCompare = a.lastname.localeCompare(b.lastname, 'fr', { sensitivity: 'base' });
+    if (lastnameCompare !== 0) {
+      return lastnameCompare;
+    }
+
+    // If same lastname, compare by firstname
+    return a.firstname.localeCompare(b.firstname, 'fr', { sensitivity: 'base' });
+  });
 }
