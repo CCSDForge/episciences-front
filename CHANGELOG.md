@@ -9,8 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 ### Added
-- Accessibility Declaration
+- Accessibility Declaration FR + EN
 - Footer link to Management/back office
+- Config for CodeQL
+- Config for Dependabot
 
 ### Fixed
 ### Changed
