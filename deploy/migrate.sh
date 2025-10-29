@@ -244,8 +244,11 @@ migrate_journal() {
 
     # Move journal files to version directory
     log INFO "Moving files to $version_dir..."
-    if ! mv "$journal_dir" "$version_dir/"; then
-        error_exit "Failed to move journal: $journal"
+    if ! mv "$journal_dir"/* "$version_dir/"; then
+        error_exit "Failed to move journal contents: $journal"
+    fi
+    if ! rmdir "$journal_dir"; then
+        log WARN "Could not remove empty directory: $journal_dir"
     fi
 
     # Set ownership on version directory

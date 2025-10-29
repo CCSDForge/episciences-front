@@ -336,8 +336,8 @@ git_operations() {
     fi
 
     # Get current commit SHA for logging
-    local commit_sha=$(cd "$PROJECT_ROOT" && git rev-parse HEAD)
-    local commit_message=$(cd "$PROJECT_ROOT" && git log -1 --pretty=%B)
+    local commit_sha=$(run_as_build_user "git rev-parse HEAD")
+    local commit_message=$(run_as_build_user "git log -1 --pretty=%B")
     log SUCCESS "Git checkout complete"
     log INFO "Commit: $commit_sha"
     log INFO "Message: $commit_message"
@@ -425,6 +425,12 @@ deploy_journal() {
     log INFO "Setting ownership to $DEPLOY_USER:$DEPLOY_GROUP..."
     if ! chown -R "$DEPLOY_USER:$DEPLOY_GROUP" "$version_dir"; then
         error_exit "Failed to set ownership for journal: $journal"
+    fi
+
+    # Set permissions to be readable by all users
+    log INFO "Setting permissions to be readable by all users..."
+    if ! chmod -R a+rX "$version_dir"; then
+        error_exit "Failed to set permissions for journal: $journal"
     fi
 
     # Update symbolic link
