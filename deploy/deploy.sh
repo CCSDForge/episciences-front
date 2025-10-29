@@ -154,6 +154,12 @@ run_as_build_user() {
     "
 }
 
+run_as_deploy_user() {
+    local cmd="$@"
+    log INFO "Running as $DEPLOY_USER: $cmd"
+    sudo -u "$DEPLOY_USER" bash -c "$cmd"
+}
+
 parse_arguments() {
     if [ $# -eq 0 ]; then
         show_help
@@ -433,9 +439,17 @@ deploy_journal() {
         error_exit "Failed to set permissions for journal: $journal"
     fi
 
-    # Update symbolic link
-    log INFO "Updating symbolic link..."
-    ln -sfn "../dist-versions/$journal/$TIMESTAMP" "$dist_link"
+    # Remove existing destination before creating symlink
+    log INFO "Removing existing destination..."
+    if ! run_as_deploy_user "rm -rf '$dist_link'"; then
+        error_exit "Failed to remove existing destination: $journal"
+    fi
+
+    # Create symbolic link
+    log INFO "Creating symbolic link..."
+    if ! run_as_deploy_user "ln -s '../dist-versions/$journal/$TIMESTAMP' '$dist_link'"; then
+        error_exit "Failed to create symbolic link for journal: $journal"
+    fi
 
     # Set ownership on the link itself
     if ! chown -h "$DEPLOY_USER:$DEPLOY_GROUP" "$dist_link"; then
