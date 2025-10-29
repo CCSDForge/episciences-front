@@ -248,13 +248,19 @@ migrate_journal() {
     # Create version directory
     mkdir -p "$version_dir"
 
-    # Move journal files to version directory
-    log INFO "Moving files to $version_dir..."
-    if ! mv "$journal_dir"/* "$version_dir/"; then
+    # Move all files (including hidden files) to version directory
+    log INFO "Moving all files to $version_dir..."
+    if ! find "$journal_dir" -mindepth 1 -maxdepth 1 -exec mv {} "$version_dir/" \;; then
         error_exit "Failed to move journal contents: $journal"
     fi
-    if ! rmdir "$journal_dir"; then
-        log WARN "Could not remove empty directory: $journal_dir"
+
+    # Remove now-empty directory (or force removal if still has content)
+    log INFO "Removing source directory..."
+    if ! rmdir "$journal_dir" 2>/dev/null; then
+        log WARN "Directory not empty, forcing removal with rm -rf..."
+        if ! run_as_deploy_user "rm -rf '$journal_dir'"; then
+            error_exit "Failed to remove directory: $journal_dir"
+        fi
     fi
 
     # Set ownership on version directory
