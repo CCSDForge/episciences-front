@@ -27,7 +27,14 @@ export default function PDFViewer({ pdfUrl, showDownloadButton = false, prominen
   const [error, setError] = useState<string | null>(null);
 
   // Detect if PDF is from Zenodo - use react-pdf for better compatibility
-  const isZenodo = useMemo(() => pdfUrl.includes('zenodo.org'), [pdfUrl]);
+  const isZenodo = useMemo(() => {
+    try {
+      const { hostname } = new URL(pdfUrl);
+      return hostname === 'zenodo.org' || hostname.endsWith('.zenodo.org');
+    } catch (error) {
+      return false;
+    }
+  }, [pdfUrl]);
 
   // Memoize file and options to prevent unnecessary re-renders
   const fileConfig = useMemo(() => ({ url: pdfUrl }), [pdfUrl]);
