@@ -38,7 +38,6 @@ The deployment system uses a centralized builder that deploys to separate produc
 │   │   ├── config.example.sh      # Configuration template (in git)
 │   │   ├── deploy.sh              # Main deployment script
 │   │   ├── rollback.sh            # Rollback script
-│   │   ├── migrate.sh             # One-time migration script
 │   │   └── logs/                  # Deployment logs
 │   ├── package.json
 │   ├── Makefile
@@ -213,28 +212,7 @@ exit
 sudo -u git bash -c "source ~/.nvm/nvm.sh && node --version"
 ```
 
-### Step 4: Migrate Existing Structure (One-Time)
-
-This converts your existing `dist/` directories to the new symbolic link structure:
-
-```bash
-cd /sites/episciences-front-builder/deploy/
-
-# Migrate production
-sudo ./migrate.sh prod
-
-# Migrate preproduction
-sudo ./migrate.sh preprod
-```
-
-**What the migration does**:
-1. Creates `dist-versions/` directory structure
-2. Moves existing journal directories to versioned paths
-3. Replaces them with symbolic links
-4. Preserves all existing data
-5. Sets correct ownership (www-data:www-data)
-
-### Step 5: Verify Installation
+### Step 4: Verify Installation
 
 ```bash
 # Check symbolic links
@@ -375,7 +353,6 @@ sudo ./deploy.sh -h
 sudo ./deploy.sh --help
 
 sudo ./rollback.sh -h
-sudo ./migrate.sh -h
 ```
 
 ## Rollback Procedures

@@ -441,7 +441,7 @@ deploy_journal() {
 
     # Remove existing destination before creating symlink
     log INFO "Removing existing destination..."
-    if ! run_as_deploy_user "rm -rf '$dist_link'"; then
+    if ! run_as_deploy_user "rm -f '$dist_link'"; then
         error_exit "Failed to remove existing destination: $journal"
     fi
 
@@ -565,8 +565,11 @@ main() {
     if [ ! -d "$target_path" ] && [ "$DRY_RUN" = false ]; then
         error_exit "Target path does not exist: $target_path
 
-Please run the migration script first:
-    sudo ./migrate.sh $ENVIRONMENT"
+Please create the required directory structure:
+    sudo mkdir -p $target_path/dist
+    sudo mkdir -p $target_path/dist-versions
+    sudo mkdir -p $target_path/logs
+    sudo chown -R $DEPLOY_USER:$DEPLOY_GROUP $target_path"
     fi
 
     # Execute deployment steps
