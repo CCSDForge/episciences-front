@@ -93,6 +93,7 @@
         "documentation": "Documentation",
         "acknowledgements": "Acknowledgements",
         "publishingPolicy": "Publishing policy",
+        "accessibility": "Accessibility",
         "legalMentions": "Legal mentions",
         "privacyStatement": "Privacy statement",
         "termsOfUse": "Terms of use"
@@ -384,6 +385,9 @@
     },
     "credits": {
       "title": "Credits"
+    },
+    "accessibility": {
+      "title": "Accessibility statement"
     }
   }
 }

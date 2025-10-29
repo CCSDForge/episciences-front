@@ -7,6 +7,7 @@ import ScrollManager from "../hooks/scrollManager";
 import MainLayout from "../app/layouts/MainLayout/MainLayout";
 import Home from "../app/pages/Home/Home";
 import About from "../app/pages/About/About";
+import Accessibility from "../app/pages/Accessibility/Accessibility";
 import Articles from "../app/pages/Articles/Articles";
 import ArticleDetails from "../app/pages/ArticleDetails/ArticleDetails";
 import ArticleDetailsMetadata from "../app/pages/ArticleDetailsMetadata/ArticleDetailsMetadata";
@@ -63,6 +64,7 @@ const router = createBrowserRouter([
       basicRoute("boards", Boards),
       basicRoute("forAuthors", ForAuthors),
       basicRoute("credits", Credits),
+      basicRoute("accessibility", Accessibility),
       basicRoute("search", Search),
       basicRoute("articles", Articles),
       basicRoute("articleDetails", ArticleDetails),
