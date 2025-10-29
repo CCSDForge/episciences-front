@@ -31,7 +31,6 @@ GIT_BRANCH=""
 GIT_TAG=""
 DRY_RUN=false
 DEPLOY_ALL=false
-ALREADY_SWITCHED=false
 
 # =============================================================================
 # HELPER FUNCTIONS
@@ -110,7 +109,9 @@ JOURNAL CLASSIFICATION:
     - All other journals → prod environment
 
 NOTES:
-    - Must be run as root (will switch to www-data for build)
+    - Must be run as root
+    - Build operations (git, npm, make) run as: git
+    - Deployed files are owned by: www-data
     - Configuration is read from: $CONFIG_FILE
     - Logs are saved to: $LOG_DIR/
 
@@ -123,7 +124,7 @@ error_exit() {
 }
 
 check_root() {
-    if [ "$EUID" -ne 0 ] && [ "$ALREADY_SWITCHED" != "true" ]; then
+    if [ "$EUID" -ne 0 ]; then
         error_exit "This script must be run as root. Use: sudo $0 $@"
     fi
 }
@@ -141,12 +142,16 @@ Please create it from the example:
     log INFO "Configuration loaded from $CONFIG_FILE"
 }
 
-switch_to_www_data() {
-    if [ "$(whoami)" != "$BUILD_USER" ] && [ "$ALREADY_SWITCHED" != "true" ]; then
-        log INFO "Switching to user: $BUILD_USER"
-        export ALREADY_SWITCHED=true
-        exec sudo -u "$BUILD_USER" bash "$0" "$@"
-    fi
+run_as_build_user() {
+    local cmd="$@"
+    log INFO "Running as $BUILD_USER: $cmd"
+    # Load nvm if available (for git user with nvm installation)
+    sudo -u "$BUILD_USER" bash -c "
+        if [ -s ~/.nvm/nvm.sh ]; then
+            source ~/.nvm/nvm.sh
+        fi
+        cd '$PROJECT_ROOT' && $cmd
+    "
 }
 
 parse_arguments() {
@@ -301,35 +306,38 @@ get_journals_for_environment() {
 git_operations() {
     log STEP "Performing git operations..."
 
-    cd "$PROJECT_ROOT"
+    if [ "$DRY_RUN" = true ]; then
+        log INFO "[DRY-RUN] Would run git operations as $BUILD_USER"
+        return
+    fi
 
     # Fetch all branches and tags
     log INFO "Fetching from remote..."
-    if ! git fetch --all --tags; then
+    if ! run_as_build_user "git fetch --all --tags"; then
         error_exit "Git fetch failed"
     fi
 
     # Checkout appropriate ref
     if [ -n "$GIT_TAG" ]; then
         log INFO "Checking out tag: $GIT_TAG"
-        if ! git checkout "tags/$GIT_TAG"; then
+        if ! run_as_build_user "git checkout tags/$GIT_TAG"; then
             error_exit "Failed to checkout tag: $GIT_TAG"
         fi
     else
         log INFO "Checking out branch: $GIT_BRANCH"
-        if ! git checkout "$GIT_BRANCH"; then
+        if ! run_as_build_user "git checkout $GIT_BRANCH"; then
             error_exit "Failed to checkout branch: $GIT_BRANCH"
         fi
 
         log INFO "Pulling latest changes..."
-        if ! git pull origin "$GIT_BRANCH"; then
+        if ! run_as_build_user "git pull origin $GIT_BRANCH"; then
             error_exit "Git pull failed"
         fi
     fi
 
     # Get current commit SHA for logging
-    local commit_sha=$(git rev-parse HEAD)
-    local commit_message=$(git log -1 --pretty=%B)
+    local commit_sha=$(cd "$PROJECT_ROOT" && git rev-parse HEAD)
+    local commit_message=$(cd "$PROJECT_ROOT" && git log -1 --pretty=%B)
     log SUCCESS "Git checkout complete"
     log INFO "Commit: $commit_sha"
     log INFO "Message: $commit_message"
@@ -342,15 +350,13 @@ git_operations() {
 install_dependencies() {
     log STEP "Installing dependencies..."
 
-    cd "$PROJECT_ROOT"
-
     if [ "$DRY_RUN" = true ]; then
-        log INFO "[DRY-RUN] Would run: npm install"
+        log INFO "[DRY-RUN] Would run: npm install as $BUILD_USER"
         return
     fi
 
     log INFO "Running npm install..."
-    if ! npm install; then
+    if ! run_as_build_user "npm install"; then
         error_exit "npm install failed"
     fi
 
@@ -362,23 +368,21 @@ build_journals() {
 
     log STEP "Building journals..."
 
-    cd "$PROJECT_ROOT"
-
     for journal in "${journals[@]}"; do
         log INFO "Building journal: $journal"
 
         if [ "$DRY_RUN" = true ]; then
-            log INFO "[DRY-RUN] Would run: make $journal"
+            log INFO "[DRY-RUN] Would run: make $journal as $BUILD_USER"
             continue
         fi
 
-        if ! make "$journal"; then
+        if ! run_as_build_user "make $journal"; then
             error_exit "Build failed for journal: $journal"
         fi
 
         # Verify build output exists
-        if [ ! -d "dist/$journal" ]; then
-            error_exit "Build output not found: dist/$journal"
+        if [ ! -d "$PROJECT_ROOT/dist/$journal" ]; then
+            error_exit "Build output not found: $PROJECT_ROOT/dist/$journal"
         fi
 
         log SUCCESS "Built journal: $journal"
@@ -402,7 +406,9 @@ deploy_journal() {
     if [ "$DRY_RUN" = true ]; then
         log INFO "[DRY-RUN] Would create: $version_dir"
         log INFO "[DRY-RUN] Would copy: dist/$journal/ -> $version_dir/"
+        log INFO "[DRY-RUN] Would chown: $DEPLOY_USER:$DEPLOY_GROUP $version_dir/"
         log INFO "[DRY-RUN] Would update link: $dist_link -> ../dist-versions/$journal/$TIMESTAMP"
+        log INFO "[DRY-RUN] Would chown link: $DEPLOY_USER:$DEPLOY_GROUP $dist_link"
         return
     fi
 
@@ -415,9 +421,20 @@ deploy_journal() {
         error_exit "Failed to copy files for journal: $journal"
     fi
 
+    # Set ownership to deploy user
+    log INFO "Setting ownership to $DEPLOY_USER:$DEPLOY_GROUP..."
+    if ! chown -R "$DEPLOY_USER:$DEPLOY_GROUP" "$version_dir"; then
+        error_exit "Failed to set ownership for journal: $journal"
+    fi
+
     # Update symbolic link
     log INFO "Updating symbolic link..."
     ln -sfn "../dist-versions/$journal/$TIMESTAMP" "$dist_link"
+
+    # Set ownership on the link itself
+    if ! chown -h "$DEPLOY_USER:$DEPLOY_GROUP" "$dist_link"; then
+        error_exit "Failed to set ownership on symbolic link for journal: $journal"
+    fi
 
     # Verify link
     if [ ! -L "$dist_link" ]; then
@@ -511,11 +528,8 @@ main() {
     fi
     log INFO "Dry run: $DRY_RUN"
     log INFO "Target path: $(get_target_path)"
-
-    # Switch to build user
-    switch_to_www_data "$@"
-
-    log INFO "Running as user: $(whoami)"
+    log INFO "Build user: $BUILD_USER"
+    log INFO "Deploy user: $DEPLOY_USER"
 
     # Determine which journals to deploy
     local journals_to_deploy=()

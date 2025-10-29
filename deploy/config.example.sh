@@ -21,10 +21,15 @@ PREPROD_PATH="/sites/episciences-front-preprod"
 # BUILD CONFIGURATION
 # =============================================================================
 
-# User and group for building and deploying
-# This should be the web server user (typically www-data)
-BUILD_USER="www-data"
-BUILD_GROUP="www-data"
+# User and group for building (git, npm, make)
+# Using 'git' provides minimal permissions for security
+BUILD_USER="git"
+BUILD_GROUP="git"
+
+# User and group for deployed files (web server)
+# Files will be owned by this user after deployment
+DEPLOY_USER="www-data"
+DEPLOY_GROUP="www-data"
 
 # =============================================================================
 # VERSION MANAGEMENT
@@ -72,6 +77,13 @@ PREPROD_EXCEPTIONS=("epijinfo")
 # =============================================================================
 # NOTES
 # =============================================================================
+#
+# User Separation (Security):
+# - BUILD_USER (git): Executes git, npm, and make operations
+#   → Minimal permissions, cannot write to web directories
+# - DEPLOY_USER (www-data): Owns the deployed files
+#   → Web server serves files with this user
+# - Root: Orchestrates the process and changes file ownership
 #
 # Journal Classification Logic:
 # - Journals with "-preprod" suffix → PREPROD environment

@@ -104,14 +104,23 @@ PREPROD_EXCEPTIONS=("epijinfo")
 
 ### Build Process
 
-The build is executed by the `www-data` user to ensure correct permissions:
+The build uses a secure two-user approach:
 
+**Build Phase** (executed as `git`):
 1. **Git operations**: Fetch, checkout branch/tag, pull updates
 2. **Dependencies**: Install npm packages
 3. **Build**: Run Makefile to build journals (Vite + TypeScript)
+
+**Deploy Phase** (executed as `root`, files owned by `www-data`):
 4. **Deploy**: Copy built files to versioned directories
-5. **Activate**: Update symbolic links
-6. **Cleanup**: Remove old versions (keeping N most recent)
+5. **Set ownership**: Change all files to `www-data:www-data`
+6. **Activate**: Update symbolic links (owned by `www-data`)
+7. **Cleanup**: Remove old versions (keeping N most recent)
+
+This separation ensures:
+- **Security**: Build process runs with minimal permissions (`git`)
+- **Isolation**: Build user cannot modify deployed files
+- **Correctness**: Web server (`www-data`) owns all served files
 
 ## Prerequisites
 
@@ -125,10 +134,14 @@ The build is executed by the `www-data` user to ensure correct permissions:
 ### Permissions
 
 - **Root access**: Scripts must be run with `sudo`
-- **www-data user**: Must have:
-  - Node.js and npm in PATH
-  - Write permissions to deployment directories
-  - Git configured (name, email)
+- **git user** (for building): Must have:
+  - Home directory with bash shell
+  - nvm installed with Node.js 18+
+  - Read access to repository
+  - Write access to build output (dist/)
+- **www-data user** (for serving): Must have:
+  - Read access to deployed files (set automatically)
+- **Git configuration**: Should be configured for `git` user
 
 ### Disk Space
 
@@ -165,26 +178,39 @@ DEFAULT_BRANCH="main"                             # Default git branch
 PREPROD_EXCEPTIONS=("epijinfo")                   # Journals for preprod despite no suffix
 ```
 
-### Step 3: Install Node.js for www-data (if needed)
+### Step 3: Install Node.js for git user
+
+The build process runs as `git` user, so Node.js should be installed in its home directory using nvm:
 
 ```bash
-# Switch to www-data user
-sudo -u www-data bash
+# Ensure git user has a home directory and shell
+sudo usermod -s /bin/bash git
+sudo mkhomedir_helper git  # Or: sudo mkdir -p /home/git && sudo chown git:git /home/git
+
+# Switch to git user
+sudo -u git bash
 
 # Install nvm (Node Version Manager)
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-source ~/.bashrc
 
-# Install Node.js
+# Load nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# Install Node.js 18
 nvm install 18
 nvm use 18
+nvm alias default 18
 
 # Verify installation
 node --version
 npm --version
 
-# Exit www-data shell
+# Exit git user shell
 exit
+
+# Verify git user can access Node.js
+sudo -u git bash -c "source ~/.nvm/nvm.sh && node --version"
 ```
 
 ### Step 4: Migrate Existing Structure (One-Time)
@@ -452,18 +478,21 @@ sudo chown -R www-data:www-data /sites/episciences-front-preprod/
 
 **Solutions**:
 ```bash
-# Check Node.js is accessible for www-data
-sudo -u www-data bash -c "node --version"
-sudo -u www-data bash -c "npm --version"
+# Check Node.js is accessible for git (build user)
+sudo -u git bash -c "source ~/.nvm/nvm.sh && node --version"
+sudo -u git bash -c "source ~/.nvm/nvm.sh && npm --version"
 
-# If not found, add to PATH or reinstall Node.js for www-data
+# If not found, install nvm and Node.js for git user (see Step 3)
+
+# If nvm is not loading, ensure it's in git user's profile
+sudo -u git bash -c "echo 'source ~/.nvm/nvm.sh' >> ~/.bashrc"
 
 # Clear npm cache
 cd /sites/episciences-front-builder/
-sudo -u www-data bash -c "npm cache clean --force"
+sudo -u git bash -c "source ~/.nvm/nvm.sh && npm cache clean --force"
 
 # Remove node_modules and try again
-sudo -u www-data bash -c "rm -rf node_modules package-lock.json"
+sudo -u git bash -c "source ~/.nvm/nvm.sh && rm -rf node_modules package-lock.json"
 sudo ./deploy.sh prod dmtcs
 ```
 
@@ -518,15 +547,15 @@ sudo rm -rf 2025-09-*  # Remove very old versions
 cd /sites/episciences-front-builder/
 
 # Check git status
-sudo -u www-data git status
+sudo -u git git status
 
 # Reset to clean state
-sudo -u www-data git reset --hard
-sudo -u www-data git clean -fd
+sudo -u git git reset --hard
+sudo -u git git clean -fd
 
-# Update git config for www-data if needed
-sudo -u www-data git config --global user.name "www-data"
-sudo -u www-data git config --global user.email "www-data@episciences.org"
+# Update git config for git user if needed
+sudo -u git git config --global user.name "Git Build User"
+sudo -u git git config --global user.email "git@episciences.org"
 ```
 
 ### Log File Locations
@@ -565,8 +594,11 @@ sudo ./deploy.sh prod dmtcs --verbose
 
 **Run commands manually**:
 ```bash
-# Become www-data
-sudo -u www-data bash
+# Become git (build user)
+sudo -u git bash
+
+# Load nvm
+source ~/.nvm/nvm.sh
 
 # Navigate to builder
 cd /sites/episciences-front-builder/
@@ -583,8 +615,10 @@ make dmtcs
 # Check output
 ls -la dist/dmtcs/
 
-# Exit www-data
+# Exit git user
 exit
+
+# Note: Deployed files are owned by www-data, but built by git
 ```
 
 **Check Apache/Nginx logs** (if journals don't load):
