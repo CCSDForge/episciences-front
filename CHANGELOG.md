@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 ### Added
+- Deployment scripts see [README.md](deploy/README.md])
 - Preview for Zenodo PDF
 - Accessibility Declaration FR + EN
 - Footer link to Management/back office
