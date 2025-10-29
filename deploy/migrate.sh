@@ -26,7 +26,6 @@ NC='\033[0m' # No Color
 # Global variables
 ENVIRONMENT=""
 DRY_RUN=false
-ALREADY_SWITCHED=false
 
 # =============================================================================
 # HELPER FUNCTIONS
@@ -91,13 +90,16 @@ WHAT IT DOES:
 
 NOTES:
     - THIS SHOULD ONLY BE RUN ONCE per environment
+    - Must be run as root
     - Run with --dry-run first to see what will happen
     - Creates a backup timestamp for reference
+    - Sets ownership to www-data:www-data for all files
     - If dist/ is already a symbolic link structure, migration is not needed
 
 SAFETY:
     - No data is deleted
     - Original structure is preserved in versioned directories
+    - Ownership is set correctly for web server (www-data)
     - Can be reverted by restoring from dist-versions
 
 EOF
@@ -109,7 +111,7 @@ error_exit() {
 }
 
 check_root() {
-    if [ "$EUID" -ne 0 ] && [ "$ALREADY_SWITCHED" != "true" ]; then
+    if [ "$EUID" -ne 0 ]; then
         error_exit "This script must be run as root. Use: sudo $0 $@"
     fi
 }
@@ -123,14 +125,6 @@ Please create it from the example:
     fi
 
     source "$CONFIG_FILE"
-}
-
-switch_to_www_data() {
-    if [ "$(whoami)" != "$BUILD_USER" ] && [ "$ALREADY_SWITCHED" != "true" ]; then
-        log INFO "Switching to user: $BUILD_USER"
-        export ALREADY_SWITCHED=true
-        exec sudo -u "$BUILD_USER" bash "$0" "$@"
-    fi
 }
 
 parse_arguments() {
@@ -241,6 +235,7 @@ migrate_journal() {
         log INFO "[DRY-RUN] Would create: $version_dir"
         log INFO "[DRY-RUN] Would move: $journal_dir -> $version_dir"
         log INFO "[DRY-RUN] Would create link: $journal_dir -> ../dist-versions/$journal/$MIGRATION_DATE"
+        log INFO "[DRY-RUN] Would chown: $DEPLOY_USER:$DEPLOY_GROUP (version dir and link)"
         return
     fi
 
@@ -253,11 +248,23 @@ migrate_journal() {
         error_exit "Failed to move journal: $journal"
     fi
 
+    # Set ownership on version directory
+    log INFO "Setting ownership on version directory..."
+    if ! chown -R "$DEPLOY_USER:$DEPLOY_GROUP" "$version_dir"; then
+        error_exit "Failed to set ownership on version directory: $journal"
+    fi
+
     # Create symbolic link
     log INFO "Creating symbolic link..."
     local link_target="../dist-versions/$journal/$MIGRATION_DATE"
     if ! ln -s "$link_target" "$journal_dir"; then
         error_exit "Failed to create symbolic link for: $journal"
+    fi
+
+    # Set ownership on the link
+    log INFO "Setting ownership on symbolic link..."
+    if ! chown -h "$DEPLOY_USER:$DEPLOY_GROUP" "$journal_dir"; then
+        error_exit "Failed to set ownership on symbolic link: $journal"
     fi
 
     # Verify link
@@ -286,11 +293,7 @@ main() {
     log INFO "Environment: $ENVIRONMENT"
     log INFO "Migration timestamp: $MIGRATION_DATE"
     log INFO "Dry run: $DRY_RUN"
-
-    # Switch to build user
-    switch_to_www_data "$@"
-
-    log INFO "Running as user: $(whoami)"
+    log INFO "Deploy user: $DEPLOY_USER"
 
     # Get target path
     local target_path=$(get_target_path)

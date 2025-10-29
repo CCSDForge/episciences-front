@@ -25,7 +25,6 @@ NC='\033[0m' # No Color
 ENVIRONMENT=""
 JOURNAL=""
 LIST_ONLY=false
-ALREADY_SWITCHED=false
 
 # =============================================================================
 # HELPER FUNCTIONS
@@ -85,8 +84,9 @@ HOW IT WORKS:
     5. Verifies the rollback was successful
 
 NOTES:
-    - Must be run as root (will switch to www-data)
+    - Must be run as root
     - Rollback is instant (just changes a symbolic link)
+    - Symbolic links are set to www-data ownership
     - No files are deleted during rollback
     - You can rollback to any version that still exists
 
@@ -99,7 +99,7 @@ error_exit() {
 }
 
 check_root() {
-    if [ "$EUID" -ne 0 ] && [ "$ALREADY_SWITCHED" != "true" ]; then
+    if [ "$EUID" -ne 0 ]; then
         error_exit "This script must be run as root. Use: sudo $0 $@"
     fi
 }
@@ -113,14 +113,6 @@ Please create it from the example:
     fi
 
     source "$CONFIG_FILE"
-}
-
-switch_to_www_data() {
-    if [ "$(whoami)" != "$BUILD_USER" ] && [ "$ALREADY_SWITCHED" != "true" ]; then
-        log INFO "Switching to user: $BUILD_USER"
-        export ALREADY_SWITCHED=true
-        exec sudo -u "$BUILD_USER" bash "$0" "$@"
-    fi
 }
 
 parse_arguments() {
@@ -309,6 +301,12 @@ perform_rollback() {
         error_exit "Failed to update symbolic link"
     fi
 
+    # Set ownership on the link
+    log INFO "Setting ownership to $DEPLOY_USER:$DEPLOY_GROUP..."
+    if ! chown -h "$DEPLOY_USER:$DEPLOY_GROUP" "$dist_link"; then
+        error_exit "Failed to set ownership on symbolic link"
+    fi
+
     # Verify rollback
     local new_current=$(get_current_version)
     if [ "$new_current" != "$selected_version" ]; then
@@ -335,11 +333,9 @@ main() {
     load_config
     parse_arguments "$@"
 
-    # Switch to build user
-    switch_to_www_data "$@"
-
     log INFO "Environment: $ENVIRONMENT"
     log INFO "Journal: $JOURNAL"
+    log INFO "Deploy user: $DEPLOY_USER"
 
     # Validate target path exists
     local target_path=$(get_target_path)
