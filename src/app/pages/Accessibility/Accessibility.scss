@@ -1,0 +1,48 @@
+@use "src/style/breakpoints.scss";
+
+.accessibility {
+  &-title {
+    margin-bottom: 70px;
+
+    @media (max-width: breakpoints.$sm) {
+      margin-bottom: 30px;
+    }
+  }
+
+  &-content {
+    max-width: 800px;
+
+    h2, h3 {
+      scroll-margin: 120px;
+      margin-top: 32px;
+      margin-bottom: 16px;
+    }
+
+    h3, h4 {
+      margin: 0;
+    }
+
+    h4 {
+      margin-top: 16px;
+    }
+
+    p {
+      margin: 16px 0px 16px 0px;
+      line-height: 1.6;
+    }
+
+    ul, ol {
+      margin: 16px 0px;
+      line-height: 1.6;
+    }
+
+    &-link {
+      text-decoration: underline;
+      color: var(--primary);
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+}
