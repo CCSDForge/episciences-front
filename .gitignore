@@ -30,3 +30,7 @@ public/logos
 .firebase/*
 /external-assets/
 /.next/
+
+# Deployment configuration and logs
+deploy/config.sh
+deploy/logs/
