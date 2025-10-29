@@ -9,11 +9,11 @@
     "replacements:all",
     "workarounds:all"
   ],
-  "baseBranches": ["dev"],
+  "baseBranches": ["preprod"],
   "packageRules": [
     {
-      "matchBaseBranches": ["dev"],
-      "labels": ["dev-update"]
+      "matchBaseBranches": ["preprod"],
+      "labels": ["preprod-update"]
     }
   ]
 }
