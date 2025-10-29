@@ -39,7 +39,8 @@ export const authorApi = createApi({
     }),
     fetchAuthorArticles: build.query<{ data: IAuthorArticle[], totalItems: number }, { rvcode: string, fullname: string; }>({
       query: ({ rvcode, fullname } :{ rvcode: string, fullname: string; }) => {
-        return `browse/authors-search/${fullname}?pagination=false&code=${rvcode}`
+        const searchTerm = fullname.replace(/,/g, '').replace(/\s+/g, ' AND ');
+        return `browse/authors-search/${searchTerm}?pagination=false&code=${rvcode}`
       },
       transformResponse(baseQueryReturnValue: PaginatedResponse<RawAuthorArticle>) {
         const totalItems = baseQueryReturnValue['hydra:totalItems'];
