@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown'
 import { useTranslation } from 'react-i18next';
 import remarkGfm from 'remark-gfm';

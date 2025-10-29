@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 import { BoardPage, RawBoardMember, IBoardMember } from '../../../types/board'
-import { BOARD_TYPE, boardTypes } from '../../../utils/board'
+import { BOARD_TYPE, boardTypes, sortBoardMembers } from '../../../utils/board'
 import { AvailableLanguage } from '../../../utils/i18n'
 import { createBaseQueryWithJsonAccept } from '../../utils'
 
@@ -49,8 +49,9 @@ export const boardApi = createApi({
             website: board.additionalProfileInformation?.webSites ? board.additionalProfileInformation.webSites[0] : undefined
           }
         })
-        
-        return formattedBoardMembers;
+
+        // Sort members by role (chief-editor, editor), then by lastname, then by firstname
+        return sortBoardMembers(formattedBoardMembers);
       },
     }),
   }),

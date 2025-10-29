@@ -18,9 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Volume page, display other volumes with a link
 
+### Changed
+- Sort editorial board members by role : Editors-in-chief first, then editors
+- Do not display empty sections (absracts, keywords, relationships) 
+
 
 <!-- 
-### Changed
+
 ### Deprecated
 ### Removed
 ### Security
