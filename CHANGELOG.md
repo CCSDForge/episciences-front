@@ -7,8 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- 
 ## Unreleased
-### Fixed
+
 ### Added
+- Accessibility Declaration
+- Footer link to Management/back office
+
+### Fixed
 ### Changed
 ### Deprecated
 ### Removed
