@@ -15,7 +15,7 @@ import { useAppSelector } from "../../../hooks/store";
 import { formatArticle, FetchedArticle } from "../../../utils/article";
 import { useFetchVolumesQuery, useFetchVolumeQuery } from "../../../store/features/volume/volume.query";
 import { RawArticle, IArticle } from "../../../types/article";
-import { IVolume, IVolumeMetadata } from "../../../types/volume";
+import { IVolumeMetadata } from "../../../types/volume";
 import { formatDate } from "../../../utils/date";
 import { VOLUME_TYPE } from "../../../utils/volume";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
@@ -60,26 +60,11 @@ export default function VolumeDetails(): JSX.Element {
 
       return formatArticle(article)
     });
-    
+
     const fetchedArticles = await Promise.all(articlesRequests);
 
     setArticles(fetchedArticles);
     setIsFetchingArticles(false);
-  };
-
-  const reorderRelatedVolumes = (volumesToBeOrdered: IVolume[]): IVolume[] => {
-    if (!volume || !volumesToBeOrdered || !volumesToBeOrdered.length) return volumesToBeOrdered;
-
-    const currentVolumeIndex = volumesToBeOrdered.findIndex(v => v.id === volume.id);
-    if (currentVolumeIndex > -1) {
-      const newVolumes = [...volumesToBeOrdered];
-      const [currentVolume] = newVolumes.splice(currentVolumeIndex, 1);
-      newVolumes.unshift(currentVolume);
-      
-      return newVolumes;
-    }
-  
-    return volumesToBeOrdered;
   };
 
   const renderVolumeType = (): JSX.Element => {
@@ -235,7 +220,7 @@ export default function VolumeDetails(): JSX.Element {
         { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` },
         { path: 'volumes', label: `${t('pages.volumes.title')} >`}
       ]} crumbLabel={`${t('pages.volumeDetails.title')} ${volume?.num}`} />}
-      {openedRelatedVolumesMobileModal && <VolumeDetailsMobileModal language={language} t={t} volume={volume} relatedVolumes={reorderRelatedVolumes(relatedVolumes?.data ?? [])} onSelectRelatedVolumeCallback={(volumeId: number): void => navigate(`${PATHS.volumes}/${volumeId}`)} onCloseCallback={(): void => setOpenedRelatedVolumesMobileModal(false)}/>}
+      {openedRelatedVolumesMobileModal && <VolumeDetailsMobileModal language={language} t={t} volume={volume} relatedVolumes={relatedVolumes?.data ?? []} onSelectRelatedVolumeCallback={(volumeId: number): void => navigate(`${PATHS.volumes}/${volumeId}`)} onCloseCallback={(): void => setOpenedRelatedVolumesMobileModal(false)}/>}
       {isFetchingVolume || isFetchingArticles || isFetchingRelatedVolumes ? (
         <Loader />
       ) : (
@@ -249,7 +234,7 @@ export default function VolumeDetails(): JSX.Element {
             <div className='volumeDetails-content-results'>
               {renderVolumeTitle(true)}
               {renderVolumeCommittee(true)}
-              <VolumeDetailsSidebar language={language} t={t} volume={volume} articles={articles as IArticle[]} currentJournal={currentJournal} relatedVolumes={reorderRelatedVolumes(relatedVolumes?.data ?? []) ?? []} />
+              <VolumeDetailsSidebar language={language} t={t} volume={volume} articles={articles as IArticle[]} currentJournal={currentJournal} relatedVolumes={relatedVolumes?.data ?? []} />
               <div className="volumeDetails-content-results-content">
                 {renderVolumeTitle(false)}
                 {renderVolumeCommittee(false)}
