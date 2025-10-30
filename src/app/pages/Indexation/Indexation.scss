@@ -1,0 +1,85 @@
+@use "src/style/breakpoints.scss";
+
+.indexation {
+  &-title {
+    margin-bottom: 15px;
+    color: var(--blue-dark);
+    font-size: 28px;
+  }
+
+  &-content {
+    display: flex;
+    gap: 35px;
+  }
+
+  &-sidebar {
+    min-width: 265px;
+
+    @media (max-width: breakpoints.$sm) {
+      display: none;
+    }
+  }
+
+  &-content-body {
+    flex-grow: 1;
+    max-width: calc(100% - 300px);
+    margin-top: 31px;
+
+    @media (max-width: breakpoints.$sm) {
+      max-width: 100%;
+    }
+
+    p {
+      margin-bottom: 12px;
+      color: var(--blue-dark);
+      font-size: 15px;
+      text-align: justify;
+      line-height: 23px;
+    }
+
+    h2 {
+      margin-top: 25px;
+      margin-bottom: 15px;
+      font-size: 20px;
+      color: var(--blue-dark);
+    }
+
+    h3 {
+      margin-top: 20px;
+      margin-bottom: 12px;
+      font-size: 16px;
+      color: var(--blue-dark);
+    }
+
+    ul {
+      list-style: disc;
+      padding-left: 20px;
+      margin-bottom: 12px;
+
+      li {
+        margin-bottom: 8px;
+        color: var(--blue-dark);
+        font-size: 15px;
+        line-height: 23px;
+      }
+    }
+
+    a {
+      color: var(--red);
+      text-decoration: underline;
+
+      &:hover {
+        color: var(--blue-dark);
+      }
+    }
+  }
+
+  &-link {
+    text-decoration: underline;
+    color: var(--blue-dark);
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}

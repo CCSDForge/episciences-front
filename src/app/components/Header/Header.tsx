@@ -94,7 +94,7 @@ export default function Header(): JSX.Element {
 
   const shouldRenderMenuItem = (key: string): boolean => {
     const envValue = import.meta.env[`VITE_JOURNAL_MENU_${key}_RENDER`]
-    return envValue === undefined || envValue === 'true'
+    return envValue !== 'false'
   }
 
   const getSubmitManagerLink = (): string | null => {
@@ -150,6 +150,12 @@ export default function Header(): JSX.Element {
                 <div className='header-postheader-links-dropdown-content' onMouseLeave={(): void => toggleDropdown('about', false)}>
                   <div className='header-postheader-links-dropdown-content-links'>
                     <Link to={PATHS.about}>{t('components.header.links.about')}</Link>
+                    {shouldRenderMenuItem('JOURNAL_ACKNOWLEDGEMENTS') && (
+                        <Link to={PATHS.acknowledgments}>{t('components.header.links.acknowledgements')}</Link>
+                    )}
+                    {shouldRenderMenuItem('JOURNAL_INDEXING') && (
+                        <Link to={PATHS.indexation}>{t('components.header.links.indexation')}</Link>
+                    )}
                     {shouldRenderMenuItem('NEWS') && (
                         <Link to={PATHS.news}>{t('components.header.links.news')}</Link>
                     )}
@@ -241,6 +247,12 @@ export default function Header(): JSX.Element {
             <div className='header-postheader-burger-content-links-section header-postheader-burger-content-links-section-bordered'>
               <div className='header-postheader-burger-content-links-section-links'>
                 <span onTouchEnd={(): void => navigate(PATHS.about)}>{t('components.header.links.about')}</span>
+                  {shouldRenderMenuItem('JOURNAL_ACKNOWLEDGEMENTS') && (
+                <span onTouchEnd={(): void => navigate(PATHS.acknowledgments)}>{t('components.header.links.acknowledgements')}</span>
+                  )}
+                  {shouldRenderMenuItem('JOURNAL_INDEXING') && (
+                      <span onTouchEnd={(): void => navigate(PATHS.indexation)}>{t('components.header.links.indexation')}</span>
+                  )}
                   {shouldRenderMenuItem('NEWS') && (
                 <span onTouchEnd={(): void => navigate(PATHS.news)}>{t('components.header.links.news')}</span>
                     )}
