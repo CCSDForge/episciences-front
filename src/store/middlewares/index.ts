@@ -6,6 +6,7 @@ import { creditsApi } from '../features/credits/credits.query'
 import { forAuthorApi } from '../features/forAuthor/forAuthor.query'
 import { indexationApi } from '../features/indexation/indexation.query'
 import { journalApi } from '../features/journal/journal.query'
+import { acknowledgmentsApi } from '../features/acknowledgments/acknowledgments.query'
 import { newsApi } from '../features/news/news.query'
 import { searchApi } from '../features/search/search.query'
 import { sectionApi } from '../features/section/section.query'
@@ -22,6 +23,7 @@ export const enhancedMiddleware = (getDefaultMiddleware: Function) => getDefault
   .concat(forAuthorApi.middleware)
   .concat(indexationApi.middleware)
   .concat(journalApi.middleware)
+  .concat(acknowledgmentsApi.middleware)
   .concat(newsApi.middleware)
   .concat(searchApi.middleware)
   .concat(sectionApi.middleware)
