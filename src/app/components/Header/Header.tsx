@@ -94,7 +94,7 @@ export default function Header(): JSX.Element {
 
   const shouldRenderMenuItem = (key: string): boolean => {
     const envValue = import.meta.env[`VITE_JOURNAL_MENU_${key}_RENDER`]
-    return envValue === undefined || envValue === 'true'
+    return envValue !== 'false'
   }
 
   const getSubmitManagerLink = (): string | null => {
