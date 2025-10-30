@@ -250,6 +250,9 @@ export default function Header(): JSX.Element {
                   {shouldRenderMenuItem('JOURNAL_ACKNOWLEDGEMENTS') && (
                 <span onTouchEnd={(): void => navigate(PATHS.acknowledgments)}>{t('components.header.links.acknowledgements')}</span>
                   )}
+                  {shouldRenderMenuItem('JOURNAL_INDEXING') && (
+                      <span onTouchEnd={(): void => navigate(PATHS.indexation)}>{t('components.header.links.indexation')}</span>
+                  )}
                   {shouldRenderMenuItem('NEWS') && (
                 <span onTouchEnd={(): void => navigate(PATHS.news)}>{t('components.header.links.news')}</span>
                     )}
