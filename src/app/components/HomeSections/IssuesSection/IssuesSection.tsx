@@ -25,7 +25,7 @@ export default function IssuesSection({ language, t, issues, currentJournal }: I
             <img className='issuesSection-card-tile' src={issue.tileImageURL} alt='Issue tile' />
           ) : (
             <div className="issuesSection-card-template">
-              <div className="issuesSection-card-template-jpe">{currentJournal?.code.toUpperCase()}</div>
+              <div className="issuesSection-card-template-journal">{currentJournal?.code.toUpperCase()}</div>
               <div className="issuesSection-card-template-volume">{t('common.volumeCard.specialIssue')}</div>
               <div className="issuesSection-card-template-number">{issue.num}</div>
               <div className="issuesSection-card-template-year">{issue.year}</div>

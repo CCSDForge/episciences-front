@@ -74,7 +74,7 @@ export default function VolumeCard({ language, t, mode, volume, currentJournal }
           <img className='volumeCard-tile-img' src={volume.tileImageURL} alt='Volume tile' />
         ) : (
           <div className="volumeCard-tile-template">
-            <div className="volumeCard-tile-template-jpe">{currentJournal?.code.toUpperCase()}</div>
+            <div className="volumeCard-tile-template-journal">{currentJournal?.code.toUpperCase()}</div>
             <div className="volumeCard-tile-template-volume">{t('common.volumeCard.volume')}</div>
             {volume.types && volume.types.includes(VOLUME_TYPE.SPECIAL_ISSUE) && (
               <div className="volumeCard-tile-template-issue">{t('common.volumeCard.specialIssue')}</div>

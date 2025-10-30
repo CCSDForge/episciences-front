@@ -163,6 +163,7 @@
 
     &-img {
       width: 120px;
+      border: 1px solid var(--black-shadow);
     }
 
     &-template {
@@ -174,7 +175,7 @@
       background: var(--primary);
       color: var(--primary-text);
 
-      &-jpe {
+      &-journal {
         font-size: 14px;
         font-weight: bold;
         margin-bottom: 4px;
