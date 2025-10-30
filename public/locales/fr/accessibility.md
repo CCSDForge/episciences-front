@@ -1,5 +1,5 @@
 Le Centre pour la Communication Scientifique Directe (CCSD) s’engage à rendre ses sites internet accessibles
-conformément à l’article 47 de la loi n° 2005-102 du 11 février 2005.
+conformément à l’article 47 de la loi française n° 2005-102 du 11 février 2005.
 
 À cette fin, un groupe de travail « Accessibilité » a été créé afin de rédiger le schéma pluriannuel de mise en
 accessibilité.
