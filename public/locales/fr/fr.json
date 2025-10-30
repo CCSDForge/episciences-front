@@ -74,6 +74,8 @@
         "proceedings": "Actes de conférences",
         "authors": "Auteurs/Autrices",
         "about": "La revue",
+        "acknowledgements": "Remerciements",
+        "indexation": "Indexation",
         "news": "Actualités",
         "statistics": "Statistiques",
         "boards": "Comités",
@@ -320,6 +322,12 @@
     },
     "about": {
       "title": "La revue"
+    },
+    "acknowledgements": {
+      "title": "Remerciements"
+    },
+    "indexation": {
+      "title": "Indexation"
     },
     "news": {
       "title": "Actualités"

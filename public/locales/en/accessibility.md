@@ -1,5 +1,5 @@
 The Center for Direct Scientific Communication (CCSD) is committed to making its websites accessible in accordance with
-Article 47 of Law No. 2005-102 of February 11, 2005.
+Article 47 of the French Law No. 2005-102 of February 11, 2005.
 
 To this end, an “Accessibility” working group has been created to draft the multi-year accessibility plan.
 
