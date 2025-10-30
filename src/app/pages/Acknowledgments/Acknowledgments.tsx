@@ -31,7 +31,7 @@ export default function Acknowledgments(): JSX.Element {
 
           <Breadcrumb parents={[
               { path: 'home', label: `${t('pages.home.title')} > ${t('common.about')} >` }
-          ]} crumbLabel={t('pages.acknowledgments.title')} />
+          ]} crumbLabel={t('pages.acknowledgements.title')} />
           <h1 className='acknowledgments-title'>{t('pages.acknowledgements.title')}</h1>
           {isFetching ? (
               <Loader />
