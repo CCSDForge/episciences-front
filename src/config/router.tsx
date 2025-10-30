@@ -7,6 +7,8 @@ import ScrollManager from "../hooks/scrollManager";
 import MainLayout from "../app/layouts/MainLayout/MainLayout";
 import Home from "../app/pages/Home/Home";
 import About from "../app/pages/About/About";
+import Acknowledgments from "../app/pages/Acknowledgments/Acknowledgments.tsx";
+import Indexation from "../app/pages/Indexation/Indexation";
 import Accessibility from "../app/pages/Accessibility/Accessibility";
 import Articles from "../app/pages/Articles/Articles";
 import ArticleDetails from "../app/pages/ArticleDetails/ArticleDetails";
@@ -75,6 +77,8 @@ const router = createBrowserRouter([
       basicRoute("sections", Sections),
       basicRoute("sectionDetails", SectionDetails),
       basicRoute("about", About),
+      basicRoute("acknowledgments", Acknowledgments),
+      basicRoute("indexation", Indexation),
       basicRoute("news", News),
       basicRoute("statistics", Statistics),
     ]
