@@ -74,6 +74,8 @@
         "proceedings": "Proceedings",
         "authors": "Authors",
         "about": "The journal",
+        "acknowledgements": "Acknowledgements",
+        "indexation": "Indexed in",
         "news": "News",
         "statistics": "Statistics",
         "boards": "Boards",
@@ -320,6 +322,12 @@
     },
     "about": {
       "title": "The journal"
+    },
+    "acknowledgements": {
+      "title": "Acknowledgements"
+    },
+    "indexation": {
+      "title": "Indexing"
     },
     "news": {
       "title": "News"

@@ -10,6 +10,7 @@ import forAuthorReducer from './forAuthor/forAuthor.slice'
 import i18nReducer from './i18n/i18n.slice'
 import indexationReducer from './indexation/indexation.slice'
 import journalReducer from './journal/journal.slice'
+import journalAcknowledgmentsReducer from './acknowledgments/acknowledgments.slice.ts'
 import newsReducer from './news/news.slice'
 import searchReducer from './search/search.slice'
 import sectionReducer from './section/section.slice'
@@ -23,6 +24,7 @@ import { creditsApi } from './credits/credits.query'
 import { forAuthorApi } from './forAuthor/forAuthor.query'
 import { indexationApi } from './indexation/indexation.query'
 import { journalApi } from './journal/journal.query'
+import { acknowledgmentsApi } from './acknowledgments/acknowledgments.query'
 import { newsApi } from './news/news.query'
 import { searchApi } from './search/search.query'
 import { sectionApi } from './section/section.query'
@@ -41,6 +43,7 @@ const createRootReducer = combineReducers({
   i18nReducer,
   indexationReducer,
   journalReducer,
+  journalAcknowledgmentsReducer,
   newsReducer,
   searchReducer,
   sectionReducer,
@@ -55,6 +58,7 @@ const createRootReducer = combineReducers({
   [forAuthorApi.reducerPath]: forAuthorApi.reducer,
   [indexationApi.reducerPath]: indexationApi.reducer,
   [journalApi.reducerPath]: journalApi.reducer,
+  [acknowledgmentsApi.reducerPath]: acknowledgmentsApi.reducer,
   [newsApi.reducerPath]: newsApi.reducer,
   [searchApi.reducerPath]: searchApi.reducer,
   [sectionApi.reducerPath]: sectionApi.reducer,
