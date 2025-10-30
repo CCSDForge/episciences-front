@@ -151,6 +151,8 @@
 
           &-current {
             color: var(--grey-dark);
+            font-size: 15px;
+            text-decoration: underline;
             cursor: default;
             pointer-events: none;
           }
