@@ -73,7 +73,7 @@ export default function VolumeDetailsSidebar({ language, t, volume, articles, cu
         <img className='volumeDetailsSidebar-tile' src={volume.tileImageURL} alt='Volume tile' />
       ) : (
         <div className="volumeDetailsSidebar-template">
-          <div className="volumeDetailsSidebar-template-jpe">{currentJournal?.code.toUpperCase()}</div>
+          <div className="volumeDetailsSidebar-template-journal">{currentJournal?.code.toUpperCase()}</div>
           {renderVolumeTemplateSpecial()}
           {renderVolumeTemplateNumber()}
           <div className="volumeDetailsSidebar-template-year">{volume?.year}</div>
