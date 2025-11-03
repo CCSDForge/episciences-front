@@ -34,14 +34,16 @@ export default function Boards(): JSX.Element {
   const [activeGroupIndex, setActiveGroupIndex] = useState(0);
   const [fullMemberIndex, setFullMemberIndex] = useState(-1);
 
-  const getTitleSortOrder = (pageTitle: string): number => {
-    const lowerTitle = pageTitle.toLowerCase();
-
-    if (lowerTitle.includes("éditorial") || lowerTitle.includes("editorial")) return 1;
-    if (lowerTitle.includes("scientifique") || lowerTitle.includes("scientific")) return 2;
-    if (lowerTitle.includes("technique") || lowerTitle.includes("technical")) return 3;
-    if (lowerTitle.includes("partenaires") || lowerTitle.includes("partners")) return 4;
-    if (lowerTitle.includes("ancien") || lowerTitle.includes("former")) return 999;
+  const getPageSortOrder = (pageCode: string): number => {
+    const lowerCode = pageCode.toLowerCase();
+    if (lowerCode.includes("introduction")) return 1;
+    if (lowerCode.includes("editorial")) return 2;
+    if (lowerCode.includes("scientific")) return 3;
+    if (lowerCode.includes("technical")) return 4;
+    if (lowerCode.includes("partners")) return 5;
+    if (lowerCode.includes("reviewers")) return 6;
+    if (lowerCode.includes("former")) return 7;
+    if (lowerCode.includes("operating")) return 999;
 
     return 500;
   };
@@ -49,15 +51,13 @@ export default function Boards(): JSX.Element {
   const getPagesLabels = (): string [] => {
     if (!pages || !pages.length) return [];
 
-    const labels: string[] = pages.map(page => page.title[language]);
-
-    labels.sort((a, b) => {
-      const orderA = getTitleSortOrder(a);
-      const orderB = getTitleSortOrder(b);
+    const sortedPages = [...pages].sort((a, b) => {
+      const orderA = getPageSortOrder(a.page_code);
+      const orderB = getPageSortOrder(b.page_code);
       return orderA - orderB;
     });
 
-    return labels;
+    return sortedPages.map(page => page.title[language]);
   }
 
   const getBoardsPerTitle = (): IBoardPerTitle[] => {
