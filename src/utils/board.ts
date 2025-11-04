@@ -2,17 +2,23 @@ import { TFunction } from 'i18next';
 import { IBoardMember } from '../types/board';
 
 export enum BOARD_TYPE {
+  INTRODUCTION_BOARD = 'introduction-board',
   EDITORIAL_BOARD = 'editorial-board',
   TECHNICAL_BOARD = 'technical-board',
   SCIENTIFIC_ADVISORY_BOARD = 'scientific-advisory-board',
-  FORMER_MEMBERS = 'former-members'
+  REVIEWERS_BOARD = 'reviewers-board',
+  FORMER_MEMBERS = 'former-members',
+  OPERATING_CHARTER_BOARD = 'operating-charter-board'
 }
 
 export const boardTypes = [
+  BOARD_TYPE.INTRODUCTION_BOARD,
   BOARD_TYPE.EDITORIAL_BOARD,
   BOARD_TYPE.TECHNICAL_BOARD,
   BOARD_TYPE.SCIENTIFIC_ADVISORY_BOARD,
-  BOARD_TYPE.FORMER_MEMBERS
+  BOARD_TYPE.REVIEWERS_BOARD,
+  BOARD_TYPE.FORMER_MEMBERS,
+  BOARD_TYPE.OPERATING_CHARTER_BOARD,
 ]
 
 export enum BOARD_ROLE {

@@ -363,7 +363,10 @@
         "technicalBoard": "Comité technique",
         "editorialBoard": "Comité éditorial",
         "scientificAdvisoryBoard": "Comité scientifique",
-        "formerMember": "Ancien/Ancienne membre"
+        "formerMember": "Ancien/Ancienne membre",
+        "introductionBoard": "Présentation des comités",
+        "reviewersBoard": "Comité de relecture",
+        "operatingCharterBoard": "Charte de fonctionnement"
       },
       "roles": {
         "member": "Membre",
