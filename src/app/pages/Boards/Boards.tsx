@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import ReactMarkdown from 'react-markdown'
 import { useTranslation } from 'react-i18next';
 
@@ -31,8 +31,10 @@ export default function Boards(): JSX.Element {
   const { data: pages, isFetching: isFetchingPages } = useFetchBoardPagesQuery(rvcode!, { skip: !rvcode })
   const { data: members, isFetching: isFetchingMembers } = useFetchBoardMembersQuery(rvcode!, { skip: !rvcode })
 
-  const [activeGroupIndex, setActiveGroupIndex] = useState(0);
+  const [openPanels, setOpenPanels] = useState<number[]>([0]);
   const [fullMemberIndex, setFullMemberIndex] = useState(-1);
+
+  const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const getPageSortOrder = (pageCode: string): number => {
     const lowerCode = pageCode.toLowerCase();
@@ -90,7 +92,41 @@ export default function Boards(): JSX.Element {
   }
 
   const handleGroupToggle = (index: number): void => {
-    setActiveGroupIndex(prev => prev === index ? 0 : index);
+    setOpenPanels(prev => {
+      if (prev.includes(index)) {
+        // Retirer le panel du tableau s'il est déjà ouvert
+        return prev.filter(i => i !== index);
+      } else {
+        // Ajouter le panel au tableau s'il est fermé
+        return [...prev, index];
+      }
+    });
+
+    // Scroller vers le panel après un léger délai pour laisser l'animation d'ouverture se faire
+    setTimeout(() => {
+      panelRefs.current[index]?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }, 100);
+  };
+
+  const handleSidebarClick = (index: number): void => {
+    // Ouvrir le panel s'il est fermé, ne rien faire s'il est déjà ouvert
+    setOpenPanels(prev => {
+      if (!prev.includes(index)) {
+        return [...prev, index];
+      }
+      return prev;
+    });
+
+    // Toujours scroller vers le panel
+    setTimeout(() => {
+      panelRefs.current[index]?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }, 100);
   };
 
   return (
@@ -116,19 +152,19 @@ export default function Boards(): JSX.Element {
         <Loader />
       ) : (
         <div className='boards-content'>
-          <BoardsSidebar t={t} groups={getPagesLabels()} activeGroupIndex={activeGroupIndex} onSetActiveGroupCallback={handleGroupToggle} />
+          <BoardsSidebar t={t} groups={getPagesLabels()} openPanels={openPanels} onSetActiveGroupCallback={handleSidebarClick} />
           <div className='boards-content-groups'>
             {getBoardsPerTitle().map((boardPerTitle, index) => (
-              <div key={index} className='boards-content-groups-group'>
-                <div className='boards-content-groups-group-title' onClick={(): void => activeGroupIndex === index ? handleGroupToggle(-1) : handleGroupToggle(index)}>
+              <div key={index} className='boards-content-groups-group' ref={(el): void => { panelRefs.current[index] = el; }}>
+                <div className='boards-content-groups-group-title' onClick={(): void => handleGroupToggle(index)}>
                   <h2>{boardPerTitle.title}</h2>
-                  {activeGroupIndex === index ? (
+                  {openPanels.includes(index) ? (
                     <img className='boards-content-groups-group-caret' src={caretUp} alt='Caret up icon' />
                   ) : (
                     <img className='boards-content-groups-group-caret' src={caretDown} alt='Caret down icon' />
                   )}
                 </div>
-                <div className={`boards-content-groups-group-content ${activeGroupIndex === index && 'boards-content-groups-group-content-active'}`}>
+                <div className={`boards-content-groups-group-content ${openPanels.includes(index) && 'boards-content-groups-group-content-active'}`}>
                   <div className='boards-content-groups-group-content-description'>
                     <ReactMarkdown>{boardPerTitle.description}</ReactMarkdown>
                   </div>
