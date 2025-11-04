@@ -363,7 +363,10 @@
         "technicalBoard": "Technical board",
         "editorialBoard": "Editorial board",
         "scientificAdvisoryBoard": "Scientific advisory board",
-        "formerMember": "Former member"
+        "formerMember": "Former member",
+        "introductionBoard": "Boards presentation",
+        "reviewersBoard": "Reviewers",
+        "operatingCharterBoard": "Operating Charter"
       },
       "roles": {
         "member": "Member",
