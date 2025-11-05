@@ -56,6 +56,8 @@ export default function Footer(): JSX.Element {
 
   const getTermsOfUseLink = (): string => language === 'fr' ? import.meta.env.VITE_EPISCIENCES_LEGAL_PRIVACY_TERMS_OF_USE_PAGE_FR : import.meta.env.VITE_EPISCIENCES_LEGAL_PRIVACY_TERMS_OF_USE_PAGE
 
+  const getStatusLink = (): string => import.meta.env.VITE_EPISCIENCES_STATUS_PAGE
+
   const getManagerLink = (): string | null => {
     const managerUrl = import.meta.env.VITE_EPISCIENCES_MANAGER;
     const code = currentJournal?.code;
@@ -105,6 +107,8 @@ export default function Footer(): JSX.Element {
             <Link to={getLegalPrivacyStatementLink()} target='_blank' rel="noopener noreferrer">{t('components.footer.links.privacyStatement')}</Link>
             <div className='footer-episciences-links-legal-divider'>|</div>
             <Link to={getTermsOfUseLink()} target='_blank' rel="noopener noreferrer">{t('components.footer.links.termsOfUse')}</Link>
+            <div className='footer-episciences-links-legal-divider'>|</div>
+            <Link to={getStatusLink()} target='_blank' rel="noopener noreferrer">{t('components.footer.links.status')}</Link>
           </div>
         </div>
       </div>
