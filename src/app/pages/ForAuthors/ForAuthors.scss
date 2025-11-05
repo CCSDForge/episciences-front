@@ -1,10 +1,51 @@
 @use "src/style/breakpoints.scss";
+
 .forAuthors {
   &-title {
-    margin-bottom: 70px;
+    margin-bottom: 30px;
+
+    @media (max-width:  breakpoints.$sm) {
+      margin-bottom: 20px;
+    }
+  }
+
+  &-navigation {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--grey-light);
+    margin-bottom: 40px;
 
     @media (max-width:  breakpoints.$sm) {
       margin-bottom: 30px;
+    }
+
+    &-item {
+      padding: 1rem 2rem;
+      color: var(--black);
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 400;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      bottom: -2px;
+
+      @media (max-width:  breakpoints.$sm) {
+        padding: 0.75rem 1rem;
+        font-size: 14px;
+      }
+
+      &:hover {
+        color: var(--primary);
+        border-bottom-color: var(--primary);
+      }
+
+      &-active {
+        color: var(--primary);
+        border-bottom-color: var(--primary);
+        font-weight: 600;
+      }
     }
   }
 

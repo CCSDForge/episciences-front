@@ -374,8 +374,23 @@
         "formerMember": "Ancien/Ancienne membre"
       }
     },
+    "publish": {
+      "title": "Publier",
+      "description": "Informations pour publier dans notre revue",
+      "forAuthors": "Pour les auteurs",
+      "forReviewers": "Pour les relecteurs",
+      "forConferenceOrganisers": "Pour les organisateurs de conférences"
+    },
     "forAuthors": {
       "title": "Pour les auteurs"
+    },
+    "forReviewers": {
+      "title": "Pour les relecteurs",
+      "description": "Informations et directives pour les relecteurs"
+    },
+    "forConferenceOrganisers": {
+      "title": "Pour les organisateurs de conférences",
+      "description": "Informations et directives pour les organisateurs de conférences"
     },
     "pdfViewer": {
       "loading": "Chargement du PDF...",

@@ -7,10 +7,12 @@ import boardReducer from './board/board.slice'
 import creditsReducer from './credits/credits.slice'
 import footerReducer from './footer/footer.slice'
 import forAuthorReducer from './forAuthor/forAuthor.slice'
+import forReviewersReducer from './forReviewers/forReviewers.slice'
+import forConferenceOrganisersReducer from './forConferenceOrganisers/forConferenceOrganisers.slice'
 import i18nReducer from './i18n/i18n.slice'
 import indexationReducer from './indexation/indexation.slice'
 import journalReducer from './journal/journal.slice'
-import journalAcknowledgmentsReducer from './acknowledgments/acknowledgments.slice.ts'
+import journalAcknowledgementsReducer from './acknowledgements/acknowledgements.slice.ts'
 import newsReducer from './news/news.slice'
 import searchReducer from './search/search.slice'
 import sectionReducer from './section/section.slice'
@@ -22,9 +24,11 @@ import { authorApi } from './author/author.query'
 import { boardApi } from './board/board.query'
 import { creditsApi } from './credits/credits.query'
 import { forAuthorApi } from './forAuthor/forAuthor.query'
+import { forReviewersApi } from './forReviewers/forReviewers.query'
+import { forConferenceOrganisersApi } from './forConferenceOrganisers/forConferenceOrganisers.query'
 import { indexationApi } from './indexation/indexation.query'
 import { journalApi } from './journal/journal.query'
-import { acknowledgmentsApi } from './acknowledgments/acknowledgments.query'
+import { acknowledgementsApi } from './acknowledgements/acknowledgements.query'
 import { newsApi } from './news/news.query'
 import { searchApi } from './search/search.query'
 import { sectionApi } from './section/section.query'
@@ -40,10 +44,12 @@ const createRootReducer = combineReducers({
   creditsReducer,
   footerReducer,
   forAuthorReducer,
+  forReviewersReducer,
+  forConferenceOrganisersReducer,
   i18nReducer,
   indexationReducer,
   journalReducer,
-  journalAcknowledgmentsReducer,
+  journalAcknowledgementsReducer,
   newsReducer,
   searchReducer,
   sectionReducer,
@@ -56,9 +62,11 @@ const createRootReducer = combineReducers({
   [boardApi.reducerPath]: boardApi.reducer,
   [creditsApi.reducerPath]: creditsApi.reducer,
   [forAuthorApi.reducerPath]: forAuthorApi.reducer,
+  [forReviewersApi.reducerPath]: forReviewersApi.reducer,
+  [forConferenceOrganisersApi.reducerPath]: forConferenceOrganisersApi.reducer,
   [indexationApi.reducerPath]: indexationApi.reducer,
   [journalApi.reducerPath]: journalApi.reducer,
-  [acknowledgmentsApi.reducerPath]: acknowledgmentsApi.reducer,
+  [acknowledgementsApi.reducerPath]: acknowledgementsApi.reducer,
   [newsApi.reducerPath]: newsApi.reducer,
   [searchApi.reducerPath]: searchApi.reducer,
   [sectionApi.reducerPath]: sectionApi.reducer,
