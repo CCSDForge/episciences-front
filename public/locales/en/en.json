@@ -98,7 +98,8 @@
         "accessibility": "Accessibility",
         "legalMentions": "Legal mentions",
         "privacyStatement": "Privacy statement",
-        "termsOfUse": "Terms of use"
+        "termsOfUse": "Terms of use",
+        "status": "Status"
       }
     }
   },
