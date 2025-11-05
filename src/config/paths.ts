@@ -21,7 +21,10 @@ export const PATHS = {
   accessibility: '/accessibility',
   news: '/news',
   statistics: '/statistics',
-  forAuthors: '/for-authors'
+  publish: '/publish',
+  forAuthors: '/for-authors',
+  forReviewers: '/for-reviewers',
+  forConferenceOrganisers: '/for-conference-organisers'
 }
 
 export type PathKeys = keyof typeof PATHS;

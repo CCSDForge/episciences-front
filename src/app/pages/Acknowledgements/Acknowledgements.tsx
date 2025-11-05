@@ -4,24 +4,24 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useAppSelector } from "../../../hooks/store";
-import { useFetchAcknowledgmentsPageQuery } from "../../../store/features/acknowledgments/acknowledgments.query";
+import { useFetchAcknowledgementsPageQuery } from "../../../store/features/acknowledgements/acknowledgements.query";
 import { getMarkdownImageURL } from '../../../utils/markdown';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
-import './Acknowledgments.scss';
+import './Acknowledgements.scss';
 
 
 
-export default function Acknowledgments(): JSX.Element {
+export default function Acknowledgements(): JSX.Element {
   const { t } = useTranslation();
 
   const language = useAppSelector(state => state.i18nReducer.language);
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code);
   const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name);
 
-  const { data: acknowledgmentsPage, isFetching } = useFetchAcknowledgmentsPageQuery(rvcode!, { skip: !rvcode });
+  const { data: acknowledgementsPage, isFetching } = useFetchAcknowledgementsPageQuery(rvcode!, { skip: !rvcode });
 
-  const content = acknowledgmentsPage?.content[language];
+  const content = acknowledgementsPage?.content[language];
 
   return (
       <main className='acknowledgments'>

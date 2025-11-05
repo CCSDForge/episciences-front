@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/store';
 import { setSearch } from '../../../store/features/search/search.slice';
 import { availableLanguages } from '../../../utils/i18n';
 import { VOLUME_TYPE } from '../../../utils/volume';
+import { getPublishSections } from '../../../utils/publish';
 import Button from '../Button/Button';
 import LanguageDropdown from '../LanguageDropdown/LanguageDropdown';
 import HeaderSearchInput from '../SearchInput/HeaderSearchInput/HeaderSearchInput';
@@ -37,7 +38,7 @@ export default function Header(): JSX.Element {
 
   const [isSearching, setIsSearching] = useState(false);
   const [isReduced, setIsReduced] = useState(false);
-  const [showDropdown, setShowDropdown] = useState({ content: false, about: false });
+  const [showDropdown, setShowDropdown] = useState<{ content: boolean; about: boolean; publish: boolean }>({ content: false, about: false, publish: false });
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const mobileMenuDropdownRef = useRef<HTMLDivElement | null>(null);
@@ -171,7 +172,18 @@ export default function Header(): JSX.Element {
               <Link to={PATHS.boards}>{t('components.header.links.boards')}</Link>
           )}
           {shouldRenderMenuItem('FOR_AUTHORS') && (
-              <Link to={PATHS.forAuthors}>{t('components.header.links.forAuthors')}</Link>
+              <div className='header-postheader-links-dropdown' onMouseEnter={(): void => toggleDropdown('publish', true)}>
+                <div>{t('pages.publish.title')}</div>
+                {showDropdown.publish && (
+                    <div className='header-postheader-links-dropdown-content' onMouseLeave={(): void => toggleDropdown('publish', false)}>
+                      <div className={`header-postheader-links-dropdown-content-links header-postheader-links-dropdown-content-links-publish ${language === 'fr' && 'header-postheader-links-dropdown-content-links-publish-fr'}`}>
+                        {getPublishSections().map((section) => (
+                          <Link key={section.type} to={section.path}>{t(section.translationKey)}</Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+              </div>
           )}
 
         </div>
@@ -267,7 +279,11 @@ export default function Header(): JSX.Element {
                 <span onTouchEnd={(): void => navigate(PATHS.boards)}>{t('components.header.links.boards')}</span>
                   )}
                   {shouldRenderMenuItem('FOR_AUTHORS') && (
-                <span onTouchEnd={(): void => navigate(PATHS.forAuthors)}>{t('components.header.links.forAuthors')}</span>
+                    <>
+                      {getPublishSections().map((section) => (
+                        <span key={section.type} onTouchEnd={(): void => navigate(section.path)}>{t(section.translationKey)}</span>
+                      ))}
+                    </>
                   )}
               </div>
             </div>
@@ -286,7 +302,7 @@ export default function Header(): JSX.Element {
   }, []);
 
   useEffect(() => {
-    setShowDropdown({ content: false, about: false });
+    setShowDropdown({ content: false, about: false, publish: false });
   }, [location]);
 
   if (isReduced) {
