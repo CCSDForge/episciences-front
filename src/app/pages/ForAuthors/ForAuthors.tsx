@@ -9,13 +9,14 @@ import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchEditorialWorkflowPageQuery, useFetchEthicalCharterPageQuery, useFetchPrepareSubmissionPageQuery } from "../../../store/features/forAuthor/forAuthor.query";
 import { generateIdFromText, unifiedProcessor, serializeMarkdown, getMarkdownImageURL, adjustNestedListsInMarkdownContent } from '../../../utils/markdown';
+import { FOR_AUTHORS_SECTION, getForAuthorsSectionSortOrder } from '../../../utils/forAuthors';
 import ForAuthorsSidebar, { IForAuthorsHeader } from '../../components/Sidebars/ForAuthorsSidebar/ForAuthorsSidebar';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
 import './ForAuthors.scss';
 import {Helmet} from "react-helmet-async";
 
-type ForAuthorsSectionType = 'editorialWorkflow' | 'ethicalCharter' | 'prepareSubmission';
+type ForAuthorsSectionType = FOR_AUTHORS_SECTION;
 
 interface IForAuthorsSection {
   id: string;
@@ -40,21 +41,12 @@ export default function ForAuthors(): JSX.Element {
   const { data: ethicalCharterPage, isFetching: isFetchingEthicalCharter } = useFetchEthicalCharterPageQuery(rvcode!, { skip: !rvcode });
   const { data: prepareSubmissionPage, isFetching: isFetchingPrepareSubmission } = useFetchPrepareSubmissionPageQuery(rvcode!, { skip: !rvcode });
 
-  const getSectionSortOrder = (sectionType: ForAuthorsSectionType): number => {
-    const sortOrderMap: Record<ForAuthorsSectionType, number> = {
-      ethicalCharter: 1,
-      editorialWorkflow: 2,
-      prepareSubmission: 3,
-    };
-
-    return sortOrderMap[sectionType] ?? 500;
-  };
   const parseContentSections = (toBeParsed: Record<ForAuthorsSectionType, { title: string | undefined; content: string | undefined }>): IForAuthorsSection[] => {
     const sections: IForAuthorsSection[] = [];
 
     Object.entries(toBeParsed).forEach((toBeParsedEntry) => {
       const sectionType = toBeParsedEntry[0] as ForAuthorsSectionType;
-      const withNumerotation = sectionType === 'prepareSubmission';
+      const withNumerotation = sectionType === FOR_AUTHORS_SECTION.PREPARE_SUBMISSION;
       const title = toBeParsedEntry[1].title ?? '';
       const content = toBeParsedEntry[1].content ?? '';
       const adjustedContent = adjustNestedListsInMarkdownContent(content);
@@ -116,8 +108,8 @@ export default function ForAuthors(): JSX.Element {
       }
     });
     sections.sort((a, b) => {
-      const orderA = getSectionSortOrder(a.sectionType);
-      const orderB = getSectionSortOrder(b.sectionType);
+      const orderA = getForAuthorsSectionSortOrder(a.sectionType);
+      const orderB = getForAuthorsSectionSortOrder(b.sectionType);
       return orderA - orderB;
     });
     return sections;
@@ -129,7 +121,7 @@ export default function ForAuthors(): JSX.Element {
 
     Object.entries(toBeParsed).forEach((toBeParsedEntry) => {
       const sectionType = toBeParsedEntry[0] as ForAuthorsSectionType;
-      const withNumerotation = sectionType === 'prepareSubmission';
+      const withNumerotation = sectionType === FOR_AUTHORS_SECTION.PREPARE_SUBMISSION;
       const title = toBeParsedEntry[1].title ?? '';
       const content = toBeParsedEntry[1].content ?? '';
       const adjustedContent = adjustNestedListsInMarkdownContent(content);
@@ -175,8 +167,8 @@ export default function ForAuthors(): JSX.Element {
     const sectionTypes = Object.keys(headerMap) as ForAuthorsSectionType[];
 
     sectionTypes.sort((a, b) => {
-      const orderA = getSectionSortOrder(a);
-      const orderB = getSectionSortOrder(b);
+      const orderA = getForAuthorsSectionSortOrder(a);
+      const orderB = getForAuthorsSectionSortOrder(b);
       return orderA - orderB;
     });
 
@@ -212,15 +204,15 @@ export default function ForAuthors(): JSX.Element {
 
   useEffect(() => {
     const content: Record<ForAuthorsSectionType, { title: string | undefined; content: string | undefined }> = {
-      'editorialWorkflow': {
+      [FOR_AUTHORS_SECTION.EDITORIAL_WORKFLOW]: {
         title: editorialWorkflowPage?.title[language],
         content: editorialWorkflowPage?.content[language]
       },
-      'ethicalCharter': {
+      [FOR_AUTHORS_SECTION.ETHICAL_CHARTER]: {
         title: ethicalCharterPage?.title[language],
         content: ethicalCharterPage?.content[language]
       },
-      'prepareSubmission': {
+      [FOR_AUTHORS_SECTION.PREPARE_SUBMISSION]: {
         title: prepareSubmissionPage?.title[language],
         content: prepareSubmissionPage?.content[language]
       },

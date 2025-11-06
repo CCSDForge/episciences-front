@@ -1,5 +1,5 @@
 import { TFunction } from 'i18next';
-import { IBoardMember } from '../types/board';
+import { IBoardMember, BoardPage } from '../types/board';
 
 export enum BOARD_TYPE {
   INTRODUCTION_BOARD = 'introduction-board',
@@ -10,16 +10,35 @@ export enum BOARD_TYPE {
   FORMER_MEMBERS = 'former-members',
   OPERATING_CHARTER_BOARD = 'operating-charter-board'
 }
-
+//Define the sort order for board types - order in array determines display order"
 export const boardTypes = [
   BOARD_TYPE.INTRODUCTION_BOARD,
   BOARD_TYPE.EDITORIAL_BOARD,
-  BOARD_TYPE.TECHNICAL_BOARD,
   BOARD_TYPE.SCIENTIFIC_ADVISORY_BOARD,
+  BOARD_TYPE.TECHNICAL_BOARD,
   BOARD_TYPE.REVIEWERS_BOARD,
   BOARD_TYPE.FORMER_MEMBERS,
   BOARD_TYPE.OPERATING_CHARTER_BOARD,
 ]
+
+// Define the sort order for board types based on boardTypes array
+const getBoardTypeSortOrder = (boardType: BOARD_TYPE): number => {
+  const index = boardTypes.indexOf(boardType);
+  return index !== -1 ? index + 1 : 999;
+};
+
+/*
+ * Sort board pages by defined type order
+ * @param pages - Array of board pages to sort
+ * @returns Sorted array of board pages
+ */
+export const sortBoardPages = (pages: BoardPage[]): BoardPage[] => {
+  return [...pages].sort((a, b) => {
+    const orderA = getBoardTypeSortOrder(a.page_code as BOARD_TYPE);
+    const orderB = getBoardTypeSortOrder(b.page_code as BOARD_TYPE);
+    return orderA - orderB;
+  });
+};
 
 export enum BOARD_ROLE {
   MEMBER = 'member',

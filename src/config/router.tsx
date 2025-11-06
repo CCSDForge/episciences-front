@@ -83,7 +83,7 @@ const router = createBrowserRouter([
       basicRoute("sections", Sections),
       basicRoute("sectionDetails", SectionDetails),
       basicRoute("about", About),
-      basicRoute("acknowledgments", Acknowledgements),
+      basicRoute("acknowledgements", Acknowledgements),
       basicRoute("indexation", Indexation),
       basicRoute("news", News),
       basicRoute("statistics", Statistics),

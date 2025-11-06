@@ -10,7 +10,7 @@ import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from '../../../hooks/store';
 import { useFetchForReviewersPageQuery } from '../../../store/features/forReviewers/forReviewers.query';
 import { generateIdFromText, unifiedProcessor, serializeMarkdown, getMarkdownImageURL, adjustNestedListsInMarkdownContent } from '../../../utils/markdown';
-import AboutSidebar, { IAboutHeader } from '../../components/Sidebars/AboutSidebar/AboutSidebar';
+import ForReviewersSidebar, { IForReviewersHeader } from '../../components/Sidebars/ForReviewersSidebar/ForReviewersSidebar';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import Loader from '../../components/Loader/Loader';
 import './ForReviewers.scss';
@@ -29,7 +29,7 @@ export default function ForReviewers(): JSX.Element {
   const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name);
 
   const [pageSections, setPageSections] = useState<IForReviewersSection[]>([]);
-  const [sidebarHeaders, setSidebarHeaders] = useState<IAboutHeader[]>([]);
+  const [sidebarHeaders, setSidebarHeaders] = useState<IForReviewersHeader[]>([]);
 
   const { data: forReviewersPage, isFetching } = useFetchForReviewersPageQuery(rvcode!, { skip: !rvcode });
 
@@ -71,7 +71,7 @@ export default function ForReviewers(): JSX.Element {
     return sections;
   };
 
-  const parseSidebarHeaders = (toBeParsed: string | undefined): IAboutHeader[] => {
+  const parseSidebarHeaders = (toBeParsed: string | undefined): IForReviewersHeader[] => {
     const tree = unifiedProcessor.parse(toBeParsed);
     const headings = [];
     let lastH2 = null;
@@ -81,7 +81,7 @@ export default function ForReviewers(): JSX.Element {
         const textNode = node.children.find(child => child.type === 'text') as { value: string };
 
         if (textNode) {
-          const header: IAboutHeader = {
+          const header: IForReviewersHeader = {
             id: generateIdFromText(textNode.value),
             value: textNode.value,
             opened: true,
@@ -155,7 +155,7 @@ export default function ForReviewers(): JSX.Element {
         </div>
       ) : (
         <div className='forReviewers-content'>
-          <AboutSidebar headers={sidebarHeaders} toggleHeaderCallback={toggleSidebarHeader} />
+          <ForReviewersSidebar headers={sidebarHeaders} toggleHeaderCallback={toggleSidebarHeader} />
           <div className='forReviewers-content-body'>
             {pageSections.map(section => (
               <div

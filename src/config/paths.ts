@@ -15,7 +15,7 @@ export const PATHS = {
   sections: '/sections',
   sectionDetails: '/sections/:id',
   about: '/about',
-  acknowledgments: '/acknowledgements',
+  acknowledgements: '/acknowledgements',
   indexation: '/indexing',
   credits: '/credits',
   accessibility: '/accessibility',

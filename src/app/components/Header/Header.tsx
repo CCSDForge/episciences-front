@@ -15,6 +15,7 @@ import { setSearch } from '../../../store/features/search/search.slice';
 import { availableLanguages } from '../../../utils/i18n';
 import { VOLUME_TYPE } from '../../../utils/volume';
 import { getPublishSections } from '../../../utils/publish';
+import { getAboutSections } from '../../../utils/about';
 import Button from '../Button/Button';
 import LanguageDropdown from '../LanguageDropdown/LanguageDropdown';
 import HeaderSearchInput from '../SearchInput/HeaderSearchInput/HeaderSearchInput';
@@ -150,28 +151,17 @@ export default function Header(): JSX.Element {
             {showDropdown.about && (
                 <div className='header-postheader-links-dropdown-content' onMouseLeave={(): void => toggleDropdown('about', false)}>
                   <div className='header-postheader-links-dropdown-content-links'>
-                    <Link to={PATHS.about}>{t('components.header.links.about')}</Link>
-                    {shouldRenderMenuItem('JOURNAL_ACKNOWLEDGEMENTS') && (
-                        <Link to={PATHS.acknowledgments}>{t('components.header.links.acknowledgements')}</Link>
-                    )}
-                    {shouldRenderMenuItem('JOURNAL_INDEXING') && (
-                        <Link to={PATHS.indexation}>{t('components.header.links.indexation')}</Link>
-                    )}
-                    {shouldRenderMenuItem('NEWS') && (
-                        <Link to={PATHS.news}>{t('components.header.links.news')}</Link>
-                    )}
-
-                    {shouldRenderStatistics && <Link to={PATHS.statistics}>{t('components.header.links.statistics')}</Link>}
+                    {getAboutSections(shouldRenderStatistics).map((section) => (
+                      <Link key={section.type} to={section.path}>{t(section.translationKey)}</Link>
+                    ))}
                   </div>
                 </div>
               )}
           </div>
 
 
-          {shouldRenderMenuItem('BOARDS') && (
-              <Link to={PATHS.boards}>{t('components.header.links.boards')}</Link>
-          )}
-          {shouldRenderMenuItem('FOR_AUTHORS') && (
+          <Link to={PATHS.boards}>{t('components.header.links.boards')}</Link>
+          {getPublishSections().length > 0 && (
               <div className='header-postheader-links-dropdown' onMouseEnter={(): void => toggleDropdown('publish', true)}>
                 <div>{t('pages.publish.title')}</div>
                 {showDropdown.publish && (
@@ -258,35 +248,28 @@ export default function Header(): JSX.Element {
             </div>
             <div className='header-postheader-burger-content-links-section header-postheader-burger-content-links-section-bordered'>
               <div className='header-postheader-burger-content-links-section-links'>
-                <span onTouchEnd={(): void => navigate(PATHS.about)}>{t('components.header.links.about')}</span>
-                  {shouldRenderMenuItem('JOURNAL_ACKNOWLEDGEMENTS') && (
-                <span onTouchEnd={(): void => navigate(PATHS.acknowledgments)}>{t('components.header.links.acknowledgements')}</span>
-                  )}
-                  {shouldRenderMenuItem('JOURNAL_INDEXING') && (
-                      <span onTouchEnd={(): void => navigate(PATHS.indexation)}>{t('components.header.links.indexation')}</span>
-                  )}
-                  {shouldRenderMenuItem('NEWS') && (
-                <span onTouchEnd={(): void => navigate(PATHS.news)}>{t('components.header.links.news')}</span>
-                    )}
-                  {shouldRenderStatistics && (
-                  <span onTouchEnd={(): void => navigate(PATHS.statistics)}>{t('components.header.links.statistics')}</span>
-                    )}
+                {getAboutSections(shouldRenderStatistics).map((section) => (
+                  <span key={section.type} onTouchEnd={(): void => navigate(section.path)}>{t(section.translationKey)}</span>
+                ))}
               </div>
             </div>
-            <div className='header-postheader-burger-content-links-section'>
+            <div className='header-postheader-burger-content-links-section header-postheader-burger-content-links-section-bordered'>
               <div className='header-postheader-burger-content-links-section-links'>
-                  {shouldRenderMenuItem('BOARDS') && (
                 <span onTouchEnd={(): void => navigate(PATHS.boards)}>{t('components.header.links.boards')}</span>
-                  )}
-                  {shouldRenderMenuItem('FOR_AUTHORS') && (
-                    <>
-                      {getPublishSections().map((section) => (
-                        <span key={section.type} onTouchEnd={(): void => navigate(section.path)}>{t(section.translationKey)}</span>
-                      ))}
-                    </>
-                  )}
               </div>
             </div>
+            {getPublishSections().length > 0 && (
+              <div className='header-postheader-burger-content-links-section'>
+                <div className='header-postheader-burger-content-links-section-title'>
+                  {t('pages.publish.title')}
+                </div>
+                <div className='header-postheader-burger-content-links-section-links'>
+                  {getPublishSections().map((section) => (
+                    <span key={section.type} onTouchEnd={(): void => navigate(section.path)}>{t(section.translationKey)}</span>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )

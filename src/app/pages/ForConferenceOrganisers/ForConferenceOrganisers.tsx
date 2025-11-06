@@ -10,7 +10,7 @@ import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from '../../../hooks/store';
 import { useFetchForConferenceOrganisersPageQuery } from '../../../store/features/forConferenceOrganisers/forConferenceOrganisers.query';
 import { generateIdFromText, unifiedProcessor, serializeMarkdown, getMarkdownImageURL, adjustNestedListsInMarkdownContent } from '../../../utils/markdown';
-import AboutSidebar, { IAboutHeader } from '../../components/Sidebars/AboutSidebar/AboutSidebar';
+import ForConferenceOrganisersSidebar, { IForConferenceOrganisersHeader } from '../../components/Sidebars/ForConferenceOrganisersSidebar/ForConferenceOrganisersSidebar';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import Loader from '../../components/Loader/Loader';
 import './ForConferenceOrganisers.scss';
@@ -29,7 +29,7 @@ export default function ForConferenceOrganisers(): JSX.Element {
   const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name);
 
   const [pageSections, setPageSections] = useState<IForConferenceOrganisersSection[]>([]);
-  const [sidebarHeaders, setSidebarHeaders] = useState<IAboutHeader[]>([]);
+  const [sidebarHeaders, setSidebarHeaders] = useState<IForConferenceOrganisersHeader[]>([]);
 
   const { data: forConferenceOrganisersPage, isFetching } = useFetchForConferenceOrganisersPageQuery(rvcode!, { skip: !rvcode });
 
@@ -71,7 +71,7 @@ export default function ForConferenceOrganisers(): JSX.Element {
     return sections;
   };
 
-  const parseSidebarHeaders = (toBeParsed: string | undefined): IAboutHeader[] => {
+  const parseSidebarHeaders = (toBeParsed: string | undefined): IForConferenceOrganisersHeader[] => {
     const tree = unifiedProcessor.parse(toBeParsed);
     const headings = [];
     let lastH2 = null;
@@ -81,7 +81,7 @@ export default function ForConferenceOrganisers(): JSX.Element {
         const textNode = node.children.find(child => child.type === 'text') as { value: string };
 
         if (textNode) {
-          const header: IAboutHeader = {
+          const header: IForConferenceOrganisersHeader = {
             id: generateIdFromText(textNode.value),
             value: textNode.value,
             opened: true,
@@ -155,7 +155,7 @@ export default function ForConferenceOrganisers(): JSX.Element {
         </div>
       ) : (
         <div className='forConferenceOrganisers-content'>
-          <AboutSidebar headers={sidebarHeaders} toggleHeaderCallback={toggleSidebarHeader} />
+          <ForConferenceOrganisersSidebar headers={sidebarHeaders} toggleHeaderCallback={toggleSidebarHeader} />
           <div className='forConferenceOrganisers-content-body'>
             {pageSections.map(section => (
               <div
