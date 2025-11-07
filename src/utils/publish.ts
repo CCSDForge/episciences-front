@@ -6,10 +6,11 @@ export enum PUBLISH_SECTION {
   FOR_CONFERENCE_ORGANISERS = 'for-conference-organisers'
 }
 
+// Defines the display order of publish sections in the navigation menu
 export const publishSections = [
   PUBLISH_SECTION.FOR_AUTHORS,
   PUBLISH_SECTION.FOR_REVIEWERS,
-  PUBLISH_SECTION.FOR_CONFERENCE_ORGANISERS
+  PUBLISH_SECTION.FOR_CONFERENCE_ORGANISERS,
 ]
 
 export interface IPublishSection {
@@ -34,8 +35,12 @@ export const getPublishSections = (): IPublishSection[] => {
     translationKey: 'pages.publish.forAuthors'
   });
 
+    // Helper function to check if a feature should be rendered based on env variable
+    const shouldRenderFeature = (envVarValue: string | undefined): boolean => {
+        return envVarValue !== 'false';
+    };
   // Include for-reviewers only if environment variable is not 'false'
-  const shouldRenderForReviewers = import.meta.env.VITE_JOURNAL_MENU_JOURNAL_FOR_REVIEWERS_RENDER !== 'false';
+  const shouldRenderForReviewers = shouldRenderFeature(import.meta.env.VITE_JOURNAL_MENU_JOURNAL_FOR_REVIEWERS_RENDER);
   if (shouldRenderForReviewers) {
     sections.push({
       type: PUBLISH_SECTION.FOR_REVIEWERS,
@@ -45,7 +50,7 @@ export const getPublishSections = (): IPublishSection[] => {
   }
 
   // Include for-conference-organisers only if environment variable is not 'false'
-  const shouldRenderForConferenceOrganisers = import.meta.env.VITE_JOURNAL_MENU_JOURNAL_FOR_CONFERENCE_ORGANISERS_RENDER !== 'false';
+  const shouldRenderForConferenceOrganisers = shouldRenderFeature(import.meta.env.VITE_JOURNAL_MENU_JOURNAL_FOR_CONFERENCE_ORGANISERS_RENDER);
   if (shouldRenderForConferenceOrganisers) {
     sections.push({
       type: PUBLISH_SECTION.FOR_CONFERENCE_ORGANISERS,

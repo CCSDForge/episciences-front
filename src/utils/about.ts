@@ -8,6 +8,7 @@ export enum ABOUT_SECTION {
   STATISTICS = 'statistics'
 }
 
+// Defines the display order of about sections in the navigation menu
 export const aboutSections = [
   ABOUT_SECTION.ABOUT,
   ABOUT_SECTION.INDEXATION,
@@ -39,8 +40,12 @@ export const getAboutSections = (shouldRenderStatistics: boolean): IAboutSection
     translationKey: 'components.header.links.about'
   });
 
+  const shouldRenderFeature = (envVarValue: string | undefined): boolean => {
+      return envVarValue !== 'false';
+  };
+
   // Include acknowledgements only if environment variable is not 'false'
-  const shouldRenderAcknowledgements = import.meta.env.VITE_JOURNAL_MENU_JOURNAL_ACKNOWLEDGEMENTS_RENDER !== 'false';
+  const shouldRenderAcknowledgements = shouldRenderFeature(import.meta.env.VITE_JOURNAL_MENU_JOURNAL_ACKNOWLEDGEMENTS_RENDER);
   if (shouldRenderAcknowledgements) {
     sections.push({
       type: ABOUT_SECTION.ACKNOWLEDGEMENTS,
@@ -51,7 +56,7 @@ export const getAboutSections = (shouldRenderStatistics: boolean): IAboutSection
   }
 
   // Include indexation only if environment variable is not 'false'
-  const shouldRenderIndexation = import.meta.env.VITE_JOURNAL_MENU_JOURNAL_INDEXING_RENDER !== 'false';
+  const shouldRenderIndexation = shouldRenderFeature(import.meta.env.VITE_JOURNAL_MENU_JOURNAL_INDEXING_RENDER);
   if (shouldRenderIndexation) {
     sections.push({
       type: ABOUT_SECTION.INDEXATION,
@@ -62,7 +67,7 @@ export const getAboutSections = (shouldRenderStatistics: boolean): IAboutSection
   }
 
   // Include news only if environment variable is not 'false'
-  const shouldRenderNews = import.meta.env.VITE_JOURNAL_MENU_NEWS_RENDER !== 'false';
+ const shouldRenderNews = shouldRenderFeature(import.meta.env.VITE_JOURNAL_MENU_NEWS_RENDER);
   if (shouldRenderNews) {
     sections.push({
       type: ABOUT_SECTION.NEWS,
