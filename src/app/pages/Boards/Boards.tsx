@@ -76,7 +76,13 @@ export default function Boards(): JSX.Element {
 
         const pageMembers = members.filter((member) => {
           const pluralRoles = member.roles.map((role) => `${role}s`)
-          return member.roles.includes(page.page_code) || pluralRoles.includes(page.page_code);
+          const hasMatchingRole = member.roles.includes(page.page_code) || pluralRoles.includes(page.page_code);
+
+          // Include managing-editor and handling-editor in scientific-advisory-board
+          const isScientificAdvisoryBoard = page.page_code === 'scientific-advisory-board';
+          const hasSpecialRole = member.roles.includes('managing-editor') || member.roles.includes('handling-editor');
+
+          return hasMatchingRole || (isScientificAdvisoryBoard && hasSpecialRole);
         });
 
         boardsPerTitle.push({
