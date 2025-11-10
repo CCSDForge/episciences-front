@@ -129,7 +129,7 @@
           &-text {
             font-size: 24px;
             font-weight: bold;
-            color: var(--primary);
+            color: var(--primary-accessible);
 
             @media (max-width: breakpoints.$sm) {
               font-size: 17px;
@@ -207,7 +207,7 @@
           &-references {
             &-reference {
               &-doi {
-                color: var(--primary);
+                color: var(--primary-accessible);
                 text-decoration: underline;
               }
             }
@@ -267,7 +267,7 @@
                   &.active {
                     background: var(--primary);
                     color: var(--primary-text);
-                    border-color: var(--primary);
+                    border-color: var(--primary-accessible);
                   }
                 }
               }
@@ -302,7 +302,7 @@
                     &-doi {
                       display: flex;
                       gap: 5px;
-                      color: var(--primary);
+                      color: var(--primary-accessible);
                       text-decoration: underline;
                     }
                   }

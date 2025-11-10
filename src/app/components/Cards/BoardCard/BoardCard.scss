@@ -19,7 +19,7 @@
     &-title {
       display: flex;
       flex-direction: column;
-      color: var(--primary);
+      color: var(--primary-accessible);
       font-size: 16px;
 
       &-name {
@@ -102,7 +102,7 @@
         gap: 8px;
         font-size: 14px;
         font-weight: bold;
-        color: var(--primary);
+        color: var(--primary-accessible);
         text-decoration: underline;
   
         &-at {
@@ -127,7 +127,7 @@
         &-website {
           display: flex;
           gap: 5px;
-          color: var(--primary);
+          color: var(--primary-accessible);
           font-size: 14px;
           font-weight: bold;
         }

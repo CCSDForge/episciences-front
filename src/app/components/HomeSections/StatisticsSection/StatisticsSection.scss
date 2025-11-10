@@ -27,7 +27,7 @@
 
     &-stat {
       font-size: 40px;
-      color: var(--primary);
+      color: var(--primary-accessible);
 
       @media (max-width:  breakpoints.$sm) {
         font-size: 34px;
