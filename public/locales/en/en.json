@@ -380,8 +380,23 @@
         "formerMember": "Former member"
       }
     },
+    "publish": {
+      "title": "Publish",
+      "description": "Information for publishing in our journal",
+      "forAuthors": "For authors",
+      "forReviewers": "For reviewers",
+      "forConferenceOrganisers": "For conference organisers"
+    },
     "forAuthors": {
       "title": "For authors"
+    },
+    "forReviewers": {
+      "title": "For reviewers",
+      "description": "Information and guidelines for reviewers"
+    },
+    "forConferenceOrganisers": {
+      "title": "For conference organisers",
+      "description": "Information and guidelines for conference organisers"
     },
     "pdfViewer": {
       "loading": "Loading PDF...",

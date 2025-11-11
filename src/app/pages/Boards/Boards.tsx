@@ -7,6 +7,7 @@ import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchBoardMembersQuery, useFetchBoardPagesQuery } from '../../../store/features/board/board.query';
 import { IBoardMember } from '../../../types/board';
+import { sortBoardPages } from '../../../utils/board';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import BoardCard from '../../components/Cards/BoardCard/BoardCard';
 import Loader from '../../components/Loader/Loader';
@@ -36,59 +37,28 @@ export default function Boards(): JSX.Element {
 
   const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const getPageSortOrder = (pageCode: string): number => {
-    const lowerCode = pageCode.toLowerCase();
-    if (lowerCode.includes("introduction")) return 1;
-    if (lowerCode.includes("editorial")) return 2;
-    if (lowerCode.includes("scientific")) return 3;
-    if (lowerCode.includes("technical")) return 4;
-    if (lowerCode.includes("partners")) return 5;
-    if (lowerCode.includes("reviewers")) return 6;
-    if (lowerCode.includes("former")) return 7;
-    if (lowerCode.includes("operating")) return 999;
-
-    return 500;
-  };
-
   const getPagesLabels = (): string [] => {
     if (!pages || !pages.length) return [];
-
-    const sortedPages = [...pages].sort((a, b) => {
-      const orderA = getPageSortOrder(a.page_code);
-      const orderB = getPageSortOrder(b.page_code);
-      return orderA - orderB;
-    });
-
-    return sortedPages.map(page => page.title[language]);
+    return sortBoardPages(pages).map(page => page.title[language]);
   }
 
   const getBoardsPerTitle = (): IBoardPerTitle[] => {
     if (!pages || !pages.length) return [];
     if (!members || !members.length) return [];
 
-    const sortedTitles = getPagesLabels();
-    const boardsPerTitle: IBoardPerTitle[] = [];
+    return sortBoardPages(pages).map(page => {
+      const pageMembers = members.filter((member) => {
+        const pluralRoles = member.roles.map((role) => `${role}s`)
+        return member.roles.includes(page.page_code) || pluralRoles.includes(page.page_code);
+      });
 
-    sortedTitles.forEach(title => {
-      const page = pages.find(p => p.title[language] === title);
-      if (page) {
-        const description = page.content[language];
-
-        const pageMembers = members.filter((member) => {
-          const pluralRoles = member.roles.map((role) => `${role}s`)
-          return member.roles.includes(page.page_code) || pluralRoles.includes(page.page_code);
-        });
-
-        boardsPerTitle.push({
-          title: title,
-          description: description,
-          members: pageMembers,
-          pageCode: page.page_code,
-        });
-      }
+      return {
+        title: page.title[language],
+        description: page.content[language],
+        members: pageMembers,
+        pageCode: page.page_code,
+      };
     });
-
-    return boardsPerTitle;
   }
 
   const handleGroupToggle = (index: number): void => {
