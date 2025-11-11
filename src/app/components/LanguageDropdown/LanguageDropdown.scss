@@ -16,6 +16,11 @@
     align-items: center;
     gap: 10px;
 
+    &-translate {
+      font-size: 18px;
+      font-weight: 500;
+    }
+
     &-text {
       width: 20px;
     }
@@ -25,6 +30,7 @@
     position: absolute;
     display: none;
     z-index: 3;
+    right: 0;
 
     &-displayed {
       display: block;
@@ -34,18 +40,28 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      padding: 7px 30px 10px 9px;
+      padding: 10px 20px;
       background: var(--white);
       color: var(--grey);
       border: 1px solid var(--grey-light);
       box-shadow: 0px 3px 6px var(--grey);
       font-size: 18px;
+      min-width: 180px;
 
       span {
         cursor: pointer;
+        white-space: nowrap;
+        padding: 5px 10px;
+        border-radius: 4px;
+        transition: color 0.2s ease;
 
         &:hover {
           color: var(--grey-dark);
+        }
+
+        &-active {
+          color: var(--primary-color, #0066cc);
+          font-weight: 600;
         }
       }
     }
