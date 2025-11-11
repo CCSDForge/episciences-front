@@ -8,6 +8,7 @@ import caretDownWhite from '/icons/caret-down-white.svg';
 import { useAppDispatch, useAppSelector } from '../../../hooks/store';
 import { setLanguage } from '../../../store/features/i18n/i18n.slice';
 import { AvailableLanguage, availableLanguages } from '../../../utils/i18n';
+import { getLanguageName } from '../../../utils/languageNames';
 import './LanguageDropdown.scss'
 
 interface ILanguageDropdownProps {
@@ -60,6 +61,7 @@ export default function LanguageDropdown({ withWhiteCaret }: ILanguageDropdownPr
       onTouchStart={(): void => setShowDropdown(!showDropdown)}
     >
       <div className='languageDropdown-icon'>
+        <span className='languageDropdown-icon-translate'>文A</span>
         <div className='languageDropdown-icon-text'>{language.toUpperCase()}</div>
         {showDropdown ? (
           <img className='languageDropdown-icon-caret' src={withWhiteCaret ? caretUpWhite : caretUpBlue} alt='Caret up icon' />
@@ -70,7 +72,14 @@ export default function LanguageDropdown({ withWhiteCaret }: ILanguageDropdownPr
       <div className={`languageDropdown-content ${showDropdown && 'languageDropdown-content-displayed'}`}>
         <div className='languageDropdown-content-links'>
           {availableLanguages.map((availableLanguage: AvailableLanguage, index: number) => (
-            <span key={index} onClick={(): void => switchLanguage(availableLanguage)} onTouchEnd={(): void => switchLanguage(availableLanguage)}>{availableLanguage.toUpperCase()}</span>
+            <span
+              key={index}
+              className={availableLanguage === language ? 'languageDropdown-content-links-active' : ''}
+              onClick={(): void => switchLanguage(availableLanguage)}
+              onTouchEnd={(): void => switchLanguage(availableLanguage)}
+            >
+              {availableLanguage.toUpperCase()} - {getLanguageName(availableLanguage)}
+            </span>
           ))}
         </div>
       </div>
