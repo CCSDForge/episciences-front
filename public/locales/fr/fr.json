@@ -83,7 +83,9 @@
       },
       "searchPlaceholder": "rechercher",
       "search": "Rechercher",
-      "submit": "Déposer"
+      "submit": "Déposer",
+      "chooseLanguage": "Choisir la langue",
+      "languageMenu": "Menu de sélection de la langue"
     },
     "footer": {
       "links": {
