@@ -57,12 +57,16 @@
       }
 
       &-dropdown {
-        min-width: 387px;
+        min-width: 476px;
         display: flex;
         align-items: center;
         justify-content: flex-end;
         color: var(--blue-navy);
         border-bottom: 1px solid var(--primary);
+
+        @media (max-width:  breakpoints.$sm) {
+          min-width: 410px;
+        }
 
         @media (max-width:  breakpoints.$xsm) {
           min-width: unset;
