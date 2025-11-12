@@ -92,7 +92,7 @@
 
     &-title {
       margin-bottom: 24px;
-      color: var(--primary);
+      color: var(--primary-accessible);
       font-size: 18px;
       font-weight: 600;
 
@@ -109,7 +109,7 @@
       white-space: pre-wrap;
 
       &-toggle {
-        color: var(--primary);
+        color: var(--primary-accessible);
         font-weight: bold;
         margin-top: 20px;
         cursor: pointer;
@@ -118,7 +118,7 @@
 
     &-read {
       align-self: flex-end;
-      color: var(--primary);
+      color: var(--primary-accessible);
       font-size: 14px;
 
       a {

@@ -20,7 +20,7 @@
     }
 
     &-year {
-      color: var(--primary);
+      color: var(--primary-accessible);
       font-size: 30px;
       font-weight: bold;
       padding-left: 60px;
@@ -85,7 +85,7 @@
           &-title {
             display: flex;
             justify-content: space-between;
-            color: var(--primary);
+            color: var(--primary-accessible);
             font-size: 22px;
             font-weight: bold;
             border-bottom: 1px solid var(--primary);
@@ -137,7 +137,7 @@
               }
 
               &-stat {
-                color: var(--primary);
+                color: var(--primary-accessible);
                 font-size: 60px;
                 font-weight: bold;
 
