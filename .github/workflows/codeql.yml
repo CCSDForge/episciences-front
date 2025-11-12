@@ -30,21 +30,13 @@ jobs:
     runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
     permissions:
       # required for all workflows
-      #security-events: write
-
-      # required to fetch internal or private CodeQL packs
-      #packages: read
-
-      # only required for workflows in private repositories
-
-      #permet d’utiliser les actions GitHub officielles.
-      actions: read
-      #permet d’accéder aux fichiers du repo.
-      contents: read
-      #permet d’uploader les résultats CodeQL.
       security-events: write
-      #optionnel, pour télécharger des packs internes.
+      # required to fetch internal or private CodeQL packs
       packages: read
+      # only required for workflows in private repositories
+      actions: read
+      #permet d’utiliser les actions GitHub officielles.
+      contents: read
 
     strategy:
       fail-fast: false
