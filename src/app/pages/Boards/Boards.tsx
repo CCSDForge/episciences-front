@@ -80,9 +80,13 @@ export default function Boards(): JSX.Element {
 
           // Include managing-editor and handling-editor in scientific-advisory-board
           const isScientificAdvisoryBoard = page.page_code === 'scientific-advisory-board';
-          const hasSpecialRole = member.roles.includes('managing-editor') || member.roles.includes('handling-editor');
+          const hasSpecialRoleScientific = member.roles.includes('managing-editor') || member.roles.includes('handling-editor');
 
-          return hasMatchingRole || (isScientificAdvisoryBoard && hasSpecialRole);
+          // Include advisory-board in editorial-board
+          const isEditorialBoard = page.page_code === 'editorial-board';
+          const hasSpecialRoleEditorial = member.roles.includes('advisory-board');
+
+          return hasMatchingRole || (isScientificAdvisoryBoard && hasSpecialRoleScientific) || (isEditorialBoard && hasSpecialRoleEditorial);
         });
 
         boardsPerTitle.push({
