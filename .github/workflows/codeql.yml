@@ -35,7 +35,6 @@ jobs:
       packages: read
       # only required for workflows in private repositories
       actions: read
-      #permet d’utiliser les actions GitHub officielles.
       contents: read
 
     strategy:
