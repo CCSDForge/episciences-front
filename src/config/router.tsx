@@ -7,7 +7,7 @@ import ScrollManager from "../hooks/scrollManager";
 import MainLayout from "../app/layouts/MainLayout/MainLayout";
 import Home from "../app/pages/Home/Home";
 import About from "../app/pages/About/About";
-import Acknowledgments from "../app/pages/Acknowledgments/Acknowledgments.tsx";
+import Acknowledgements from "../app/pages/Acknowledgements/Acknowledgements.tsx";
 import Indexation from "../app/pages/Indexation/Indexation";
 import Accessibility from "../app/pages/Accessibility/Accessibility";
 import Articles from "../app/pages/Articles/Articles";
@@ -21,6 +21,9 @@ import Authors from "../app/pages/Authors/Authors";
 import Boards from "../app/pages/Boards/Boards";
 import Credits from "../app/pages/Credits/Credits";
 import ForAuthors from "../app/pages/ForAuthors/ForAuthors";
+import ForReviewers from "../app/pages/ForReviewers/ForReviewers";
+import ForConferenceOrganisers from "../app/pages/ForConferenceOrganisers/ForConferenceOrganisers";
+import Publish from "../app/pages/Publish/Publish";
 import News from "../app/pages/News/News";
 import Search from "../app/pages/Search/Search";
 import Sections from "../app/pages/Sections/Sections";
@@ -64,7 +67,10 @@ const router = createBrowserRouter([
     children: [
       basicRoute("home", Home),
       basicRoute("boards", Boards),
+      basicRoute("publish", Publish),
       basicRoute("forAuthors", ForAuthors),
+      basicRoute("forReviewers", ForReviewers),
+      basicRoute("forConferenceOrganisers", ForConferenceOrganisers),
       basicRoute("credits", Credits),
       basicRoute("accessibility", Accessibility),
       basicRoute("search", Search),
@@ -77,7 +83,7 @@ const router = createBrowserRouter([
       basicRoute("sections", Sections),
       basicRoute("sectionDetails", SectionDetails),
       basicRoute("about", About),
-      basicRoute("acknowledgments", Acknowledgments),
+      basicRoute("acknowledgements", Acknowledgements),
       basicRoute("indexation", Indexation),
       basicRoute("news", News),
       basicRoute("statistics", Statistics),
