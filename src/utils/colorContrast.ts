@@ -6,9 +6,9 @@ function getLuminance(hexColor: string): number {
     // Remove '#' from the color if present
     const hex = hexColor.replace('#', '');
     // Convert hex to RGB (0–255) and normalize to 0–1
-    const r = parseInt(hex.substring(0, 2), 16) / 255;
-    const g = parseInt(hex.substring(2, 4), 16) / 255;
-    const b = parseInt(hex.substring(4, 6), 16) / 255;
+    const r = Number.parseInt(hex.substring(0, 2), 16) / 255;
+    const g = Number.parseInt(hex.substring(2, 4), 16) / 255;
+    const b = Number.parseInt(hex.substring(4, 6), 16) / 255;
 
     // Apply gamma correction to each channel
     const [rs, gs, bs] = [r, g, b].map(c => {
@@ -45,9 +45,9 @@ function darkenColor(hexColor: string, amount: number = 0.3): string {
     const hex = hexColor.replace('#', '');
 
     // Multiply RGB values by (1 - amount) to darken
-    const r = Math.max(0, parseInt(hex.substring(0, 2), 16) * (1 - amount));
-    const g = Math.max(0, parseInt(hex.substring(2, 4), 16) * (1 - amount));
-    const b = Math.max(0, parseInt(hex.substring(4, 6), 16) * (1 - amount));
+    const r = Math.max(0, Number.parseInt(hex.substring(0, 2), 16) * (1 - amount));
+    const g = Math.max(0, Number.parseInt(hex.substring(2, 4), 16) * (1 - amount));
+    const b = Math.max(0, Number.parseInt(hex.substring(4, 6), 16) * (1 - amount));
 
     // Convert back to hex, pad with zeros if needed
     return `#${Math.round(r).toString(16).padStart(2, '0')}${Math.round(g)

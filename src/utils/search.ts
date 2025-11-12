@@ -19,7 +19,7 @@ export const formatSearchRange = (range?: SearchRange): {
   let years: { value: number; count: number }[] = [];
   if (searchRange.year) {
     years = Object.entries(searchRange.year).map(y => ({
-      value: parseInt(y[0]),
+      value: Number.parseInt(y[0]),
       count: y[1]
     }));
   }
