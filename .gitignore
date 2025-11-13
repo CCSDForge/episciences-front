@@ -33,7 +33,7 @@ public/logos
 tmp/
 
 # Fonts
-src/style/fonts/
+src/style/fonts/Noto-Sans/archive
 
 # Deployment configuration and logs
 deploy/config.sh
