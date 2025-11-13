@@ -19,8 +19,21 @@
       font-size: 18px;
       flex: 1;
 
+      // Troncature visuelle avec line-clamp
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-clamp: 6;
+      -webkit-line-clamp: 6;
+
       p {
-        margin: 16px 0px 16px 0px;
+        margin: 16px 0;
+        &:first-child { margin-top: 0; }
+        &:last-child { margin-bottom: 0; }
+      }
+
+      a {
+        text-decoration: underline;
       }
 
       @media (max-width:  breakpoints.$xsm) {

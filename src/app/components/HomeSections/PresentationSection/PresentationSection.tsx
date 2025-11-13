@@ -12,7 +12,6 @@ import { AvailableLanguage } from '../../../../utils/i18n';
 import { VOLUME_TYPE } from '../../../../utils/volume';
 import './PresentationSection.scss'
 
-const MAX_ABOUT_CONTENT_LENGTH = 400;
 const MAX_NEWS_CONTENT_LENGTH = 200;
 
 interface IPresentationSectionProps {
@@ -30,8 +29,8 @@ export default function PresentationSection({ language, t, aboutContent, lastInf
       {aboutContent && aboutContent[language] && (
         <div className='presentationSection-about'>
           <div className='presentationSection-about-content'>
-            <ReactMarkdown>{`${aboutContent[language]?.substring(0, MAX_ABOUT_CONTENT_LENGTH) ?? ''}...`}</ReactMarkdown>
-            </div>
+            <ReactMarkdown>{aboutContent[language]}</ReactMarkdown>
+          </div>
           <Link to={PATHS.about}>
             <div className='presentationSection-about-seeMore'>
               <div className='presentationSection-about-seeMore-text'>{t('common.seeMore')}</div>
