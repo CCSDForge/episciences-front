@@ -263,11 +263,7 @@
             }
 
             &-publish {
-              min-width: 230px;
-
-              &-fr {
-                min-width: 330px;
-              }
+              min-width: max-content;
             }
           }
         }

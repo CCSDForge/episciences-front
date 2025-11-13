@@ -166,7 +166,7 @@ export default function Header(): JSX.Element {
                 <div>{t('pages.publish.title')}</div>
                 {showDropdown.publish && (
                     <div className='header-postheader-links-dropdown-content' onMouseLeave={(): void => toggleDropdown('publish', false)}>
-                      <div className={`header-postheader-links-dropdown-content-links header-postheader-links-dropdown-content-links-publish ${language === 'fr' && 'header-postheader-links-dropdown-content-links-publish-fr'}`}>
+                      <div className='header-postheader-links-dropdown-content-links header-postheader-links-dropdown-content-links-publish'>
                         {getPublishSections().map((section) => (
                           <Link key={section.type} to={section.path}>{t(section.translationKey)}</Link>
                         ))}
