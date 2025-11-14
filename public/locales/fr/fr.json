@@ -387,11 +387,16 @@
       "title": "Publier",
       "description": "Informations pour publier dans notre revue",
       "forAuthors": "Pour les auteurs",
+      "ethicalCharter": "Charte éthique",
       "forReviewers": "Pour les relecteurs",
       "forConferenceOrganisers": "Pour les organisateurs de conférences"
     },
     "forAuthors": {
       "title": "Pour les auteurs"
+    },
+    "ethicalCharter": {
+      "title": "Charte éthique",
+      "description": "Charte éthique et bonnes pratiques"
     },
     "forReviewers": {
       "title": "Pour les relecteurs",
