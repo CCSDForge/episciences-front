@@ -19,10 +19,8 @@ export const boardApi = createApi({
     fetchBoardMembers: build.query<IBoardMember[], string>({
       query: (rvcode: string) => `journals/boards/${rvcode}?page=1&itemsPerPage=100&pagination=false`,
       transformResponse(baseQueryReturnValue: RawBoardMember[]) {
-        console.log('🔍 Raw API response:', baseQueryReturnValue);
         const formattedBoardMembers = baseQueryReturnValue.map((board) => {
           const roles = board.roles.length > 0 ? board.roles[0].map(role => role.replace(/_/g, '-')) : []
-          console.log(`👤 ${board.firstname} ${board.lastname} - Raw roles:`, board.roles, '- Formatted roles:', roles);
 
           let twitter, mastodon;
           if (board.additionalProfileInformation?.socialMedias) {
