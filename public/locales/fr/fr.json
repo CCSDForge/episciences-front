@@ -377,7 +377,10 @@
         "editor": "Rédacteur/Rédactrice",
         "chiefEditor": "Rédacteur/Rédactrice en chef",
         "secretary": "Secrétaire de rédaction",
-        "formerMember": "Ancien/Ancienne membre"
+        "formerMember": "Ancien/Ancienne membre",
+        "advisoryBoard": "Comité consultatif",
+        "managingEditor": "Comité de direction",
+        "handlingEditor": "Rédacteur responsable"
       }
     },
     "publish": {

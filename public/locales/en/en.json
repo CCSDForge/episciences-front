@@ -377,7 +377,10 @@
         "editor": "Editor",
         "chiefEditor": "Chief editor",
         "secretary": "Secretary",
-        "formerMember": "Former member"
+        "formerMember": "Former member",
+        "advisoryBoard": "Advisory board",
+        "managingEditor": "Managing editor",
+        "handlingEditor": "Handling editor"
       }
     },
     "publish": {
