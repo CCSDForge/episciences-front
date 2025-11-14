@@ -26,6 +26,7 @@ import { creditsApi } from './credits/credits.query'
 import { forAuthorApi } from './forAuthor/forAuthor.query'
 import { forReviewersApi } from './forReviewers/forReviewers.query'
 import { forConferenceOrganisersApi } from './forConferenceOrganisers/forConferenceOrganisers.query'
+import { ethicalCharterApi } from './ethicalCharter/ethicalCharter.query'
 import { indexationApi } from './indexation/indexation.query'
 import { journalApi } from './journal/journal.query'
 import { acknowledgementsApi } from './acknowledgements/acknowledgements.query'
@@ -64,6 +65,7 @@ const createRootReducer = combineReducers({
   [forAuthorApi.reducerPath]: forAuthorApi.reducer,
   [forReviewersApi.reducerPath]: forReviewersApi.reducer,
   [forConferenceOrganisersApi.reducerPath]: forConferenceOrganisersApi.reducer,
+  [ethicalCharterApi.reducerPath]: ethicalCharterApi.reducer,
   [indexationApi.reducerPath]: indexationApi.reducer,
   [journalApi.reducerPath]: journalApi.reducer,
   [acknowledgementsApi.reducerPath]: acknowledgementsApi.reducer,

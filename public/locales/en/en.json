@@ -387,11 +387,16 @@
       "title": "Publish",
       "description": "Information for publishing in our journal",
       "forAuthors": "For authors",
+      "ethicalCharter": "Ethical charter",
       "forReviewers": "For reviewers",
       "forConferenceOrganisers": "For conference organisers"
     },
     "forAuthors": {
       "title": "For authors"
+    },
+    "ethicalCharter": {
+      "title": "Ethical charter",
+      "description": "Ethical charter and best practices"
     },
     "forReviewers": {
       "title": "For reviewers",

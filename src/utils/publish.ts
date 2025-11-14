@@ -3,11 +3,13 @@ import { PATHS } from '../config/paths';
 export enum PUBLISH_SECTION {
   FOR_AUTHORS = 'for-authors',
   FOR_REVIEWERS = 'for-reviewers',
-  FOR_CONFERENCE_ORGANISERS = 'for-conference-organisers'
+  FOR_CONFERENCE_ORGANISERS = 'for-conference-organisers',
+  ETHICAL_CHARTER = 'ethical-charter'
 }
 
 // Defines the display order of publish sections in the navigation menu
 export const publishSections = [
+  PUBLISH_SECTION.ETHICAL_CHARTER,
   PUBLISH_SECTION.FOR_AUTHORS,
   PUBLISH_SECTION.FOR_REVIEWERS,
   PUBLISH_SECTION.FOR_CONFERENCE_ORGANISERS,
@@ -39,6 +41,16 @@ export const getPublishSections = (): IPublishSection[] => {
     const shouldRenderFeature = (envVarValue: string | undefined): boolean => {
         return envVarValue !== 'false';
     };
+  // Include ethical-charter only if environment variable is not 'false'
+  const shouldRenderEthicalCharter = shouldRenderFeature(import.meta.env.VITE_JOURNAL_MENU_JOURNAL_ETHICAL_CHARTER_RENDER);
+  if (shouldRenderEthicalCharter) {
+    sections.push({
+      type: PUBLISH_SECTION.ETHICAL_CHARTER,
+      path: PATHS.ethicalCharter,
+      translationKey: 'pages.publish.ethicalCharter'
+    });
+  }
+
   // Include for-reviewers only if environment variable is not 'false'
   const shouldRenderForReviewers = shouldRenderFeature(import.meta.env.VITE_JOURNAL_MENU_JOURNAL_FOR_REVIEWERS_RENDER);
   if (shouldRenderForReviewers) {

@@ -7,7 +7,7 @@ import remarkGfm from 'remark-gfm';
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from "../../../hooks/store";
-import { useFetchEditorialWorkflowPageQuery, useFetchEthicalCharterPageQuery, useFetchPrepareSubmissionPageQuery } from "../../../store/features/forAuthor/forAuthor.query";
+import { useFetchEditorialWorkflowPageQuery, useFetchPrepareSubmissionPageQuery } from "../../../store/features/forAuthor/forAuthor.query";
 import { generateIdFromText, unifiedProcessor, serializeMarkdown, getMarkdownImageURL, adjustNestedListsInMarkdownContent } from '../../../utils/markdown';
 import { FOR_AUTHORS_SECTION, getForAuthorsSectionSortOrder } from '../../../utils/forAuthors';
 import ForAuthorsSidebar, { IForAuthorsHeader } from '../../components/Sidebars/ForAuthorsSidebar/ForAuthorsSidebar';
@@ -38,7 +38,6 @@ export default function ForAuthors(): JSX.Element {
   const [sidebarHeaders, setSidebarHeaders] = useState<IForAuthorsHeader[]>([]);
 
   const { data: editorialWorkflowPage, isFetching: isFetchingEditorialWorkflow } = useFetchEditorialWorkflowPageQuery(rvcode!, { skip: !rvcode });
-  const { data: ethicalCharterPage, isFetching: isFetchingEthicalCharter } = useFetchEthicalCharterPageQuery(rvcode!, { skip: !rvcode });
   const { data: prepareSubmissionPage, isFetching: isFetchingPrepareSubmission } = useFetchPrepareSubmissionPageQuery(rvcode!, { skip: !rvcode });
 
   const parseContentSections = (toBeParsed: Record<ForAuthorsSectionType, { title: string | undefined; content: string | undefined }>): IForAuthorsSection[] => {
@@ -208,10 +207,6 @@ export default function ForAuthors(): JSX.Element {
         title: editorialWorkflowPage?.title[language],
         content: editorialWorkflowPage?.content[language]
       },
-      [FOR_AUTHORS_SECTION.ETHICAL_CHARTER]: {
-        title: ethicalCharterPage?.title[language],
-        content: ethicalCharterPage?.content[language]
-      },
       [FOR_AUTHORS_SECTION.PREPARE_SUBMISSION]: {
         title: prepareSubmissionPage?.title[language],
         content: prepareSubmissionPage?.content[language]
@@ -220,7 +215,7 @@ export default function ForAuthors(): JSX.Element {
 
     setPageSections(parseContentSections(content));
     setSidebarHeaders(parseSidebarHeaders(content));
-  }, [editorialWorkflowPage, ethicalCharterPage, prepareSubmissionPage, language]);
+  }, [editorialWorkflowPage, prepareSubmissionPage, language]);
 
   return (
     <main className='forAuthors'>
@@ -235,7 +230,7 @@ export default function ForAuthors(): JSX.Element {
       ]} crumbLabel={t('pages.forAuthors.title')} />
       <h1 className='forAuthors-title'>{t('pages.forAuthors.title')}</h1>
 
-      {isFetchingEditorialWorkflow || isFetchingEthicalCharter || isFetchingPrepareSubmission ? (
+      {isFetchingEditorialWorkflow || isFetchingPrepareSubmission ? (
         <Loader />
       ) : (
         <div className='forAuthors-content'>

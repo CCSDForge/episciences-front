@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Status page link in footer
 - feat: add new pages for About, Boards, and Publish
 - feat(#94): update editor labels for Scientific and Editorial boards
+- Transform for author - ethical charter into an independent page
 
 ### Fixed
 - Volume page, display other volumes with a link

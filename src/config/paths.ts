@@ -23,6 +23,7 @@ export const PATHS = {
   statistics: '/statistics',
   publish: '/publish',
   forAuthors: '/for-authors',
+  ethicalCharter: '/ethical-charter',
   forReviewers: '/for-reviewers',
   forConferenceOrganisers: '/for-conference-organisers'
 }
