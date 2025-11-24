@@ -87,7 +87,7 @@
         text-align: left;
         font-family: inherit;
         font-size: inherit;
-        color: inherit;
+        color:var(--primary-accessible);
 
         &:hover {
           color: var(--grey-dark);
@@ -112,7 +112,7 @@
       }
 
       &-active {
-        color: var(--primary);
+        color: var(--primary-accessible);
         font-weight: 600;
       }
     }
