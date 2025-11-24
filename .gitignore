@@ -30,6 +30,10 @@ public/logos
 .firebase/*
 /external-assets/
 /.next/
+tmp/
+
+# Fonts
+src/style/fonts/Noto-Sans/archive
 
 # Deployment configuration and logs
 deploy/config.sh

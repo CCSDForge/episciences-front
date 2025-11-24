@@ -1,0 +1,71 @@
+@use "src/style/breakpoints.scss";
+
+.publish {
+  display: flex;
+  flex-direction: column;
+  padding: 4rem;
+  gap: 2rem;
+
+  @media (max-width: breakpoints.$sm) {
+    padding: 1rem;
+  }
+
+  &-title {
+    color: var(--black);
+    font-size: 32px;
+    font-weight: 400;
+    margin: 0;
+
+    @media (max-width: breakpoints.$sm) {
+      font-size: 24px;
+    }
+  }
+
+  &-navigation {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--grey-light);
+    margin-bottom: 1rem;
+
+    &-item {
+      padding: 1rem 2rem;
+      color: var(--black);
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 400;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      bottom: -2px;
+
+      @media (max-width: breakpoints.$sm) {
+        padding: 0.75rem 1rem;
+        font-size: 14px;
+      }
+
+      &:hover {
+        color: var(--primary);
+        border-bottom-color: var(--primary);
+      }
+
+      &-active {
+        color: var(--primary);
+        border-bottom-color: var(--primary);
+        font-weight: 600;
+      }
+    }
+  }
+
+  &-content {
+    padding: 2rem 0;
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.6;
+
+    @media (max-width: breakpoints.$sm) {
+      padding: 1rem 0;
+      font-size: 14px;
+    }
+  }
+}

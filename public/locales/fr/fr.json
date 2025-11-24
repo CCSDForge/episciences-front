@@ -83,7 +83,9 @@
       },
       "searchPlaceholder": "rechercher",
       "search": "Rechercher",
-      "submit": "Déposer"
+      "submit": "Déposer",
+      "chooseLanguage": "Choisir la langue",
+      "languageMenu": "Menu de sélection de la langue"
     },
     "footer": {
       "links": {
@@ -95,10 +97,11 @@
         "documentation": "Documentation",
         "acknowledgements": "Remerciements",
         "publishingPolicy": "Politiques de publication",
-        "accessibility": "Accessibilité",
+        "accessibility": "Accessibilité : non conforme",
         "legalMentions": "Mentions légales",
         "privacyStatement": "Déclaration de confidentialité",
-        "termsOfUse": "Termes d'utilisation"
+        "termsOfUse": "Termes d'utilisation",
+        "status": "Statut"
       }
     }
   },
@@ -363,7 +366,10 @@
         "technicalBoard": "Comité technique",
         "editorialBoard": "Comité éditorial",
         "scientificAdvisoryBoard": "Comité scientifique",
-        "formerMember": "Ancien/Ancienne membre"
+        "formerMember": "Ancien/Ancienne membre",
+        "introductionBoard": "Présentation des comités",
+        "reviewersBoard": "Comité de relecture",
+        "operatingCharterBoard": "Charte de fonctionnement"
       },
       "roles": {
         "member": "Membre",
@@ -371,11 +377,34 @@
         "editor": "Rédacteur/Rédactrice",
         "chiefEditor": "Rédacteur/Rédactrice en chef",
         "secretary": "Secrétaire de rédaction",
-        "formerMember": "Ancien/Ancienne membre"
+        "formerMember": "Ancien/Ancienne membre",
+        "advisoryBoard": "Comité consultatif",
+        "managingEditor": "Comité de direction",
+        "handlingEditor": "Rédacteur responsable"
       }
+    },
+    "publish": {
+      "title": "Publier",
+      "description": "Informations pour publier dans notre revue",
+      "forAuthors": "Pour les auteurs",
+      "ethicalCharter": "Charte éthique",
+      "forReviewers": "Pour les relecteurs",
+      "forConferenceOrganisers": "Pour les organisateurs de conférences"
     },
     "forAuthors": {
       "title": "Pour les auteurs"
+    },
+    "ethicalCharter": {
+      "title": "Charte éthique",
+      "description": "Charte éthique et bonnes pratiques"
+    },
+    "forReviewers": {
+      "title": "Pour les relecteurs",
+      "description": "Informations et directives pour les relecteurs"
+    },
+    "forConferenceOrganisers": {
+      "title": "Pour les organisateurs de conférences",
+      "description": "Informations et directives pour les organisateurs de conférences"
     },
     "pdfViewer": {
       "loading": "Chargement du PDF...",

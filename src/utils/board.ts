@@ -1,19 +1,44 @@
 import { TFunction } from 'i18next';
-import { IBoardMember } from '../types/board';
+import { IBoardMember, BoardPage } from '../types/board';
 
 export enum BOARD_TYPE {
+  INTRODUCTION_BOARD = 'introduction-board',
   EDITORIAL_BOARD = 'editorial-board',
   TECHNICAL_BOARD = 'technical-board',
   SCIENTIFIC_ADVISORY_BOARD = 'scientific-advisory-board',
-  FORMER_MEMBERS = 'former-members'
+  REVIEWERS_BOARD = 'reviewers-board',
+  FORMER_MEMBERS = 'former-members',
+  OPERATING_CHARTER_BOARD = 'operating-charter-board'
 }
-
+//Define the sort order for board types - order in array determines display order"
 export const boardTypes = [
+  BOARD_TYPE.INTRODUCTION_BOARD,
   BOARD_TYPE.EDITORIAL_BOARD,
-  BOARD_TYPE.TECHNICAL_BOARD,
   BOARD_TYPE.SCIENTIFIC_ADVISORY_BOARD,
-  BOARD_TYPE.FORMER_MEMBERS
+  BOARD_TYPE.TECHNICAL_BOARD,
+  BOARD_TYPE.REVIEWERS_BOARD,
+  BOARD_TYPE.FORMER_MEMBERS,
+  BOARD_TYPE.OPERATING_CHARTER_BOARD,
 ]
+
+// Define the sort order for board types based on boardTypes array
+const getBoardTypeSortOrder = (boardType: BOARD_TYPE): number => {
+  const index = boardTypes.indexOf(boardType);
+  return index !== -1 ? index + 1 : 999;
+};
+
+/*
+ * Sort board pages by defined type order
+ * @param pages - Array of board pages to sort
+ * @returns Sorted array of board pages
+ */
+export const sortBoardPages = (pages: BoardPage[]): BoardPage[] => {
+  return [...pages].sort((a, b) => {
+    const orderA = getBoardTypeSortOrder(a.page_code as BOARD_TYPE);
+    const orderB = getBoardTypeSortOrder(b.page_code as BOARD_TYPE);
+    return orderA - orderB;
+  });
+};
 
 export enum BOARD_ROLE {
   MEMBER = 'member',
@@ -21,7 +46,10 @@ export enum BOARD_ROLE {
   EDITOR = 'editor',
   CHIEF_EDITOR = 'chief-editor',
   SECRETARY = 'secretary',
-  FORMER_MEMBER = 'former-member'
+  FORMER_MEMBER = 'former-member',
+  ADVISORY_BOARD = 'advisory-board',
+  MANAGING_EDITOR = 'managing-editor',
+  HANDLING_EDITOR = 'handling-editor'
 }
 
 export const defaultBoardRole = (t: TFunction<"translation", undefined>) => {
@@ -41,7 +69,11 @@ export const getBoardRoles = (t: TFunction<"translation", undefined>, roles: str
     { key: BOARD_ROLE.EDITOR, label: t('pages.boards.roles.editor') },
     { key: BOARD_ROLE.CHIEF_EDITOR, label: t('pages.boards.roles.chiefEditor') },
     { key: BOARD_ROLE.SECRETARY, label: t('pages.boards.roles.secretary') },
-    { key: BOARD_ROLE.FORMER_MEMBER, label: t('pages.boards.roles.formerMember') }
+    { key: BOARD_ROLE.FORMER_MEMBER, label: t('pages.boards.roles.formerMember') },
+    { key: BOARD_ROLE.ADVISORY_BOARD, label: t('pages.boards.roles.advisoryBoard') },
+    { key: BOARD_ROLE.MANAGING_EDITOR, label: t('pages.boards.roles.managingEditor') },
+    { key: BOARD_ROLE.HANDLING_EDITOR, label: t('pages.boards.roles.handlingEditor') }
+
   ]
 
   return rolesWithLabels.filter(roleWithLabel => roles.includes(roleWithLabel.key)).map(roleWithLabel => roleWithLabel.label).join(', ')

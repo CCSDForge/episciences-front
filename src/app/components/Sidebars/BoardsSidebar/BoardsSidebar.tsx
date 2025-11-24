@@ -5,11 +5,11 @@ import './BoardsSidebar.scss'
 interface IBoardsSidebarProps {
   t: TFunction<"translation", undefined>
   groups: string[];
-  activeGroupIndex: number;
+  openPanels: number[];
   onSetActiveGroupCallback: (index: number) => void;
 }
 
-export default function BoardsSidebar({ t, groups, activeGroupIndex, onSetActiveGroupCallback }: IBoardsSidebarProps): JSX.Element {
+export default function BoardsSidebar({ t, groups, openPanels, onSetActiveGroupCallback }: IBoardsSidebarProps): JSX.Element {
   return (
     <div className='boardsSidebar'>
       <div className='boardsSidebar-resume'>{t('pages.boards.tableOfContents')}</div>
@@ -17,7 +17,7 @@ export default function BoardsSidebar({ t, groups, activeGroupIndex, onSetActive
         {groups.map((group, index) => (
           <div
             key={index}
-            className={`boardsSidebar-links-row ${index === activeGroupIndex && 'boardsSidebar-links-row-active'}`}
+            className={`boardsSidebar-links-row ${openPanels.includes(index) && 'boardsSidebar-links-row-active'}`}
             onClick={(): void => onSetActiveGroupCallback(index)}
           >
             {group}

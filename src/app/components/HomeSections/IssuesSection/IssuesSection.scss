@@ -73,7 +73,7 @@
       flex-direction: column;
 
       &-volume {
-        color: var(--primary);
+        color: var(--primary-accessible);
         font-weight: 600;
         margin-bottom: 8px;
       }
@@ -109,7 +109,7 @@
         align-items: flex-end;
         flex: 1;
         gap: 8px;
-        color: var(--primary);
+        color: var(--primary-accessible);
         font-size: 13px;
       }
     }

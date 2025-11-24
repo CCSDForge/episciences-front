@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import ReactMarkdown from 'react-markdown'
 import { useTranslation } from 'react-i18next';
 
@@ -7,6 +7,7 @@ import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from "../../../hooks/store";
 import { useFetchBoardMembersQuery, useFetchBoardPagesQuery } from '../../../store/features/board/board.query';
 import { IBoardMember } from '../../../types/board';
+import { sortBoardPages } from '../../../utils/board';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import BoardCard from '../../components/Cards/BoardCard/BoardCard';
 import Loader from '../../components/Loader/Loader';
@@ -31,66 +32,81 @@ export default function Boards(): JSX.Element {
   const { data: pages, isFetching: isFetchingPages } = useFetchBoardPagesQuery(rvcode!, { skip: !rvcode })
   const { data: members, isFetching: isFetchingMembers } = useFetchBoardMembersQuery(rvcode!, { skip: !rvcode })
 
-  const [activeGroupIndex, setActiveGroupIndex] = useState(0);
+  const [openPanels, setOpenPanels] = useState<number[]>([0]);
   const [fullMemberIndex, setFullMemberIndex] = useState(-1);
 
-  const getTitleSortOrder = (pageTitle: string): number => {
-    const lowerTitle = pageTitle.toLowerCase();
-
-    if (lowerTitle.includes("éditorial") || lowerTitle.includes("editorial")) return 1;
-    if (lowerTitle.includes("scientifique") || lowerTitle.includes("scientific")) return 2;
-    if (lowerTitle.includes("technique") || lowerTitle.includes("technical")) return 3;
-    if (lowerTitle.includes("partenaires") || lowerTitle.includes("partners")) return 4;
-    if (lowerTitle.includes("ancien") || lowerTitle.includes("former")) return 999;
-
-    return 500;
-  };
+  const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const getPagesLabels = (): string [] => {
     if (!pages || !pages.length) return [];
-
-    const labels: string[] = pages.map(page => page.title[language]);
-
-    labels.sort((a, b) => {
-      const orderA = getTitleSortOrder(a);
-      const orderB = getTitleSortOrder(b);
-      return orderA - orderB;
-    });
-
-    return labels;
+    return sortBoardPages(pages).map(page => page.title[language]);
   }
 
   const getBoardsPerTitle = (): IBoardPerTitle[] => {
     if (!pages || !pages.length) return [];
     if (!members || !members.length) return [];
 
-    const sortedTitles = getPagesLabels();
-    const boardsPerTitle: IBoardPerTitle[] = [];
+    return sortBoardPages(pages).map(page => {
+      const pageMembers = members.filter((member) => {
+        const pluralRoles = member.roles.map((role) => `${role}s`)
+        const hasMatchingRole = member.roles.includes(page.page_code) || pluralRoles.includes(page.page_code);
 
-    sortedTitles.forEach(title => {
-      const page = pages.find(p => p.title[language] === title);
-      if (page) {
-        const description = page.content[language];
+        // Include managing-editor and handling-editor in scientific-advisory-board
+        const isScientificAdvisoryBoard = page.page_code === 'scientific-advisory-board';
+        const hasSpecialRoleScientific = member.roles.includes('managing-editor') || member.roles.includes('handling-editor');
 
-        const pageMembers = members.filter((member) => {
-          const pluralRoles = member.roles.map((role) => `${role}s`)
-          return member.roles.includes(page.page_code) || pluralRoles.includes(page.page_code);
-        });
+        // Include advisory-board in editorial-board
+        const isEditorialBoard = page.page_code === 'editorial-board';
+        const hasSpecialRoleEditorial = member.roles.includes('advisory-board');
 
-        boardsPerTitle.push({
-          title: title,
-          description: description,
-          members: pageMembers,
-          pageCode: page.page_code,
-        });
-      }
+        return hasMatchingRole || (isScientificAdvisoryBoard && hasSpecialRoleScientific) || (isEditorialBoard && hasSpecialRoleEditorial);
+      });
+
+      return {
+        title: page.title[language],
+        description: page.content[language],
+        members: pageMembers,
+        pageCode: page.page_code,
+      };
     });
-
-    return boardsPerTitle;
   }
 
   const handleGroupToggle = (index: number): void => {
-    setActiveGroupIndex(prev => prev === index ? 0 : index);
+    setOpenPanels(prev => {
+      if (prev.includes(index)) {
+        // Retirer le panel du tableau s'il est déjà ouvert
+        return prev.filter(i => i !== index);
+      } else {
+        // Ajouter le panel au tableau s'il est fermé
+        return [...prev, index];
+      }
+    });
+
+    // Scroller vers le panel après un léger délai pour laisser l'animation d'ouverture se faire
+    setTimeout(() => {
+      panelRefs.current[index]?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }, 100);
+  };
+
+  const handleSidebarClick = (index: number): void => {
+    // Ouvrir le panel s'il est fermé, ne rien faire s'il est déjà ouvert
+    setOpenPanels(prev => {
+      if (!prev.includes(index)) {
+        return [...prev, index];
+      }
+      return prev;
+    });
+
+    // Toujours scroller vers le panel
+    setTimeout(() => {
+      panelRefs.current[index]?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }, 100);
   };
 
   return (
@@ -116,19 +132,19 @@ export default function Boards(): JSX.Element {
         <Loader />
       ) : (
         <div className='boards-content'>
-          <BoardsSidebar t={t} groups={getPagesLabels()} activeGroupIndex={activeGroupIndex} onSetActiveGroupCallback={handleGroupToggle} />
+          <BoardsSidebar t={t} groups={getPagesLabels()} openPanels={openPanels} onSetActiveGroupCallback={handleSidebarClick} />
           <div className='boards-content-groups'>
             {getBoardsPerTitle().map((boardPerTitle, index) => (
-              <div key={index} className='boards-content-groups-group'>
-                <div className='boards-content-groups-group-title' onClick={(): void => activeGroupIndex === index ? handleGroupToggle(-1) : handleGroupToggle(index)}>
+              <div key={index} className='boards-content-groups-group' ref={(el): void => { panelRefs.current[index] = el; }}>
+                <div className='boards-content-groups-group-title' onClick={(): void => handleGroupToggle(index)}>
                   <h2>{boardPerTitle.title}</h2>
-                  {activeGroupIndex === index ? (
+                  {openPanels.includes(index) ? (
                     <img className='boards-content-groups-group-caret' src={caretUp} alt='Caret up icon' />
                   ) : (
                     <img className='boards-content-groups-group-caret' src={caretDown} alt='Caret down icon' />
                   )}
                 </div>
-                <div className={`boards-content-groups-group-content ${activeGroupIndex === index && 'boards-content-groups-group-content-active'}`}>
+                <div className={`boards-content-groups-group-content ${openPanels.includes(index) && 'boards-content-groups-group-content-active'}`}>
                   <div className='boards-content-groups-group-content-description'>
                     <ReactMarkdown>{boardPerTitle.description}</ReactMarkdown>
                   </div>

@@ -4,9 +4,12 @@ import { authorApi } from '../features/author/author.query'
 import { boardApi } from '../features/board/board.query'
 import { creditsApi } from '../features/credits/credits.query'
 import { forAuthorApi } from '../features/forAuthor/forAuthor.query'
+import { forReviewersApi } from '../features/forReviewers/forReviewers.query'
+import { forConferenceOrganisersApi } from '../features/forConferenceOrganisers/forConferenceOrganisers.query'
+import { ethicalCharterApi } from '../features/ethicalCharter/ethicalCharter.query'
 import { indexationApi } from '../features/indexation/indexation.query'
 import { journalApi } from '../features/journal/journal.query'
-import { acknowledgmentsApi } from '../features/acknowledgments/acknowledgments.query'
+import { acknowledgementsApi } from '../features/acknowledgements/acknowledgements.query'
 import { newsApi } from '../features/news/news.query'
 import { searchApi } from '../features/search/search.query'
 import { sectionApi } from '../features/section/section.query'
@@ -21,9 +24,12 @@ export const enhancedMiddleware = (getDefaultMiddleware: Function) => getDefault
   .concat(boardApi.middleware)
   .concat(creditsApi.middleware)
   .concat(forAuthorApi.middleware)
+  .concat(forReviewersApi.middleware)
+  .concat(forConferenceOrganisersApi.middleware)
+  .concat(ethicalCharterApi.middleware)
   .concat(indexationApi.middleware)
   .concat(journalApi.middleware)
-  .concat(acknowledgmentsApi.middleware)
+  .concat(acknowledgementsApi.middleware)
   .concat(newsApi.middleware)
   .concat(searchApi.middleware)
   .concat(sectionApi.middleware)

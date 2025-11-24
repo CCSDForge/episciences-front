@@ -83,7 +83,9 @@
       },
       "searchPlaceholder": "search",
       "search": "Search",
-      "submit": "Submit"
+      "submit": "Submit",
+      "chooseLanguage": "Choose language",
+      "languageMenu": "Language selection menu"
     },
     "footer": {
       "links": {
@@ -95,10 +97,11 @@
         "documentation": "Documentation",
         "acknowledgements": "Acknowledgements",
         "publishingPolicy": "Publishing policy",
-        "accessibility": "Accessibility",
+        "accessibility": "Accessibility: non-compliant",
         "legalMentions": "Legal mentions",
         "privacyStatement": "Privacy statement",
-        "termsOfUse": "Terms of use"
+        "termsOfUse": "Terms of use",
+        "status": "Status"
       }
     }
   },
@@ -363,7 +366,10 @@
         "technicalBoard": "Technical board",
         "editorialBoard": "Editorial board",
         "scientificAdvisoryBoard": "Scientific advisory board",
-        "formerMember": "Former member"
+        "formerMember": "Former member",
+        "introductionBoard": "Boards presentation",
+        "reviewersBoard": "Reviewers",
+        "operatingCharterBoard": "Operating Charter"
       },
       "roles": {
         "member": "Member",
@@ -371,11 +377,34 @@
         "editor": "Editor",
         "chiefEditor": "Chief editor",
         "secretary": "Secretary",
-        "formerMember": "Former member"
+        "formerMember": "Former member",
+        "advisoryBoard": "Advisory board",
+        "managingEditor": "Managing editor",
+        "handlingEditor": "Handling editor"
       }
+    },
+    "publish": {
+      "title": "Publish",
+      "description": "Information for publishing in our journal",
+      "forAuthors": "For authors",
+      "ethicalCharter": "Ethical charter",
+      "forReviewers": "For reviewers",
+      "forConferenceOrganisers": "For conference organisers"
     },
     "forAuthors": {
       "title": "For authors"
+    },
+    "ethicalCharter": {
+      "title": "Ethical charter",
+      "description": "Ethical charter and best practices"
+    },
+    "forReviewers": {
+      "title": "For reviewers",
+      "description": "Information and guidelines for reviewers"
+    },
+    "forConferenceOrganisers": {
+      "title": "For conference organisers",
+      "description": "Information and guidelines for conference organisers"
     },
     "pdfViewer": {
       "loading": "Loading PDF...",

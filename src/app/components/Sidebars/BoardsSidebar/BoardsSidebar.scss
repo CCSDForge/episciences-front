@@ -12,6 +12,13 @@
   }
 
   &-links {
+    @media (min-width: breakpoints.$sm + 1) {
+      position: sticky;
+      top: 130px;
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+    }
+
     &-row {
       margin-bottom: 15px;
       cursor: pointer;

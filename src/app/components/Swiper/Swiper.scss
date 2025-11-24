@@ -37,7 +37,7 @@
     position: relative;
     left: 0;
     right: 0;
-    color: var(--primary);
+    color: var(--primary-accessible);
     z-index: 1;
 
     @media (max-width:  breakpoints.$sm) {

@@ -7,15 +7,16 @@ import remarkGfm from 'remark-gfm';
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from "../../../hooks/store";
-import { useFetchEditorialWorkflowPageQuery, useFetchEthicalCharterPageQuery, useFetchPrepareSubmissionPageQuery } from "../../../store/features/forAuthor/forAuthor.query";
+import { useFetchEditorialWorkflowPageQuery, useFetchPrepareSubmissionPageQuery } from "../../../store/features/forAuthor/forAuthor.query";
 import { generateIdFromText, unifiedProcessor, serializeMarkdown, getMarkdownImageURL, adjustNestedListsInMarkdownContent } from '../../../utils/markdown';
+import { FOR_AUTHORS_SECTION, getForAuthorsSectionSortOrder } from '../../../utils/forAuthors';
 import ForAuthorsSidebar, { IForAuthorsHeader } from '../../components/Sidebars/ForAuthorsSidebar/ForAuthorsSidebar';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from '../../components/Loader/Loader';
 import './ForAuthors.scss';
 import {Helmet} from "react-helmet-async";
 
-type ForAuthorsSectionType = 'editorialWorkflow' | 'ethicalCharter' | 'prepareSubmission';
+type ForAuthorsSectionType = FOR_AUTHORS_SECTION;
 
 interface IForAuthorsSection {
   id: string;
@@ -23,6 +24,7 @@ interface IForAuthorsSection {
   opened: boolean;
   cards?: { id: string; title: string; content: string; index: number }[];
   title: string;
+  sectionType: ForAuthorsSectionType;
 }
 
 export default function ForAuthors(): JSX.Element {
@@ -36,33 +38,14 @@ export default function ForAuthors(): JSX.Element {
   const [sidebarHeaders, setSidebarHeaders] = useState<IForAuthorsHeader[]>([]);
 
   const { data: editorialWorkflowPage, isFetching: isFetchingEditorialWorkflow } = useFetchEditorialWorkflowPageQuery(rvcode!, { skip: !rvcode });
-  const { data: ethicalCharterPage, isFetching: isFetchingEthicalCharter } = useFetchEthicalCharterPageQuery(rvcode!, { skip: !rvcode });
   const { data: prepareSubmissionPage, isFetching: isFetchingPrepareSubmission } = useFetchPrepareSubmissionPageQuery(rvcode!, { skip: !rvcode });
 
-  const getSectionSortOrder = (sectionTitle: string): number => {
-
-    if (!sectionTitle) return 500;
-
-    const lowerTitle = sectionTitle.toLowerCase();
-
-    if (lowerTitle.includes('charte éthique') ||lowerTitle.includes('ethical charter')) {
-      return 1;
-    }
-    if (lowerTitle.includes('flux éditorial') || lowerTitle.includes('editorial flow')) {
-      return 2;
-    }
-
-    if (lowerTitle.includes('préparer') || lowerTitle.includes('prepare')) {
-      return 3;
-    }
-
-    return 500;
-  };
   const parseContentSections = (toBeParsed: Record<ForAuthorsSectionType, { title: string | undefined; content: string | undefined }>): IForAuthorsSection[] => {
     const sections: IForAuthorsSection[] = [];
 
     Object.entries(toBeParsed).forEach((toBeParsedEntry) => {
-      const withNumerotation = toBeParsedEntry[0] === 'prepareSubmission';
+      const sectionType = toBeParsedEntry[0] as ForAuthorsSectionType;
+      const withNumerotation = sectionType === FOR_AUTHORS_SECTION.PREPARE_SUBMISSION;
       const title = toBeParsedEntry[1].title ?? '';
       const content = toBeParsedEntry[1].content ?? '';
       const adjustedContent = adjustNestedListsInMarkdownContent(content);
@@ -70,7 +53,7 @@ export default function ForAuthors(): JSX.Element {
       const parsedContent = `## ${title} \n\n\n ${adjustedContent}`;
       const tree = unifiedProcessor.parse(parsedContent);
 
-      let currentSection: IForAuthorsSection = withNumerotation ? { id: '', value: '', title: title || '', opened: true, cards: [] } : { id: '', value: '',title: title || '', opened: true };
+      let currentSection: IForAuthorsSection = withNumerotation ? { id: '', value: '', title: title || '', sectionType, opened: true, cards: [] } : { id: '', value: '', title: title || '', sectionType, opened: true };
       let h3Counter = 0;
       let currentCardContent = '';
 
@@ -78,7 +61,7 @@ export default function ForAuthors(): JSX.Element {
         if (node.type === 'heading' && node.depth === 2) {
           if (currentSection.id) {
             sections.push(currentSection);
-            currentSection = withNumerotation ? { id: '', value: '', title:title || '', opened: true, cards: [] } : { id: '', value: '', title: title || '', opened: true };
+            currentSection = withNumerotation ? { id: '', value: '', title: title || '', sectionType, opened: true, cards: [] } : { id: '', value: '', title: title || '', sectionType, opened: true };
           }
 
           const titleText = node.children
@@ -94,7 +77,7 @@ export default function ForAuthors(): JSX.Element {
 
             const h3Id = generateIdFromText(node.children.map(child => (child as { value: string }).value).join(''));
             const h3Title = node.children.map(child => (child as { value: string }).value).join('');
-            
+
             if (currentCardContent) {
               const lastCard = currentSection.cards![currentSection.cards!.length - 1];
               lastCard.content = currentCardContent.trim();
@@ -124,8 +107,8 @@ export default function ForAuthors(): JSX.Element {
       }
     });
     sections.sort((a, b) => {
-      const orderA = getSectionSortOrder(a.title);
-      const orderB = getSectionSortOrder(b.title);
+      const orderA = getForAuthorsSectionSortOrder(a.sectionType);
+      const orderB = getForAuthorsSectionSortOrder(b.sectionType);
       return orderA - orderB;
     });
     return sections;
@@ -133,10 +116,11 @@ export default function ForAuthors(): JSX.Element {
 
   const parseSidebarHeaders = (toBeParsed: Record<ForAuthorsSectionType, { title: string | undefined; content: string | undefined }>): IForAuthorsHeader[] => {
 
-    const headerMap: Record<string, IForAuthorsHeader> = {};
+    const headerMap: Record<ForAuthorsSectionType, IForAuthorsHeader> = {} as Record<ForAuthorsSectionType, IForAuthorsHeader>;
 
     Object.entries(toBeParsed).forEach((toBeParsedEntry) => {
-      const withNumerotation = toBeParsedEntry[0] === 'prepareSubmission';
+      const sectionType = toBeParsedEntry[0] as ForAuthorsSectionType;
+      const withNumerotation = sectionType === FOR_AUTHORS_SECTION.PREPARE_SUBMISSION;
       const title = toBeParsedEntry[1].title ?? '';
       const content = toBeParsedEntry[1].content ?? '';
       const adjustedContent = adjustNestedListsInMarkdownContent(content);
@@ -169,7 +153,7 @@ export default function ForAuthors(): JSX.Element {
 
             if (node.depth === 2) {
               lastH2 = header;
-              headerMap[title] = header;
+              headerMap[sectionType] = header;
               h3Counter = 0;
             } else if (node.depth === 3 && lastH2) {
               lastH2.children.push(header);
@@ -179,17 +163,17 @@ export default function ForAuthors(): JSX.Element {
       }
     });
 
-    const sectionTitles = Object.keys(headerMap);
+    const sectionTypes = Object.keys(headerMap) as ForAuthorsSectionType[];
 
-    sectionTitles.sort((a, b) => {
-      const orderA = getSectionSortOrder(a);
-      const orderB = getSectionSortOrder(b);
+    sectionTypes.sort((a, b) => {
+      const orderA = getForAuthorsSectionSortOrder(a);
+      const orderB = getForAuthorsSectionSortOrder(b);
       return orderA - orderB;
     });
 
     const headings: IForAuthorsHeader[] = [];
-    sectionTitles.forEach(title => {
-      headings.push(headerMap[title]);
+    sectionTypes.forEach(sectionType => {
+      headings.push(headerMap[sectionType]);
     });
 
     return headings;
@@ -219,15 +203,11 @@ export default function ForAuthors(): JSX.Element {
 
   useEffect(() => {
     const content: Record<ForAuthorsSectionType, { title: string | undefined; content: string | undefined }> = {
-      'editorialWorkflow': {
+      [FOR_AUTHORS_SECTION.EDITORIAL_WORKFLOW]: {
         title: editorialWorkflowPage?.title[language],
         content: editorialWorkflowPage?.content[language]
       },
-      'ethicalCharter': {
-        title: ethicalCharterPage?.title[language],
-        content: ethicalCharterPage?.content[language]
-      },
-      'prepareSubmission': {
+      [FOR_AUTHORS_SECTION.PREPARE_SUBMISSION]: {
         title: prepareSubmissionPage?.title[language],
         content: prepareSubmissionPage?.content[language]
       },
@@ -235,7 +215,7 @@ export default function ForAuthors(): JSX.Element {
 
     setPageSections(parseContentSections(content));
     setSidebarHeaders(parseSidebarHeaders(content));
-  }, [editorialWorkflowPage, ethicalCharterPage, prepareSubmissionPage, language]);
+  }, [editorialWorkflowPage, prepareSubmissionPage, language]);
 
   return (
     <main className='forAuthors'>
@@ -245,10 +225,12 @@ export default function ForAuthors(): JSX.Element {
       </Helmet>
 
       <Breadcrumb parents={[
-        { path: 'home', label: `${t('pages.home.title')} >` }
+        { path: 'home', label: `${t('pages.home.title')} >` },
+        { path: 'publish', label: `${t('pages.publish.title')} >` }
       ]} crumbLabel={t('pages.forAuthors.title')} />
       <h1 className='forAuthors-title'>{t('pages.forAuthors.title')}</h1>
-      {isFetchingEditorialWorkflow || isFetchingEthicalCharter || isFetchingPrepareSubmission ? (
+
+      {isFetchingEditorialWorkflow || isFetchingPrepareSubmission ? (
         <Loader />
       ) : (
         <div className='forAuthors-content'>

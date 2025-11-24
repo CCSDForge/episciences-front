@@ -49,7 +49,7 @@
       &-text {
         font-size: 16px;
         font-weight: bold;
-        color: var(--primary);
+        color: var(--primary-accessible);
       }
     }
 
@@ -88,7 +88,7 @@
       &-download, &-cite {
         display: flex;
         gap: 4px;
-        color: var(--primary);
+        color: var(--primary-accessible);
         font-size: 13px;
 
         &-text {
