@@ -6,6 +6,7 @@ import caretUpBlue from '/icons/caret-up-blue.svg';
 import caretDownBlue from '/icons/caret-down-blue.svg';
 import caretUpWhite from '/icons/caret-up-white.svg';
 import caretDownWhite from '/icons/caret-down-white.svg';
+import languageIcon from '/icons/language.svg';
 import { useAppDispatch, useAppSelector } from '../../../hooks/store';
 import { setLanguage } from '../../../store/features/i18n/i18n.slice';
 import { AvailableLanguage, availableLanguages } from '../../../utils/i18n';
@@ -242,9 +243,11 @@ export default function LanguageDropdown({ withWhiteCaret }: ILanguageDropdownPr
         aria-label={t('components.header.chooseLanguage') || 'Choose language'}
         type="button"
       >
-        <span className='languageDropdown-button-translate' aria-hidden="true">文A</span>
-        <span className='languageDropdown-button-text'>{language.toUpperCase()}</span>
-        {showDropdown ? (
+      <span className='languageDropdown-button-translate' aria-hidden="true">
+         <img src={languageIcon} alt="" />
+      </span>
+          <span className='languageDropdown-button-text'>{language.toUpperCase()}</span>
+          {showDropdown ? (
           <img
             className='languageDropdown-button-caret'
             src={withWhiteCaret ? caretUpWhite : caretUpBlue}
