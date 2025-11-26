@@ -13,8 +13,8 @@ export enum BOARD_TYPE {
 //Define the sort order for board types - order in array determines display order"
 export const boardTypes = [
   BOARD_TYPE.INTRODUCTION_BOARD,
-  BOARD_TYPE.EDITORIAL_BOARD,
   BOARD_TYPE.SCIENTIFIC_ADVISORY_BOARD,
+  BOARD_TYPE.EDITORIAL_BOARD,
   BOARD_TYPE.TECHNICAL_BOARD,
   BOARD_TYPE.REVIEWERS_BOARD,
   BOARD_TYPE.FORMER_MEMBERS,
@@ -81,7 +81,7 @@ export const getBoardRoles = (t: TFunction<"translation", undefined>, roles: str
 
 /**
  * Sort board members by role priority, then by lastname, then by firstname
- * Priority order: chief-editor (1), editor (2), others (3)
+ * Priority order: chief-editor (1), managing-editor (2), editor (3), others (4)
  * @param members - Array of board members to sort
  * @returns Sorted array of board members
  */
@@ -90,8 +90,9 @@ export const sortBoardMembers = (members: IBoardMember[]): IBoardMember[] => {
     // Helper function to get role priority
     const getRolePriority = (roles: string[]): number => {
       if (roles.includes(BOARD_ROLE.CHIEF_EDITOR)) return 1;
-      if (roles.includes(BOARD_ROLE.EDITOR)) return 2;
-      return 3;
+      if (roles.includes(BOARD_ROLE.MANAGING_EDITOR)) return 2;
+      if (roles.includes(BOARD_ROLE.EDITOR)) return 3;
+      return 4;
     };
 
     // Compare by role priority first
