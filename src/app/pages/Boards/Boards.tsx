@@ -51,15 +51,15 @@ export default function Boards(): JSX.Element {
         const pluralRoles = member.roles.map((role) => `${role}s`)
         const hasMatchingRole = member.roles.includes(page.page_code) || pluralRoles.includes(page.page_code);
 
-        // Include managing-editor and handling-editor in scientific-advisory-board
+        // Include advisory-board in scientific-advisory-board
         const isScientificAdvisoryBoard = page.page_code === 'scientific-advisory-board';
-        const hasSpecialRoleScientific = member.roles.includes('managing-editor') || member.roles.includes('handling-editor');
+        const hasAdvisoryBoardRole = member.roles.includes('advisory-board');
 
-        // Include advisory-board in editorial-board
+        // Include managing-editor and handling-editor in editorial-board
         const isEditorialBoard = page.page_code === 'editorial-board';
-        const hasSpecialRoleEditorial = member.roles.includes('advisory-board');
+        const hasManagingOrHandlingRole = member.roles.includes('managing-editor') || member.roles.includes('handling-editor');
 
-        return hasMatchingRole || (isScientificAdvisoryBoard && hasSpecialRoleScientific) || (isEditorialBoard && hasSpecialRoleEditorial);
+        return hasMatchingRole || (isScientificAdvisoryBoard && hasAdvisoryBoardRole) || (isEditorialBoard && hasManagingOrHandlingRole);
       });
 
       return {
