@@ -33,6 +33,25 @@ export default function ForReviewers(): JSX.Element {
 
   const { data: forReviewersPage, isFetching } = useFetchForReviewersPageQuery(rvcode!, { skip: !rvcode });
 
+  /**
+   * Recursively extracts text from markdown AST(abstract syntax tree)  nodes, including text within <strong>, <em>, and other nested tags.
+   * This ensures proper text extraction even when headings contain formatting elements.
+   * @param node - The markdown AST node to extract text from
+   * @returns The extracted plain text string
+   */
+  const extractTextFromNode = (node: any): string => {
+    if (node.type === 'text') {
+      return node.value;
+    }
+    if (node.type === 'strong' && node.children) {
+      return node.children.map(extractTextFromNode).join('');
+    }
+    if (node.children) {
+      return node.children.map(extractTextFromNode).join('');
+    }
+    return '';
+  };
+
   const parseContentSections = (toBeParsed: string | undefined): IForReviewersSection[] => {
     const tree = unifiedProcessor.parse(toBeParsed);
     const sections: IForReviewersSection[] = [];
@@ -43,10 +62,7 @@ export default function ForReviewers(): JSX.Element {
         if (currentSection) {
           sections.push(currentSection);
         }
-        const titleText = node.children
-          .filter(child => child.type === 'text')
-          .map(textNode => (textNode as { value: string }).value)
-          .join('');
+        const titleText = node.children.map(extractTextFromNode).join('').trim();
         currentSection = {
           id: generateIdFromText(titleText),
           value: serializeMarkdown(node),
@@ -78,12 +94,12 @@ export default function ForReviewers(): JSX.Element {
 
     for (const node of tree.children) {
       if (node.type === 'heading' && (node.depth === 2 || node.depth === 3)) {
-        const textNode = node.children.find(child => child.type === 'text') as { value: string };
+        const titleText = node.children.map(extractTextFromNode).join('').trim();
 
-        if (textNode) {
+        if (titleText) {
           const header: IForReviewersHeader = {
-            id: generateIdFromText(textNode.value),
-            value: textNode.value,
+            id: generateIdFromText(titleText),
+            value: titleText,
             opened: true,
             children: []
           };
@@ -93,6 +109,8 @@ export default function ForReviewers(): JSX.Element {
             headings.push(header);
           } else if (node.depth === 3 && lastH2) {
             lastH2.children.push(header);
+          } else if (node.depth === 3) {
+            headings.push(header);
           }
         }
       }
@@ -168,7 +186,13 @@ export default function ForReviewers(): JSX.Element {
                   components={{
                     a: ({ ...props }) => <Link to={props.href!} target='_blank' className='forReviewers-content-body-section-link'>{props.children?.toString()}</Link>,
                     h2: ({ ...props }) => {
-                      const id = generateIdFromText(props.children?.toString()!)
+                      const getText = (children: any): string => {
+                        if (typeof children === 'string') return children;
+                        if (Array.isArray(children)) return children.map(getText).join('');
+                        if (children?.props?.children) return getText(children.props.children);
+                        return '';
+                      };
+                      const id = generateIdFromText(getText(props.children));
 
                       return (
                         <div className='forReviewers-content-body-section-subtitle' onClick={(): void => toggleSectionHeader(id!)}>
@@ -181,7 +205,16 @@ export default function ForReviewers(): JSX.Element {
                         </div>
                       )
                     },
-                    h3: ({ ...props }) => <h3 id={generateIdFromText(props.children?.toString()!)} {...props} />,
+                    h3: ({ ...props }) => {
+                      const getText = (children: any): string => {
+                        if (typeof children === 'string') return children;
+                        if (Array.isArray(children)) return children.map(getText).join('');
+                        if (children?.props?.children) return getText(children.props.children);
+                        return '';
+                      };
+                      const id = generateIdFromText(getText(props.children));
+                      return <h3 id={id} {...props} />;
+                    }
                   }}
                 >
                   {section.value}

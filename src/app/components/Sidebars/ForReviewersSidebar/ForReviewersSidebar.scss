@@ -2,6 +2,11 @@
 .forReviewersSidebar {
   min-width: 265px;
   margin-top: 31px;
+  position: sticky;
+  top: 120px;
+  align-self: flex-start;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
 
   @media (max-width:  breakpoints.$sm) {
     display: none;
