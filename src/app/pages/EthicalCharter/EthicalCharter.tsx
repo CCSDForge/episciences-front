@@ -71,6 +71,19 @@ export default function EthicalCharter(): JSX.Element {
     return sections;
   };
 
+  const extractTextFromNode = (node: any): string => {
+    if (node.type === 'text') {
+      return node.value;
+    }
+    if (node.type === 'strong' && node.children) {
+      return node.children.map(extractTextFromNode).join('');
+    }
+    if (node.children) {
+      return node.children.map(extractTextFromNode).join('');
+    }
+    return '';
+  };
+
   const parseSidebarHeaders = (toBeParsed: string | undefined): IEthicalCharterHeader[] => {
     const tree = unifiedProcessor.parse(toBeParsed);
     const headings = [];
@@ -78,12 +91,12 @@ export default function EthicalCharter(): JSX.Element {
 
     for (const node of tree.children) {
       if (node.type === 'heading' && (node.depth === 2 || node.depth === 3)) {
-        const textNode = node.children.find(child => child.type === 'text') as { value: string };
+        const titleText = node.children.map(extractTextFromNode).join('').trim();
 
-        if (textNode) {
+        if (titleText) {
           const header: IEthicalCharterHeader = {
-            id: generateIdFromText(textNode.value),
-            value: textNode.value,
+            id: generateIdFromText(titleText),
+            value: titleText,
             opened: true,
             children: []
           };
@@ -93,6 +106,8 @@ export default function EthicalCharter(): JSX.Element {
             headings.push(header);
           } else if (node.depth === 3 && lastH2) {
             lastH2.children.push(header);
+          } else if (node.depth === 3) {
+            headings.push(header);
           }
         }
       }
@@ -166,24 +181,38 @@ export default function EthicalCharter(): JSX.Element {
                   remarkPlugins={[remarkGfm]}
                   urlTransform={uri => uri.includes('/public/') ? getMarkdownImageURL(uri, rvcode!) : uri}
                   components={{
-                    a: ({ ...props }) => <Link to={props.href!} target='_blank' className='ethicalCharter-content-body-section-link'>{props.children?.toString()}</Link>,
-                    h2: ({ ...props }) => {
-                      const id = generateIdFromText(props.children?.toString()!)
+                      a: ({...props}) => <Link to={props.href!} target='_blank'
+                                               className='ethicalCharter-content-body-section-link'>{props.children?.toString()}</Link>,
+                      h2: ({...props}) => {
+                          const id = generateIdFromText(props.children?.toString()!)
 
-                      return (
-                        <div className='ethicalCharter-content-body-section-subtitle' onClick={(): void => toggleSectionHeader(id!)}>
-                          <h2 id={id} className='ethicalCharter-content-body-section-subtitle-text' {...props} />
-                          {pageSections.find(pageSection => pageSection.id === id)?.opened ? (
-                            <img className='ethicalCharter-content-body-section-subtitle-caret' src={caretUp} alt='Caret up icon' />
-                          ) : (
-                            <img className='ethicalCharter-content-body-section-subtitle-caret' src={caretDown} alt='Caret down icon' />
-                          )}
-                        </div>
-                      )
-                    },
-                    h3: ({ ...props }) => <h3 id={generateIdFromText(props.children?.toString()!)} {...props} />,
+                          return (
+                              <div className='ethicalCharter-content-body-section-subtitle'
+                                   onClick={(): void => toggleSectionHeader(id!)}>
+                                  <h2 id={id}
+                                      className='ethicalCharter-content-body-section-subtitle-text' {...props} />
+                                  {pageSections.find(pageSection => pageSection.id === id)?.opened ? (
+                                      <img className='ethicalCharter-content-body-section-subtitle-caret' src={caretUp}
+                                           alt='Caret up icon'/>
+                                  ) : (
+                                      <img className='ethicalCharter-content-body-section-subtitle-caret'
+                                           src={caretDown} alt='Caret down icon'/>
+                                  )}
+                              </div>
+                          )
+                      },
+                      h3: ({...props}) => {
+                          const getText = (children: any): string => {
+                              if (typeof children === 'string') return children;
+                              if (Array.isArray(children)) return children.map(getText).join('');
+                              if (children?.props?.children) return getText(children.props.children);
+                              return '';
+                          };
+                          const id = generateIdFromText(getText(props.children));
+                          return <h3 id={id} {...props} />;
+                      }
                   }}
-                >
+                  >
                   {section.value}
                 </ReactMarkdown>
               </div>

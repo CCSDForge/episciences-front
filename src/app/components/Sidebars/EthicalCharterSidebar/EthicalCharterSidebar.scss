@@ -1,5 +1,10 @@
 @use "src/style/breakpoints.scss";
 .ethicalCharterSidebar {
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
   min-width: 265px;
   margin-top: 31px;
 
