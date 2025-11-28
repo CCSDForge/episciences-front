@@ -71,6 +71,12 @@ export default function EthicalCharter(): JSX.Element {
     return sections;
   };
 
+  /**
+   * Recursively extracts text from markdown AST(abstract syntax tree) nodes, including text within <strong>, <em>, and other nested tags.
+   * This ensures proper text extraction even when headings contain formatting elements.
+   * @param node - The markdown AST node to extract text from
+   * @returns The extracted plain text string
+   */
   const extractTextFromNode = (node: any): string => {
     if (node.type === 'text') {
       return node.value;

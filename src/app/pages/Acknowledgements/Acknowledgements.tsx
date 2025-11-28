@@ -80,21 +80,12 @@ export default function Acknowledgements(): JSX.Element {
     const headings = [];
     let lastH2 = null;
 
-    console.log('=== DEBUG parseSidebarHeaders ===');
-    console.log('Total nodes:', tree.children.length);
-
     for (const node of tree.children) {
-      console.log('Node type:', node.type, 'depth:', node.type === 'heading' ? node.depth : 'N/A');
-
       if (node.type === 'heading' && (node.depth === 2 || node.depth === 3)) {
-        console.log('Found heading, depth:', node.depth, 'children:', node.children);
-
         const titleText = node.children
           .filter(child => child.type === 'text')
           .map(textNode => (textNode as { value: string }).value)
           .join('');
-
-        console.log('Extracted titleText:', titleText);
 
         if (titleText) {
           const header: IAcknowledgementsHeader = {
@@ -107,23 +98,19 @@ export default function Acknowledgements(): JSX.Element {
           if (node.depth === 2) {
             lastH2 = header;
             headings.push(header);
-            console.log('Added H2:', titleText);
           } else if (node.depth === 3) {
               if(lastH2){
                   //case: We have a parent H2, add H3 as a child
                   lastH2.children.push(header);
-                  console.log('Added H3 to last H2:', titleText);
               } else {
                   // Case: No H2, add H3 directly to the list
                   headings.push(header);
-                  console.log('Added H3 as main header (no H2 found):', titleText);
               }
           }
         }
       }
     }
 
-    console.log('Final headings:', headings);
     return headings;
   };
 
@@ -150,15 +137,8 @@ export default function Acknowledgements(): JSX.Element {
   };
 
   useEffect(() => {
-    console.log('=== useEffect DEBUG ===');
-    console.log('acknowledgementsPage:', acknowledgementsPage);
-    console.log('language:', language);
-
     const content = acknowledgementsPage?.content[language];
-    console.log('content before adjustment:', content);
-
     const adjustedContent = adjustNestedListsInMarkdownContent(content);
-    console.log('content after adjustment:', adjustedContent);
 
     setPageSections(parseContentSections(adjustedContent));
     setSidebarHeaders(parseSidebarHeaders(adjustedContent));
