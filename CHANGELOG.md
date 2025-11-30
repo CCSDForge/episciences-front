@@ -18,8 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Config for Dependabot
 - Status page link in footer
 - feat: add new pages for About, Boards, and Publish
-- feat(#94): update editor labels for Scientific and Editorial boards
+- feat(#94): update editor labels for Scientific and Editorial boards, and display all member roles
 - Transform for author - ethical charter into an independent page
+- Add a left sidebar (summary) to the Acknowledgements page, the Ethical Charter page, the ForReviewers page, and the ForConferenceOrganisers page.
 
 ### Fixed
 - Volume page, display other volumes with a link

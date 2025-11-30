@@ -82,12 +82,15 @@ export default function Acknowledgements(): JSX.Element {
 
     for (const node of tree.children) {
       if (node.type === 'heading' && (node.depth === 2 || node.depth === 3)) {
-        const textNode = node.children.find(child => child.type === 'text') as { value: string };
+        const titleText = node.children
+          .filter(child => child.type === 'text')
+          .map(textNode => (textNode as { value: string }).value)
+          .join('');
 
-        if (textNode) {
+        if (titleText) {
           const header: IAcknowledgementsHeader = {
-            id: generateIdFromText(textNode.value),
-            value: textNode.value,
+            id: generateIdFromText(titleText),
+            value: titleText,
             opened: true,
             children: []
           };
@@ -95,8 +98,14 @@ export default function Acknowledgements(): JSX.Element {
           if (node.depth === 2) {
             lastH2 = header;
             headings.push(header);
-          } else if (node.depth === 3 && lastH2) {
-            lastH2.children.push(header);
+          } else if (node.depth === 3) {
+              if(lastH2){
+                  //case: We have a parent H2, add H3 as a child
+                  lastH2.children.push(header);
+              } else {
+                  // Case: No H2, add H3 directly to the list
+                  headings.push(header);
+              }
           }
         }
       }
