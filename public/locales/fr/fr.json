@@ -425,6 +425,12 @@
     },
     "accessibility": {
       "title": "Déclaration d'accessibilité"
+    },
+    "notFound": {
+      "title": "Page non trouvée",
+      "code": "404",
+      "message": "La page que vous recherchez n'existe pas ou a été déplacée.",
+      "backToHome": "Retour à l'accueil"
     }
   }
 }

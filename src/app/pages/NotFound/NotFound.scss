@@ -1,0 +1,46 @@
+.not-found {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 2rem;
+
+  &-content {
+    text-align: center;
+    max-width: 600px;
+  }
+
+  &-code {
+    font-size: 8rem;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1;
+    color: var(--primary-accessible);
+  }
+
+  &-title {
+    font-size: 2rem;
+    margin: 1rem 0;
+  }
+
+  &-message {
+    font-size: 1.125rem;
+    margin: 1.5rem 0 2rem;
+    line-height: 1.6;
+  }
+
+  &-button {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background: var(--primary);
+    color: var(--primary-text);
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}

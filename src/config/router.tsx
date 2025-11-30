@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate, RouteObject } from "react-router-dom";
+import { createBrowserRouter, RouteObject } from "react-router-dom";
 
 import JournalHook from "../hooks/journal";
 import LastVolumeHook from "../hooks/lastVolume";
@@ -32,6 +32,7 @@ import SectionDetails from "../app/pages/SectionDetails/SectionDetails";
 import Statistics from "../app/pages/Statistics/Statistics";
 import VolumeDetails from "../app/pages/VolumeDetails/VolumeDetails";
 import Volumes from "../app/pages/Volumes/Volumes";
+import NotFound from "../app/pages/NotFound/NotFound";
 import { PATHS, PathKeys } from "./paths";
 
 const rawRoute = (path: PathKeys, Component: () => JSX.Element): RouteObject => ({
@@ -55,11 +56,6 @@ const basicRoute = (path: PathKeys, Component: () => JSX.Element): RouteObject =
       <Component />
     </>
   )
-})
-
-const redirectedRoute = (to: PathKeys): RouteObject => ({
-  path: "*",
-  element: <Navigate to={PATHS[to]} replace />
 })
 
 const router = createBrowserRouter([
@@ -99,7 +95,12 @@ const router = createBrowserRouter([
       rawRoute("articleDetailsDownload", ArticleDetailsDownload),
     ]
   },
-  redirectedRoute("home"),
+  {
+    element: <MainLayout />,
+    children: [
+      basicRoute("notFound", NotFound),
+    ]
+  }
 ]);
 
 export default router

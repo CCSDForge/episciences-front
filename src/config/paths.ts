@@ -25,7 +25,8 @@ export const PATHS = {
   forAuthors: '/for-authors',
   ethicalCharter: '/ethical-charter',
   forReviewers: '/for-reviewers',
-  forConferenceOrganisers: '/for-conference-organisers'
+  forConferenceOrganisers: '/for-conference-organisers',
+  notFound: '*'
 }
 
 export type PathKeys = keyof typeof PATHS;
