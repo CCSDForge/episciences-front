@@ -21,6 +21,7 @@ interface IVolumeDetailsSidebarProps {
 
 export default function VolumeDetailsSidebar({ language, t, volume, articles, currentJournal, relatedVolumes }: IVolumeDetailsSidebarProps): JSX.Element {
   const NOT_RENDERED_SIDEBAR_METADATAS = ['tile'];
+  const rvcode = currentJournal?.code || import.meta.env.VITE_JOURNAL_RVCODE;
 
   const renderMetadatas = (): IVolumeMetadata[] => {
     if (!volume?.metadatas || !volume.metadatas.length) return [];
@@ -104,7 +105,7 @@ export default function VolumeDetailsSidebar({ language, t, volume, articles, cu
                 {relatedVolumes.map((relatedVolume, index) => (
                     <Link
                         key={index}
-                        to={`${PATHS.volumes}/${relatedVolume.id}`}
+                        to={`${PATHS.volumes}/${relatedVolume.id}?rvcode=${rvcode}`}
                         className={`volumeDetailsSidebar-relatedVolumes-volumes-list-volume ${relatedVolume.id === volume?.id && 'volumeDetailsSidebar-relatedVolumes-volumes-list-volume-current'}`}
                     >
                       {relatedVolume.title ? relatedVolume.title[language] : ''}

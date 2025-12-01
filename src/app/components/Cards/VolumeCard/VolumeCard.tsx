@@ -26,6 +26,7 @@ interface IVolumeCardProps {
 export default function VolumeCard({ language, t, mode, volume, currentJournal }: IVolumeCardProps): JSX.Element {
   const [openedDescription, setOpenedDescription] = useState(false)
   const toggleDescription = (): void => setOpenedDescription(!openedDescription)
+  const rvcode = currentJournal?.code || import.meta.env.VITE_JOURNAL_RVCODE;
 
   const renderVolumeTileNum = (): JSX.Element => {
     let text = ''
@@ -41,7 +42,7 @@ export default function VolumeCard({ language, t, mode, volume, currentJournal }
     }
 
     return (
-      <Link to={`${PATHS.volumes}/${volume.id}`}>
+      <Link to={`${PATHS.volumes}/${volume.id}?rvcode=${rvcode}`}>
         <div className='volumeCard-tile-text-volume'>{`${text} ${volume.num}`}</div>
       </Link>
     )
@@ -61,7 +62,7 @@ export default function VolumeCard({ language, t, mode, volume, currentJournal }
     }
 
     return (
-      <Link to={`${PATHS.volumes}/${volume.id}`}>
+      <Link to={`${PATHS.volumes}/${volume.id}?rvcode=${rvcode}`}>
         <div className={`volumeCard-content-num ${isMobile && 'volumeCard-content-num-mobile'}`}>{`${text} ${volume.num}`}</div>
       </Link>
     );
@@ -85,7 +86,7 @@ export default function VolumeCard({ language, t, mode, volume, currentJournal }
         )}
         <div className="volumeCard-tile-text">
           {renderVolumeTileNum()}
-          <Link to={`${PATHS.volumes}/${volume.id}`}>
+          <Link to={`${PATHS.volumes}/${volume.id}?rvcode=${rvcode}`}>
             <div className="volumeCard-tile-text-title">{volume.title ? volume.title[language] : ''}</div>
           </Link>
           <div className="volumeCard-tile-text-year">{volume.year}</div>
@@ -114,7 +115,7 @@ export default function VolumeCard({ language, t, mode, volume, currentJournal }
       </div>
       <div className='volumeCard-content'>
         {renderVolumeListNum(false)}
-        <Link to={`${PATHS.volumes}/${volume.id}`}>
+        <Link to={`${PATHS.volumes}/${volume.id}?rvcode=${rvcode}`}>
           <div className='volumeCard-content-title'>{volume.title ? volume.title[language] : ''}</div>
         </Link>
         {volume.committee && volume.committee.length > 0 && <div className='volumeCard-content-committee'>{volume.committee.map((member) => member.screenName).join(', ')}</div>}

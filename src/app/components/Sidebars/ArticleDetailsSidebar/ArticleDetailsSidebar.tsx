@@ -97,7 +97,7 @@ export default function ArticleDetailsSidebar({ language, t, article, relatedVol
     }
 
     return (
-      <Link to={`${PATHS.volumes}/${relatedVolume.id}`} className='articleDetailsSidebar-volumeDetails-number'>{text} {relatedVolume.num}</Link>
+      <Link to={`${PATHS.volumes}/${relatedVolume.id}?rvcode=${import.meta.env.VITE_JOURNAL_RVCODE}`} className='articleDetailsSidebar-volumeDetails-number'>{text} {relatedVolume.num}</Link>
     )
   }
 
