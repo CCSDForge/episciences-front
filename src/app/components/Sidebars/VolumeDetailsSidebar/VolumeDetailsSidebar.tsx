@@ -91,6 +91,14 @@ export default function VolumeDetailsSidebar({
                 {articles.length > 1 ? `${articles.length} ${t('common.articles')}` : `${articles.length} ${t('common.article')}`}
             </div>
             <div className='volumeDetailsSidebar-actions'>
+                {volume && (
+                    <Link to={volume.downloadLink} target='_blank'
+                          className='volumeDetailsSidebar-actions-action volumeDetailsSidebar-actions-action-downloadAll'>
+                        <img src={download} alt='Download icon'/>
+                        <span
+                            className='volumeDetailsSidebar-actions-action-text'>{t('pages.volumeDetails.actions.downloadAll')}</span>
+                    </Link>
+                )}
                 {renderMetadatas().map((metadata, index) => (
                     <Link key={index} className='volumeDetailsSidebar-actions-action'
                           to={`https://${currentJournal?.code}.episciences.org/public/volumes/${volume?.id}/${metadata.file}`}
@@ -100,15 +108,6 @@ export default function VolumeDetailsSidebar({
                             className='volumeDetailsSidebar-actions-action-text'>{metadata.title && metadata.title[language]}</span>
                     </Link>
                 ))}
-                {volume && (
-                    <Link to={volume.downloadLink} target='_blank'
-                          className='volumeDetailsSidebar-actions-action volumeDetailsSidebar-actions-action-downloadAll'>
-                        <img src={download} alt='Download icon'/>
-                        <span
-                            className='volumeDetailsSidebar-actions-action-text'>{t('pages.volumeDetails.actions.downloadAll')}</span>
-                    </Link>
-                )}
-
             </div>
             {relatedVolumes.length > 0 && (
                 <div className='volumeDetailsSidebar-relatedVolumes'>
