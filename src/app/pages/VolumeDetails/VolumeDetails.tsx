@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate, Link, useSearchParams } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import ReactMarkdown from 'react-markdown';
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
@@ -33,10 +33,8 @@ export default function VolumeDetails(): JSX.Element {
   const MAX_MOBILE_DESCRIPTION_LENGTH = 200;
   
   const language = useAppSelector(state => state.i18nReducer.language)
-  const [searchParams] = useSearchParams();
-  const rvcodeFromUrl = searchParams.get('rvcode');
   const currentJournal = useAppSelector(state => state.journalReducer.currentJournal)
-  const rvcode =  rvcodeFromUrl || currentJournal?.code || import.meta.env.VITE_JOURNAL_RVCODE;
+  const rvcode = currentJournal?.code || import.meta.env.VITE_JOURNAL_RVCODE;
 
   const [isFetchingArticles, setIsFetchingArticles] = useState(false);
   const [articles, setArticles] = useState<FetchedArticle[]>([]);
@@ -222,7 +220,7 @@ export default function VolumeDetails(): JSX.Element {
         { path: 'home', label: `${t('pages.home.title')} > ${t('common.content')} >` },
         { path: 'volumes', label: `${t('pages.volumes.title')} >`}
       ]} crumbLabel={`${t('pages.volumeDetails.title')} ${volume?.num}`} />}
-      {openedRelatedVolumesMobileModal && <VolumeDetailsMobileModal language={language} t={t} volume={volume} relatedVolumes={relatedVolumes?.data ?? []} onSelectRelatedVolumeCallback={(volumeId: number): void => navigate(`${PATHS.volumes}/${volumeId}?rvcode=${rvcode}`)} onCloseCallback={(): void => setOpenedRelatedVolumesMobileModal(false)}/>}
+      {openedRelatedVolumesMobileModal && <VolumeDetailsMobileModal language={language} t={t} volume={volume} relatedVolumes={relatedVolumes?.data ?? []} onSelectRelatedVolumeCallback={(volumeId: number): void => navigate(`${PATHS.volumes}/${volumeId}`)} onCloseCallback={(): void => setOpenedRelatedVolumesMobileModal(false)}/>}
       {isFetchingVolume || isFetchingArticles || isFetchingRelatedVolumes ? (
         <Loader />
       ) : (
