@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Transform for author - ethical charter into an independent page
 - Add a left sidebar (summary) to the Acknowledgements page, the Ethical Charter page, the ForReviewers page, and the ForConferenceOrganisers page.
 - Added a 404 error page
+- feat(#55): ensure Download All button always appears last using flexbox order
 
 ### Fixed
 - Volume page, display other volumes with a link
