@@ -8,11 +8,8 @@ import Loader from '../Loader/Loader';
 import downloadIcon from '/icons/download-black.svg';
 import './PDFViewer.scss';
 
-// Configure PDF.js worker - use local worker from node_modules
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.mjs',
-  import.meta.url,
-).toString();
+// Configure PDF.js worker - use CDN for reliability
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 interface IPDFViewerProps {
   pdfUrl: string;
