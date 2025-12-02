@@ -160,7 +160,14 @@ export default defineConfig(({ mode }) => {
                             if (id.includes('react-pdf')) return 'react-pdf';
 
                             // React core - bibliothèques fondamentales (AVANT les autres react-*)
-                            if (id.includes('react/') || id.includes('react-dom') || id.includes('scheduler')) {
+                            // Inclure React, React-DOM et leurs dépendances directes
+                            if (id.includes('/react/') || id.includes('/react-dom/') ||
+                                id.includes('\\react\\') || id.includes('\\react-dom\\') ||
+                                id.includes('/scheduler/') || id.includes('\\scheduler\\') ||
+                                id.includes('prop-types') ||
+                                id.includes('use-sync-external-store') ||
+                                id.match(/[\\/]node_modules[\\/]react[\\/]/) ||
+                                id.match(/[\\/]node_modules[\\/]react-dom[\\/]/)) {
                                 return 'react-core';
                             }
 
