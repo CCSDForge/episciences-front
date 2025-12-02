@@ -55,6 +55,7 @@ export interface IArticle {
   keywords?: string[] | IArticleKeywords;
   doi: string;
   volumeId?: number;
+  journalCode?: string;
   references?: IArticleReference[];
   citedBy?: IArticleCitedBy[];
   relatedItems?: IArticleRelatedItem[];
@@ -161,6 +162,12 @@ export type RawArticle = IPartialArticle & IArticle & {
           }
           volume?: {
             id: number;
+          }
+          journal?: {
+            id: number;
+            url: string;
+            code: string;
+            name: string;
           }
           metrics?: {
             file_count: number;

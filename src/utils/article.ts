@@ -387,6 +387,7 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
       keywords: articleContent.keywords,
       doi: articleContent.doi_data.doi,
       volumeId: articleDB.current.volume?.id,
+      journalCode: articleDB.current.journal?.code,
       references: references,
       citedBy: citedBy,
       relatedItems: relatedItems,

@@ -54,7 +54,7 @@ export default function ArticleDetails(): JSX.Element {
   const currentJournal = useAppSelector(state => state.journalReducer.currentJournal);
   
   const { id } = useParams();
-  const { data: article, isFetching: isFetchingArticle, isError, error } = useFetchArticleQuery({ paperid: id! }, { skip: !id });
+  const { data: article, isFetching: isFetchingArticle, isError, error } = useFetchArticleQuery({ paperid: id!, rvcode: rvcode }, { skip: !id || !rvcode });
   const { data: relatedVolume, isFetching: isFetchingVolume } = useFetchVolumeQuery({ rvcode: rvcode!, vid: (article && article.volumeId ? article.volumeId.toString() : ''), language: language }, { skip: !article || !article?.volumeId || !rvcode })
   const { data: metadataCSL, isFetching: isFetchingMetadataCSL } = useFetchArticleMetadataQuery({ rvcode: rvcode!, paperid: id!, type: METADATA_TYPE.CSL }, { skip: !id || !rvcode });
   const { data: metadataBibTeX, isFetching: isFetchingMetadataBibTeX } = useFetchArticleMetadataQuery({ rvcode: rvcode!, paperid: id!, type: METADATA_TYPE.BIBTEX }, { skip: !id || !rvcode });
@@ -533,9 +533,14 @@ export default function ArticleDetails(): JSX.Element {
 
   useEffect(() => {
     if (!article && isError && (error as FetchBaseQueryError)?.status) {
-      navigate(PATHS.home);
+      navigate(PATHS.notFound);
     }
-  }, [article, isError, error])
+
+      // Verify whether the article belongs to the current journal
+      if (article && article.journalCode && rvcode && article.journalCode !== rvcode) {
+      navigate(PATHS.notFound);
+    }
+  }, [article, isError, error, navigate, rvcode])
 
   useEffect(() => {
     const fetchCitations = async () => {
