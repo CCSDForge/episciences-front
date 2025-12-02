@@ -155,39 +155,13 @@ export default defineConfig(({ mode }) => {
                 output: {
                     manualChunks(id) {
                         if (id.includes('node_modules')) {
-                            // PDF.js - très volumineux, isolé
+                            // Séparer uniquement les très gros modules indépendants
+                            // React reste dans vendor pour éviter les problèmes de dépendances
+
+                            // PDF.js - très volumineux
                             if (id.includes('pdfjs-dist')) return 'pdfjs';
-                            if (id.includes('react-pdf')) return 'react-pdf';
 
-                            // React core - bibliothèques fondamentales (AVANT les autres react-*)
-                            // Inclure React, React-DOM et leurs dépendances directes
-                            if (id.includes('/react/') || id.includes('/react-dom/') ||
-                                id.includes('\\react\\') || id.includes('\\react-dom\\') ||
-                                id.includes('/scheduler/') || id.includes('\\scheduler\\') ||
-                                id.includes('prop-types') ||
-                                id.includes('use-sync-external-store') ||
-                                id.match(/[\\/]node_modules[\\/]react[\\/]/) ||
-                                id.match(/[\\/]node_modules[\\/]react-dom[\\/]/)) {
-                                return 'react-core';
-                            }
-
-                            // React Router
-                            if (id.includes('react-router') || id.includes('@remix-run')) {
-                                return 'react-router';
-                            }
-
-                            // Redux ecosystem
-                            if (id.includes('redux') && !id.includes('redux-persist')) {
-                                return 'redux';
-                            }
-                            if (id.includes('redux-persist')) return 'redux-persist';
-
-                            // i18n - internationalisation
-                            if (id.includes('i18next') || id.includes('react-i18next')) {
-                                return 'i18n';
-                            }
-
-                            // Charts et D3
+                            // Charts avec D3 - très volumineux
                             if (id.includes('recharts') || id.includes('/d3-') ||
                                 id.includes('victory-vendor')) {
                                 return 'charts';
@@ -198,30 +172,7 @@ export default defineConfig(({ mode }) => {
                             if (id.includes('@citation-js/plugin-csl')) return 'plugin-csl';
                             if (id.includes('citation-js')) return 'citation-js';
 
-                            // Forms
-                            if (id.includes('react-hook-form')) return 'react-forms';
-
-                            // CSS-in-JS - peut être volumineux
-                            if (id.includes('styled-components') || id.includes('@emotion')) {
-                                return 'css-in-js';
-                            }
-
-                            // UI libraries diverses
-                            if (id.includes('swiper') || id.includes('react-toastify') ||
-                                id.includes('react-loader-spinner') || id.includes('react-paginate') ||
-                                id.includes('react-share')) {
-                                return 'ui-libs';
-                            }
-
-                            // SEO & Meta
-                            if (id.includes('react-helmet')) return 'react-helmet';
-
-                            // Device detection
-                            if (id.includes('react-device-detect') || id.includes('ua-parser-js')) {
-                                return 'device-detect';
-                            }
-
-                            // Markdown parsing - très volumineux avec tous les micromark modules
+                            // Markdown parsing - très volumineux
                             if (id.includes('react-markdown') || id.includes('remark') ||
                                 id.includes('unified') || id.includes('mathjax') ||
                                 id.includes('better-react-mathjax') || id.includes('micromark') ||
@@ -229,21 +180,13 @@ export default defineConfig(({ mode }) => {
                                 return 'markdown-math';
                             }
 
-                            // Utilities volumineuses
-                            if (id.includes('lodash')) return 'lodash';
-
-                            // XML parsers
-                            if (id.includes('xml2js') || id.includes('xmlbuilder') || id.includes('sax')) {
-                                return 'xml-utils';
-                            }
-
-                            // Reste des dépendances
+                            // Tout le reste (React, Redux, Router, UI libs, etc.) reste dans vendor
                             return 'vendor';
                         }
                     },
                 },
             },
-            chunkSizeWarningLimit: 500,
+            chunkSizeWarningLimit: 1000, // Limite augmentée car vendor inclut React + dépendants
         },
         resolve: {
             alias: {
