@@ -204,7 +204,14 @@
             }
           }
         }
-
+        &-empty {
+          width: 100%;
+          padding: 40px 20px;
+          text-align: center;
+          color: var(--primary-accessible);
+          font-size: 16px;
+          font-style: italic;
+        }
         &-cards {
           width: 100%;
           display: flex;

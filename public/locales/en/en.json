@@ -297,6 +297,7 @@
       "title": "Volume",
       "titleSpecialIssue": "Special issue",
       "titleProceeding": "Proceedings",
+      "emptyVolume": "This volume does not yet contain any documents.",
       "proceedingSettings": {
         "theme": "Conference theme"
       },

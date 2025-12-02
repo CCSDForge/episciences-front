@@ -297,6 +297,7 @@
       "title": "Volume",
       "titleSpecialIssue": "Volume spécial",
       "titleProceeding": "Acte de conférence",
+      "emptyVolume": "Ce volume ne contient pas encore de documents.",
       "proceedingSettings": {
         "theme": "Thème de la conférence"
       },

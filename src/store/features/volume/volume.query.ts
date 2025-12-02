@@ -47,7 +47,7 @@ export const volumeApi = createApi({
       },
     }),
     fetchVolume: build.query<IVolume, { rvcode: string; vid: string; language: AvailableLanguage }>({
-      query: ({ vid } :{ vid: string }) => `volumes/${vid}`,
+      query: ({ vid, rvcode } :{ vid: string; rvcode:string}) => `volumes/${vid}?rvcode=${rvcode}`,
       transformResponse(baseQueryReturnValue: RawVolume, _, { rvcode, language }) {
         return formatVolume(rvcode, language, baseQueryReturnValue);
       }
