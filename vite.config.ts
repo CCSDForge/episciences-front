@@ -161,10 +161,10 @@ export default defineConfig(({ mode }) => {
                             // PDF.js - très volumineux
                             if (id.includes('pdfjs-dist')) return 'pdfjs';
 
-                            // Charts avec D3 - très volumineux
-                            if (id.includes('recharts') || id.includes('/d3-') ||
-                                id.includes('victory-vendor')) {
-                                return 'charts';
+                            // Charts - séparer recharts et D3 pour éviter les problèmes d'ordre
+                            if (id.includes('recharts')) return 'recharts';
+                            if (id.includes('/d3-') || id.includes('\\d3-') || id.includes('victory-vendor')) {
+                                return 'd3';
                             }
 
                             // Citation - moteur CSL très volumineux
