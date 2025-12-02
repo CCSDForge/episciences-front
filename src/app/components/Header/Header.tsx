@@ -141,7 +141,9 @@ export default function Header(): JSX.Element {
                         <Link to={`${PATHS.volumes}?type=${VOLUME_TYPE.PROCEEDINGS}`}>{t('components.header.links.proceedings')}</Link>
                     )}
 
+                    {shouldRenderMenuItem('AUTHORS') && (
                     <Link to={PATHS.authors}>{t('components.header.links.authors')}</Link>
+                    )}
                   </div>
                 </div>
               )}
@@ -243,7 +245,9 @@ export default function Header(): JSX.Element {
                 {shouldRenderMenuItem('VOLUME_TYPE_PROCEEDINGS') && (
                 <span onTouchEnd={(): void => navigate(`${PATHS.volumes}?type=${VOLUME_TYPE.PROCEEDINGS}`)}>{t('components.header.links.proceedings')}</span>
                 )}
+                {shouldRenderMenuItem('AUTHORS') && (
                 <span onTouchEnd={(): void => navigate(PATHS.authors)}>{t('components.header.links.authors')}</span>
+                )}
               </div>
             </div>
             <div className='header-postheader-burger-content-links-section header-postheader-burger-content-links-section-bordered'>
