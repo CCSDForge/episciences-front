@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add a left sidebar (summary) to the Acknowledgements page, the Ethical Charter page, the ForReviewers page, and the ForConferenceOrganisers page.
 - Added a 404 error page
 - feat(#55): ensure Download All button always appears last using flexbox order
+- Empty state message for volumes without articles (EN: "This volume does not yet contain any documents." / FR: "Ce volume ne contient pas encore de documents.")
 
 ### Fixed
 - Volume page, display other volumes with a link

@@ -274,14 +274,20 @@ export default function VolumeDetails(): JSX.Element {
                   </div>
                 )}
                 <div className='volumeDetails-content-results-content-cards'>
-                  {articles?.filter((article) => article).map((article, index) => (
+                  {articles?.length === 0 ? (
+                      <div className='volumeDetails-content-results-content-empty'>
+                          {t('pages.volumeDetails.emptyVolume')}
+                      </div>
+                  ) : (
+                  articles?.filter((article) => article).map((article, index) => (
                     <VolumeArticleCard
                       key={index}
                       language={language}
                       t={t}
                       article={article as IArticle}
                     />
-                  ))}
+                  ))
+                )}
                 </div>
               </div>
             </div>
