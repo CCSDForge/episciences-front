@@ -63,8 +63,11 @@ export const articleApi = createApi({
         }));
       },
     }),
-    fetchArticle: build.query<FetchedArticle, { paperid: string }>({
-      query: ({ paperid } :{ paperid: string; }) => `papers/${paperid}`,
+    fetchArticle: build.query<FetchedArticle, { paperid: string; rvcode?: string }>({
+      query: ({ paperid, rvcode } :{ paperid: string; rvcode?: string }) => {
+        const baseUrl = `papers/${paperid}`;
+        return rvcode ? `${baseUrl}?rvcode=${rvcode}` : baseUrl;
+      },
       transformResponse(baseQueryReturnValue: RawArticle) {
         return formatArticle(baseQueryReturnValue);
       }
