@@ -79,7 +79,7 @@
         "news": "Actualités",
         "statistics": "Statistiques",
         "boards": "Comités",
-        "forAuthors": "Pour les auteurs"
+        "forAuthors": "Pour les auteurs/autrices"
       },
       "searchPlaceholder": "rechercher",
       "search": "Rechercher",
@@ -387,13 +387,13 @@
     "publish": {
       "title": "Publier",
       "description": "Informations pour publier dans notre revue",
-      "forAuthors": "Pour les auteurs",
+      "forAuthors": "Pour les auteurs/autrices",
       "ethicalCharter": "Charte éthique",
       "forReviewers": "Pour les relecteurs",
       "forConferenceOrganisers": "Pour les organisateurs de conférences"
     },
     "forAuthors": {
-      "title": "Pour les auteurs"
+      "title": "Pour les auteurs/autrices"
     },
     "ethicalCharter": {
       "title": "Charte éthique",
