@@ -22,12 +22,13 @@ export default function SectionDetails(): JSX.Element {
   const SECTION_TITLE_BREADCRUMB_LENGTH = 20;
 
   const language = useAppSelector(state => state.i18nReducer.language)
+  const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
 
   const [isFetchingArticles, setIsFetchingArticles] = useState(false);
   const [articles, setArticles] = useState<FetchedArticle[]>([]);
 
   const { id } = useParams();
-  const { data: section, isFetching: isFetchingSection, isError, error } = useFetchSectionQuery({ sid: id! }, { skip: !id });
+  const { data: section, isFetching: isFetchingSection, isError, error } = useFetchSectionQuery({ sid: id!, rvcode: rvcode! }, { skip: !id || !rvcode });
 
   useEffect(() => {
     if (section && section.articles.length > 0) {
