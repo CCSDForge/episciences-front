@@ -11,10 +11,9 @@ export interface ISection {
   articles: PartialSectionArticle[];
 }
 
-export type RawSection = Omit<ISection, 'rvcode'> & {
+export type RawSection = Omit<ISection, 'id' | 'rvcode' | 'title' | 'description' | 'articles'> & {
   sid: number;
   rvid: number;
-  rvcode?: string;
   titles?: Record<AvailableLanguage, string>;
   descriptions?: Record<AvailableLanguage, string>;
   papers: PartialSectionArticle[];
