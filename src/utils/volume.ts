@@ -4,7 +4,7 @@ import { AvailableLanguage } from "./i18n";
 export const formatVolume = (rvcode: string, language: AvailableLanguage, volume: RawVolume): IVolume => {
   let metadatas: IVolumeMetadata[]  = [];
   let tileImageURL = undefined;
-  
+
   if (volume['metadata'] && volume['metadata'].length) {
     metadatas = volume['metadata'].map((meta) => formatVolumeMetadata(meta))
 
@@ -24,6 +24,8 @@ export const formatVolume = (rvcode: string, language: AvailableLanguage, volume
   return {
     ...volume,
     id: volume['vid'],
+    rvid: volume['rvid'],
+    rvcode: rvcode,
     num: volume['vol_num'],
     title: volume['titles'],
     description: volume['descriptions'],

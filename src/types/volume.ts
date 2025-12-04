@@ -3,6 +3,8 @@ import { PartialVolumeArticle } from "./article";
 
 export interface IVolume {
   id: number;
+  rvid: number;
+  rvcode: string;
   num: string;
   title?: Record<AvailableLanguage, string>;
   description?: Record<AvailableLanguage, string>;
@@ -16,8 +18,9 @@ export interface IVolume {
   settingsProceeding?: IVolumeSettingsProceeding[];
 }
 
-export type RawVolume = IVolume & {
+export type RawVolume = Omit<IVolume, 'rvcode'> & {
   vid: number;
+  rvid: number;
   vol_num: string;
   titles?: Record<AvailableLanguage, string>;
   descriptions?: Record<AvailableLanguage, string>;
