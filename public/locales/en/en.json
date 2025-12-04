@@ -431,9 +431,9 @@
       "title": "Page not found",
       "code": "404",
       "message": "The page you are looking for does not exist or has been moved.",
-      "sectionWrongJournal": "This section does not belong to this journal.",
-      "articleWrongJournal": "This article does not belong to this journal.",
-      "volumeWrongJournal": "This volume does not belong to this journal.",
+      "sectionWrongJournal": "This section does not exist or it does not belong to this journal.",
+      "articleWrongJournal": "This article does not exist or it does not belong to this journal.",
+      "volumeWrongJournal": "This volume does not exist or it does not belong to this journal.",
       "backToHome": "Back to home"
     }
   }

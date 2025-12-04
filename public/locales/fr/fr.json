@@ -431,9 +431,9 @@
       "title": "Page non trouvée",
       "code": "404",
       "message": "La page que vous recherchez n'existe pas ou a été déplacée.",
-      "sectionWrongJournal": "Cette section n'appartient pas à cette revue.",
-      "articleWrongJournal": "Cet article n'appartient pas à cette revue.",
-      "volumeWrongJournal": "Ce volume n'appartient pas à cette revue.",
+      "sectionWrongJournal": "Cette section n'existe pas ou elle n'appartient pas à cette revue.",
+      "articleWrongJournal": "Cet article n'existe pas ou il n'appartient pas à cette revue.",
+      "volumeWrongJournal": "Ce volume n'existe pas ou il n'appartient pas à cette revue.",
       "backToHome": "Retour à l'accueil"
     }
   }
