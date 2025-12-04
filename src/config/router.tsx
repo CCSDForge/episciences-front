@@ -28,7 +28,7 @@ import Publish from "../app/pages/Publish/Publish";
 import News from "../app/pages/News/News";
 import Search from "../app/pages/Search/Search";
 import Sections from "../app/pages/Sections/Sections";
-import SectionDetails from "../app/pages/SectionDetails/SectionDetails";
+import {SectionDetails} from "../app/pages/SectionDetails/SectionDetails";
 import Statistics from "../app/pages/Statistics/Statistics";
 import VolumeDetails from "../app/pages/VolumeDetails/VolumeDetails";
 import Volumes from "../app/pages/Volumes/Volumes";

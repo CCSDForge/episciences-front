@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat(#55): ensure Download All button always appears last using flexbox order
 - Empty state message for volumes without articles (EN: "This volume does not yet contain any documents." / FR: "Ce volume ne contient pas encore de documents.")
 - Journal code validation to prevent cross-journal article access - articles now redirect to 404 if they don't belong to the current journal
+- Section access validation by journal to prevent cross-journal access and customize notFound message
 
 ### Fixed
 - Volume page, display other volumes with a link

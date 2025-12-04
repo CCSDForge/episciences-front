@@ -6,6 +6,7 @@ import { MathJax } from 'better-react-mathjax';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { isMobileOnly } from "react-device-detect";
+import { NotFoundState } from '../../../types/notFound';
 
 import caretUpGrey from '/icons/caret-up-grey.svg';
 import caretDownGrey from '/icons/caret-down-grey.svg';
@@ -538,7 +539,14 @@ export default function ArticleDetails(): JSX.Element {
 
       // Verify whether the article belongs to the current journal
       if (article && article.journalCode && rvcode && article.journalCode !== rvcode) {
-      navigate(PATHS.notFound);
+          const state: NotFoundState = {
+              reason: 'article-wrong-journal',
+              details: {
+                  resourceType: 'article',
+                  resourceId: id
+              }
+          };
+      navigate(PATHS.notFound, {state});
     }
   }, [article, isError, error, navigate, rvcode])
 
