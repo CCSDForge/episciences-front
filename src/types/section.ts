@@ -3,6 +3,7 @@ import { PartialSectionArticle } from "./article";
 
 export interface ISection {
   id: number;
+  rvid: number;
   rvcode: string;
   title?: Record<AvailableLanguage, string>;
   description?: Record<AvailableLanguage, string>;

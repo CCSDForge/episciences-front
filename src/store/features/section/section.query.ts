@@ -18,6 +18,7 @@ export const sectionApi = createApi({
         const formattedData = (baseQueryReturnValue['hydra:member']).map((section) => ({
           ...section,
           id: section['sid'],
+          rvid: section['rvid'],
           rvcode: rvcode,
           title: section['titles'],
           description: section['descriptions'],
@@ -37,6 +38,7 @@ export const sectionApi = createApi({
         return {
           ...baseQueryReturnValue,
           id: baseQueryReturnValue['sid'],
+          rvid: baseQueryReturnValue['rvid'],
           rvcode: rvcode,
           title: baseQueryReturnValue['titles'],
           description: baseQueryReturnValue['descriptions'],

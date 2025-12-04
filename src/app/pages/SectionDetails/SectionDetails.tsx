@@ -23,6 +23,7 @@ export default function SectionDetails(): JSX.Element {
 
   const language = useAppSelector(state => state.i18nReducer.language)
   const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
+  const currentJournal = useAppSelector(state => state.journalReducer.currentJournal)
 
   const [isFetchingArticles, setIsFetchingArticles] = useState(false);
   const [articles, setArticles] = useState<FetchedArticle[]>([]);
@@ -55,9 +56,20 @@ export default function SectionDetails(): JSX.Element {
 
   useEffect(() => {
     if (!section && isError && (error as FetchBaseQueryError)?.status) {
-      navigate(PATHS.home);
+      navigate(PATHS.notFound);
     }
-  }, [section, isError, error])
+
+    // Verify whether the section belongs to the current journal by comparing rvid
+    console.log('=== Section Access Validation ===');
+    console.log('Section rvid:', section?.rvid);
+    console.log('Current journal rvid:', currentJournal?.rvid);
+    console.log('Match:', section?.rvid === currentJournal?.rvid);
+
+    if (section && currentJournal && section.rvid !== currentJournal.rvid) {
+      console.log('❌ Section does not belong to this journal - redirecting to 404');
+      navigate(PATHS.notFound);
+    }
+  }, [section, isError, error, navigate, currentJournal])
 
   return (
     <main className='sectionDetails'>
