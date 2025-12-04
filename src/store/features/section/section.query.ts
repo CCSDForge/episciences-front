@@ -11,13 +11,15 @@ export const sectionApi = createApi({
   endpoints: (build) => ({
     fetchSections: build.query<{ data: ISection[], totalItems: number, articlesCount?: number }, { rvcode: string, page: number, itemsPerPage: number }>({
       query: ({ rvcode, page, itemsPerPage } :{ rvcode: string, page: number, itemsPerPage: number }) => `sections?page=${page}&itemsPerPage=${itemsPerPage}&rvcode=${rvcode}`,
-      transformResponse(baseQueryReturnValue: PaginatedResponseWithCount<RawSection>) {
+      transformResponse(baseQueryReturnValue: PaginatedResponseWithCount<RawSection>, _, { rvcode }) {
         const articlesCount = baseQueryReturnValue['hydra:totalPublishedArticles']
 
         const totalItems = baseQueryReturnValue['hydra:totalItems'];
         const formattedData = (baseQueryReturnValue['hydra:member']).map((section) => ({
           ...section,
           id: section['sid'],
+          rvid: section['rvid'],
+          rvcode: rvcode,
           title: section['titles'],
           description: section['descriptions'],
           articles: section['papers']
@@ -30,11 +32,14 @@ export const sectionApi = createApi({
         }
       },
     }),
-    fetchSection: build.query<ISection, { sid: string }>({
-      query: ({ sid } :{ sid: string; }) => `sections/${sid}`,
-      transformResponse(baseQueryReturnValue: RawSection) {
+    fetchSection: build.query<ISection, { sid: string, rvcode: string }>({
+      query: ({ sid, rvcode } :{ sid: string; rvcode: string; }) => `sections/${sid}?rvcode=${rvcode}`,
+      transformResponse(baseQueryReturnValue: RawSection, _, { rvcode }) {
         return {
           ...baseQueryReturnValue,
+          id: baseQueryReturnValue['sid'],
+          rvid: baseQueryReturnValue['rvid'],
+          rvcode: rvcode,
           title: baseQueryReturnValue['titles'],
           description: baseQueryReturnValue['descriptions'],
           articles: baseQueryReturnValue['papers']

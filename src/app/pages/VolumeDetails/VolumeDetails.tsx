@@ -16,6 +16,7 @@ import { formatArticle, FetchedArticle } from "../../../utils/article";
 import { useFetchVolumesQuery, useFetchVolumeQuery } from "../../../store/features/volume/volume.query";
 import { RawArticle, IArticle } from "../../../types/article";
 import { IVolumeMetadata } from "../../../types/volume";
+import { NotFoundState } from '../../../types/notFound';
 import { formatDate } from "../../../utils/date";
 import { VOLUME_TYPE } from "../../../utils/volume";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
@@ -210,9 +211,21 @@ export default function VolumeDetails(): JSX.Element {
 
   useEffect(() => {
     if (!volume && isError && (error as FetchBaseQueryError)?.status) {
-      navigate(PATHS.home);
+      navigate(PATHS.notFound);
     }
-  }, [volume, isError, error])
+
+    // Verify whether the volume belongs to the current journal by comparing rvid
+    if (volume && currentJournal && volume.rvid !== currentJournal.rvid) {
+      const state: NotFoundState = {
+        reason: 'volume-wrong-journal',
+        details: {
+          resourceType: 'volume',
+          resourceId: id
+        }
+      };
+      navigate(PATHS.notFound, { state });
+    }
+  }, [volume, isError, error, navigate, currentJournal, id])
 
   return (
     <main className='volumeDetails'>
