@@ -23,8 +23,6 @@ export default function NotFound(): JSX.Element {
         return t('pages.notFound.articleWrongJournal');
       case 'volume-wrong-journal':
         return t('pages.notFound.volumeWrongJournal');
-      case 'access-denied':
-        return t('pages.notFound.accessDenied');
       default:
         return t('pages.notFound.message');
     }
