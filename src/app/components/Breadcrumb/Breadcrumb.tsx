@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
-import { PathKeys } from '../../../config/paths';
+import { PathKeys, PATHS } from '../../../config/paths';
 import './Breadcrumb.scss'
 
 interface IBreadcrumbProps {
@@ -13,12 +13,17 @@ interface IBreadcrumbProps {
 }
 
 export default function Breadcrumb({ parents, crumbLabel }: IBreadcrumbProps): JSX.Element {
+    const getPath = (pathKey: PathKeys): string => {
+      const path = PATHS[pathKey];
+      return path.startsWith('/') ? path : `/${path}`;
+    };
+
     return (
       <div className="breadcrumb">
         {parents.map((parent, index) => (
           <Fragment key={index}>
             <span className='breadcrumb-parent'>
-              <Link to={`/${parent.path}`}>{parent.label}</Link>
+              <Link to={getPath(parent.path)}>{parent.label}</Link>
             </span>
             {' '}
           </Fragment>

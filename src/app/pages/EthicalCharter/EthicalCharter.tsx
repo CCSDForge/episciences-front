@@ -161,7 +161,7 @@ export default function EthicalCharter(): JSX.Element {
       <Breadcrumb
         parents={[
           { path: 'home', label: `${t('pages.home.title')} >` },
-          { path: 'publish', label: `${t('pages.publish.title')} >` }
+          { path: 'home', label: `${t('pages.publish.title')} >` }
         ]}
         crumbLabel={t('pages.ethicalCharter.title')}
       />

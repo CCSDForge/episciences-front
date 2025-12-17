@@ -27,8 +27,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Journal code validation to prevent cross-journal article access - articles now redirect to 404 if they don't belong to the current journal
 
 ### Fixed
+- Breadcrumbs: use correct paths from config and fix navigation
 - Volume page, display other volumes with a link
-- Fixed truncated markdown not rendered in /HomeSections/PresentationSection
+- Fixed truncated Markdown not rendered in /HomeSections/PresentationSection
 
 ### Changed
 - Sort editorial board members by role : Editors-in-chief first, then editors
