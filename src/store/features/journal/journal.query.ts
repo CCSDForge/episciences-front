@@ -13,7 +13,8 @@ export const journalApi = createApi({
       transformResponse(baseQueryReturnValue: RawJournal) {
         return {
           ...baseQueryReturnValue,
-          id: baseQueryReturnValue.rvid
+          id: baseQueryReturnValue.rvid,
+          rvid: baseQueryReturnValue.rvid
         }
       },
     }),

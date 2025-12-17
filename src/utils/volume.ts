@@ -24,6 +24,8 @@ export const formatVolume = (rvcode: string, language: AvailableLanguage, volume
   return {
     ...volume,
     id: volume['vid'],
+    rvid: volume['rvid'],
+    rvcode: rvcode,
     num: volume['vol_num'],
     title: volume['titles'],
     description: volume['descriptions'],

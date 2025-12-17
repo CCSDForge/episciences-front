@@ -5,6 +5,7 @@ interface IJournalSettings {
 
 export interface IJournal {
   id: number;
+  rvid: number;
   code: string;
   name: string;
   subtitle:string;
