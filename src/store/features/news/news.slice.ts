@@ -1,25 +1,25 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
-import { newsApi } from './news.query'
-import { INewsState } from './news.type'
+import { newsApi } from './news.query';
+import { INewsState } from './news.type';
 
 const newsSlice = createSlice({
   name: 'news',
   initialState: {
     news: {
       data: [],
-      totalItems: 0
-    }
+      totalItems: 0,
+    },
   } as INewsState,
   reducers: {},
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder.addMatcher(
       newsApi.endpoints.fetchNews.matchFulfilled,
       (state, { payload }) => {
-        state.news = payload
-      },
-    )
-  }
-})
+        state.news = payload;
+      }
+    );
+  },
+});
 
-export default newsSlice.reducer
+export default newsSlice.reducer;

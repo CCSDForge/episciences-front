@@ -1,4 +1,4 @@
-import { IJournal } from '../../../types/journal'
+import { IJournal } from '../../../types/journal';
 
 export interface IJournalState {
   journals: IJournal[];

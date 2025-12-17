@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import caretUp from '/icons/caret-up-grey.svg';
 import caretDown from '/icons/caret-down-grey.svg';
-import './EthicalCharterSidebar.scss'
+import './EthicalCharterSidebar.scss';
 
 export interface IEthicalCharterHeader {
   id: string;
@@ -16,25 +16,34 @@ interface IEthicalCharterSidebarProps {
   toggleHeaderCallback: (id: string) => void;
 }
 
-export default function EthicalCharterSidebar({ headers, toggleHeaderCallback }: IEthicalCharterSidebarProps): JSX.Element {
+export default function EthicalCharterSidebar({
+  headers,
+  toggleHeaderCallback,
+}: IEthicalCharterSidebarProps): JSX.Element {
   return (
-    <div className='ethicalCharterSidebar'>
+    <div className="ethicalCharterSidebar">
       {headers.map((header, index) => (
-        <div
-          key={index}
-          className='ethicalCharterSidebar-header'
-        >
-          <div className='ethicalCharterSidebar-header-title'>
+        <div key={index} className="ethicalCharterSidebar-header">
+          <div className="ethicalCharterSidebar-header-title">
             <Link to={`#${header.id}`}>
-              <div className='ethicalCharterSidebar-header-title-text'>{header.value}</div>
+              <div className="ethicalCharterSidebar-header-title-text">
+                {header.value}
+              </div>
             </Link>
-            {header.children.length > 0 && <img className='ethicalCharterSidebar-header-title-caret' src={header.opened ? caretUp : caretDown} alt={header.opened ? 'Caret up icon' : 'Caret down icon'} onClick={(): void => toggleHeaderCallback(header.id)} />}
+            {header.children.length > 0 && (
+              <img
+                className="ethicalCharterSidebar-header-title-caret"
+                src={header.opened ? caretUp : caretDown}
+                alt={header.opened ? 'Caret up icon' : 'Caret down icon'}
+                onClick={(): void => toggleHeaderCallback(header.id)}
+              />
+            )}
           </div>
           {header.opened && (
-            <div className='ethicalCharterSidebar-header-subheaders'>
+            <div className="ethicalCharterSidebar-header-subheaders">
               {header.children.map((subheader, index) => (
                 <Link key={index} to={`#${subheader.id}`}>
-                  <div className='ethicalCharterSidebar-header-subheaders-subheader'>
+                  <div className="ethicalCharterSidebar-header-subheaders-subheader">
                     {subheader.value}
                   </div>
                 </Link>
@@ -44,5 +53,5 @@ export default function EthicalCharterSidebar({ headers, toggleHeaderCallback }:
         </div>
       ))}
     </div>
-  )
+  );
 }

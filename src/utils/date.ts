@@ -1,6 +1,10 @@
-import { AvailableLanguage } from "./i18n";
+import { AvailableLanguage } from './i18n';
 
-export const formatDate = (dateString: string, language: AvailableLanguage, overridedOptions?: Intl.DateTimeFormatOptions): string => {
+export const formatDate = (
+  dateString: string,
+  language: AvailableLanguage,
+  overridedOptions?: Intl.DateTimeFormatOptions
+): string => {
   if (!dateString) {
     return '';
   }
@@ -12,11 +16,11 @@ export const formatDate = (dateString: string, language: AvailableLanguage, over
   }
 
   const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      ...overridedOptions,
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    ...overridedOptions,
   };
 
   return new Intl.DateTimeFormat(language, options).format(date);
-}
+};

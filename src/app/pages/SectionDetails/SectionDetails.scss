@@ -1,4 +1,4 @@
-@use "src/style/breakpoints.scss";
+@use 'src/style/breakpoints.scss';
 .sectionDetails {
   &-id {
     margin-bottom: 15px;
@@ -11,7 +11,7 @@
     &-results {
       display: flex;
 
-      @media (max-width:  breakpoints.$xsm) {
+      @media (max-width: breakpoints.$xsm) {
         flex-direction: column;
       }
 
@@ -32,7 +32,7 @@
           margin-bottom: 16px;
           font-size: 20px;
         }
-  
+
         &-description {
           font-size: 16px;
           padding-bottom: 40px;

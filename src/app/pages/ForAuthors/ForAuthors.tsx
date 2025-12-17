@@ -6,15 +6,29 @@ import remarkGfm from 'remark-gfm';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
-import { useAppSelector } from "../../../hooks/store";
-import { useFetchEditorialWorkflowPageQuery, useFetchPrepareSubmissionPageQuery } from "../../../store/features/forAuthor/forAuthor.query";
-import { generateIdFromText, unifiedProcessor, serializeMarkdown, getMarkdownImageURL, adjustNestedListsInMarkdownContent } from '../../../utils/markdown';
-import { FOR_AUTHORS_SECTION, getForAuthorsSectionSortOrder } from '../../../utils/forAuthors';
-import ForAuthorsSidebar, { IForAuthorsHeader } from '../../components/Sidebars/ForAuthorsSidebar/ForAuthorsSidebar';
-import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
+import { useAppSelector } from '../../../hooks/store';
+import {
+  useFetchEditorialWorkflowPageQuery,
+  useFetchPrepareSubmissionPageQuery,
+} from '../../../store/features/forAuthor/forAuthor.query';
+import {
+  generateIdFromText,
+  unifiedProcessor,
+  serializeMarkdown,
+  getMarkdownImageURL,
+  adjustNestedListsInMarkdownContent,
+} from '../../../utils/markdown';
+import {
+  FOR_AUTHORS_SECTION,
+  getForAuthorsSectionSortOrder,
+} from '../../../utils/forAuthors';
+import ForAuthorsSidebar, {
+  IForAuthorsHeader,
+} from '../../components/Sidebars/ForAuthorsSidebar/ForAuthorsSidebar';
+import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import Loader from '../../components/Loader/Loader';
 import './ForAuthors.scss';
-import {Helmet} from "react-helmet-async";
+import { Helmet } from 'react-helmet-async';
 
 type ForAuthorsSectionType = FOR_AUTHORS_SECTION;
 
@@ -31,21 +45,37 @@ export default function ForAuthors(): JSX.Element {
   const { t } = useTranslation();
 
   const language = useAppSelector(state => state.i18nReducer.language);
-  const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code);
-  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name);
+  const rvcode = useAppSelector(
+    state => state.journalReducer.currentJournal?.code
+  );
+  const journalName = useAppSelector(
+    state => state.journalReducer.currentJournal?.name
+  );
 
   const [pageSections, setPageSections] = useState<IForAuthorsSection[]>([]);
   const [sidebarHeaders, setSidebarHeaders] = useState<IForAuthorsHeader[]>([]);
 
-  const { data: editorialWorkflowPage, isFetching: isFetchingEditorialWorkflow } = useFetchEditorialWorkflowPageQuery(rvcode!, { skip: !rvcode });
-  const { data: prepareSubmissionPage, isFetching: isFetchingPrepareSubmission } = useFetchPrepareSubmissionPageQuery(rvcode!, { skip: !rvcode });
+  const {
+    data: editorialWorkflowPage,
+    isFetching: isFetchingEditorialWorkflow,
+  } = useFetchEditorialWorkflowPageQuery(rvcode!, { skip: !rvcode });
+  const {
+    data: prepareSubmissionPage,
+    isFetching: isFetchingPrepareSubmission,
+  } = useFetchPrepareSubmissionPageQuery(rvcode!, { skip: !rvcode });
 
-  const parseContentSections = (toBeParsed: Record<ForAuthorsSectionType, { title: string | undefined; content: string | undefined }>): IForAuthorsSection[] => {
+  const parseContentSections = (
+    toBeParsed: Record<
+      ForAuthorsSectionType,
+      { title: string | undefined; content: string | undefined }
+    >
+  ): IForAuthorsSection[] => {
     const sections: IForAuthorsSection[] = [];
 
-    Object.entries(toBeParsed).forEach((toBeParsedEntry) => {
+    Object.entries(toBeParsed).forEach(toBeParsedEntry => {
       const sectionType = toBeParsedEntry[0] as ForAuthorsSectionType;
-      const withNumerotation = sectionType === FOR_AUTHORS_SECTION.PREPARE_SUBMISSION;
+      const withNumerotation =
+        sectionType === FOR_AUTHORS_SECTION.PREPARE_SUBMISSION;
       const title = toBeParsedEntry[1].title ?? '';
       const content = toBeParsedEntry[1].content ?? '';
       const adjustedContent = adjustNestedListsInMarkdownContent(content);
@@ -53,15 +83,39 @@ export default function ForAuthors(): JSX.Element {
       const parsedContent = `## ${title} \n\n\n ${adjustedContent}`;
       const tree = unifiedProcessor.parse(parsedContent);
 
-      let currentSection: IForAuthorsSection = withNumerotation ? { id: '', value: '', title: title || '', sectionType, opened: true, cards: [] } : { id: '', value: '', title: title || '', sectionType, opened: true };
+      let currentSection: IForAuthorsSection = withNumerotation
+        ? {
+            id: '',
+            value: '',
+            title: title || '',
+            sectionType,
+            opened: true,
+            cards: [],
+          }
+        : { id: '', value: '', title: title || '', sectionType, opened: true };
       let h3Counter = 0;
       let currentCardContent = '';
 
-      tree.children.forEach((node) => {
+      tree.children.forEach(node => {
         if (node.type === 'heading' && node.depth === 2) {
           if (currentSection.id) {
             sections.push(currentSection);
-            currentSection = withNumerotation ? { id: '', value: '', title: title || '', sectionType, opened: true, cards: [] } : { id: '', value: '', title: title || '', sectionType, opened: true };
+            currentSection = withNumerotation
+              ? {
+                  id: '',
+                  value: '',
+                  title: title || '',
+                  sectionType,
+                  opened: true,
+                  cards: [],
+                }
+              : {
+                  id: '',
+                  value: '',
+                  title: title || '',
+                  sectionType,
+                  opened: true,
+                };
           }
 
           const titleText = node.children
@@ -75,29 +129,45 @@ export default function ForAuthors(): JSX.Element {
           if (node.type === 'heading' && node.depth === 3) {
             h3Counter += 1;
 
-            const h3Id = generateIdFromText(node.children.map(child => (child as { value: string }).value).join(''));
-            const h3Title = node.children.map(child => (child as { value: string }).value).join('');
+            const h3Id = generateIdFromText(
+              node.children
+                .map(child => (child as { value: string }).value)
+                .join('')
+            );
+            const h3Title = node.children
+              .map(child => (child as { value: string }).value)
+              .join('');
 
             if (currentCardContent) {
-              const lastCard = currentSection.cards![currentSection.cards!.length - 1];
+              const lastCard =
+                currentSection.cards![currentSection.cards!.length - 1];
               lastCard.content = currentCardContent.trim();
             }
 
             currentCardContent = '';
-            currentSection.cards!.push({ id: h3Id, title: h3Title, content: '', index: h3Counter });
+            currentSection.cards!.push({
+              id: h3Id,
+              title: h3Title,
+              content: '',
+              index: h3Counter,
+            });
           } else if (currentSection.cards && currentSection.cards.length > 0) {
             currentCardContent += serializeMarkdown(node);
           } else {
             currentSection.value += serializeMarkdown(node);
-            currentSection.value += '\n'
+            currentSection.value += '\n';
           }
         } else {
           currentSection.value += serializeMarkdown(node);
-          currentSection.value += '\n'
+          currentSection.value += '\n';
         }
       });
 
-      if (currentCardContent && currentSection.cards && currentSection.cards.length > 0) {
+      if (
+        currentCardContent &&
+        currentSection.cards &&
+        currentSection.cards.length > 0
+      ) {
         const lastCard = currentSection.cards[currentSection.cards.length - 1];
         lastCard.content = currentCardContent.trim();
       }
@@ -114,13 +184,19 @@ export default function ForAuthors(): JSX.Element {
     return sections;
   };
 
-  const parseSidebarHeaders = (toBeParsed: Record<ForAuthorsSectionType, { title: string | undefined; content: string | undefined }>): IForAuthorsHeader[] => {
+  const parseSidebarHeaders = (
+    toBeParsed: Record<
+      ForAuthorsSectionType,
+      { title: string | undefined; content: string | undefined }
+    >
+  ): IForAuthorsHeader[] => {
+    const headerMap: Record<ForAuthorsSectionType, IForAuthorsHeader> =
+      {} as Record<ForAuthorsSectionType, IForAuthorsHeader>;
 
-    const headerMap: Record<ForAuthorsSectionType, IForAuthorsHeader> = {} as Record<ForAuthorsSectionType, IForAuthorsHeader>;
-
-    Object.entries(toBeParsed).forEach((toBeParsedEntry) => {
+    Object.entries(toBeParsed).forEach(toBeParsedEntry => {
       const sectionType = toBeParsedEntry[0] as ForAuthorsSectionType;
-      const withNumerotation = sectionType === FOR_AUTHORS_SECTION.PREPARE_SUBMISSION;
+      const withNumerotation =
+        sectionType === FOR_AUTHORS_SECTION.PREPARE_SUBMISSION;
       const title = toBeParsedEntry[1].title ?? '';
       const content = toBeParsedEntry[1].content ?? '';
       const adjustedContent = adjustNestedListsInMarkdownContent(content);
@@ -133,7 +209,9 @@ export default function ForAuthors(): JSX.Element {
 
       for (const node of tree.children) {
         if (node.type === 'heading' && (node.depth === 2 || node.depth === 3)) {
-          const textNode = node.children.find(child => child.type === 'text') as { value: string };
+          const textNode = node.children.find(
+            child => child.type === 'text'
+          ) as { value: string };
 
           if (textNode) {
             const id = generateIdFromText(textNode.value);
@@ -148,7 +226,7 @@ export default function ForAuthors(): JSX.Element {
               id,
               value,
               opened: true,
-              children: []
+              children: [],
             };
 
             if (node.depth === 2) {
@@ -202,14 +280,17 @@ export default function ForAuthors(): JSX.Element {
   };
 
   useEffect(() => {
-    const content: Record<ForAuthorsSectionType, { title: string | undefined; content: string | undefined }> = {
+    const content: Record<
+      ForAuthorsSectionType,
+      { title: string | undefined; content: string | undefined }
+    > = {
       [FOR_AUTHORS_SECTION.EDITORIAL_WORKFLOW]: {
         title: editorialWorkflowPage?.title[language],
-        content: editorialWorkflowPage?.content[language]
+        content: editorialWorkflowPage?.content[language],
       },
       [FOR_AUTHORS_SECTION.PREPARE_SUBMISSION]: {
         title: prepareSubmissionPage?.title[language],
-        content: prepareSubmissionPage?.content[language]
+        content: prepareSubmissionPage?.content[language],
       },
     };
 
@@ -218,24 +299,31 @@ export default function ForAuthors(): JSX.Element {
   }, [editorialWorkflowPage, prepareSubmissionPage, language]);
 
   return (
-    <main className='forAuthors'>
-
+    <main className="forAuthors">
       <Helmet>
-        <title>{t('pages.forAuthors.title')} | {journalName ?? ''}</title>
+        <title>
+          {t('pages.forAuthors.title')} | {journalName ?? ''}
+        </title>
       </Helmet>
 
-      <Breadcrumb parents={[
-        { path: 'home', label: `${t('pages.home.title')} >` },
-        { path: 'home', label: `${t('pages.publish.title')} >` }
-      ]} crumbLabel={t('pages.forAuthors.title')} />
-      <h1 className='forAuthors-title'>{t('pages.forAuthors.title')}</h1>
+      <Breadcrumb
+        parents={[
+          { path: 'home', label: `${t('pages.home.title')} >` },
+          { path: 'home', label: `${t('pages.publish.title')} >` },
+        ]}
+        crumbLabel={t('pages.forAuthors.title')}
+      />
+      <h1 className="forAuthors-title">{t('pages.forAuthors.title')}</h1>
 
       {isFetchingEditorialWorkflow || isFetchingPrepareSubmission ? (
         <Loader />
       ) : (
-        <div className='forAuthors-content'>
-          <ForAuthorsSidebar headers={sidebarHeaders} toggleHeaderCallback={toggleSidebarHeader} />
-          <div className='forAuthors-content-body'>
+        <div className="forAuthors-content">
+          <ForAuthorsSidebar
+            headers={sidebarHeaders}
+            toggleHeaderCallback={toggleSidebarHeader}
+          />
+          <div className="forAuthors-content-body">
             {pageSections.map(section => (
               <div
                 key={section.id}
@@ -243,35 +331,83 @@ export default function ForAuthors(): JSX.Element {
               >
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
-                  urlTransform={uri => uri.includes('/public/') ? getMarkdownImageURL(uri, rvcode!) : uri}
+                  urlTransform={uri =>
+                    uri.includes('/public/')
+                      ? getMarkdownImageURL(uri, rvcode!)
+                      : uri
+                  }
                   components={{
-                    a: ({ ...props }) => <Link to={props.href!} target='_blank' className='forAuthors-content-body-section-link'>{props.children?.toString()}</Link>,
+                    a: ({ ...props }) => (
+                      <Link
+                        to={props.href!}
+                        target="_blank"
+                        className="forAuthors-content-body-section-link"
+                      >
+                        {props.children?.toString()}
+                      </Link>
+                    ),
                     h2: ({ ...props }) => {
-                      const id = generateIdFromText(props.children?.toString()!);
+                      const id = generateIdFromText(
+                        props.children?.toString()!
+                      );
 
                       return (
-                        <div className='forAuthors-content-body-section-subtitle' onClick={(): void => toggleSectionHeader(id!)}>
-                          <h2 id={id} className='forAuthors-content-body-section-subtitle-text' {...props} />
-                          {pageSections.find(pageSection => pageSection.id === id)?.opened ? (
-                            <img className='forAuthors-content-body-section-subtitle-caret' src={caretUp} alt='Caret up icon' />
+                        <div
+                          className="forAuthors-content-body-section-subtitle"
+                          onClick={(): void => toggleSectionHeader(id!)}
+                        >
+                          <h2
+                            id={id}
+                            className="forAuthors-content-body-section-subtitle-text"
+                            {...props}
+                          />
+                          {pageSections.find(
+                            pageSection => pageSection.id === id
+                          )?.opened ? (
+                            <img
+                              className="forAuthors-content-body-section-subtitle-caret"
+                              src={caretUp}
+                              alt="Caret up icon"
+                            />
                           ) : (
-                            <img className='forAuthors-content-body-section-subtitle-caret' src={caretDown} alt='Caret down icon' />
+                            <img
+                              className="forAuthors-content-body-section-subtitle-caret"
+                              src={caretDown}
+                              alt="Caret down icon"
+                            />
                           )}
                         </div>
                       );
                     },
-                    h3: ({ ...props }) => <h3 id={generateIdFromText(props.children?.toString()!)} {...props} />,
+                    h3: ({ ...props }) => (
+                      <h3
+                        id={generateIdFromText(props.children?.toString()!)}
+                        {...props}
+                      />
+                    ),
                   }}
                 >
                   {section.value}
                 </ReactMarkdown>
-                <div className='forAuthors-content-body-section-cards'>
+                <div className="forAuthors-content-body-section-cards">
                   {section.cards?.map((card, index) => (
-                    <div key={index} className={`forAuthors-content-body-section-cards-card ${!section.opened && 'forAuthors-content-body-section-cards-card-hidden'}`}>
-                      <div className='forAuthors-content-body-section-cards-card-index'>{card.index}</div>
-                      <div className='forAuthors-content-body-section-cards-card-content'>
-                        <h3 id={card.id} className='forAuthors-content-body-section-cards-card-content-title'>{card.title}</h3>
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{card.content}</ReactMarkdown>
+                    <div
+                      key={index}
+                      className={`forAuthors-content-body-section-cards-card ${!section.opened && 'forAuthors-content-body-section-cards-card-hidden'}`}
+                    >
+                      <div className="forAuthors-content-body-section-cards-card-index">
+                        {card.index}
+                      </div>
+                      <div className="forAuthors-content-body-section-cards-card-content">
+                        <h3
+                          id={card.id}
+                          className="forAuthors-content-body-section-cards-card-content-title"
+                        >
+                          {card.title}
+                        </h3>
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {card.content}
+                        </ReactMarkdown>
                       </div>
                     </div>
                   ))}

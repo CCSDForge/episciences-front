@@ -1,4 +1,4 @@
-import { AvailableLanguage } from "../utils/i18n";
+import { AvailableLanguage } from '../utils/i18n';
 
 export interface IPage {
   id: number;

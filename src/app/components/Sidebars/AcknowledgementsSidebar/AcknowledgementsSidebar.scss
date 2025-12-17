@@ -1,10 +1,10 @@
-@use "src/style/breakpoints.scss";
+@use 'src/style/breakpoints.scss';
 
 .acknowledgementsSidebar {
   min-width: 265px;
   margin-top: 31px;
 
-  @media (max-width:  breakpoints.$sm) {
+  @media (max-width: breakpoints.$sm) {
     display: none;
   }
 
@@ -20,7 +20,8 @@
       font-size: 16px;
       font-weight: bold;
 
-      &-text, &-caret {
+      &-text,
+      &-caret {
         cursor: pointer;
       }
     }

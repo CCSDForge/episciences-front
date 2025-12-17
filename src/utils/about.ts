@@ -5,7 +5,7 @@ export enum ABOUT_SECTION {
   ACKNOWLEDGEMENTS = 'acknowledgements',
   INDEXATION = 'indexation',
   NEWS = 'news',
-  STATISTICS = 'statistics'
+  STATISTICS = 'statistics',
 }
 
 // Defines the display order of about sections in the navigation menu
@@ -15,7 +15,7 @@ export const aboutSections = [
   ABOUT_SECTION.NEWS,
   ABOUT_SECTION.STATISTICS,
   ABOUT_SECTION.ACKNOWLEDGEMENTS,
-]
+];
 
 export interface IAboutSection {
   type: ABOUT_SECTION;
@@ -30,50 +30,58 @@ const getAboutSectionSortOrder = (sectionType: ABOUT_SECTION): number => {
   return index !== -1 ? index + 1 : 999;
 };
 
-export const getAboutSections = (shouldRenderStatistics: boolean): IAboutSection[] => {
+export const getAboutSections = (
+  shouldRenderStatistics: boolean
+): IAboutSection[] => {
   const sections: IAboutSection[] = [];
 
   // Always include about
   sections.push({
     type: ABOUT_SECTION.ABOUT,
     path: PATHS.about,
-    translationKey: 'components.header.links.about'
+    translationKey: 'components.header.links.about',
   });
 
   const shouldRenderFeature = (envVarValue: string | undefined): boolean => {
-      return envVarValue !== 'false';
+    return envVarValue !== 'false';
   };
 
   // Include acknowledgements only if environment variable is not 'false'
-  const shouldRenderAcknowledgements = shouldRenderFeature(import.meta.env.VITE_JOURNAL_MENU_JOURNAL_ACKNOWLEDGEMENTS_RENDER);
+  const shouldRenderAcknowledgements = shouldRenderFeature(
+    import.meta.env.VITE_JOURNAL_MENU_JOURNAL_ACKNOWLEDGEMENTS_RENDER
+  );
   if (shouldRenderAcknowledgements) {
     sections.push({
       type: ABOUT_SECTION.ACKNOWLEDGEMENTS,
       path: PATHS.acknowledgements,
       translationKey: 'components.header.links.acknowledgements',
-      envKey: 'JOURNAL_ACKNOWLEDGEMENTS'
+      envKey: 'JOURNAL_ACKNOWLEDGEMENTS',
     });
   }
 
   // Include indexation only if environment variable is not 'false'
-  const shouldRenderIndexation = shouldRenderFeature(import.meta.env.VITE_JOURNAL_MENU_JOURNAL_INDEXING_RENDER);
+  const shouldRenderIndexation = shouldRenderFeature(
+    import.meta.env.VITE_JOURNAL_MENU_JOURNAL_INDEXING_RENDER
+  );
   if (shouldRenderIndexation) {
     sections.push({
       type: ABOUT_SECTION.INDEXATION,
       path: PATHS.indexation,
       translationKey: 'components.header.links.indexation',
-      envKey: 'JOURNAL_INDEXING'
+      envKey: 'JOURNAL_INDEXING',
     });
   }
 
   // Include news only if environment variable is not 'false'
- const shouldRenderNews = shouldRenderFeature(import.meta.env.VITE_JOURNAL_MENU_NEWS_RENDER);
+  const shouldRenderNews = shouldRenderFeature(
+    import.meta.env.VITE_JOURNAL_MENU_NEWS_RENDER
+  );
   if (shouldRenderNews) {
     sections.push({
       type: ABOUT_SECTION.NEWS,
       path: PATHS.news,
       translationKey: 'components.header.links.news',
-      envKey: 'NEWS'
+      envKey: 'NEWS',
     });
   }
 
@@ -82,7 +90,7 @@ export const getAboutSections = (shouldRenderStatistics: boolean): IAboutSection
     sections.push({
       type: ABOUT_SECTION.STATISTICS,
       path: PATHS.statistics,
-      translationKey: 'components.header.links.statistics'
+      translationKey: 'components.header.links.statistics',
     });
   }
 

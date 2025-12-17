@@ -9,8 +9,16 @@ import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from '../../../hooks/store';
 import { useFetchForConferenceOrganisersPageQuery } from '../../../store/features/forConferenceOrganisers/forConferenceOrganisers.query';
-import { generateIdFromText, unifiedProcessor, serializeMarkdown, getMarkdownImageURL, adjustNestedListsInMarkdownContent } from '../../../utils/markdown';
-import ForConferenceOrganisersSidebar, { IForConferenceOrganisersHeader } from '../../components/Sidebars/ForConferenceOrganisersSidebar/ForConferenceOrganisersSidebar';
+import {
+  generateIdFromText,
+  unifiedProcessor,
+  serializeMarkdown,
+  getMarkdownImageURL,
+  adjustNestedListsInMarkdownContent,
+} from '../../../utils/markdown';
+import ForConferenceOrganisersSidebar, {
+  IForConferenceOrganisersHeader,
+} from '../../components/Sidebars/ForConferenceOrganisersSidebar/ForConferenceOrganisersSidebar';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import Loader from '../../components/Loader/Loader';
 import './ForConferenceOrganisers.scss';
@@ -25,55 +33,69 @@ export default function ForConferenceOrganisers(): JSX.Element {
   const { t } = useTranslation();
 
   const language = useAppSelector(state => state.i18nReducer.language);
-  const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code);
-  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name);
+  const rvcode = useAppSelector(
+    state => state.journalReducer.currentJournal?.code
+  );
+  const journalName = useAppSelector(
+    state => state.journalReducer.currentJournal?.name
+  );
 
-  const [pageSections, setPageSections] = useState<IForConferenceOrganisersSection[]>([]);
-  const [sidebarHeaders, setSidebarHeaders] = useState<IForConferenceOrganisersHeader[]>([]);
+  const [pageSections, setPageSections] = useState<
+    IForConferenceOrganisersSection[]
+  >([]);
+  const [sidebarHeaders, setSidebarHeaders] = useState<
+    IForConferenceOrganisersHeader[]
+  >([]);
 
-  const { data: forConferenceOrganisersPage, isFetching } = useFetchForConferenceOrganisersPageQuery(rvcode!, { skip: !rvcode });
+  const { data: forConferenceOrganisersPage, isFetching } =
+    useFetchForConferenceOrganisersPageQuery(rvcode!, { skip: !rvcode });
 
-    /**
-     * Recursively extracts text from markdown AST(abstract syntax tree) nodes, including text within <strong>, <em>, and other nested tags.
-     * This ensures proper text extraction even when headings contain formatting elements.
-     * @param node - The markdown AST node to extract text from
-     * @returns The extracted plain text string
-     */
-    const extractTextFromNode = (node: any): string => {
-        if (node.type === 'text') {
-            return node.value;
-        }
-        if (node.type === 'strong' && node.children) {
-            return node.children.map(extractTextFromNode).join('');
-        }
-        if (node.children) {
-            return node.children.map(extractTextFromNode).join('');
-        }
-        return '';
-    };
+  /**
+   * Recursively extracts text from markdown AST(abstract syntax tree) nodes, including text within <strong>, <em>, and other nested tags.
+   * This ensures proper text extraction even when headings contain formatting elements.
+   * @param node - The markdown AST node to extract text from
+   * @returns The extracted plain text string
+   */
+  const extractTextFromNode = (node: any): string => {
+    if (node.type === 'text') {
+      return node.value;
+    }
+    if (node.type === 'strong' && node.children) {
+      return node.children.map(extractTextFromNode).join('');
+    }
+    if (node.children) {
+      return node.children.map(extractTextFromNode).join('');
+    }
+    return '';
+  };
 
-  const parseContentSections = (toBeParsed: string | undefined): IForConferenceOrganisersSection[] => {
+  const parseContentSections = (
+    toBeParsed: string | undefined
+  ): IForConferenceOrganisersSection[] => {
     const tree = unifiedProcessor.parse(toBeParsed);
     const sections: IForConferenceOrganisersSection[] = [];
     let currentSection: IForConferenceOrganisersSection | null = null;
 
-    tree.children.forEach((node) => {
+    tree.children.forEach(node => {
       if (node.type === 'heading' && node.depth === 2) {
         if (currentSection) {
           sections.push(currentSection);
         }
-        const titleText = node.children.map(extractTextFromNode).join('').trim();
+        const titleText = node.children
+          .map(extractTextFromNode)
+          .join('')
+          .trim();
         currentSection = {
           id: generateIdFromText(titleText),
           value: serializeMarkdown(node),
-          opened: true
+          opened: true,
         };
       } else {
         if (!currentSection) {
           currentSection = {
             id: 'intro',
             value: '',
-            opened: true
+            opened: true,
           };
         }
         currentSection.value += serializeMarkdown(node) + '\n';
@@ -87,21 +109,26 @@ export default function ForConferenceOrganisers(): JSX.Element {
     return sections;
   };
 
-  const parseSidebarHeaders = (toBeParsed: string | undefined): IForConferenceOrganisersHeader[] => {
+  const parseSidebarHeaders = (
+    toBeParsed: string | undefined
+  ): IForConferenceOrganisersHeader[] => {
     const tree = unifiedProcessor.parse(toBeParsed);
     const headings = [];
     let lastH2 = null;
 
     for (const node of tree.children) {
       if (node.type === 'heading' && (node.depth === 2 || node.depth === 3)) {
-        const titleText = node.children.map(extractTextFromNode).join('').trim();
+        const titleText = node.children
+          .map(extractTextFromNode)
+          .join('')
+          .trim();
 
         if (titleText) {
           const header: IForConferenceOrganisersHeader = {
             id: generateIdFromText(titleText),
             value: titleText,
             opened: true,
-            children: []
+            children: [],
           };
 
           if (node.depth === 2) {
@@ -150,31 +177,38 @@ export default function ForConferenceOrganisers(): JSX.Element {
   }, [forConferenceOrganisersPage, language]);
 
   return (
-    <main className='forConferenceOrganisers'>
+    <main className="forConferenceOrganisers">
       <Helmet>
-        <title>{t('pages.forConferenceOrganisers.title')} | {journalName ?? ''}</title>
+        <title>
+          {t('pages.forConferenceOrganisers.title')} | {journalName ?? ''}
+        </title>
       </Helmet>
 
       <Breadcrumb
         parents={[
           { path: 'home', label: `${t('pages.home.title')} >` },
-          { path: 'home', label: `${t('pages.publish.title')} >` }
+          { path: 'home', label: `${t('pages.publish.title')} >` },
         ]}
         crumbLabel={t('pages.forConferenceOrganisers.title')}
       />
 
-      <h1 className='forConferenceOrganisers-title'>{t('pages.forConferenceOrganisers.title')}</h1>
+      <h1 className="forConferenceOrganisers-title">
+        {t('pages.forConferenceOrganisers.title')}
+      </h1>
 
       {isFetching ? (
         <Loader />
       ) : !forConferenceOrganisersPage ? (
-        <div className='forConferenceOrganisers-content'>
+        <div className="forConferenceOrganisers-content">
           <p>{t('pages.forConferenceOrganisers.description')}</p>
         </div>
       ) : (
-        <div className='forConferenceOrganisers-content'>
-          <ForConferenceOrganisersSidebar headers={sidebarHeaders} toggleHeaderCallback={toggleSidebarHeader} />
-          <div className='forConferenceOrganisers-content-body'>
+        <div className="forConferenceOrganisers-content">
+          <ForConferenceOrganisersSidebar
+            headers={sidebarHeaders}
+            toggleHeaderCallback={toggleSidebarHeader}
+          />
+          <div className="forConferenceOrganisers-content-body">
             {pageSections.map(section => (
               <div
                 key={section.id}
@@ -182,39 +216,72 @@ export default function ForConferenceOrganisers(): JSX.Element {
               >
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
-                  urlTransform={uri => uri.includes('/public/') ? getMarkdownImageURL(uri, rvcode!) : uri}
+                  urlTransform={uri =>
+                    uri.includes('/public/')
+                      ? getMarkdownImageURL(uri, rvcode!)
+                      : uri
+                  }
                   components={{
-                    a: ({ ...props }) => <Link to={props.href!} target='_blank' className='forConferenceOrganisers-content-body-section-link'>{props.children?.toString()}</Link>,
+                    a: ({ ...props }) => (
+                      <Link
+                        to={props.href!}
+                        target="_blank"
+                        className="forConferenceOrganisers-content-body-section-link"
+                      >
+                        {props.children?.toString()}
+                      </Link>
+                    ),
                     h2: ({ ...props }) => {
                       const getText = (children: any): string => {
                         if (typeof children === 'string') return children;
-                        if (Array.isArray(children)) return children.map(getText).join('');
-                        if (children?.props?.children) return getText(children.props.children);
+                        if (Array.isArray(children))
+                          return children.map(getText).join('');
+                        if (children?.props?.children)
+                          return getText(children.props.children);
                         return '';
                       };
                       const id = generateIdFromText(getText(props.children));
 
                       return (
-                        <div className='forConferenceOrganisers-content-body-section-subtitle' onClick={(): void => toggleSectionHeader(id!)}>
-                          <h2 id={id} className='forConferenceOrganisers-content-body-section-subtitle-text' {...props} />
-                          {pageSections.find(pageSection => pageSection.id === id)?.opened ? (
-                            <img className='forConferenceOrganisers-content-body-section-subtitle-caret' src={caretUp} alt='Caret up icon' />
+                        <div
+                          className="forConferenceOrganisers-content-body-section-subtitle"
+                          onClick={(): void => toggleSectionHeader(id!)}
+                        >
+                          <h2
+                            id={id}
+                            className="forConferenceOrganisers-content-body-section-subtitle-text"
+                            {...props}
+                          />
+                          {pageSections.find(
+                            pageSection => pageSection.id === id
+                          )?.opened ? (
+                            <img
+                              className="forConferenceOrganisers-content-body-section-subtitle-caret"
+                              src={caretUp}
+                              alt="Caret up icon"
+                            />
                           ) : (
-                            <img className='forConferenceOrganisers-content-body-section-subtitle-caret' src={caretDown} alt='Caret down icon' />
+                            <img
+                              className="forConferenceOrganisers-content-body-section-subtitle-caret"
+                              src={caretDown}
+                              alt="Caret down icon"
+                            />
                           )}
                         </div>
-                      )
+                      );
                     },
                     h3: ({ ...props }) => {
                       const getText = (children: any): string => {
                         if (typeof children === 'string') return children;
-                        if (Array.isArray(children)) return children.map(getText).join('');
-                        if (children?.props?.children) return getText(children.props.children);
+                        if (Array.isArray(children))
+                          return children.map(getText).join('');
+                        if (children?.props?.children)
+                          return getText(children.props.children);
                         return '';
                       };
                       const id = generateIdFromText(getText(props.children));
                       return <h3 id={id} {...props} />;
-                    }
+                    },
                   }}
                 >
                   {section.value}

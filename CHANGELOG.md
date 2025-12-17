@@ -5,10 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
 ## Unreleased
 
 ### Added
+
 - 2 New pages in About Menu (Indexation + Acknowledgements)
 - Deployment scripts see [README.md](deploy/README.md])
 - Preview for Zenodo PDF
@@ -28,19 +28,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add volume and section access validation by journal (rvid) to prevent cross-journal access with customized notFound(404) messages
 
 ### Fixed
+
 - Breadcrumbs: use correct paths from config and fix navigation
 - Volume page, display other volumes with a link
 - Fixed truncated Markdown not rendered in /HomeSections/PresentationSection
 
 ### Changed
+
 - Sort editorial board members by role : Editors-in-chief first, then editors
-- Do not display empty sections (abstracts, keywords, relationships) 
+- Do not display empty sections (abstracts, keywords, relationships)
 - Refactored language switcher for better UI/UX and A11y
 
-<!-- 
+<!--
 
 ### Deprecated
 ### Removed
 ### Security
 -->
-

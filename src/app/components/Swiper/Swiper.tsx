@@ -9,37 +9,52 @@ import 'swiper/css/navigation';
 import caretLeft from '/icons/caret-left-red.svg';
 import caretRight from '/icons/caret-right-red.svg';
 import { AvailableLanguage } from '../../../utils/i18n';
-import Card, { SwiperCardType, SwiperCardContent } from '../SwiperCards/SwiperCard'
-import './Swiper.scss'
+import Card, {
+  SwiperCardType,
+  SwiperCardContent,
+} from '../SwiperCards/SwiperCard';
+import './Swiper.scss';
 
 interface ISwiperProps {
   id: string;
   type: SwiperCardType;
   language: AvailableLanguage;
-  t: TFunction<"translation", undefined>
+  t: TFunction<'translation', undefined>;
   slidesPerView: number;
   slidesPerGroup: number;
   cards: SwiperCardContent[];
 }
 
-export default function Swiper({ id, type, language, t, slidesPerView, slidesPerGroup, cards }: ISwiperProps): JSX.Element {
+export default function Swiper({
+  id,
+  type,
+  language,
+  t,
+  slidesPerView,
+  slidesPerGroup,
+  cards,
+}: ISwiperProps): JSX.Element {
   const renderedCards = (): SwiperCardContent[] => {
     if (isMobileOnly) {
-      return cards.slice(0, 4)
+      return cards.slice(0, 4);
     }
 
     if (isTablet) {
-      return cards.slice(0, 8)
+      return cards.slice(0, 8);
     }
 
     return cards;
-  }
+  };
 
   return (
     <>
-      <div className='swiper-page-wrapper'>
+      <div className="swiper-page-wrapper">
         <div className={`${id}-button-prev swiper-button-prev`}>
-          <img className='swiper-button-prev-icon' src={caretLeft} alt='Caret left icon' />
+          <img
+            className="swiper-button-prev-icon"
+            src={caretLeft}
+            alt="Caret left icon"
+          />
         </div>
         <SwiperReactLib
           slidesPerView={slidesPerView}
@@ -48,7 +63,7 @@ export default function Swiper({ id, type, language, t, slidesPerView, slidesPer
           modules={[Pagination, Navigation]}
           pagination={{
             el: `.${id}-pagination`,
-            clickable: true
+            clickable: true,
           }}
           navigation={{
             prevEl: `.${id}-button-prev`,
@@ -61,12 +76,12 @@ export default function Swiper({ id, type, language, t, slidesPerView, slidesPer
             },
             480: {
               slidesPerView: 2,
-              slidesPerGroup: 2
+              slidesPerGroup: 2,
             },
             1368: {
               slidesPerView: slidesPerView,
-              slidesPerGroup: slidesPerGroup
-            }
+              slidesPerGroup: slidesPerGroup,
+            },
           }}
         >
           {renderedCards().map((content: SwiperCardContent, key: number) => (
@@ -76,10 +91,14 @@ export default function Swiper({ id, type, language, t, slidesPerView, slidesPer
           ))}
         </SwiperReactLib>
         <div className={`${id}-button-next swiper-button-next`}>
-          <img className='swiper-button-next-icon' src={caretRight} alt='Caret right icon' />
+          <img
+            className="swiper-button-next-icon"
+            src={caretRight}
+            alt="Caret right icon"
+          />
         </div>
       </div>
       <div className={`${id}-pagination swiper-pagination`}></div>
     </>
-  )
+  );
 }

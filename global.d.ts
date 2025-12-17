@@ -1,4 +1,4 @@
-declare module '@citation-js/core'
+declare module '@citation-js/core';
 
 interface MathJaxHub {
   Queue: (commands: [string, MathJaxHub]) => void;

@@ -9,17 +9,11 @@
     "replacements:all",
     "workarounds:all"
   ],
-  "baseBranchPatterns": [
-    "preprod"
-  ],
+  "baseBranchPatterns": ["preprod"],
   "packageRules": [
     {
-      "matchBaseBranches": [
-        "preprod"
-      ],
-      "labels": [
-        "preprod-update"
-      ]
+      "matchBaseBranches": ["preprod"],
+      "labels": ["preprod-update"]
     }
   ]
 }

@@ -8,7 +8,7 @@ export enum BOARD_TYPE {
   SCIENTIFIC_ADVISORY_BOARD = 'scientific-advisory-board',
   REVIEWERS_BOARD = 'reviewers-board',
   FORMER_MEMBERS = 'former-members',
-  OPERATING_CHARTER_BOARD = 'operating-charter-board'
+  OPERATING_CHARTER_BOARD = 'operating-charter-board',
 }
 //Define the sort order for board types - order in array determines display order"
 export const boardTypes = [
@@ -19,7 +19,7 @@ export const boardTypes = [
   BOARD_TYPE.REVIEWERS_BOARD,
   BOARD_TYPE.FORMER_MEMBERS,
   BOARD_TYPE.OPERATING_CHARTER_BOARD,
-]
+];
 
 // Define the sort order for board types based on boardTypes array
 const getBoardTypeSortOrder = (boardType: BOARD_TYPE): number => {
@@ -49,35 +49,70 @@ export enum BOARD_ROLE {
   FORMER_MEMBER = 'former-member',
   ADVISORY_BOARD = 'advisory-board',
   MANAGING_EDITOR = 'managing-editor',
-  HANDLING_EDITOR = 'handling-editor'
+  HANDLING_EDITOR = 'handling-editor',
 }
 
-export const defaultBoardRole = (t: TFunction<"translation", undefined>) => {
+export const defaultBoardRole = (t: TFunction<'translation', undefined>) => {
   return {
     key: BOARD_ROLE.MEMBER,
-    label: t('pages.boards.roles.member')
-  }
-}
+    label: t('pages.boards.roles.member'),
+  };
+};
 
-export const getBoardRoles = (t: TFunction<"translation", undefined>, roles: string[]): string => {
+export const getBoardRoles = (
+  t: TFunction<'translation', undefined>,
+  roles: string[]
+): string => {
   const rolesWithLabels = [
-    { key: BOARD_TYPE.TECHNICAL_BOARD, label: t('pages.boards.types.technicalBoard') },
-    { key: BOARD_TYPE.EDITORIAL_BOARD, label: t('pages.boards.types.editorialBoard') },
-    { key: BOARD_TYPE.SCIENTIFIC_ADVISORY_BOARD, label: t('pages.boards.types.scientificAdvisoryBoard') },
-    { key: BOARD_TYPE.FORMER_MEMBERS, label: t('pages.boards.types.formerMember') },
-    { key: BOARD_ROLE.GUEST_EDITOR, label: t('pages.boards.roles.guestEditor') },
+    {
+      key: BOARD_TYPE.TECHNICAL_BOARD,
+      label: t('pages.boards.types.technicalBoard'),
+    },
+    {
+      key: BOARD_TYPE.EDITORIAL_BOARD,
+      label: t('pages.boards.types.editorialBoard'),
+    },
+    {
+      key: BOARD_TYPE.SCIENTIFIC_ADVISORY_BOARD,
+      label: t('pages.boards.types.scientificAdvisoryBoard'),
+    },
+    {
+      key: BOARD_TYPE.FORMER_MEMBERS,
+      label: t('pages.boards.types.formerMember'),
+    },
+    {
+      key: BOARD_ROLE.GUEST_EDITOR,
+      label: t('pages.boards.roles.guestEditor'),
+    },
     { key: BOARD_ROLE.EDITOR, label: t('pages.boards.roles.editor') },
-    { key: BOARD_ROLE.CHIEF_EDITOR, label: t('pages.boards.roles.chiefEditor') },
+    {
+      key: BOARD_ROLE.CHIEF_EDITOR,
+      label: t('pages.boards.roles.chiefEditor'),
+    },
     { key: BOARD_ROLE.SECRETARY, label: t('pages.boards.roles.secretary') },
-    { key: BOARD_ROLE.FORMER_MEMBER, label: t('pages.boards.roles.formerMember') },
-    { key: BOARD_ROLE.ADVISORY_BOARD, label: t('pages.boards.roles.advisoryBoard') },
-    { key: BOARD_ROLE.MANAGING_EDITOR, label: t('pages.boards.roles.managingEditor') },
-    { key: BOARD_ROLE.HANDLING_EDITOR, label: t('pages.boards.roles.handlingEditor') }
+    {
+      key: BOARD_ROLE.FORMER_MEMBER,
+      label: t('pages.boards.roles.formerMember'),
+    },
+    {
+      key: BOARD_ROLE.ADVISORY_BOARD,
+      label: t('pages.boards.roles.advisoryBoard'),
+    },
+    {
+      key: BOARD_ROLE.MANAGING_EDITOR,
+      label: t('pages.boards.roles.managingEditor'),
+    },
+    {
+      key: BOARD_ROLE.HANDLING_EDITOR,
+      label: t('pages.boards.roles.handlingEditor'),
+    },
+  ];
 
-  ]
-
-  return rolesWithLabels.filter(roleWithLabel => roles.includes(roleWithLabel.key)).map(roleWithLabel => roleWithLabel.label).join(', ')
-}
+  return rolesWithLabels
+    .filter(roleWithLabel => roles.includes(roleWithLabel.key))
+    .map(roleWithLabel => roleWithLabel.label)
+    .join(', ');
+};
 
 /**
  * Sort board members by role priority, then by lastname, then by firstname
@@ -104,12 +139,16 @@ export const sortBoardMembers = (members: IBoardMember[]): IBoardMember[] => {
     }
 
     // If same role priority, compare by lastname
-    const lastnameCompare = a.lastname.localeCompare(b.lastname, 'fr', { sensitivity: 'base' });
+    const lastnameCompare = a.lastname.localeCompare(b.lastname, 'fr', {
+      sensitivity: 'base',
+    });
     if (lastnameCompare !== 0) {
       return lastnameCompare;
     }
 
     // If same lastname, compare by firstname
-    return a.firstname.localeCompare(b.firstname, 'fr', { sensitivity: 'base' });
+    return a.firstname.localeCompare(b.firstname, 'fr', {
+      sensitivity: 'base',
+    });
   });
-}
+};

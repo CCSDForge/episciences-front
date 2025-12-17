@@ -5,7 +5,9 @@
   align-items: center;
   list-style: none;
 
-  &-previous, &-next, &-page {
+  &-previous,
+  &-next,
+  &-page {
     cursor: pointer;
   }
 
@@ -21,7 +23,8 @@
     cursor: default;
   }
 
-  &-page, &-break {
+  &-page,
+  &-break {
     color: var(--grey-light);
   }
 

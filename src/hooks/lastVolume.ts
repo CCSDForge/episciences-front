@@ -1,17 +1,27 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
-import { useFetchVolumesQuery } from "../store/features/volume/volume.query";
-import { setLastVolume } from "../store/features/volume/volume.slice";
-import { useAppDispatch, useAppSelector } from "./store";
+import { useFetchVolumesQuery } from '../store/features/volume/volume.query';
+import { setLastVolume } from '../store/features/volume/volume.slice';
+import { useAppDispatch, useAppSelector } from './store';
 
-function LastVolumeHook (): null {
+function LastVolumeHook(): null {
   const dispatch = useAppDispatch();
 
-  const language = useAppSelector(state => state.i18nReducer.language)
-  const currentJournal = useAppSelector(state => state.journalReducer.currentJournal);
+  const language = useAppSelector(state => state.i18nReducer.language);
+  const currentJournal = useAppSelector(
+    state => state.journalReducer.currentJournal
+  );
   const lastVolume = useAppSelector(state => state.volumeReducer.lastVolume);
 
-  const { data: volumes } = useFetchVolumesQuery({ rvcode: currentJournal?.code!, language: language, page: 1, itemsPerPage: 1 }, { skip: !currentJournal?.code });
+  const { data: volumes } = useFetchVolumesQuery(
+    {
+      rvcode: currentJournal?.code!,
+      language: language,
+      page: 1,
+      itemsPerPage: 1,
+    },
+    { skip: !currentJournal?.code }
+  );
 
   useEffect(() => {
     if (volumes && volumes.data.length > 0 && currentJournal && !lastVolume) {

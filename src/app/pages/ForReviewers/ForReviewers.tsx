@@ -9,8 +9,16 @@ import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from '../../../hooks/store';
 import { useFetchForReviewersPageQuery } from '../../../store/features/forReviewers/forReviewers.query';
-import { generateIdFromText, unifiedProcessor, serializeMarkdown, getMarkdownImageURL, adjustNestedListsInMarkdownContent } from '../../../utils/markdown';
-import ForReviewersSidebar, { IForReviewersHeader } from '../../components/Sidebars/ForReviewersSidebar/ForReviewersSidebar';
+import {
+  generateIdFromText,
+  unifiedProcessor,
+  serializeMarkdown,
+  getMarkdownImageURL,
+  adjustNestedListsInMarkdownContent,
+} from '../../../utils/markdown';
+import ForReviewersSidebar, {
+  IForReviewersHeader,
+} from '../../components/Sidebars/ForReviewersSidebar/ForReviewersSidebar';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import Loader from '../../components/Loader/Loader';
 import './ForReviewers.scss';
@@ -25,13 +33,22 @@ export default function ForReviewers(): JSX.Element {
   const { t } = useTranslation();
 
   const language = useAppSelector(state => state.i18nReducer.language);
-  const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code);
-  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name);
+  const rvcode = useAppSelector(
+    state => state.journalReducer.currentJournal?.code
+  );
+  const journalName = useAppSelector(
+    state => state.journalReducer.currentJournal?.name
+  );
 
   const [pageSections, setPageSections] = useState<IForReviewersSection[]>([]);
-  const [sidebarHeaders, setSidebarHeaders] = useState<IForReviewersHeader[]>([]);
+  const [sidebarHeaders, setSidebarHeaders] = useState<IForReviewersHeader[]>(
+    []
+  );
 
-  const { data: forReviewersPage, isFetching } = useFetchForReviewersPageQuery(rvcode!, { skip: !rvcode });
+  const { data: forReviewersPage, isFetching } = useFetchForReviewersPageQuery(
+    rvcode!,
+    { skip: !rvcode }
+  );
 
   /**
    * Recursively extracts text from markdown AST(abstract syntax tree)  nodes, including text within <strong>, <em>, and other nested tags.
@@ -52,28 +69,33 @@ export default function ForReviewers(): JSX.Element {
     return '';
   };
 
-  const parseContentSections = (toBeParsed: string | undefined): IForReviewersSection[] => {
+  const parseContentSections = (
+    toBeParsed: string | undefined
+  ): IForReviewersSection[] => {
     const tree = unifiedProcessor.parse(toBeParsed);
     const sections: IForReviewersSection[] = [];
     let currentSection: IForReviewersSection | null = null;
 
-    tree.children.forEach((node) => {
+    tree.children.forEach(node => {
       if (node.type === 'heading' && node.depth === 2) {
         if (currentSection) {
           sections.push(currentSection);
         }
-        const titleText = node.children.map(extractTextFromNode).join('').trim();
+        const titleText = node.children
+          .map(extractTextFromNode)
+          .join('')
+          .trim();
         currentSection = {
           id: generateIdFromText(titleText),
           value: serializeMarkdown(node),
-          opened: true
+          opened: true,
         };
       } else {
         if (!currentSection) {
           currentSection = {
             id: 'intro',
             value: '',
-            opened: true
+            opened: true,
           };
         }
         currentSection.value += serializeMarkdown(node) + '\n';
@@ -87,21 +109,26 @@ export default function ForReviewers(): JSX.Element {
     return sections;
   };
 
-  const parseSidebarHeaders = (toBeParsed: string | undefined): IForReviewersHeader[] => {
+  const parseSidebarHeaders = (
+    toBeParsed: string | undefined
+  ): IForReviewersHeader[] => {
     const tree = unifiedProcessor.parse(toBeParsed);
     const headings = [];
     let lastH2 = null;
 
     for (const node of tree.children) {
       if (node.type === 'heading' && (node.depth === 2 || node.depth === 3)) {
-        const titleText = node.children.map(extractTextFromNode).join('').trim();
+        const titleText = node.children
+          .map(extractTextFromNode)
+          .join('')
+          .trim();
 
         if (titleText) {
           const header: IForReviewersHeader = {
             id: generateIdFromText(titleText),
             value: titleText,
             opened: true,
-            children: []
+            children: [],
           };
 
           if (node.depth === 2) {
@@ -150,31 +177,36 @@ export default function ForReviewers(): JSX.Element {
   }, [forReviewersPage, language]);
 
   return (
-    <main className='forReviewers'>
+    <main className="forReviewers">
       <Helmet>
-        <title>{t('pages.forReviewers.title')} | {journalName ?? ''}</title>
+        <title>
+          {t('pages.forReviewers.title')} | {journalName ?? ''}
+        </title>
       </Helmet>
 
       <Breadcrumb
         parents={[
           { path: 'home', label: `${t('pages.home.title')} >` },
-          { path: 'home', label: `${t('pages.publish.title')} >` }
+          { path: 'home', label: `${t('pages.publish.title')} >` },
         ]}
         crumbLabel={t('pages.forReviewers.title')}
       />
 
-      <h1 className='forReviewers-title'>{t('pages.forReviewers.title')}</h1>
+      <h1 className="forReviewers-title">{t('pages.forReviewers.title')}</h1>
 
       {isFetching ? (
         <Loader />
       ) : !forReviewersPage ? (
-        <div className='forReviewers-content'>
+        <div className="forReviewers-content">
           <p>{t('pages.forReviewers.description')}</p>
         </div>
       ) : (
-        <div className='forReviewers-content'>
-          <ForReviewersSidebar headers={sidebarHeaders} toggleHeaderCallback={toggleSidebarHeader} />
-          <div className='forReviewers-content-body'>
+        <div className="forReviewers-content">
+          <ForReviewersSidebar
+            headers={sidebarHeaders}
+            toggleHeaderCallback={toggleSidebarHeader}
+          />
+          <div className="forReviewers-content-body">
             {pageSections.map(section => (
               <div
                 key={section.id}
@@ -182,39 +214,72 @@ export default function ForReviewers(): JSX.Element {
               >
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
-                  urlTransform={uri => uri.includes('/public/') ? getMarkdownImageURL(uri, rvcode!) : uri}
+                  urlTransform={uri =>
+                    uri.includes('/public/')
+                      ? getMarkdownImageURL(uri, rvcode!)
+                      : uri
+                  }
                   components={{
-                    a: ({ ...props }) => <Link to={props.href!} target='_blank' className='forReviewers-content-body-section-link'>{props.children?.toString()}</Link>,
+                    a: ({ ...props }) => (
+                      <Link
+                        to={props.href!}
+                        target="_blank"
+                        className="forReviewers-content-body-section-link"
+                      >
+                        {props.children?.toString()}
+                      </Link>
+                    ),
                     h2: ({ ...props }) => {
                       const getText = (children: any): string => {
                         if (typeof children === 'string') return children;
-                        if (Array.isArray(children)) return children.map(getText).join('');
-                        if (children?.props?.children) return getText(children.props.children);
+                        if (Array.isArray(children))
+                          return children.map(getText).join('');
+                        if (children?.props?.children)
+                          return getText(children.props.children);
                         return '';
                       };
                       const id = generateIdFromText(getText(props.children));
 
                       return (
-                        <div className='forReviewers-content-body-section-subtitle' onClick={(): void => toggleSectionHeader(id!)}>
-                          <h2 id={id} className='forReviewers-content-body-section-subtitle-text' {...props} />
-                          {pageSections.find(pageSection => pageSection.id === id)?.opened ? (
-                            <img className='forReviewers-content-body-section-subtitle-caret' src={caretUp} alt='Caret up icon' />
+                        <div
+                          className="forReviewers-content-body-section-subtitle"
+                          onClick={(): void => toggleSectionHeader(id!)}
+                        >
+                          <h2
+                            id={id}
+                            className="forReviewers-content-body-section-subtitle-text"
+                            {...props}
+                          />
+                          {pageSections.find(
+                            pageSection => pageSection.id === id
+                          )?.opened ? (
+                            <img
+                              className="forReviewers-content-body-section-subtitle-caret"
+                              src={caretUp}
+                              alt="Caret up icon"
+                            />
                           ) : (
-                            <img className='forReviewers-content-body-section-subtitle-caret' src={caretDown} alt='Caret down icon' />
+                            <img
+                              className="forReviewers-content-body-section-subtitle-caret"
+                              src={caretDown}
+                              alt="Caret down icon"
+                            />
                           )}
                         </div>
-                      )
+                      );
                     },
                     h3: ({ ...props }) => {
                       const getText = (children: any): string => {
                         if (typeof children === 'string') return children;
-                        if (Array.isArray(children)) return children.map(getText).join('');
-                        if (children?.props?.children) return getText(children.props.children);
+                        if (Array.isArray(children))
+                          return children.map(getText).join('');
+                        if (children?.props?.children)
+                          return getText(children.props.children);
                         return '';
                       };
                       const id = generateIdFromText(getText(props.children));
                       return <h3 id={id} {...props} />;
-                    }
+                    },
                   }}
                 >
                   {section.value}

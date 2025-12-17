@@ -1,4 +1,4 @@
-@use "src/style/breakpoints.scss";
+@use 'src/style/breakpoints.scss';
 .header {
   height: 285px;
   width: 100%;
@@ -15,19 +15,19 @@
     transition: height 0.3s ease;
   }
 
-  @media (max-width:  breakpoints.$xsm),
-  (max-width:  breakpoints.$sm) and (orientation:landscape) {
+  @media (max-width: breakpoints.$xsm),
+    (max-width: breakpoints.$sm) and (orientation: landscape) {
     height: 180px;
   }
 
   &-reduced {
     height: 110px;
 
-    @media (max-width:  breakpoints.$sm) and (orientation:landscape) {
+    @media (max-width: breakpoints.$sm) and (orientation: landscape) {
       height: 90px;
     }
 
-    @media (max-width:  breakpoints.$xsm) {
+    @media (max-width: breakpoints.$xsm) {
       height: auto;
     }
 
@@ -43,7 +43,7 @@
         justify-content: center;
         border-bottom: 1px solid var(--primary);
 
-        @media (max-width:  breakpoints.$xsm) {
+        @media (max-width: breakpoints.$xsm) {
           width: 60px;
         }
       }
@@ -64,11 +64,11 @@
         color: var(--blue-navy);
         border-bottom: 1px solid var(--primary);
 
-        @media (max-width:  breakpoints.$sm) {
+        @media (max-width: breakpoints.$sm) {
           min-width: 410px;
         }
 
-        @media (max-width:  breakpoints.$xsm) {
+        @media (max-width: breakpoints.$xsm) {
           min-width: unset;
           width: 100%;
           background: var(--primary);
@@ -111,7 +111,7 @@
           display: none;
         }
 
-        @media (max-width:  breakpoints.$xsm) {
+        @media (max-width: breakpoints.$xsm) {
           display: none;
 
           &-mobile {
@@ -127,8 +127,8 @@
     height: 180px;
     display: flex;
 
-    @media (max-width:  breakpoints.$xsm),
-    (max-width:  breakpoints.$sm) and (orientation:landscape) {
+    @media (max-width: breakpoints.$xsm),
+      (max-width: breakpoints.$sm) and (orientation: landscape) {
       height: 86px;
     }
 
@@ -145,8 +145,8 @@
         height: 100%;
       }
 
-      @media (max-width:  breakpoints.$xsm),
-      (max-width:  breakpoints.$sm) and (orientation:landscape) {
+      @media (max-width: breakpoints.$xsm),
+        (max-width: breakpoints.$sm) and (orientation: landscape) {
         width: 104px;
 
         img {
@@ -157,40 +157,40 @@
       }
     }
 
-    &-titles{
+    &-titles {
       width: 100%;
       background: var(--primary);
       font-weight: bold;
       color: var(--primary-text);
       display: flex;
-      flex-direction:column;
+      flex-direction: column;
       align-items: end;
       padding-right: 80px;
       padding-bottom: 40px;
       justify-content: flex-end;
     }
 
-    &-title{
+    &-title {
       font-size: 40px;
       font-weight: bold;
       display: flex;
 
-      @media (max-width:  breakpoints.$xsm),
-      (max-width:  breakpoints.$sm) and (orientation:landscape) {
+      @media (max-width: breakpoints.$xsm),
+        (max-width: breakpoints.$sm) and (orientation: landscape) {
         padding: 0px 16px 0px 16px;
         text-align: end;
         font-size: 14px;
       }
     }
 
-    &-subtitle{
+    &-subtitle {
       font-size: 24px;
       font-weight: bold;
-      padding-top:10px;
+      padding-top: 10px;
       display: flex;
 
-      @media (max-width:  breakpoints.$xsm),
-      (max-width:  breakpoints.$sm) and (orientation:landscape) {
+      @media (max-width: breakpoints.$xsm),
+        (max-width: breakpoints.$sm) and (orientation: landscape) {
         padding: 0px 16px 0px 16px;
         text-align: end;
         font-size: 12px;
@@ -209,11 +209,11 @@
       color: var(--grey-darker);
     }
 
-    @media (max-width:  breakpoints.$sm) {
+    @media (max-width: breakpoints.$sm) {
       padding-left: 25px;
     }
 
-    @media (max-width:  breakpoints.$xsm) {
+    @media (max-width: breakpoints.$xsm) {
       height: 50px;
       padding-left: 16px;
     }
@@ -223,12 +223,12 @@
       gap: 88px;
       font-size: 20px;
 
-      @media (max-width:  breakpoints.$sm) {
+      @media (max-width: breakpoints.$sm) {
         gap: 32px;
         font-size: 16px;
       }
 
-      @media (max-width:  breakpoints.$xsm) {
+      @media (max-width: breakpoints.$xsm) {
         display: none;
       }
 
@@ -289,7 +289,7 @@
         border: 0.8px solid var(--grey-light);
         margin-right: 5px;
 
-        @media (max-width:  breakpoints.$sm) {
+        @media (max-width: breakpoints.$sm) {
           display: none;
         }
       }
@@ -298,11 +298,11 @@
         width: 300px;
         height: 100%;
 
-        @media (max-width:  breakpoints.$sm) {
+        @media (max-width: breakpoints.$sm) {
           width: 240px;
         }
 
-        @media (max-width:  breakpoints.$xsm) {
+        @media (max-width: breakpoints.$xsm) {
           width: 220px;
         }
 
@@ -312,7 +312,7 @@
           margin-right: 20px;
 
           &:placeholder-shown {
-           text-overflow: ellipsis;
+            text-overflow: ellipsis;
           }
         }
       }
@@ -336,7 +336,7 @@
       position: relative;
       display: none;
 
-      @media (max-width:  breakpoints.$xsm) {
+      @media (max-width: breakpoints.$xsm) {
         display: flex;
         align-items: center;
       }

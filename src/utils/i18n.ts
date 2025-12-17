@@ -1,10 +1,12 @@
-export const defaultLanguage: string = import.meta.env.VITE_JOURNAL_DEFAULT_LANGUAGE || 'en';
+export const defaultLanguage: string =
+  import.meta.env.VITE_JOURNAL_DEFAULT_LANGUAGE || 'en';
 
-export const availableLanguages = import.meta.env.VITE_JOURNAL_ACCEPTED_LANGUAGES
+export const availableLanguages = import.meta.env
+  .VITE_JOURNAL_ACCEPTED_LANGUAGES
   ? import.meta.env.VITE_JOURNAL_ACCEPTED_LANGUAGES.split(',')
   : [defaultLanguage];
 
-export type AvailableLanguage = typeof availableLanguages[number];
+export type AvailableLanguage = (typeof availableLanguages)[number];
 
 const RTL_LANGUAGES = ['ar', 'he', 'fa', 'ur', 'ps', 'syr', 'dv', 'ku'];
 
@@ -19,9 +21,9 @@ export const getLanguageAttributes = (langCode: string): LanguageAttributes => {
   }
 
   const isRTL = RTL_LANGUAGES.includes(langCode.toLowerCase());
-  
+
   return {
     lang: langCode,
-    dir: isRTL ? 'rtl' : 'ltr'
+    dir: isRTL ? 'rtl' : 'ltr',
   };
 };

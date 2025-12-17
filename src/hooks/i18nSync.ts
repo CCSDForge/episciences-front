@@ -1,9 +1,9 @@
-import { useLayoutEffect } from "react";
-import i18next from "i18next";
+import { useLayoutEffect } from 'react';
+import i18next from 'i18next';
 
-import { setLanguage } from "../store/features/i18n/i18n.slice";
-import { useAppDispatch, useAppSelector } from "./store";
-import { AvailableLanguage, defaultLanguage } from "../utils/i18n";
+import { setLanguage } from '../store/features/i18n/i18n.slice';
+import { useAppDispatch, useAppSelector } from './store';
+import { AvailableLanguage, defaultLanguage } from '../utils/i18n';
 
 function I18nSyncHook(): null {
   const dispatch = useAppDispatch();

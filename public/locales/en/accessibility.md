@@ -6,13 +6,16 @@ To this end, an “Accessibility” working group has been created to draft the 
 This accessibility statement applies to the present website.
 
 ## Compliance Status
+
 This website is not compliant with the General Accessibility Improvement Framework, RGAA version 4.1, due to
 the absence of an accessibility audit.
 
 ## Establishment of This Accessibility Statement
+
 This statement was established on October 28, 2025.
 
 ## Feedback and Contact
+
 It is important to recall that, under Article 11 of the February 2005 law: “Persons with disabilities are entitled to
 compensation for the consequences of their disability, regardless of the origin and nature of their impairment, their
 age, or their lifestyle.”
@@ -25,6 +28,7 @@ The CCSD invites anyone experiencing difficulties to contact us at accessibilite
 be provided (accessible alternatives, information, or content provided in another format).
 
 ## Legal Remedies
+
 If you notice an accessibility issue preventing you from accessing content or functionality on the website, and you
 report it without receiving a satisfactory response, you are entitled to submit your grievances or request mediation to
 the Defender of Rights.
@@ -35,4 +39,4 @@ the Defender of Rights.
 - A [list of regional representatives](http://www.defenseurdesdroits.fr/office/) with their direct contact information; [in French]
 - A telephone number: +339 69 39 00 00;
 - A postal address (free mail no postage required from France only): Le Défenseur des droits – Libre réponse 71120 – F-75342 Paris CEDEX 07
-France.
+  France.

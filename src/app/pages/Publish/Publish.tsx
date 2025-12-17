@@ -11,20 +11,25 @@ import './Publish.scss';
 export default function Publish(): JSX.Element {
   const { t } = useTranslation();
   const location = useLocation();
-  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name);
+  const journalName = useAppSelector(
+    state => state.journalReducer.currentJournal?.name
+  );
 
   const getActiveTab = (): string => {
     if (location.pathname.includes('for-reviewers')) return 'reviewers';
-    if (location.pathname.includes('for-conference-organisers')) return 'organisers';
+    if (location.pathname.includes('for-conference-organisers'))
+      return 'organisers';
     return 'authors';
   };
 
   const [activeTab] = useState<string>(getActiveTab());
 
   return (
-    <main className='publish'>
+    <main className="publish">
       <Helmet>
-        <title>{t('pages.publish.title')} | {journalName ?? ''}</title>
+        <title>
+          {t('pages.publish.title')} | {journalName ?? ''}
+        </title>
       </Helmet>
 
       <Breadcrumb
@@ -32,9 +37,9 @@ export default function Publish(): JSX.Element {
         crumbLabel={t('pages.publish.title')}
       />
 
-      <h1 className='publish-title'>{t('pages.publish.title')}</h1>
+      <h1 className="publish-title">{t('pages.publish.title')}</h1>
 
-      <nav className='publish-navigation'>
+      <nav className="publish-navigation">
         <Link
           to={PATHS.forAuthors}
           className={`publish-navigation-item ${activeTab === 'authors' ? 'publish-navigation-item-active' : ''}`}
@@ -55,7 +60,7 @@ export default function Publish(): JSX.Element {
         </Link>
       </nav>
 
-      <div className='publish-content'>
+      <div className="publish-content">
         <p>{t('pages.publish.description')}</p>
       </div>
     </main>

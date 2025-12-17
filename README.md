@@ -14,13 +14,14 @@
 3. Build & deploy project `rm -rf dist && npm run build && firebase deploy`
 
 ## Build (production environment)
+
 1. Create a `.env.local` file with production values
 2. `npm run build`
 3. `npm run preview` (optional preview build)
 4. copy `dist` folder to production
 
-
 ## Updating Projects with assets
+
 1. update application code: `git pull`
 2. update assets: `cd external-assets;git pull`
 3. test : `cd ..; npm run dev`

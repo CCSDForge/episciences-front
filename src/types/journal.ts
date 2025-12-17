@@ -8,10 +8,10 @@ export interface IJournal {
   rvid: number;
   code: string;
   name: string;
-  subtitle:string;
+  subtitle: string;
   settings: IJournalSettings[];
 }
 
 export type RawJournal = IJournal & {
   rvid: number;
-}
+};

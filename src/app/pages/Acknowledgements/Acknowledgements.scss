@@ -1,4 +1,4 @@
-@use "src/style/breakpoints.scss";
+@use 'src/style/breakpoints.scss';
 
 .acknowledgements {
   &-title {
@@ -31,11 +31,13 @@
           }
         }
 
-        h2, h3 {
+        h2,
+        h3 {
           scroll-margin: 120px;
         }
 
-        h3, h4 {
+        h3,
+        h4 {
           margin: 0;
         }
 
@@ -47,7 +49,6 @@
           margin: 16px 0px 16px 0px;
         }
 
-
         &-subtitle {
           display: flex;
           justify-content: space-between;
@@ -56,11 +57,13 @@
           border-bottom: 1px solid var(--primary);
           cursor: pointer;
 
-          img, &-caret {
+          img,
+          &-caret {
             width: auto;
           }
 
-          &-text, &-caret {
+          &-text,
+          &-caret {
             display: block;
           }
         }

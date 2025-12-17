@@ -1,4 +1,4 @@
-import { IPage } from '../../../types/page'
+import { IPage } from '../../../types/page';
 
 export interface IForAuthorState {
   editorialWorkflow?: IPage;

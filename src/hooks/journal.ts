@@ -1,14 +1,16 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
-import { useFetchJournalQuery } from "../store/features/journal/journal.query";
-import { setCurrentJournal } from "../store/features/journal/journal.slice";
-import { useAppDispatch, useAppSelector } from "./store";
+import { useFetchJournalQuery } from '../store/features/journal/journal.query';
+import { setCurrentJournal } from '../store/features/journal/journal.slice';
+import { useAppDispatch, useAppSelector } from './store';
 
-function JournalHook (): null {
+function JournalHook(): null {
   const journalRvCode = import.meta.env.VITE_JOURNAL_RVCODE;
 
   const dispatch = useAppDispatch();
-  const currentJournal = useAppSelector(state => state.journalReducer.currentJournal);
+  const currentJournal = useAppSelector(
+    state => state.journalReducer.currentJournal
+  );
   const { data: fetchedJournal } = useFetchJournalQuery(journalRvCode);
 
   useEffect(() => {

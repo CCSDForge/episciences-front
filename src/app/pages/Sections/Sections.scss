@@ -1,11 +1,11 @@
-@use "src/style/breakpoints.scss";
+@use 'src/style/breakpoints.scss';
 .sections {
   &-title {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
 
-    @media (max-width:  breakpoints.$sm) {
+    @media (max-width: breakpoints.$sm) {
       align-items: flex-start;
       flex-direction: column;
       gap: 12px;
@@ -20,7 +20,7 @@
       display: flex;
       padding-left: 60px;
 
-      @media (max-width:  breakpoints.$sm) {
+      @media (max-width: breakpoints.$sm) {
         padding-left: 0px;
       }
 
@@ -44,19 +44,20 @@
         justify-content: space-between;
         align-items: end;
         gap: 30px;
-  
+
         &-icon {
           cursor: pointer;
-  
-          &-row, &-row-red {
+
+          &-row,
+          &-row-red {
             display: flex;
             justify-content: space-between;
             gap: 10px;
           }
-  
+
           &-row {
             color: var(--grey);
-            
+
             &-red {
               color: var(--primary-accessible);
               text-decoration: underline;
@@ -87,7 +88,7 @@
         gap: 16px;
         padding-left: 60px;
 
-        @media (max-width:  breakpoints.$sm) {
+        @media (max-width: breakpoints.$sm) {
           padding-left: 0px;
         }
       }

@@ -1,5 +1,5 @@
-import { AvailableLanguage } from "../utils/i18n";
-import { PartialVolumeArticle } from "./article";
+import { AvailableLanguage } from '../utils/i18n';
+import { PartialVolumeArticle } from './article';
 
 export interface IVolume {
   id: number;
@@ -29,7 +29,7 @@ export type RawVolume = IVolume & {
   papers: PartialVolumeArticle[];
   metadata?: RawVolumeMetadata[];
   settings_proceeding?: IVolumeSettingsProceeding[];
-}
+};
 
 interface IVolumeCommitteeMember {
   uuid: string;
@@ -48,7 +48,7 @@ export type RawVolumeMetadata = IVolumeMetadata & {
   titles?: Record<AvailableLanguage, string>;
   date_creation?: string;
   date_updated?: string;
-}
+};
 
 export interface IVolumeSettingsProceeding {
   setting?: string;

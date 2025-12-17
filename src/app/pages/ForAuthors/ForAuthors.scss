@@ -1,10 +1,10 @@
-@use "src/style/breakpoints.scss";
+@use 'src/style/breakpoints.scss';
 
 .forAuthors {
   &-title {
     margin-bottom: 30px;
 
-    @media (max-width:  breakpoints.$sm) {
+    @media (max-width: breakpoints.$sm) {
       margin-bottom: 20px;
     }
   }
@@ -15,7 +15,7 @@
     border-bottom: 2px solid var(--grey-light);
     margin-bottom: 40px;
 
-    @media (max-width:  breakpoints.$sm) {
+    @media (max-width: breakpoints.$sm) {
       margin-bottom: 30px;
     }
 
@@ -31,7 +31,7 @@
       position: relative;
       bottom: -2px;
 
-      @media (max-width:  breakpoints.$sm) {
+      @media (max-width: breakpoints.$sm) {
         padding: 0.75rem 1rem;
         font-size: 14px;
       }
@@ -58,7 +58,7 @@
       flex-direction: column;
       padding-left: 60px;
 
-      @media (max-width:  breakpoints.$sm) {
+      @media (max-width: breakpoints.$sm) {
         padding-left: 0px;
       }
 
@@ -71,11 +71,13 @@
           }
         }
 
-        h2, h3 {
+        h2,
+        h3 {
           scroll-margin: 120px;
         }
 
-        h3, h4 {
+        h3,
+        h4 {
           margin: 0;
         }
 
@@ -86,7 +88,6 @@
         p {
           margin: 16px 0px 16px 0px;
         }
-
 
         li p {
           margin: 0;
@@ -100,11 +101,13 @@
           border-bottom: 1px solid var(--primary);
           cursor: pointer;
 
-          img, &-caret {
+          img,
+          &-caret {
             width: auto;
           }
 
-          &-text, &-caret {
+          &-text,
+          &-caret {
             display: block;
           }
         }
@@ -121,7 +124,7 @@
             border-bottom: 4px solid var(--primary);
             margin-bottom: 15px;
 
-            @media (max-width:  breakpoints.$xsm) {
+            @media (max-width: breakpoints.$xsm) {
               flex-direction: column;
             }
 
@@ -137,7 +140,7 @@
               font-size: 40px;
               font-weight: 900;
 
-              @media (max-width:  breakpoints.$xsm) {
+              @media (max-width: breakpoints.$xsm) {
                 padding-right: 0px;
                 text-align: center;
               }
@@ -150,7 +153,7 @@
               border-left: 1px solid var(--grey-light);
               padding-left: 25px;
 
-              @media (max-width:  breakpoints.$xsm) {
+              @media (max-width: breakpoints.$xsm) {
                 border-left: none;
                 padding-left: 0px;
               }
@@ -161,7 +164,7 @@
                 font-weight: bold;
                 margin: 0px;
 
-                @media (max-width:  breakpoints.$xsm) {
+                @media (max-width: breakpoints.$xsm) {
                   text-align: center;
                   border-bottom: 1px solid var(--grey-light);
                   padding-bottom: 25px;
@@ -171,7 +174,6 @@
               p {
                 margin: 4px 0;
               }
-
             }
           }
         }

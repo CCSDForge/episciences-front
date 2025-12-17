@@ -1,4 +1,4 @@
-@use "src/style/breakpoints.scss";
+@use 'src/style/breakpoints.scss';
 .articleDetails {
   &-tag {
     width: fit-content;
@@ -142,7 +142,8 @@
           font-size: 16px;
           margin-top: 8px;
 
-          ul li, ol li {
+          ul li,
+          ol li {
             max-width: 860px;
             margin-bottom: 15px;
             overflow-wrap: break-word;
@@ -156,7 +157,6 @@
           &-graphicalAbstract {
             max-width: 100%;
           }
-
 
           &-preview {
             width: 100%;
@@ -193,7 +193,11 @@
                 }
               }
 
-              &-markdown-link, &-uri, &-doi, &-arxiv, &-hal {
+              &-markdown-link,
+              &-uri,
+              &-doi,
+              &-arxiv,
+              &-hal {
                 text-decoration: underline;
               }
 
@@ -280,31 +284,33 @@
             margin-bottom: 5px;
           }
 
-            &-citedBy {
-              margin-top: 10px;
+          &-citedBy {
+            margin-top: 10px;
 
-              &-row {
-                &-source {
-                  font-weight: bold;
-                  margin-bottom: 10px;
-                }
+            &-row {
+              &-source {
+                font-weight: bold;
+                margin-bottom: 10px;
+              }
 
-                &-citations {
-                  &-citation {
-                    &-title {
-                      margin-bottom: 10px;
-                    }
+              &-citations {
+                &-citation {
+                  &-title {
+                    margin-bottom: 10px;
+                  }
 
-                    &-source, &-authors, &-reference, &-doi {
-                      font-size: 15px;
-                    }
+                  &-source,
+                  &-authors,
+                  &-reference,
+                  &-doi {
+                    font-size: 15px;
+                  }
 
-                    &-doi {
-                      display: flex;
-                      gap: 5px;
-                      color: var(--primary-accessible);
-                      text-decoration: underline;
-                    }
+                  &-doi {
+                    display: flex;
+                    gap: 5px;
+                    color: var(--primary-accessible);
+                    text-decoration: underline;
                   }
                 }
               }
@@ -314,3 +320,4 @@
       }
     }
   }
+}

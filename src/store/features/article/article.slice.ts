@@ -1,25 +1,25 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
-import { articleApi } from './article.query'
-import { IArticleState } from './article.type'
+import { articleApi } from './article.query';
+import { IArticleState } from './article.type';
 
 const articleSlice = createSlice({
   name: 'article',
   initialState: {
     articles: {
       data: [],
-      totalItems: 0
-    }
+      totalItems: 0,
+    },
   } as IArticleState,
   reducers: {},
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder.addMatcher(
       articleApi.endpoints.fetchArticles.matchFulfilled,
       (state, { payload }) => {
-        state.articles = payload
-      },
-    )
-  }
-})
+        state.articles = payload;
+      }
+    );
+  },
+});
 
-export default articleSlice.reducer
+export default articleSlice.reducer;

@@ -12,14 +12,20 @@ interface IStatValueDetails {
   'being-to-publish'?: {
     accepted?: number;
     'other-status'?: number;
-  }
+  };
 }
 
-export const isIStatValueDetails = (value: IStatValue): value is IStatValueDetails => {
+export const isIStatValueDetails = (
+  value: IStatValue
+): value is IStatValueDetails => {
   const detailsValue = value as IStatValueDetails | undefined;
 
-  return detailsValue ? (detailsValue.published !== undefined || detailsValue.refused !== undefined || detailsValue['being-to-publish'] !== undefined) : false;
-}
+  return detailsValue
+    ? detailsValue.published !== undefined ||
+        detailsValue.refused !== undefined ||
+        detailsValue['being-to-publish'] !== undefined
+    : false;
+};
 
 export interface IStatValueDetailsAsPieChart {
   status: string;
@@ -27,30 +33,46 @@ export interface IStatValueDetailsAsPieChart {
   isBeingToPublishStatus?: boolean;
 }
 
-export const getFormattedStatsAsPieChart = (value: IStatValue): IStatValueDetailsAsPieChart[] => {
+export const getFormattedStatsAsPieChart = (
+  value: IStatValue
+): IStatValueDetailsAsPieChart[] => {
   const stats: IStatValueDetailsAsPieChart[] = [];
 
   if (!isIStatValueDetails) return stats;
   const typedValue = value as IStatValueDetails;
 
   if (typedValue.published !== undefined) {
-    stats.push({ status: 'published', count: typedValue.published })
+    stats.push({ status: 'published', count: typedValue.published });
   }
 
   if (typedValue.refused !== undefined) {
-    stats.push({ status: 'refused', count: typedValue.refused })
+    stats.push({ status: 'refused', count: typedValue.refused });
   }
 
-  if (typedValue['being-to-publish'] !== undefined && typedValue['being-to-publish'].accepted !== undefined) {
-    stats.push({ status: 'accepted', count: typedValue['being-to-publish'].accepted, isBeingToPublishStatus: true })
+  if (
+    typedValue['being-to-publish'] !== undefined &&
+    typedValue['being-to-publish'].accepted !== undefined
+  ) {
+    stats.push({
+      status: 'accepted',
+      count: typedValue['being-to-publish'].accepted,
+      isBeingToPublishStatus: true,
+    });
   }
 
-  if (typedValue['being-to-publish'] !== undefined && typedValue['being-to-publish']['other-status'] !== undefined) {
-    stats.push({ status: 'other-status', count: typedValue['being-to-publish']['other-status'], isBeingToPublishStatus: true })
+  if (
+    typedValue['being-to-publish'] !== undefined &&
+    typedValue['being-to-publish']['other-status'] !== undefined
+  ) {
+    stats.push({
+      status: 'other-status',
+      count: typedValue['being-to-publish']['other-status'],
+      isBeingToPublishStatus: true,
+    });
   }
 
   return stats;
-}
+};
 
 export interface IStatValueEvaluation {
   'median-reviews-number'?: number;
@@ -61,5 +83,9 @@ export interface IStatValueEvaluation {
 export const isIStatValueEvaluation = (value: IStatValue): boolean => {
   const evaluationValue = value as IStatValueEvaluation | undefined;
 
-  return evaluationValue ? (evaluationValue['median-reviews-number'] !== undefined || evaluationValue['reviews-received'] !== undefined || evaluationValue['reviews-requested'] !== undefined) : false;
-}
+  return evaluationValue
+    ? evaluationValue['median-reviews-number'] !== undefined ||
+        evaluationValue['reviews-received'] !== undefined ||
+        evaluationValue['reviews-requested'] !== undefined
+    : false;
+};

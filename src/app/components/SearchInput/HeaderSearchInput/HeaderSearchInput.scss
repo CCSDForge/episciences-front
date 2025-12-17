@@ -20,12 +20,14 @@
     }
   }
 
-  &-icon {    
-    &-caretLeft, &-search {
+  &-icon {
+    &-caretLeft,
+    &-search {
       margin-left: 10px;
     }
 
-    &-caretLeft, &-close {
+    &-caretLeft,
+    &-close {
       cursor: pointer;
     }
 

@@ -1,19 +1,21 @@
 import { useState, useEffect } from 'react';
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown from 'react-markdown';
 import { useTranslation } from 'react-i18next';
 import remarkGfm from 'remark-gfm';
-import { Helmet } from "react-helmet-async";
+import { Helmet } from 'react-helmet-async';
 
-import { useAppSelector } from "../../../hooks/store";
-import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
+import { useAppSelector } from '../../../hooks/store';
+import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import Loader from '../../components/Loader/Loader';
 import './Accessibility.scss';
 
 export default function Accessibility(): JSX.Element {
   const { t } = useTranslation();
 
-  const language = useAppSelector(state => state.i18nReducer.language)
-  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name)
+  const language = useAppSelector(state => state.i18nReducer.language);
+  const journalName = useAppSelector(
+    state => state.journalReducer.currentJournal?.name
+  );
 
   const [markdownContent, setMarkdownContent] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -37,26 +39,34 @@ export default function Accessibility(): JSX.Element {
   }, [language]);
 
   return (
-    <main className='accessibility'>
+    <main className="accessibility">
       <Helmet>
-        <title>{t('pages.accessibility.title')} | {journalName ?? ''}</title>
+        <title>
+          {t('pages.accessibility.title')} | {journalName ?? ''}
+        </title>
       </Helmet>
 
-      <Breadcrumb parents={[
-        { path: 'home', label: `${t('pages.home.title')} >` }
-      ]} crumbLabel={t('pages.accessibility.title')} />
+      <Breadcrumb
+        parents={[{ path: 'home', label: `${t('pages.home.title')} >` }]}
+        crumbLabel={t('pages.accessibility.title')}
+      />
 
-      <h1 className='accessibility-title'>{t('pages.accessibility.title')}</h1>
+      <h1 className="accessibility-title">{t('pages.accessibility.title')}</h1>
 
       {isLoading ? (
         <Loader />
       ) : (
-        <div className='accessibility-content'>
+        <div className="accessibility-content">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{
               a: ({ ...props }) => (
-                <a href={props.href} target='_blank' rel="noopener noreferrer" className='accessibility-content-link'>
+                <a
+                  href={props.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="accessibility-content-link"
+                >
                   {props.children}
                 </a>
               ),
@@ -67,5 +77,5 @@ export default function Accessibility(): JSX.Element {
         </div>
       )}
     </main>
-  )
+  );
 }

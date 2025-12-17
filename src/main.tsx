@@ -1,18 +1,18 @@
-import { StrictMode, Suspense } from 'react'
-import ReactDOM from 'react-dom/client'
-import { RouterProvider } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import { PersistGate } from 'redux-persist/integration/react'
-import { HelmetProvider } from 'react-helmet-async'
-import { MathJaxContext } from 'better-react-mathjax'
+import { StrictMode, Suspense } from 'react';
+import ReactDOM from 'react-dom/client';
+import { RouterProvider } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { HelmetProvider } from 'react-helmet-async';
+import { MathJaxContext } from 'better-react-mathjax';
 
-import Loader from './app/components/Loader/Loader'
-import store, { persistedStore } from './store'
-import router from './config/router'
-import { mathJaxConfig, mathJaxSrc } from './config/mathjax'
-import './config/i18n'
-import './config/theme'
-import './index.scss'
+import Loader from './app/components/Loader/Loader';
+import store, { persistedStore } from './store';
+import router from './config/router';
+import { mathJaxConfig, mathJaxSrc } from './config/mathjax';
+import './config/i18n';
+import './config/theme';
+import './index.scss';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -21,11 +21,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <PersistGate loading={null} persistor={persistedStore}>
           <HelmetProvider>
             <MathJaxContext config={mathJaxConfig} src={mathJaxSrc} version={2}>
-              <RouterProvider router={router}/>
+              <RouterProvider router={router} />
             </MathJaxContext>
           </HelmetProvider>
         </PersistGate>
       </Provider>
     </Suspense>
-  </StrictMode>,
-)
+  </StrictMode>
+);

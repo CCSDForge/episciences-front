@@ -1,5 +1,5 @@
-import { IPage } from '../../../types/page'
+import { IPage } from '../../../types/page';
 
 export interface IForReviewersState {
-  forReviewers?: IPage
+  forReviewers?: IPage;
 }

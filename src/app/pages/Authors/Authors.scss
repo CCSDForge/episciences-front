@@ -1,7 +1,7 @@
-@use "src/style/breakpoints.scss";
+@use 'src/style/breakpoints.scss';
 .authors {
   &-title {
-    @media (max-width:  breakpoints.$sm) {
+    @media (max-width: breakpoints.$sm) {
       margin-bottom: 15px;
     }
   }
@@ -21,7 +21,7 @@
     margin: 0px 0px 15px 320px;
     padding-bottom: 28px;
 
-    @media (max-width:  breakpoints.$xsm) {
+    @media (max-width: breakpoints.$xsm) {
       margin: 0px;
     }
 
@@ -45,7 +45,7 @@
     display: flex;
     gap: 10px;
 
-    @media (max-width:  breakpoints.$xsm) {
+    @media (max-width: breakpoints.$xsm) {
       flex-direction: column;
     }
 

@@ -1,4 +1,4 @@
-import { AvailableLanguage } from "./i18n";
+import { AvailableLanguage } from './i18n';
 
 export const DEFAULT_ITEMS_PER_PAGE = 30;
 
@@ -16,15 +16,21 @@ export interface Range {
   years?: number[];
 }
 
-export interface PaginatedResponseWithCount<T> extends PaginatedResponseWithRange<T> {
+export interface PaginatedResponseWithCount<
+  T,
+> extends PaginatedResponseWithRange<T> {
   'hydra:totalPublishedArticles'?: number;
 }
 
-export interface PaginatedResponseWithAuthorsRange<T> extends PaginatedResponse<T> {
-  'hydra:range'?: Record<string, number>
+export interface PaginatedResponseWithAuthorsRange<
+  T,
+> extends PaginatedResponse<T> {
+  'hydra:range'?: Record<string, number>;
 }
 
-export interface PaginatedResponseWithSearchRange<T> extends PaginatedResponse<T> {
+export interface PaginatedResponseWithSearchRange<
+  T,
+> extends PaginatedResponse<T> {
   'hydra:range'?: SearchRange;
 }
 

@@ -1,9 +1,9 @@
-@use "src/style/breakpoints.scss";
+@use 'src/style/breakpoints.scss';
 .breadcrumb {
   margin: 23px 0px 25px 0px;
   font-size: 12px;
 
-  @media (max-width:  breakpoints.$xsm) {
+  @media (max-width: breakpoints.$xsm) {
     display: none;
   }
 

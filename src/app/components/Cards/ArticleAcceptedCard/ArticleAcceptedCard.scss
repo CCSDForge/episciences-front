@@ -1,4 +1,4 @@
-@use "src/style/breakpoints.scss";
+@use 'src/style/breakpoints.scss';
 .articleAcceptedCard {
   display: flex;
   flex-direction: column;
@@ -6,7 +6,7 @@
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--primary);
 
-  @media (max-width:  breakpoints.$sm) {
+  @media (max-width: breakpoints.$sm) {
     padding: 25px;
   }
 
@@ -85,7 +85,7 @@
         font-size: 13px;
 
         &-text {
-          @media (max-width:  breakpoints.$sm) {
+          @media (max-width: breakpoints.$sm) {
             overflow: hidden;
             text-overflow: ellipsis;
             max-width: 120px;

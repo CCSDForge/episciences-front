@@ -8,10 +8,10 @@ import { useAppDispatch, useAppSelector } from '../../../../hooks/store';
 import { setFooterVisibility } from '../../../../store/features/footer/footer.slice';
 import Button from '../../Button/Button';
 import Checkbox from '../../Checkbox/Checkbox';
-import './StatisticsMobileModal.scss'
+import './StatisticsMobileModal.scss';
 
 enum FILTERS_SECTION {
-  YEAR = 'year'
+  YEAR = 'year',
 }
 
 interface IStatisticYearSelection {
@@ -20,27 +20,33 @@ interface IStatisticYearSelection {
 }
 
 interface IStatisticsMobileModalProps {
-  t: TFunction<"translation", undefined>
+  t: TFunction<'translation', undefined>;
   years: IStatisticYearSelection[];
   onUpdateYearsCallback: (years: IStatisticYearSelection[]) => void;
   onCloseCallback: () => void;
 }
 
-export default function StatisticsMobileModal({ t, years, onUpdateYearsCallback, onCloseCallback }: IStatisticsMobileModalProps): JSX.Element {
+export default function StatisticsMobileModal({
+  t,
+  years,
+  onUpdateYearsCallback,
+  onCloseCallback,
+}: IStatisticsMobileModalProps): JSX.Element {
   const dispatch = useAppDispatch();
 
   const isFooterEnabled = useAppSelector(state => state.footerReducer.enabled);
 
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const [openedSections, setOpenedSections] = useState<{ key: FILTERS_SECTION, isOpened: boolean }[]>([
-    { key: FILTERS_SECTION.YEAR, isOpened: true }
-  ]);
+  const [openedSections, setOpenedSections] = useState<
+    { key: FILTERS_SECTION; isOpened: boolean }[]
+  >([{ key: FILTERS_SECTION.YEAR, isOpened: true }]);
 
-  const [filtersYears, setFiltersYears] = useState<IStatisticYearSelection[]>(years);
+  const [filtersYears, setFiltersYears] =
+    useState<IStatisticYearSelection[]>(years);
 
   const onCheckYear = (year: number): void => {
-    const updatedYears = filtersYears.map((y) => {
+    const updatedYears = filtersYears.map(y => {
       if (y.year === year) {
         return { ...y, isChecked: !y.isChecked };
       }
@@ -49,23 +55,26 @@ export default function StatisticsMobileModal({ t, years, onUpdateYearsCallback,
     });
 
     setFiltersYears(updatedYears);
-  }
+  };
 
   const onClose = (): void => {
     setFiltersYears([]);
     onCloseCallback();
-    dispatch(setFooterVisibility(true))
-  }
+    dispatch(setFooterVisibility(true));
+  };
 
   const onApplyFilters = (): void => {
     onUpdateYearsCallback(filtersYears);
     onCloseCallback();
-    dispatch(setFooterVisibility(true))
-  }
+    dispatch(setFooterVisibility(true));
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
         onClose();
       }
     };
@@ -78,12 +87,12 @@ export default function StatisticsMobileModal({ t, years, onUpdateYearsCallback,
 
   useEffect(() => {
     if (isFooterEnabled) {
-      dispatch(setFooterVisibility(false))
+      dispatch(setFooterVisibility(false));
     }
   }, [isFooterEnabled]);
 
   const toggleSection = (sectionKey: FILTERS_SECTION) => {
-    const updatedSections = openedSections.map((section) => {
+    const updatedSections = openedSections.map(section => {
       if (section.key === sectionKey) {
         return { ...section, isOpened: !section.isOpened };
       }
@@ -92,30 +101,61 @@ export default function StatisticsMobileModal({ t, years, onUpdateYearsCallback,
     });
 
     setOpenedSections(updatedSections);
-  }
+  };
 
-  const isOpenedSection = (sectionKey: FILTERS_SECTION): boolean | undefined => openedSections.find(section => section.key === sectionKey)?.isOpened
+  const isOpenedSection = (sectionKey: FILTERS_SECTION): boolean | undefined =>
+    openedSections.find(section => section.key === sectionKey)?.isOpened;
 
   return (
-    <div className='statisticsMobileModal' ref={modalRef}>
-      <div className='statisticsMobileModal-title'>
-        <div className='statisticsMobileModal-title-text'>{t('common.filters.filter')}</div>
-        <img className='statisticsMobileModal-title-close' src={close} alt='Close icon' onClick={onClose} />
+    <div className="statisticsMobileModal" ref={modalRef}>
+      <div className="statisticsMobileModal-title">
+        <div className="statisticsMobileModal-title-text">
+          {t('common.filters.filter')}
+        </div>
+        <img
+          className="statisticsMobileModal-title-close"
+          src={close}
+          alt="Close icon"
+          onClick={onClose}
+        />
       </div>
-      <div className='statisticsMobileModal-filters'>
-        <div className='statisticsMobileModal-filters-years'>
-          <div className='statisticsMobileModal-filters-years-title'>
-            <div className='statisticsMobileModal-filters-years-title-text' onClick={(): void => toggleSection(FILTERS_SECTION.YEAR)}>{t('common.filters.years')}</div>
-            <img className='statisticsMobileModal-filters-years-title-caret' src={isOpenedSection(FILTERS_SECTION.YEAR) ? caretUpGrey : caretDownGrey} alt={isOpenedSection(FILTERS_SECTION.YEAR) ? 'Caret up icon' : 'Caret down icon'} onClick={(): void => toggleSection(FILTERS_SECTION.YEAR)} />
+      <div className="statisticsMobileModal-filters">
+        <div className="statisticsMobileModal-filters-years">
+          <div className="statisticsMobileModal-filters-years-title">
+            <div
+              className="statisticsMobileModal-filters-years-title-text"
+              onClick={(): void => toggleSection(FILTERS_SECTION.YEAR)}
+            >
+              {t('common.filters.years')}
+            </div>
+            <img
+              className="statisticsMobileModal-filters-years-title-caret"
+              src={
+                isOpenedSection(FILTERS_SECTION.YEAR)
+                  ? caretUpGrey
+                  : caretDownGrey
+              }
+              alt={
+                isOpenedSection(FILTERS_SECTION.YEAR)
+                  ? 'Caret up icon'
+                  : 'Caret down icon'
+              }
+              onClick={(): void => toggleSection(FILTERS_SECTION.YEAR)}
+            />
           </div>
-          <div className={`statisticsMobileModal-filters-years-list ${isOpenedSection(FILTERS_SECTION.YEAR) && 'statisticsMobileModal-filters-years-list-opened'}`}>
+          <div
+            className={`statisticsMobileModal-filters-years-list ${isOpenedSection(FILTERS_SECTION.YEAR) && 'statisticsMobileModal-filters-years-list-opened'}`}
+          >
             {filtersYears.map((y, index) => (
               <div
                 key={index}
-                className='statisticsMobileModal-filters-years-list-choice'
+                className="statisticsMobileModal-filters-years-list-choice"
               >
-                <div className='statisticsMobileModal-filters-years-list-choice-checkbox'>
-                  <Checkbox checked={y.isChecked} onChangeCallback={(): void => onCheckYear(y.year)}/>
+                <div className="statisticsMobileModal-filters-years-list-choice-checkbox">
+                  <Checkbox
+                    checked={y.isChecked}
+                    onChangeCallback={(): void => onCheckYear(y.year)}
+                  />
                 </div>
                 <span
                   className={`statisticsMobileModal-filters-years-list-choice-label ${y.isChecked && 'statisticsMobileModal-filters-years-list-choice-label-checked'}`}
@@ -128,9 +168,12 @@ export default function StatisticsMobileModal({ t, years, onUpdateYearsCallback,
           </div>
         </div>
       </div>
-      <div className='statisticsMobileModal-submit'>
-        <Button text={t('common.filters.applyFilters')} onClickCallback={(): void => onApplyFilters()} />
+      <div className="statisticsMobileModal-submit">
+        <Button
+          text={t('common.filters.applyFilters')}
+          onClickCallback={(): void => onApplyFilters()}
+        />
       </div>
     </div>
-  )
+  );
 }

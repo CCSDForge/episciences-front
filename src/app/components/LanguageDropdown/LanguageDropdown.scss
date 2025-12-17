@@ -1,4 +1,4 @@
-@use "src/style/breakpoints.scss";
+@use 'src/style/breakpoints.scss';
 .languageDropdown {
   position: relative;
   display: inline-block;
@@ -6,7 +6,7 @@
   font-weight: 500;
   margin-right: 50px;
 
-  @media (max-width:  breakpoints.$xsm) {
+  @media (max-width: breakpoints.$xsm) {
     margin-right: 24px;
   }
 
@@ -81,7 +81,9 @@
         white-space: nowrap;
         padding: 5px 10px;
         border-radius: 4px;
-        transition: color 0.2s ease, background-color 0.2s ease;
+        transition:
+          color 0.2s ease,
+          background-color 0.2s ease;
         background: transparent;
         border: none;
         text-align: left;

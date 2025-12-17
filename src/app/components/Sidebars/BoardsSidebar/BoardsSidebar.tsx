@@ -1,19 +1,26 @@
 import { TFunction } from 'i18next';
 
-import './BoardsSidebar.scss'
+import './BoardsSidebar.scss';
 
 interface IBoardsSidebarProps {
-  t: TFunction<"translation", undefined>
+  t: TFunction<'translation', undefined>;
   groups: string[];
   openPanels: number[];
   onSetActiveGroupCallback: (index: number) => void;
 }
 
-export default function BoardsSidebar({ t, groups, openPanels, onSetActiveGroupCallback }: IBoardsSidebarProps): JSX.Element {
+export default function BoardsSidebar({
+  t,
+  groups,
+  openPanels,
+  onSetActiveGroupCallback,
+}: IBoardsSidebarProps): JSX.Element {
   return (
-    <div className='boardsSidebar'>
-      <div className='boardsSidebar-resume'>{t('pages.boards.tableOfContents')}</div>
-      <div className='boardsSidebar-links'>
+    <div className="boardsSidebar">
+      <div className="boardsSidebar-resume">
+        {t('pages.boards.tableOfContents')}
+      </div>
+      <div className="boardsSidebar-links">
         {groups.map((group, index) => (
           <div
             key={index}
@@ -25,5 +32,5 @@ export default function BoardsSidebar({ t, groups, openPanels, onSetActiveGroupC
         ))}
       </div>
     </div>
-  )
+  );
 }

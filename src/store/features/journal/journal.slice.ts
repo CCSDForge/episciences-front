@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { IJournal } from '../../../types/journal'
-import { IJournalState } from './journal.type'
+import { IJournal } from '../../../types/journal';
+import { IJournalState } from './journal.type';
 
 const journalSlice = createSlice({
   name: 'journal',
@@ -11,9 +11,9 @@ const journalSlice = createSlice({
     setCurrentJournal(state, action: PayloadAction<IJournal>) {
       state.currentJournal = action.payload;
     },
-  }
-})
+  },
+});
 
-export const { setCurrentJournal } = journalSlice.actions
+export const { setCurrentJournal } = journalSlice.actions;
 
-export default journalSlice.reducer
+export default journalSlice.reducer;

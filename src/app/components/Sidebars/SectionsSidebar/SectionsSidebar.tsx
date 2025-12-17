@@ -1,7 +1,5 @@
-import './SectionsSidebar.scss'
+import './SectionsSidebar.scss';
 
 export default function SectionsSidebar(): JSX.Element {
-  return (
-    <div className='sectionsSidebar'></div>
-  )
+  return <div className="sectionsSidebar"></div>;
 }

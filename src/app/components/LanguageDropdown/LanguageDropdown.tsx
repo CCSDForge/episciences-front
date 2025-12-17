@@ -11,13 +11,15 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/store';
 import { setLanguage } from '../../../store/features/i18n/i18n.slice';
 import { AvailableLanguage, availableLanguages } from '../../../utils/i18n';
 import { getLanguageName } from '../../../utils/languageNames';
-import './LanguageDropdown.scss'
+import './LanguageDropdown.scss';
 
 interface ILanguageDropdownProps {
   withWhiteCaret?: boolean;
 }
 
-export default function LanguageDropdown({ withWhiteCaret }: ILanguageDropdownProps) {
+export default function LanguageDropdown({
+  withWhiteCaret,
+}: ILanguageDropdownProps) {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const language = useAppSelector(state => state.i18nReducer.language);
@@ -28,12 +30,16 @@ export default function LanguageDropdown({ withWhiteCaret }: ILanguageDropdownPr
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const menuItemsRef = useRef<(HTMLButtonElement | null)[]>([]);
 
-  const acceptedLanguages = import.meta.env.VITE_JOURNAL_ACCEPTED_LANGUAGES.split(',');
+  const acceptedLanguages =
+    import.meta.env.VITE_JOURNAL_ACCEPTED_LANGUAGES.split(',');
 
   // Handle click outside to close dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent): void => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         closeDropdown();
       }
     };
@@ -70,7 +76,9 @@ export default function LanguageDropdown({ withWhiteCaret }: ILanguageDropdownPr
   useEffect(() => {
     if (showDropdown) {
       // Find the index of the current language
-      const currentLangIndex = availableLanguages.findIndex((lang: AvailableLanguage) => lang === language);
+      const currentLangIndex = availableLanguages.findIndex(
+        (lang: AvailableLanguage) => lang === language
+      );
       const indexToFocus = currentLangIndex >= 0 ? currentLangIndex : 0;
 
       setFocusedIndex(indexToFocus);
@@ -108,7 +116,9 @@ export default function LanguageDropdown({ withWhiteCaret }: ILanguageDropdownPr
   };
 
   // Handle keyboard navigation on the trigger button
-  const handleButtonKeyDown = (event: KeyboardEvent<HTMLButtonElement>): void => {
+  const handleButtonKeyDown = (
+    event: KeyboardEvent<HTMLButtonElement>
+  ): void => {
     switch (event.key) {
       case 'Enter':
       case ' ': // Space
@@ -141,7 +151,10 @@ export default function LanguageDropdown({ withWhiteCaret }: ILanguageDropdownPr
   };
 
   // Handle keyboard navigation within the menu
-  const handleMenuItemKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number): void => {
+  const handleMenuItemKeyDown = (
+    event: KeyboardEvent<HTMLButtonElement>,
+    index: number
+  ): void => {
     switch (event.key) {
       case 'Enter':
       case ' ': // Space
@@ -184,7 +197,8 @@ export default function LanguageDropdown({ withWhiteCaret }: ILanguageDropdownPr
   };
 
   const focusPreviousItem = (currentIndex: number): void => {
-    const prevIndex = currentIndex === 0 ? availableLanguages.length - 1 : currentIndex - 1;
+    const prevIndex =
+      currentIndex === 0 ? availableLanguages.length - 1 : currentIndex - 1;
     setFocusedIndex(prevIndex);
     menuItemsRef.current[prevIndex]?.focus();
   };
@@ -207,12 +221,13 @@ export default function LanguageDropdown({ withWhiteCaret }: ILanguageDropdownPr
     const startIndex = focusedIndex + 1;
     const languagesFromCurrent = [
       ...availableLanguages.slice(startIndex),
-      ...availableLanguages.slice(0, startIndex)
+      ...availableLanguages.slice(0, startIndex),
     ];
 
-    const matchingLang = languagesFromCurrent.find(lang =>
-      lang.toLowerCase().startsWith(lowercaseKey) ||
-      getLanguageName(lang).toLowerCase().startsWith(lowercaseKey)
+    const matchingLang = languagesFromCurrent.find(
+      lang =>
+        lang.toLowerCase().startsWith(lowercaseKey) ||
+        getLanguageName(lang).toLowerCase().startsWith(lowercaseKey)
     );
 
     if (matchingLang) {
@@ -229,13 +244,13 @@ export default function LanguageDropdown({ withWhiteCaret }: ILanguageDropdownPr
   return (
     <div
       ref={dropdownRef}
-      className='languageDropdown'
+      className="languageDropdown"
       onMouseEnter={(): void => setShowDropdown(true)}
       onMouseLeave={(): void => setShowDropdown(false)}
     >
       <button
         ref={buttonRef}
-        className='languageDropdown-button'
+        className="languageDropdown-button"
         onClick={(): void => setShowDropdown(!showDropdown)}
         onKeyDown={handleButtonKeyDown}
         aria-haspopup="true"
@@ -243,22 +258,24 @@ export default function LanguageDropdown({ withWhiteCaret }: ILanguageDropdownPr
         aria-label={t('components.header.chooseLanguage') || 'Choose language'}
         type="button"
       >
-      <span className='languageDropdown-button-translate' aria-hidden="true">
-         <img src={languageIcon} alt="" />
-      </span>
-          <span className='languageDropdown-button-text'>{language.toUpperCase()}</span>
-          {showDropdown ? (
+        <span className="languageDropdown-button-translate" aria-hidden="true">
+          <img src={languageIcon} alt="" />
+        </span>
+        <span className="languageDropdown-button-text">
+          {language.toUpperCase()}
+        </span>
+        {showDropdown ? (
           <img
-            className='languageDropdown-button-caret'
+            className="languageDropdown-button-caret"
             src={withWhiteCaret ? caretUpWhite : caretUpBlue}
-            alt=''
+            alt=""
             aria-hidden="true"
           />
         ) : (
           <img
-            className='languageDropdown-button-caret'
+            className="languageDropdown-button-caret"
             src={withWhiteCaret ? caretDownWhite : caretDownBlue}
-            alt=''
+            alt=""
             aria-hidden="true"
           />
         )}
@@ -267,26 +284,35 @@ export default function LanguageDropdown({ withWhiteCaret }: ILanguageDropdownPr
       <div
         className={`languageDropdown-content ${showDropdown ? 'languageDropdown-content-displayed' : ''}`}
         role="menu"
-        aria-label={t('components.header.languageMenu') || 'Language selection menu'}
+        aria-label={
+          t('components.header.languageMenu') || 'Language selection menu'
+        }
       >
-        <div className='languageDropdown-content-links'>
-          {availableLanguages.map((availableLanguage: AvailableLanguage, index: number) => (
-            <button
-              key={availableLanguage}
-              ref={(el) => (menuItemsRef.current[index] = el)}
-              className={`languageDropdown-content-links-item ${
-                availableLanguage === language ? 'languageDropdown-content-links-active' : ''
-              }`}
-              onClick={(): void => switchLanguage(availableLanguage)}
-              onKeyDown={(e): void => handleMenuItemKeyDown(e, index)}
-              role="menuitem"
-              tabIndex={showDropdown ? 0 : -1}
-              aria-current={availableLanguage === language ? 'true' : undefined}
-              type="button"
-            >
-              {availableLanguage.toUpperCase()} - {getLanguageName(availableLanguage)}
-            </button>
-          ))}
+        <div className="languageDropdown-content-links">
+          {availableLanguages.map(
+            (availableLanguage: AvailableLanguage, index: number) => (
+              <button
+                key={availableLanguage}
+                ref={el => (menuItemsRef.current[index] = el)}
+                className={`languageDropdown-content-links-item ${
+                  availableLanguage === language
+                    ? 'languageDropdown-content-links-active'
+                    : ''
+                }`}
+                onClick={(): void => switchLanguage(availableLanguage)}
+                onKeyDown={(e): void => handleMenuItemKeyDown(e, index)}
+                role="menuitem"
+                tabIndex={showDropdown ? 0 : -1}
+                aria-current={
+                  availableLanguage === language ? 'true' : undefined
+                }
+                type="button"
+              >
+                {availableLanguage.toUpperCase()} -{' '}
+                {getLanguageName(availableLanguage)}
+              </button>
+            )
+          )}
         </div>
       </div>
     </div>

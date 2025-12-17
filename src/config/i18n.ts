@@ -1,9 +1,9 @@
-import i18next from "i18next";
-import { initReactI18next } from "react-i18next";
+import i18next from 'i18next';
+import { initReactI18next } from 'react-i18next';
 import HttpBackend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-import { availableLanguages, defaultLanguage } from "../utils/i18n";
+import { availableLanguages, defaultLanguage } from '../utils/i18n';
 
 // Read language from Redux persist sessionStorage or detect from browser
 function getInitialLanguage(): string {
@@ -14,7 +14,10 @@ function getInitialLanguage(): string {
       const parsed = JSON.parse(persistedState);
       if (parsed.i18nReducer) {
         const i18nState = JSON.parse(parsed.i18nReducer);
-        if (i18nState.language && availableLanguages.includes(i18nState.language)) {
+        if (
+          i18nState.language &&
+          availableLanguages.includes(i18nState.language)
+        ) {
           return i18nState.language;
         }
       }
@@ -25,7 +28,9 @@ function getInitialLanguage(): string {
 
   // Fallback to browser language detection
   const browserLang = navigator.language.split('-')[0];
-  return availableLanguages.includes(browserLang) ? browserLang : defaultLanguage;
+  return availableLanguages.includes(browserLang)
+    ? browserLang
+    : defaultLanguage;
 }
 
 const initialLanguage = getInitialLanguage();
@@ -44,11 +49,11 @@ i18next
     },
     detection: {
       order: ['navigator'],
-      caches: []
+      caches: [],
     },
     react: {
       useSuspense: true,
       bindI18n: 'languageChanged loaded',
       bindI18nStore: 'added removed',
-    }
-  })
+    },
+  });

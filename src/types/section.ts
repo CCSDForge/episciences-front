@@ -1,5 +1,5 @@
-import { AvailableLanguage } from "../utils/i18n";
-import { PartialSectionArticle } from "./article";
+import { AvailableLanguage } from '../utils/i18n';
+import { PartialSectionArticle } from './article';
 
 export interface ISection {
   id: number;
@@ -11,13 +11,16 @@ export interface ISection {
   articles: PartialSectionArticle[];
 }
 
-export type RawSection = Omit<ISection, 'id' | 'rvcode' | 'title' | 'description' | 'articles'> & {
+export type RawSection = Omit<
+  ISection,
+  'id' | 'rvcode' | 'title' | 'description' | 'articles'
+> & {
   sid: number;
   rvid: number;
   titles?: Record<AvailableLanguage, string>;
   descriptions?: Record<AvailableLanguage, string>;
   papers: PartialSectionArticle[];
-}
+};
 
 interface ISectionCommitteeMember {
   uuid: string;

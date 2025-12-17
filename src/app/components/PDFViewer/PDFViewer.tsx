@@ -17,7 +17,11 @@ interface IPDFViewerProps {
   prominentDownload?: boolean;
 }
 
-export default function PDFViewer({ pdfUrl, showDownloadButton = false, prominentDownload = false }: IPDFViewerProps): JSX.Element {
+export default function PDFViewer({
+  pdfUrl,
+  showDownloadButton = false,
+  prominentDownload = false,
+}: IPDFViewerProps): JSX.Element {
   const { t } = useTranslation();
 
   const [numPages, setNumPages] = useState<number | null>(null);
@@ -35,11 +39,14 @@ export default function PDFViewer({ pdfUrl, showDownloadButton = false, prominen
 
   // Memoize file and options to prevent unnecessary re-renders
   const fileConfig = useMemo(() => ({ url: pdfUrl }), [pdfUrl]);
-  const documentOptions = useMemo(() => ({
-    cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
-    cMapPacked: true,
-    standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/standard_fonts/`,
-  }), []);
+  const documentOptions = useMemo(
+    () => ({
+      cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
+      cMapPacked: true,
+      standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/standard_fonts/`,
+    }),
+    []
+  );
 
   // Handle PDF document load success
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }): void => {
@@ -68,7 +75,9 @@ export default function PDFViewer({ pdfUrl, showDownloadButton = false, prominen
         onClick={handleDownload}
       >
         <img src={downloadIcon} className="pdfViewer-download-icon" alt="" />
-        <span className="pdfViewer-download-text">{t('pages.pdfViewer.download')}</span>
+        <span className="pdfViewer-download-text">
+          {t('pages.pdfViewer.download')}
+        </span>
       </div>
     );
   };
@@ -78,11 +87,24 @@ export default function PDFViewer({ pdfUrl, showDownloadButton = false, prominen
     return (
       <div className="pdfViewer">
         <div className="pdfViewer-error">
-          <div className="pdfViewer-error-message">{t('pages.pdfViewer.error')}</div>
-          <div className="pdfViewer-error-info">{t('pages.pdfViewer.errorInfo')}</div>
-          <div className="pdfViewer-download pdfViewer-download-prominent" onClick={handleDownload}>
-            <img src={downloadIcon} className="pdfViewer-download-icon" alt="" />
-            <span className="pdfViewer-download-text">{t('pages.pdfViewer.openInNewTab')}</span>
+          <div className="pdfViewer-error-message">
+            {t('pages.pdfViewer.error')}
+          </div>
+          <div className="pdfViewer-error-info">
+            {t('pages.pdfViewer.errorInfo')}
+          </div>
+          <div
+            className="pdfViewer-download pdfViewer-download-prominent"
+            onClick={handleDownload}
+          >
+            <img
+              src={downloadIcon}
+              className="pdfViewer-download-icon"
+              alt=""
+            />
+            <span className="pdfViewer-download-text">
+              {t('pages.pdfViewer.openInNewTab')}
+            </span>
           </div>
         </div>
       </div>

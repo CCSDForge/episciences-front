@@ -1,4 +1,4 @@
-@use "src/style/breakpoints.scss";
+@use 'src/style/breakpoints.scss';
 .swiper {
   width: 100%;
 
@@ -8,11 +8,11 @@
     gap: 16px;
     margin: 0px -40px 20px -40px;
 
-    @media (max-width:  breakpoints.$sm) {
+    @media (max-width: breakpoints.$sm) {
       margin: 0px -20px 20px -20px;
     }
 
-    @media (max-width:  breakpoints.$xsm) {
+    @media (max-width: breakpoints.$xsm) {
       gap: 4px;
       margin: 0px -14px 20px -14px;
     }
@@ -31,7 +31,8 @@
     }
   }
 
-  &-button-prev, &-button-next {
+  &-button-prev,
+  &-button-next {
     width: 22px;
     height: 40px;
     position: relative;
@@ -40,7 +41,7 @@
     color: var(--primary-accessible);
     z-index: 1;
 
-    @media (max-width:  breakpoints.$sm) {
+    @media (max-width: breakpoints.$sm) {
       width: 11px;
       height: 20px;
     }

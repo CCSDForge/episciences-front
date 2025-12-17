@@ -13,7 +13,7 @@ function MathjaxRefresh(): null {
 
       const tryRefetchMathjax = (): void => {
         if (window && window.MathJax && window.MathJax.Hub) {
-          window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
+          window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
           clearInterval(intervalId);
         } else if (attempts >= MAX_ATTEMPTS) {
           clearInterval(intervalId);

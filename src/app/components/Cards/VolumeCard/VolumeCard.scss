@@ -1,4 +1,4 @@
-@use "src/style/breakpoints.scss";
+@use 'src/style/breakpoints.scss';
 .volumeCard {
   display: flex;
   justify-content: space-between;
@@ -6,7 +6,7 @@
   border: 1px solid var(--grey);
   border-bottom: 4px solid var(--primary);
 
-  @media (max-width:  breakpoints.$sm) {
+  @media (max-width: breakpoints.$sm) {
     padding: 25px;
     flex-direction: column;
   }
@@ -16,7 +16,7 @@
     padding-right: 50px;
     border-right: 1px solid var(--grey-light);
 
-    @media (max-width:  breakpoints.$sm) {
+    @media (max-width: breakpoints.$sm) {
       border-right: 0px;
       display: flex;
       align-items: center;
@@ -24,14 +24,14 @@
       padding-bottom: 8px;
       border-bottom: 1px solid var(--grey-light);
     }
-    
+
     &-year {
       color: var(--black);
       font-size: 18px;
       font-weight: 600;
       margin-bottom: 8px;
 
-      @media (max-width:  breakpoints.$sm) {
+      @media (max-width: breakpoints.$sm) {
         margin-bottom: 0px;
       }
     }
@@ -41,7 +41,7 @@
       gap: 4px;
       align-items: center;
 
-      @media (max-width:  breakpoints.$sm) {
+      @media (max-width: breakpoints.$sm) {
         display: none;
       }
 
@@ -63,7 +63,7 @@
     flex-direction: column;
     padding-left: 18px;
 
-    @media (max-width:  breakpoints.$sm) {
+    @media (max-width: breakpoints.$sm) {
       padding-left: 0px;
       margin-top: 8px;
     }
@@ -74,14 +74,14 @@
       font-weight: bold;
       margin-bottom: 18px;
 
-      @media (max-width:  breakpoints.$sm) {
+      @media (max-width: breakpoints.$sm) {
         display: none;
       }
 
       &-mobile {
         display: none;
 
-        @media (max-width:  breakpoints.$sm) {
+        @media (max-width: breakpoints.$sm) {
           display: block;
           margin-bottom: 0px;
           font-size: 21px;
@@ -95,7 +95,7 @@
       font-weight: 600;
       margin-bottom: 10px;
 
-      @media (max-width:  breakpoints.$xsm) {
+      @media (max-width: breakpoints.$xsm) {
         font-size: 16px;
       }
     }
@@ -105,37 +105,37 @@
       font-size: 18px;
       margin-bottom: 20px;
 
-      @media (max-width:  breakpoints.$xsm) {
+      @media (max-width: breakpoints.$xsm) {
         font-size: 15px;
       }
     }
 
     &-description {
       margin-bottom: 25px;
-  
+
       &-title {
         display: flex;
         gap: 8px;
         border-bottom: 1px solid var(--primary);
         cursor: pointer;
-  
+
         &-closed {
           width: 100px;
         }
-  
+
         &-text {
           font-size: 16px;
           font-weight: bold;
           color: var(--primary-accessible);
         }
       }
-  
+
       &-content {
         display: none;
         font-size: 16px;
         margin-top: 8px;
         white-space: pre-wrap;
-  
+
         &-opened {
           display: block;
         }
@@ -157,7 +157,7 @@
     justify-content: flex-start;
     gap: 20px;
 
-    @media (max-width:  breakpoints.$sm) {
+    @media (max-width: breakpoints.$sm) {
       flex-direction: row;
     }
 
@@ -242,7 +242,7 @@
         color: var(--grey);
         font-size: 13px;
       }
-      
+
       &-download {
         display: flex;
         justify-content: flex-end;

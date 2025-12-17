@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { TFunction } from 'i18next';
 
 import Checkbox from '../../Checkbox/Checkbox';
-import './VolumesModal.scss'
+import './VolumesModal.scss';
 
 export interface IVolumeTypeSelection {
   labelPath: string;
@@ -16,7 +16,7 @@ export interface IVolumeYearSelection {
 }
 
 interface IVolumesModalProps {
-  t: TFunction<"translation", undefined>
+  t: TFunction<'translation', undefined>;
   types: IVolumeTypeSelection[];
   onCheckTypeCallback: (value: string) => void;
   years: IVolumeYearSelection[];
@@ -24,12 +24,22 @@ interface IVolumesModalProps {
   onCloseCallback: () => void;
 }
 
-export default function VolumesModal({ t, types, onCheckTypeCallback, years, onSelectYearCallback, onCloseCallback }: IVolumesModalProps): JSX.Element {
+export default function VolumesModal({
+  t,
+  types,
+  onCheckTypeCallback,
+  years,
+  onSelectYearCallback,
+  onCloseCallback,
+}: IVolumesModalProps): JSX.Element {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
         onCloseCallback();
       }
     };
@@ -41,17 +51,19 @@ export default function VolumesModal({ t, types, onCheckTypeCallback, years, onS
   }, [onCloseCallback]);
 
   return (
-    <div className='volumesModal' ref={modalRef}>
-      <div className='volumesModal-typesSection'>
-        <div className='volumesModal-typesSection-title'>{t('common.filters.volumeTypes')}</div>
-        <div className='volumesModal-typesSection-types'>
+    <div className="volumesModal" ref={modalRef}>
+      <div className="volumesModal-typesSection">
+        <div className="volumesModal-typesSection-title">
+          {t('common.filters.volumeTypes')}
+        </div>
+        <div className="volumesModal-typesSection-types">
           {types.map((type, index) => (
-            <div
-              key={index}
-              className='volumesModal-typesSection-types-choice'
-            >
-              <div className='volumesModal-typesSection-types-choice-checkbox'>
-                <Checkbox checked={type.isChecked} onChangeCallback={(): void => onCheckTypeCallback(type.value)}/>
+            <div key={index} className="volumesModal-typesSection-types-choice">
+              <div className="volumesModal-typesSection-types-choice-checkbox">
+                <Checkbox
+                  checked={type.isChecked}
+                  onChangeCallback={(): void => onCheckTypeCallback(type.value)}
+                />
               </div>
               <span
                 className={`volumesModal-typesSection-types-choice-label ${type.isChecked && 'volumesModal-typesSection-types-choice-label-checked'}`}
@@ -63,11 +75,13 @@ export default function VolumesModal({ t, types, onCheckTypeCallback, years, onS
           ))}
         </div>
       </div>
-      <div className='volumesModal-yearsSection'>
-        <div className='volumesModal-yearsSection-title'>{t('common.filters.years')}</div>
-        <div className='volumesModal-yearsSection-years'>
-          <div className='volumesModal-yearsSection-years-list'>
-            {years.map((y) => (
+      <div className="volumesModal-yearsSection">
+        <div className="volumesModal-yearsSection-title">
+          {t('common.filters.years')}
+        </div>
+        <div className="volumesModal-yearsSection-years">
+          <div className="volumesModal-yearsSection-years-list">
+            {years.map(y => (
               <div
                 key={y.year}
                 className={`volumesModal-yearsSection-years-list-year ${y.isSelected && 'volumesModal-yearsSection-years-list-year-selected'}`}
@@ -80,5 +94,5 @@ export default function VolumesModal({ t, types, onCheckTypeCallback, years, onS
         </div>
       </div>
     </div>
-  )
+  );
 }

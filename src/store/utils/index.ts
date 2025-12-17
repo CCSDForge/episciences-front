@@ -1,23 +1,23 @@
-import { fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const createBaseQuery = fetchBaseQuery({
-  baseUrl: import.meta.env.VITE_API_ROOT_ENDPOINT
+  baseUrl: import.meta.env.VITE_API_ROOT_ENDPOINT,
 });
 
 export const createBaseQueryWithJsonAccept = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_API_ROOT_ENDPOINT,
-  prepareHeaders: (headers) => {
-    headers.set('Accept', 'application/json')
+  prepareHeaders: headers => {
+    headers.set('Accept', 'application/json');
 
     return headers;
-  }
+  },
 });
 
 export const createBaseQueryWithLdJsonAccept = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_API_ROOT_ENDPOINT,
-  prepareHeaders: (headers) => {
-    headers.set('Accept', 'application/ld+json')
+  prepareHeaders: headers => {
+    headers.set('Accept', 'application/ld+json');
 
     return headers;
-  }
+  },
 });

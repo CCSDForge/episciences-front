@@ -11,10 +11,23 @@ DEFAULT_SMALL_LOGO := default-small.svg
 # Read journals from the journal list file
 JOURNALS := $(shell cat $(JOURNAL_LIST_FILE) 2>/dev/null)
 
-.PHONY: all clean list $(JOURNALS)
+.PHONY: all clean list format format-check help $(JOURNALS)
 
 # Default target
 all: $(JOURNALS)
+
+# Help target - displays available commands
+help:
+	@echo "Available make targets:"
+	@echo ""
+	@echo "  make help          - Display this help message"
+	@echo "  make list          - List all available journals"
+	@echo "  make all           - Build all journals"
+	@echo "  make <journal>     - Build a specific journal (e.g., make matapli)"
+	@echo "  make clean         - Remove build artifacts and temporary files"
+	@echo "  make format        - Format code with Prettier"
+	@echo "  make format-check  - Check code formatting without modifying files"
+	@echo ""
 
 # List available journals
 list:
@@ -52,3 +65,13 @@ $(JOURNALS):
 	@VITE_JOURNAL_RVCODE=$@ npx vite build
 	# Clean up temporary logo files
 	@rm -rf $(LOGO_TEMP_DIR) public/logos
+
+# Format code with Prettier
+format:
+	@echo "Formatting code with Prettier..."
+	@npm run format
+
+# Check code formatting with Prettier
+format-check:
+	@echo "Checking code formatting with Prettier..."
+	@npm run format:check

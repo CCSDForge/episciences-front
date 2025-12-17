@@ -1,40 +1,40 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
 
-import aboutReducer from './about/about.slice'
-import articleReducer from './article/article.slice'
-import authorReducer from './author/author.slice'
-import boardReducer from './board/board.slice'
-import creditsReducer from './credits/credits.slice'
-import footerReducer from './footer/footer.slice'
-import forAuthorReducer from './forAuthor/forAuthor.slice'
-import forReviewersReducer from './forReviewers/forReviewers.slice'
-import forConferenceOrganisersReducer from './forConferenceOrganisers/forConferenceOrganisers.slice'
-import i18nReducer from './i18n/i18n.slice'
-import indexationReducer from './indexation/indexation.slice'
-import journalReducer from './journal/journal.slice'
-import journalAcknowledgementsReducer from './acknowledgements/acknowledgements.slice.ts'
-import newsReducer from './news/news.slice'
-import searchReducer from './search/search.slice'
-import sectionReducer from './section/section.slice'
-import statReducer from './stat/stat.slice'
-import volumeReducer from './volume/volume.slice'
-import { aboutApi } from './about/about.query'
-import { articleApi } from './article/article.query'
-import { authorApi } from './author/author.query'
-import { boardApi } from './board/board.query'
-import { creditsApi } from './credits/credits.query'
-import { forAuthorApi } from './forAuthor/forAuthor.query'
-import { forReviewersApi } from './forReviewers/forReviewers.query'
-import { forConferenceOrganisersApi } from './forConferenceOrganisers/forConferenceOrganisers.query'
-import { ethicalCharterApi } from './ethicalCharter/ethicalCharter.query'
-import { indexationApi } from './indexation/indexation.query'
-import { journalApi } from './journal/journal.query'
-import { acknowledgementsApi } from './acknowledgements/acknowledgements.query'
-import { newsApi } from './news/news.query'
-import { searchApi } from './search/search.query'
-import { sectionApi } from './section/section.query'
-import { statApi } from './stat/stat.query'
-import { volumeApi } from './volume/volume.query'
+import aboutReducer from './about/about.slice';
+import articleReducer from './article/article.slice';
+import authorReducer from './author/author.slice';
+import boardReducer from './board/board.slice';
+import creditsReducer from './credits/credits.slice';
+import footerReducer from './footer/footer.slice';
+import forAuthorReducer from './forAuthor/forAuthor.slice';
+import forReviewersReducer from './forReviewers/forReviewers.slice';
+import forConferenceOrganisersReducer from './forConferenceOrganisers/forConferenceOrganisers.slice';
+import i18nReducer from './i18n/i18n.slice';
+import indexationReducer from './indexation/indexation.slice';
+import journalReducer from './journal/journal.slice';
+import journalAcknowledgementsReducer from './acknowledgements/acknowledgements.slice.ts';
+import newsReducer from './news/news.slice';
+import searchReducer from './search/search.slice';
+import sectionReducer from './section/section.slice';
+import statReducer from './stat/stat.slice';
+import volumeReducer from './volume/volume.slice';
+import { aboutApi } from './about/about.query';
+import { articleApi } from './article/article.query';
+import { authorApi } from './author/author.query';
+import { boardApi } from './board/board.query';
+import { creditsApi } from './credits/credits.query';
+import { forAuthorApi } from './forAuthor/forAuthor.query';
+import { forReviewersApi } from './forReviewers/forReviewers.query';
+import { forConferenceOrganisersApi } from './forConferenceOrganisers/forConferenceOrganisers.query';
+import { ethicalCharterApi } from './ethicalCharter/ethicalCharter.query';
+import { indexationApi } from './indexation/indexation.query';
+import { journalApi } from './journal/journal.query';
+import { acknowledgementsApi } from './acknowledgements/acknowledgements.query';
+import { newsApi } from './news/news.query';
+import { searchApi } from './search/search.query';
+import { sectionApi } from './section/section.query';
+import { statApi } from './stat/stat.query';
+import { volumeApi } from './volume/volume.query';
 
 const createRootReducer = combineReducers({
   // Slices
@@ -73,9 +73,9 @@ const createRootReducer = combineReducers({
   [searchApi.reducerPath]: searchApi.reducer,
   [sectionApi.reducerPath]: sectionApi.reducer,
   [statApi.reducerPath]: statApi.reducer,
-  [volumeApi.reducerPath]: volumeApi.reducer
-})
+  [volumeApi.reducerPath]: volumeApi.reducer,
+});
 
-export type RootReducer = ReturnType<typeof createRootReducer>
+export type RootReducer = ReturnType<typeof createRootReducer>;
 
-export default createRootReducer
+export default createRootReducer;

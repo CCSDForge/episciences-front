@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import caretUp from '/icons/caret-up-grey.svg';
 import caretDown from '/icons/caret-down-grey.svg';
-import './AboutSidebar.scss'
+import './AboutSidebar.scss';
 
 export interface IAboutHeader {
   id: string;
@@ -16,25 +16,34 @@ interface IAboutSidebarProps {
   toggleHeaderCallback: (id: string) => void;
 }
 
-export default function AboutSidebar({ headers, toggleHeaderCallback }: IAboutSidebarProps): JSX.Element {
+export default function AboutSidebar({
+  headers,
+  toggleHeaderCallback,
+}: IAboutSidebarProps): JSX.Element {
   return (
-    <div className='aboutSidebar'>
+    <div className="aboutSidebar">
       {headers.map((header, index) => (
-        <div
-          key={index}
-          className='aboutSidebar-header'
-        >
-          <div className='aboutSidebar-header-title'>
+        <div key={index} className="aboutSidebar-header">
+          <div className="aboutSidebar-header-title">
             <Link to={`#${header.id}`}>
-              <div className='aboutSidebar-header-title-text'>{header.value}</div>
+              <div className="aboutSidebar-header-title-text">
+                {header.value}
+              </div>
             </Link>
-            {header.children.length > 0 && <img className='aboutSidebar-header-title-caret' src={header.opened ? caretUp : caretDown} alt={header.opened ? 'Caret up icon' : 'Caret down icon'} onClick={(): void => toggleHeaderCallback(header.id)} />}
+            {header.children.length > 0 && (
+              <img
+                className="aboutSidebar-header-title-caret"
+                src={header.opened ? caretUp : caretDown}
+                alt={header.opened ? 'Caret up icon' : 'Caret down icon'}
+                onClick={(): void => toggleHeaderCallback(header.id)}
+              />
+            )}
           </div>
           {header.opened && (
-            <div className='aboutSidebar-header-subheaders'>
+            <div className="aboutSidebar-header-subheaders">
               {header.children.map((subheader, index) => (
                 <Link key={index} to={`#${subheader.id}`}>
-                  <div className='aboutSidebar-header-subheaders-subheader'>
+                  <div className="aboutSidebar-header-subheaders-subheader">
                     {subheader.value}
                   </div>
                 </Link>
@@ -44,5 +53,5 @@ export default function AboutSidebar({ headers, toggleHeaderCallback }: IAboutSi
         </div>
       ))}
     </div>
-  )
+  );
 }

@@ -80,6 +80,7 @@ Each journal uses its own symbolic link, enabling:
 - **Zero downtime**: Atomic symlink changes ensure no service interruption
 
 Example:
+
 ```bash
 # Current deployment
 dist/dmtcs -> ../dist-versions/dmtcs/2025-10-29-143022/
@@ -97,6 +98,7 @@ Journals are automatically classified into environments based on naming:
 - **Exceptions**: `epijinfo` (no suffix but goes to preproduction)
 
 Classification is configured in `config.sh`:
+
 ```bash
 PREPROD_EXCEPTIONS=("epijinfo")
 ```
@@ -106,17 +108,15 @@ PREPROD_EXCEPTIONS=("epijinfo")
 The build uses a secure two-user approach:
 
 **Build Phase** (executed as `git`):
+
 1. **Git operations**: Fetch, checkout branch/tag, pull updates
 2. **Dependencies**: Install npm packages
 3. **Build**: Run Makefile to build journals (Vite + TypeScript)
 
-**Deploy Phase** (executed as `root`, files owned by `www-data`):
-4. **Deploy**: Copy built files to versioned directories
-5. **Set ownership**: Change all files to `www-data:www-data`
-6. **Activate**: Update symbolic links (owned by `www-data`)
-7. **Cleanup**: Remove old versions (keeping N most recent)
+**Deploy Phase** (executed as `root`, files owned by `www-data`): 4. **Deploy**: Copy built files to versioned directories 5. **Set ownership**: Change all files to `www-data:www-data` 6. **Activate**: Update symbolic links (owned by `www-data`) 7. **Cleanup**: Remove old versions (keeping N most recent)
 
 This separation ensures:
+
 - **Security**: Build process runs with minimal permissions (`git`)
 - **Isolation**: Build user cannot modify deployed files
 - **Correctness**: Web server (`www-data`) owns all served files
@@ -145,6 +145,7 @@ This separation ensures:
 ### Disk Space
 
 Each journal build is approximately 10-50 MB. With 37 journals and 7 versions kept:
+
 - Estimated space needed: ~15 GB per environment
 - Monitor disk usage regularly
 
@@ -167,6 +168,7 @@ nano config.sh  # Edit if needed (defaults should work)
 ```
 
 Configuration options:
+
 ```bash
 PROD_PATH="/sites/episciences-front"              # Production directory
 PREPROD_PATH="/sites/episciences-front-preprod"   # Preproduction directory
@@ -245,6 +247,7 @@ sudo ./deploy.sh preprod --all
 ```
 
 This will:
+
 1. Build all journals from the current branch (default: `main`)
 2. Create versioned directories with timestamp
 3. Update symbolic links
@@ -283,6 +286,7 @@ sudo ./deploy.sh preprod --all --branch feature/new-design
 ```
 
 Use cases:
+
 - Testing new features in preproduction
 - Hotfix deployments from hotfix branches
 - Beta releases
@@ -301,6 +305,7 @@ sudo ./deploy.sh prod --all --tag v3.0.0
 ```
 
 Use cases:
+
 - Production releases
 - Rollback to known good version
 - Consistent versioning across journals
@@ -318,6 +323,7 @@ sudo ./deploy.sh prod --all --branch dev --dry-run
 ```
 
 This will:
+
 - Show what would be done
 - Validate configuration
 - Check permissions
@@ -372,6 +378,7 @@ sudo ./rollback.sh preprod elpub-preprod
 ```
 
 The script will:
+
 1. Display the currently active version
 2. List available previous versions
 3. Ask you to confirm the rollback
@@ -434,6 +441,7 @@ done
 **Symptom**: `Permission denied` errors during build or deployment
 
 **Solutions**:
+
 ```bash
 # Check if running as root
 whoami  # Should show 'root'
@@ -454,6 +462,7 @@ sudo chown -R www-data:www-data /sites/episciences-front-preprod/
 **Symptom**: Errors during `npm install` or `make` commands
 
 **Solutions**:
+
 ```bash
 # Check Node.js is accessible for git (build user)
 sudo -u git bash -c "source ~/.nvm/nvm.sh && node --version"
@@ -478,6 +487,7 @@ sudo ./deploy.sh prod dmtcs
 **Symptom**: Broken symbolic links or 404 errors when accessing journals
 
 **Solutions**:
+
 ```bash
 # Check symlinks
 ls -la /sites/episciences-front/dist/
@@ -495,6 +505,7 @@ sudo -u www-data ln -sfn ../dist-versions/dmtcs/2025-10-29-143022 dmtcs
 **Symptom**: `No space left on device` errors
 
 **Solutions**:
+
 ```bash
 # Check disk usage
 df -h /sites/
@@ -520,6 +531,7 @@ sudo rm -rf 2025-09-*  # Remove very old versions
 **Symptom**: `Git pull failed` or `Uncommitted changes` errors
 
 **Solutions**:
+
 ```bash
 cd /sites/episciences-front-builder/
 
@@ -540,17 +552,20 @@ sudo -u git git config --global user.email "git@episciences.org"
 Deployment logs are saved in multiple locations:
 
 **Builder logs** (local to builder):
+
 ```bash
 /sites/episciences-front-builder/deploy/logs/deploy-YYYY-MM-DD-HHMMSS.log
 ```
 
 **Environment logs** (in prod/preprod directories):
+
 ```bash
 /sites/episciences-front/logs/deploy-YYYY-MM-DD-HHMMSS.log
 /sites/episciences-front-preprod/logs/deploy-YYYY-MM-DD-HHMMSS.log
 ```
 
 **View recent logs**:
+
 ```bash
 # Latest deployment log
 ls -lt /sites/episciences-front-builder/deploy/logs/ | head -1
@@ -565,11 +580,13 @@ grep -i error /sites/episciences-front-builder/deploy/logs/deploy-*.log
 ### Debugging Tips
 
 **Enable verbose mode** (if implemented):
+
 ```bash
 sudo ./deploy.sh prod dmtcs --verbose
 ```
 
 **Run commands manually**:
+
 ```bash
 # Become git (build user)
 sudo -u git bash
@@ -599,6 +616,7 @@ exit
 ```
 
 **Check Apache/Nginx logs** (if journals don't load):
+
 ```bash
 # Apache logs
 tail -f /var/log/apache2/error.log

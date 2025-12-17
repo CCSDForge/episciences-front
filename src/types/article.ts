@@ -1,10 +1,9 @@
-import { AvailableLanguage } from "../utils/i18n";
+import { AvailableLanguage } from '../utils/i18n';
 
 export interface AbstractItem {
   '@xml:lang': string;
   value: string;
 }
-
 
 export interface AbstractWithArray {
   value: AbstractItem[];
@@ -25,7 +24,11 @@ export interface AbstractWithString {
   value: string;
 }
 // Union type for different abstract structures in English
-export type AbstractType = AbstractWithArray | AbstractWithObject | AbstractWithStringArray | AbstractWithString;
+export type AbstractType =
+  | AbstractWithArray
+  | AbstractWithObject
+  | AbstractWithStringArray
+  | AbstractWithString;
 
 export interface IPartialArticle {
   '@id': string;
@@ -64,7 +67,7 @@ export interface IArticle {
   metrics?: {
     views: number;
     downloads: number;
-  }
+  };
 }
 
 export interface IArticleAuthor {
@@ -77,8 +80,7 @@ export type IArticleRecordKeywords = {
   [language in AvailableLanguage]: string[];
 };
 
-export interface IArticleKeywords extends IArticleRecordKeywords {
-}
+export interface IArticleKeywords extends IArticleRecordKeywords {}
 
 export interface IArticleReference {
   doi?: string;
@@ -101,7 +103,7 @@ export interface IArticleCitedByCitation {
     volume: string;
     year: string;
     page: string;
-  }
+  };
   doi: string;
 }
 
@@ -112,15 +114,15 @@ export interface IArticleRelatedItem {
   citation?: string;
 }
 
-export type RawArticle = IPartialArticle & IArticle & {
-  document: {
-    
+export type RawArticle = IPartialArticle &
+  IArticle & {
+    document: {
       journal?: {
         journal_article: IRawArticleContent;
-      }
+      };
       database: {
         current: {
-          'mainPdfUrl': string;
+          mainPdfUrl: string;
           cited_by?: {
             [key: number]: {
               source_id_name: string;
@@ -133,188 +135,207 @@ export type RawArticle = IPartialArticle & IArticle & {
                   year: string;
                   page: string;
                   doi: string;
-                }
+                };
               };
-            }
-          }
+            };
+          };
           type?: {
             title: string;
-          }
+          };
           flag?: string;
           dates: {
             publication_date: string;
             first_submission_date: string;
             modification_date: string;
-          }
+          };
           graphical_abstract_file?: string;
-          files: {
-            link: string;
-          } | {
-            link: string;
-          }[]
+          files:
+            | {
+                link: string;
+              }
+            | {
+                link: string;
+              }[];
           repository: {
             name: string;
             doc_url: string;
             paper_url: string;
-          }
+          };
           identifiers: {
             repository_identifier: string;
-          }
+          };
           volume?: {
             id: number;
-          }
+          };
           journal?: {
             id: number;
             url: string;
             code: string;
             name: string;
-          }
+          };
           metrics?: {
             file_count: number;
             page_count: number;
-          }
-        }
-      }
+          };
+        };
+      };
       conference: {
         conference_paper: IRawArticleContent;
-      }
-    
-  }
-}
+      };
+    };
+  };
 
 interface IRawArticleContent {
   titles: {
     title: string;
-  }
+  };
   abstract?: {
-    value: string | {
-      value: string;
-    };
-  }
+    value:
+      | string
+      | {
+          value: string;
+        };
+  };
   contributors: {
-    person_name: {
-      surname: string;
-      '@sequence': string;
-      given_name?: string;
-      ORCID?: string;
-      affiliations?: {
-        institution?: {
-          institution_name: string;
-        } | {
-          institution_name: string;
-        }[]
+    person_name:
+      | {
+          surname: string;
+          '@sequence': string;
+          given_name?: string;
+          ORCID?: string;
+          affiliations?: {
+            institution?:
+              | {
+                  institution_name: string;
+                }
+              | {
+                  institution_name: string;
+                }[];
+          };
+        }
+      | {
+          surname: string;
+          '@sequence': string;
+          given_name?: string;
+          ORCID?: string;
+          affiliations?: {
+            institution?:
+              | {
+                  institution_name: string;
+                }
+              | {
+                  institution_name: string;
+                }[];
+          };
+        }[];
+  };
+  program?:
+    | {
+        '@name'?: string;
+        assertion?:
+          | {
+              assertion?: {
+                value: string;
+              };
+            }
+          | {
+              assertion?: {
+                value: string;
+              }[];
+            };
+        license_ref?: {
+          value: string;
+        };
+        related_item?:
+          | {
+              inter_work_relation?: {
+                '@identifier-type': string;
+                '@relationship-type': string;
+                value: string;
+                unstructured_citation?: string;
+              };
+              intra_work_relation?: {
+                '@identifier-type': string;
+                '@relationship-type': string;
+                value: string;
+                unstructured_citation?: string;
+              };
+            }
+          | {
+              inter_work_relation?: {
+                '@identifier-type': string;
+                '@relationship-type': string;
+                value: string;
+                unstructured_citation?: string;
+              };
+              intra_work_relation?: {
+                '@identifier-type': string;
+                '@relationship-type': string;
+                value: string;
+                unstructured_citation?: string;
+              };
+            }[];
       }
-    } | {
-      surname: string;
-      '@sequence': string;
-      given_name?: string;
-      ORCID?: string;
-      affiliations?: {
-        institution?: {
-          institution_name: string;
-        } | {
-          institution_name: string;
-        }[]
-      }
-    }[]
-  }
-  program?: {
-    '@name'?: string;
-    assertion?: {
-      assertion?: {
-        value: string;
-      }
-    } | {
-      assertion?: {
-        value: string;
-      }[]
-    }
-    license_ref?: {
-      value: string;
-    }
-    related_item?: {
-      inter_work_relation?: {
-        '@identifier-type': string;
-        '@relationship-type': string;
-        value: string;
-        unstructured_citation?: string;
-      }
-      intra_work_relation?: {
-        '@identifier-type': string;
-        '@relationship-type': string;
-        value: string;
-        unstructured_citation?: string;
-      }
-    } | {
-      inter_work_relation?: {
-        '@identifier-type': string;
-        '@relationship-type': string;
-        value: string;
-        unstructured_citation?: string;
-      }
-      intra_work_relation?: {
-        '@identifier-type': string;
-        '@relationship-type': string;
-        value: string;
-        unstructured_citation?: string;
-      }
-    }[]
-  } | {
-    '@name'?: string;
-    assertion?: {
-      assertion?: {
-        value: string;
-      }
-    } | {
-      assertion?: {
-        value: string;
-      }[]
-    }
-    license_ref?: {
-      value: string;
-    }
-    related_item?: {
-      inter_work_relation?: {
-        '@identifier-type': string;
-        '@relationship-type': string;
-        value: string;
-        unstructured_citation?: string;
-      }
-      intra_work_relation?: {
-        '@identifier-type': string;
-        '@relationship-type': string;
-        value: string;
-        unstructured_citation?: string;
-      }
-    } | {
-      inter_work_relation?: {
-        '@identifier-type': string;
-        '@relationship-type': string;
-        value: string;
-        unstructured_citation?: string;
-      }
-      intra_work_relation?: {
-        '@identifier-type': string;
-        '@relationship-type': string;
-        value: string;
-        unstructured_citation?: string;
-      }
-    }[]
-  }[]
+    | {
+        '@name'?: string;
+        assertion?:
+          | {
+              assertion?: {
+                value: string;
+              };
+            }
+          | {
+              assertion?: {
+                value: string;
+              }[];
+            };
+        license_ref?: {
+          value: string;
+        };
+        related_item?:
+          | {
+              inter_work_relation?: {
+                '@identifier-type': string;
+                '@relationship-type': string;
+                value: string;
+                unstructured_citation?: string;
+              };
+              intra_work_relation?: {
+                '@identifier-type': string;
+                '@relationship-type': string;
+                value: string;
+                unstructured_citation?: string;
+              };
+            }
+          | {
+              inter_work_relation?: {
+                '@identifier-type': string;
+                '@relationship-type': string;
+                value: string;
+                unstructured_citation?: string;
+              };
+              intra_work_relation?: {
+                '@identifier-type': string;
+                '@relationship-type': string;
+                value: string;
+                unstructured_citation?: string;
+              };
+            }[];
+      }[];
   citation_list?: {
     citation?: {
       doi: string;
       unstructured_citation: string;
-    }[]
-  }
+    }[];
+  };
   doi_data: {
     doi: string;
     resource: string;
-  }
+  };
   keywords?: string[] | IArticleKeywords;
   acceptance_date?: {
     day: string;
     month: string;
     year: string;
-  }
+  };
 }

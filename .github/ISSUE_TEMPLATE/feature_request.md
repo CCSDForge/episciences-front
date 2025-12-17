@@ -1,12 +1,11 @@
 ---
-name: "Feature request ☝️"
+name: 'Feature request ☝️'
 about: Suggest an idea for Episciences
 title: '[Feature request] '
-labels: 
-  - "enhancement"
-  - "new"
+labels:
+  - 'enhancement'
+  - 'new'
 assignees: ''
-
 ---
 
 **Please do not disclose any personal information (e.g. name of an author, reviewer, email addresses, etc.).**

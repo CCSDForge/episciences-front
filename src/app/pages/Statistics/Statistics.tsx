@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from 'react'
+import { useState, useEffect, Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -7,49 +7,84 @@ import caretDown from '/icons/caret-down-red.svg';
 import filter from '/icons/filter.svg';
 import { PATHS } from '../../../config/paths';
 import { blocksConfiguration } from '../../../config/statistics';
-import { useAppSelector } from "../../../hooks/store";
+import { useAppSelector } from '../../../hooks/store';
 import { useFetchStatsQuery } from '../../../store/features/stat/stat.query';
-import { IStat, IStatValueEvaluation, getFormattedStatsAsPieChart, isIStatValueDetails, isIStatValueEvaluation } from '../../../types/stat';
-import { STAT_TYPE, IStatisticsPerLabel, STAT_LABEL, statTypes, statEvaluationTypes } from '../../../utils/stat';
-import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
+import {
+  IStat,
+  IStatValueEvaluation,
+  getFormattedStatsAsPieChart,
+  isIStatValueDetails,
+  isIStatValueEvaluation,
+} from '../../../types/stat';
+import {
+  STAT_TYPE,
+  IStatisticsPerLabel,
+  STAT_LABEL,
+  statTypes,
+  statEvaluationTypes,
+} from '../../../utils/stat';
+import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import Loader from '../../components/Loader/Loader';
 import PieChart from '../../components/Charts/PieChart/PieChart';
 import StatisticsMobileModal from '../../components/Modals/StatisticsMobileModal/StatisticsMobileModal';
-import StatisticsSidebar, { IStatisticsYearSelection } from '../../components/Sidebars/StatisticsSidebar/StatisticsSidebar';
-import './Statistics.scss'
-import {Helmet} from "react-helmet-async";
+import StatisticsSidebar, {
+  IStatisticsYearSelection,
+} from '../../components/Sidebars/StatisticsSidebar/StatisticsSidebar';
+import './Statistics.scss';
+import { Helmet } from 'react-helmet-async';
 
 export default function Statistics(): JSX.Element {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
-  const rvcode = useAppSelector(state => state.journalReducer.currentJournal?.code)
-  const journalName = useAppSelector(state => state.journalReducer.currentJournal?.name)
+  const rvcode = useAppSelector(
+    state => state.journalReducer.currentJournal?.code
+  );
+  const journalName = useAppSelector(
+    state => state.journalReducer.currentJournal?.name
+  );
 
-  const [statisticsPerLabel, setStatisticsPerLabel] = useState<IStatisticsPerLabel[]>([
-    { labelKey: STAT_LABEL.GLANCE, labelPath: 'pages.statistics.labels.glance', statistics: [], isOpened: true },
-    { labelKey: STAT_LABEL.EVALUATION_PUBLICATION, labelPath: 'pages.statistics.labels.evaluationPublication', statistics: [], isOpened: true }
+  const [statisticsPerLabel, setStatisticsPerLabel] = useState<
+    IStatisticsPerLabel[]
+  >([
+    {
+      labelKey: STAT_LABEL.GLANCE,
+      labelPath: 'pages.statistics.labels.glance',
+      statistics: [],
+      isOpened: true,
+    },
+    {
+      labelKey: STAT_LABEL.EVALUATION_PUBLICATION,
+      labelPath: 'pages.statistics.labels.evaluationPublication',
+      statistics: [],
+      isOpened: true,
+    },
   ]);
   const [years, setYears] = useState<IStatisticsYearSelection[]>([]);
-  const [openedFiltersMobileModal, setOpenedFiltersMobileModal] = useState(false)
+  const [openedFiltersMobileModal, setOpenedFiltersMobileModal] =
+    useState(false);
 
-  const getSelectedYears = (): number[] => years.filter(y => y.isChecked).map(y => y.year);
+  const getSelectedYears = (): number[] =>
+    years.filter(y => y.isChecked).map(y => y.year);
 
-  const { data: stats, isFetching: isFetching } = useFetchStatsQuery({ rvcode: rvcode!, page: 1, itemsPerPage: 7, years: getSelectedYears() }, { skip: !rvcode, refetchOnMountOrArgChange: true })
+  const { data: stats, isFetching: isFetching } = useFetchStatsQuery(
+    { rvcode: rvcode!, page: 1, itemsPerPage: 7, years: getSelectedYears() },
+    { skip: !rvcode, refetchOnMountOrArgChange: true }
+  );
 
   useEffect(() => {
     if (stats?.range && stats.range.years && years.length === 0) {
-      const initYears = stats.range.years.map((y) => ({
+      const initYears = stats.range.years.map(y => ({
         year: y,
-        isChecked: false
-      }))
+        isChecked: false,
+      }));
 
-      setYears(initYears)
+      setYears(initYears);
     }
-  }, [stats?.range, stats?.range?.years, years])
+  }, [stats?.range, stats?.range?.years, years]);
 
   const onCheckYear = (year: number): void => {
-    const updatedYears = years.map((y) => {
+    const updatedYears = years.map(y => {
       if (y.year === year) {
         return { ...y, isChecked: !y.isChecked };
       }
@@ -58,122 +93,190 @@ export default function Statistics(): JSX.Element {
     });
 
     setYears(updatedYears);
-  }
+  };
 
   const getStatisticTitle = (statistic: IStat): string | undefined => {
     if (statTypes.find(stat => stat.value === statistic.name)) {
-      return t(statTypes.find(stat => stat.value === statistic.name)?.labelPath!)
+      return t(
+        statTypes.find(stat => stat.value === statistic.name)?.labelPath!
+      );
     }
 
     if (statEvaluationTypes.find(stat => stat.value === statistic.name)) {
-      return t(statEvaluationTypes.find(stat => stat.value === statistic.name)?.labelPath!)
+      return t(
+        statEvaluationTypes.find(stat => stat.value === statistic.name)
+          ?.labelPath!
+      );
     }
 
-    return
-  }
+    return;
+  };
 
   const toggleStatisticsSection = (labelKey: STAT_LABEL): void => {
-    const updatedStatistics = statisticsPerLabel.map((statisticPerLabel) => {
+    const updatedStatistics = statisticsPerLabel.map(statisticPerLabel => {
       if (statisticPerLabel.labelKey === labelKey) {
         return {
           ...statisticPerLabel,
-          isOpened: !statisticPerLabel.isOpened
-        }
+          isOpened: !statisticPerLabel.isOpened,
+        };
       }
 
       return { ...statisticPerLabel };
     });
 
-    setStatisticsPerLabel(updatedStatistics)
-  }
+    setStatisticsPerLabel(updatedStatistics);
+  };
 
-  const renderSelectedYears = (): string => getSelectedYears().reverse().join(', ')
+  const renderSelectedYears = (): string =>
+    getSelectedYears().reverse().join(', ');
 
-  const getBlockRendering = (statName: string) => blocksConfiguration().find((config) => config.key === statName)
+  const getBlockRendering = (statName: string) =>
+    blocksConfiguration().find(config => config.key === statName);
 
   useEffect(() => {
-    if (!blocksConfiguration().some((config) => config.render)) {
+    if (!blocksConfiguration().some(config => config.render)) {
       navigate(PATHS.home);
     }
-  }, [blocksConfiguration])
+  }, [blocksConfiguration]);
 
   useEffect(() => {
     if (stats) {
-      const glanceStatTypes = [STAT_TYPE.ACCEPTANCE_RATE, STAT_TYPE.NB_SUBMISSIONS, STAT_TYPE.NB_SUBMISSIONS_DETAILS]
-      const evaluationPublicationStatTypes = [STAT_TYPE.EVALUATION, STAT_TYPE.MEDIAN_SUBMISSION_PUBLICATION]
+      const glanceStatTypes = [
+        STAT_TYPE.ACCEPTANCE_RATE,
+        STAT_TYPE.NB_SUBMISSIONS,
+        STAT_TYPE.NB_SUBMISSIONS_DETAILS,
+      ];
+      const evaluationPublicationStatTypes = [
+        STAT_TYPE.EVALUATION,
+        STAT_TYPE.MEDIAN_SUBMISSION_PUBLICATION,
+      ];
 
-      const glanceStats = stats.data.filter((stat) => glanceStatTypes.includes(stat.name as STAT_TYPE))
-      let evaluationPublicationStats = stats.data.filter((stat) => evaluationPublicationStatTypes.includes(stat.name as STAT_TYPE))
+      const glanceStats = stats.data.filter(stat =>
+        glanceStatTypes.includes(stat.name as STAT_TYPE)
+      );
+      let evaluationPublicationStats = stats.data.filter(stat =>
+        evaluationPublicationStatTypes.includes(stat.name as STAT_TYPE)
+      );
 
-      const evaluationStat = evaluationPublicationStats.find((stat) => stat.value !== null && isIStatValueEvaluation(stat.value!))
+      const evaluationStat = evaluationPublicationStats.find(
+        stat => stat.value !== null && isIStatValueEvaluation(stat.value!)
+      );
       if (evaluationStat) {
         evaluationPublicationStats.push({
           name: 'medianReviewsNumber',
           unit: evaluationStat.unit,
-          value: (evaluationStat.value as IStatValueEvaluation)['median-reviews-number'] ?? 0
-        })
+          value:
+            (evaluationStat.value as IStatValueEvaluation)[
+              'median-reviews-number'
+            ] ?? 0,
+        });
 
         evaluationPublicationStats.push({
           name: 'reviewsReceived',
           unit: evaluationStat.unit,
-          value: (evaluationStat.value as IStatValueEvaluation)['reviews-received'] ?? 0
-        })
+          value:
+            (evaluationStat.value as IStatValueEvaluation)[
+              'reviews-received'
+            ] ?? 0,
+        });
 
         evaluationPublicationStats.push({
           name: 'reviewsRequested',
           unit: evaluationStat.unit,
-          value: (evaluationStat.value as IStatValueEvaluation)['reviews-requested'] ?? 0
-        })
+          value:
+            (evaluationStat.value as IStatValueEvaluation)[
+              'reviews-requested'
+            ] ?? 0,
+        });
 
-        evaluationPublicationStats = evaluationPublicationStats.filter((stat) => stat.value !== null && !isIStatValueEvaluation(stat.value!))
+        evaluationPublicationStats = evaluationPublicationStats.filter(
+          stat => stat.value !== null && !isIStatValueEvaluation(stat.value!)
+        );
       }
 
-      const updatedStatisticsPerLabel = statisticsPerLabel.map((statisticPerLabel) => {
-        return {
-          ...statisticPerLabel,
-          statistics: statisticPerLabel.labelKey === STAT_LABEL.GLANCE ? glanceStats : evaluationPublicationStats
+      const updatedStatisticsPerLabel = statisticsPerLabel.map(
+        statisticPerLabel => {
+          return {
+            ...statisticPerLabel,
+            statistics:
+              statisticPerLabel.labelKey === STAT_LABEL.GLANCE
+                ? glanceStats
+                : evaluationPublicationStats,
+          };
         }
-      })
+      );
 
-      setStatisticsPerLabel(updatedStatisticsPerLabel)
+      setStatisticsPerLabel(updatedStatisticsPerLabel);
     }
-
-  }, [stats, stats?.data])
+  }, [stats, stats?.data]);
 
   return (
-    <main className='statistics'>
-
+    <main className="statistics">
       <Helmet>
-        <title>{t('pages.statistics.title')} | {journalName ?? ''}</title>
+        <title>
+          {t('pages.statistics.title')} | {journalName ?? ''}
+        </title>
       </Helmet>
 
-      <Breadcrumb parents={[
-        { path: 'home', label: `${t('pages.home.title')} > ${t('common.about')} >` }
-      ]} crumbLabel={t('pages.statistics.title')} />
-      <div className='statistics-title'>
-        <h1 className='statistics-title-text'>{t('pages.statistics.title')}</h1>
-        <div className='statistics-title-year'>
+      <Breadcrumb
+        parents={[
+          {
+            path: 'home',
+            label: `${t('pages.home.title')} > ${t('common.about')} >`,
+          },
+        ]}
+        crumbLabel={t('pages.statistics.title')}
+      />
+      <div className="statistics-title">
+        <h1 className="statistics-title-text">{t('pages.statistics.title')}</h1>
+        <div className="statistics-title-year">
           <span>{renderSelectedYears()}</span>
           <div className="statistics-title-year-filtersMobile">
-            <div className="statistics-title-year-filtersMobile-tile" onClick={(): void => setOpenedFiltersMobileModal(!openedFiltersMobileModal)}>
-              <img className="statistics-title-year-filtersMobile-tile-icon" src={filter} alt='List icon' />
-              <div className="statistics-title-year-filtersMobile-tile-text">{getSelectedYears().length > 0 ? `${t('common.filters.editFilters')} (${getSelectedYears().length})` : `${t('common.filters.filter')}`}</div>
+            <div
+              className="statistics-title-year-filtersMobile-tile"
+              onClick={(): void =>
+                setOpenedFiltersMobileModal(!openedFiltersMobileModal)
+              }
+            >
+              <img
+                className="statistics-title-year-filtersMobile-tile-icon"
+                src={filter}
+                alt="List icon"
+              />
+              <div className="statistics-title-year-filtersMobile-tile-text">
+                {getSelectedYears().length > 0
+                  ? `${t('common.filters.editFilters')} (${getSelectedYears().length})`
+                  : `${t('common.filters.filter')}`}
+              </div>
             </div>
-            {openedFiltersMobileModal && <StatisticsMobileModal t={t} years={years} onUpdateYearsCallback={setYears} onCloseCallback={(): void => setOpenedFiltersMobileModal(false)}/>}
+            {openedFiltersMobileModal && (
+              <StatisticsMobileModal
+                t={t}
+                years={years}
+                onUpdateYearsCallback={setYears}
+                onCloseCallback={(): void => setOpenedFiltersMobileModal(false)}
+              />
+            )}
           </div>
         </div>
       </div>
-      <div className='statistics-content'>
-        <div className='statistics-content-results'>
-          <StatisticsSidebar t={t} years={years} onCheckYearCallback={onCheckYear} />
+      <div className="statistics-content">
+        <div className="statistics-content-results">
+          <StatisticsSidebar
+            t={t}
+            years={years}
+            onCheckYearCallback={onCheckYear}
+          />
           {isFetching ? (
             <Loader />
           ) : (
-            <div className='statistics-content-results-cards'>
+            <div className="statistics-content-results-cards">
               {statisticsPerLabel.map((statisticPerLabel, index) => {
                 let filteredStatistics = statisticPerLabel.statistics
-                .filter(statistic => statistic.value !== null)
-                .filter(statistic => getBlockRendering(statistic.name)?.render)
+                  .filter(statistic => statistic.value !== null)
+                  .filter(
+                    statistic => getBlockRendering(statistic.name)?.render
+                  );
 
                 filteredStatistics = filteredStatistics.sort((a, b) => {
                   const configA = getBlockRendering(a.name);
@@ -182,62 +285,107 @@ export default function Statistics(): JSX.Element {
                 });
 
                 return (
-                  <div key={index} className='statistics-content-results-cards-row'>
-                    <div className="statistics-content-results-cards-row-title" onClick={(): void => toggleStatisticsSection(statisticPerLabel.labelKey)}>
-                      <div className="statistics-content-results-cards-row-title-text">{t(statisticPerLabel.labelPath)}</div>
+                  <div
+                    key={index}
+                    className="statistics-content-results-cards-row"
+                  >
+                    <div
+                      className="statistics-content-results-cards-row-title"
+                      onClick={(): void =>
+                        toggleStatisticsSection(statisticPerLabel.labelKey)
+                      }
+                    >
+                      <div className="statistics-content-results-cards-row-title-text">
+                        {t(statisticPerLabel.labelPath)}
+                      </div>
                       {statisticPerLabel.isOpened ? (
-                      <img className='statistics-content-results-cards-row-title-caret' src={caretUp} alt='Caret up icon' />
-                    ) : (
-                      <img className='statistics-content-results-cards-row-title-caret' src={caretDown} alt='Caret down icon' />
-                    )}
+                        <img
+                          className="statistics-content-results-cards-row-title-caret"
+                          src={caretUp}
+                          alt="Caret up icon"
+                        />
+                      ) : (
+                        <img
+                          className="statistics-content-results-cards-row-title-caret"
+                          src={caretDown}
+                          alt="Caret down icon"
+                        />
+                      )}
                     </div>
-                    <div className={`statistics-content-results-cards-row-stats ${statisticPerLabel.labelKey === STAT_LABEL.EVALUATION_PUBLICATION && "statistics-content-results-cards-row-stats-evaluation"} ${statisticPerLabel.isOpened && "statistics-content-results-cards-row-stats-active"}`}>
+                    <div
+                      className={`statistics-content-results-cards-row-stats ${statisticPerLabel.labelKey === STAT_LABEL.EVALUATION_PUBLICATION && 'statistics-content-results-cards-row-stats-evaluation'} ${statisticPerLabel.isOpened && 'statistics-content-results-cards-row-stats-active'}`}
+                    >
                       {filteredStatistics.map((statistic, index) => (
                         <Fragment key={index}>
-                          <div className='statistics-content-results-cards-row-stats-row'>
-                            {statistic.value && isIStatValueDetails(statistic.value) ? (
-                              <PieChart t={t} data={getFormattedStatsAsPieChart(statistic.value)} />
+                          <div className="statistics-content-results-cards-row-stats-row">
+                            {statistic.value &&
+                            isIStatValueDetails(statistic.value) ? (
+                              <PieChart
+                                t={t}
+                                data={getFormattedStatsAsPieChart(
+                                  statistic.value
+                                )}
+                              />
                             ) : (
                               <>
                                 {statistic.unit ? (
                                   <div
-                                    className={`${statisticPerLabel.labelKey === STAT_LABEL.EVALUATION_PUBLICATION ? "statistics-content-results-cards-row-stats-row-stat statistics-content-results-cards-row-stats-row-stat-evaluation" : "statistics-content-results-cards-row-stats-row-stat"}`}
+                                    className={`${statisticPerLabel.labelKey === STAT_LABEL.EVALUATION_PUBLICATION ? 'statistics-content-results-cards-row-stats-row-stat statistics-content-results-cards-row-stats-row-stat-evaluation' : 'statistics-content-results-cards-row-stats-row-stat'}`}
                                   >
-                                    {statistic.value}{i18n.exists(`common.${statistic.unit}`) ? (
-                                      <span className={`${statisticPerLabel.labelKey === STAT_LABEL.EVALUATION_PUBLICATION && "statistics-content-results-cards-row-stats-row-stat-unit statistics-content-results-cards-row-stats-row-stat-unit-evaluation"}`}>
-                                        {statistic.value && statistic.value > 1 ? t(`common.${statistic.unit}s`) : t(`common.${statistic.unit}`)}
+                                    {statistic.value}
+                                    {i18n.exists(`common.${statistic.unit}`) ? (
+                                      <span
+                                        className={`${statisticPerLabel.labelKey === STAT_LABEL.EVALUATION_PUBLICATION && 'statistics-content-results-cards-row-stats-row-stat-unit statistics-content-results-cards-row-stats-row-stat-unit-evaluation'}`}
+                                      >
+                                        {statistic.value && statistic.value > 1
+                                          ? t(`common.${statistic.unit}s`)
+                                          : t(`common.${statistic.unit}`)}
                                       </span>
                                     ) : (
-                                      <span className='statistics-content-results-cards-row-stats-row-stat-unit'>{statistic.unit}</span>
+                                      <span className="statistics-content-results-cards-row-stats-row-stat-unit">
+                                        {statistic.unit}
+                                      </span>
                                     )}
                                   </div>
                                 ) : (
-                                  <div className={`${statisticPerLabel.labelKey === STAT_LABEL.EVALUATION_PUBLICATION ? "statistics-content-results-cards-row-stats-row-stat statistics-content-results-cards-row-stats-row-stat-evaluation" : "statistics-content-results-cards-row-stats-row-stat"}`}>{statistic.value}</div>
+                                  <div
+                                    className={`${statisticPerLabel.labelKey === STAT_LABEL.EVALUATION_PUBLICATION ? 'statistics-content-results-cards-row-stats-row-stat statistics-content-results-cards-row-stats-row-stat-evaluation' : 'statistics-content-results-cards-row-stats-row-stat'}`}
+                                  >
+                                    {statistic.value}
+                                  </div>
                                 )}
-                                <div className={`${statisticPerLabel.labelKey === STAT_LABEL.EVALUATION_PUBLICATION ? "statistics-content-results-cards-row-stats-row-title statistics-content-results-cards-row-stats-row-title-evaluation" : "statistics-content-results-cards-row-stats-row-title"}`}>{getStatisticTitle(statistic)}</div>
+                                <div
+                                  className={`${statisticPerLabel.labelKey === STAT_LABEL.EVALUATION_PUBLICATION ? 'statistics-content-results-cards-row-stats-row-title statistics-content-results-cards-row-stats-row-title-evaluation' : 'statistics-content-results-cards-row-stats-row-title'}`}
+                                >
+                                  {getStatisticTitle(statistic)}
+                                </div>
                               </>
                             )}
                           </div>
                           {index !== filteredStatistics.length - 1 && (
-                            <div className={`${statisticPerLabel.labelKey === STAT_LABEL.EVALUATION_PUBLICATION ? (
-                              `statistics-content-results-cards-row-stats-divider statistics-content-results-cards-row-stats-divider-evaluation ${index % 2 === 1 && 'statistics-content-results-cards-row-stats-divider-evaluation-second'}`
-                            ) : (
-                              `statistics-content-results-cards-row-stats-divider statistics-content-results-cards-row-stats-divider-glance ${index % 2 === 1 && 'statistics-content-results-cards-row-stats-divider-glance-second'}`
-                            )}`}></div>
+                            <div
+                              className={`${
+                                statisticPerLabel.labelKey ===
+                                STAT_LABEL.EVALUATION_PUBLICATION
+                                  ? `statistics-content-results-cards-row-stats-divider statistics-content-results-cards-row-stats-divider-evaluation ${index % 2 === 1 && 'statistics-content-results-cards-row-stats-divider-evaluation-second'}`
+                                  : `statistics-content-results-cards-row-stats-divider statistics-content-results-cards-row-stats-divider-glance ${index % 2 === 1 && 'statistics-content-results-cards-row-stats-divider-glance-second'}`
+                              }`}
+                            ></div>
                           )}
-                          {(index !== filteredStatistics.length - 1) && index % 2 === 1 && (
-                            <div className='statistics-content-results-cards-row-stats-mobileLine'></div>
-                          )}
+                          {index !== filteredStatistics.length - 1 &&
+                            index % 2 === 1 && (
+                              <div className="statistics-content-results-cards-row-stats-mobileLine"></div>
+                            )}
                         </Fragment>
                       ))}
                     </div>
                   </div>
-                )
+                );
               })}
             </div>
           )}
         </div>
       </div>
     </main>
-  )
+  );
 }

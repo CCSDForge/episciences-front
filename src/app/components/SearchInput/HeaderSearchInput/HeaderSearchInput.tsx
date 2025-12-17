@@ -3,7 +3,7 @@ import { ChangeEvent, KeyboardEvent, useState, useRef } from 'react';
 import caretLeft from '/icons/caret-left-red.svg';
 import close from '/icons/close-red.svg';
 import search from '/icons/search.svg';
-import './HeaderSearchInput.scss'
+import './HeaderSearchInput.scss';
 
 interface IHeaderSearchInputProps {
   value: string;
@@ -14,7 +14,14 @@ interface IHeaderSearchInputProps {
   onSubmitCallback: () => void;
 }
 
-export default function HeaderSearchInput({ value, placeholder, isSearching, setIsSearchingCallback, onChangeCallback, onSubmitCallback }: IHeaderSearchInputProps): JSX.Element {
+export default function HeaderSearchInput({
+  value,
+  placeholder,
+  isSearching,
+  setIsSearchingCallback,
+  onChangeCallback,
+  onSubmitCallback,
+}: IHeaderSearchInputProps): JSX.Element {
   const [preventBlur, setPreventBlur] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -23,53 +30,66 @@ export default function HeaderSearchInput({ value, placeholder, isSearching, set
       onSubmitCallback();
       loseInputFocus();
     }
-  }
+  };
 
   const handleBlur = (): void => {
     if (!preventBlur) {
-      setTimeout(() => setIsSearchingCallback(false), 200)
+      setTimeout(() => setIsSearchingCallback(false), 200);
     }
-  }
+  };
 
   const emptySearch = (): void => {
     onChangeCallback('');
     setIsSearchingCallback(false);
     loseInputFocus();
-  }
+  };
 
   const loseInputFocus = (): void => {
     if (inputRef.current) {
       inputRef.current.blur();
     }
-  }
+  };
 
   return (
-    <div className='headerSearchInput'>
+    <div className="headerSearchInput">
       {isSearching ? (
-        <img className='headerSearchInput-icon headerSearchInput-icon-caretLeft' src={caretLeft} alt='Caret left icon' onClick={(): void => setIsSearchingCallback(false)} />
+        <img
+          className="headerSearchInput-icon headerSearchInput-icon-caretLeft"
+          src={caretLeft}
+          alt="Caret left icon"
+          onClick={(): void => setIsSearchingCallback(false)}
+        />
       ) : (
-        <img className='headerSearchInput-icon headerSearchInput-icon-search' src={search} alt='Search icon' />
+        <img
+          className="headerSearchInput-icon headerSearchInput-icon-search"
+          src={search}
+          alt="Search icon"
+        />
       )}
       <input
         ref={inputRef}
-        className='headerSearchInput-input'
+        className="headerSearchInput-input"
         value={value}
         placeholder={placeholder}
         onFocus={(): void => setIsSearchingCallback(true)}
         onBlur={(): void => handleBlur()}
-        onChange={(e: ChangeEvent<HTMLInputElement>): void => onChangeCallback(e.target.value)}
-        onKeyDown={(e: KeyboardEvent<HTMLInputElement>): void => handleKeyDown(e)}
+        onChange={(e: ChangeEvent<HTMLInputElement>): void =>
+          onChangeCallback(e.target.value)
+        }
+        onKeyDown={(e: KeyboardEvent<HTMLInputElement>): void =>
+          handleKeyDown(e)
+        }
       />
       {isSearching && (
         <img
-          className='headerSearchInput-icon headerSearchInput-icon-close'
+          className="headerSearchInput-icon headerSearchInput-icon-close"
           src={close}
-          alt='Close icon'
+          alt="Close icon"
           onMouseDown={() => setPreventBlur(true)}
           onMouseUp={() => setPreventBlur(false)}
           onClick={(): void => emptySearch()}
         />
       )}
     </div>
-  )
+  );
 }
