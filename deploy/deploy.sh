@@ -353,6 +353,26 @@ git_operations() {
 # BUILD OPERATIONS
 # =============================================================================
 
+update_external_assets() {
+    log STEP "Updating external assets..."
+
+    if [ ! -d "$PROJECT_ROOT/external-assets" ]; then
+        error_exit "External assets directory not found: $PROJECT_ROOT/external-assets"
+    fi
+
+    if [ "$DRY_RUN" = true ]; then
+        log INFO "[DRY-RUN] Would run: git pull in external-assets as $BUILD_USER"
+        return
+    fi
+
+    log INFO "Pulling latest external assets..."
+    if ! run_as_build_user "cd external-assets && git pull"; then
+        error_exit "Failed to update external assets"
+    fi
+
+    log SUCCESS "External assets updated"
+}
+
 install_dependencies() {
     log STEP "Installing dependencies..."
 
@@ -575,6 +595,7 @@ Please create the required directory structure:
     # Execute deployment steps
     git_operations
     install_dependencies
+    update_external_assets
     build_journals "${journals_to_deploy[@]}"
 
     # Deploy each journal
