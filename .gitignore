@@ -38,3 +38,6 @@ src/style/fonts/Noto-Sans/archive
 # Deployment configuration and logs
 deploy/config.sh
 deploy/logs/
+/.claude/
+/.gemini/
+/.firebase/
