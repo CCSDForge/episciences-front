@@ -1,0 +1,30 @@
+# Dependencies
+node_modules
+
+# Build outputs
+dist
+build
+.vite
+
+# Environment files
+.env
+.env.local
+.env.local.backup
+
+# Logs
+*.log
+
+# Coverage
+coverage
+
+# Temporary files
+tmp
+*.tmp
+
+# External assets
+external-assets
+
+# Lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
