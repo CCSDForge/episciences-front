@@ -62,8 +62,18 @@
       padding: 25px;
     }
 
+    @media (max-width: breakpoints.$xsm) {
+      align-items: flex-start;
+    }
+
     &-logo {
       margin-right: 25px;
+      height: auto;
+
+      @media (max-width: breakpoints.$xsm) {
+        max-width: 80px;
+        max-height: 40px;
+      }
     }
 
     &-links {
