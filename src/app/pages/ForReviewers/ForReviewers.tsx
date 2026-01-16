@@ -29,6 +29,14 @@ interface IForReviewersSection {
   opened: boolean;
 }
 
+interface IMarkdownNode {
+  type: string;
+  value?: string;
+  children?: IMarkdownNode[];
+}
+
+type ReactChildren = React.ReactNode;
+
 export default function ForReviewers(): JSX.Element {
   const { t } = useTranslation();
 
@@ -56,7 +64,7 @@ export default function ForReviewers(): JSX.Element {
    * @param node - The markdown AST node to extract text from
    * @returns The extracted plain text string
    */
-  const extractTextFromNode = (node: any): string => {
+  const extractTextFromNode = (node: IMarkdownNode): string => {
     if (node.type === 'text') {
       return node.value;
     }
@@ -230,11 +238,16 @@ export default function ForReviewers(): JSX.Element {
                       </Link>
                     ),
                     h2: ({ ...props }) => {
-                      const getText = (children: any): string => {
+                      const getText = (children: ReactChildren): string => {
                         if (typeof children === 'string') return children;
                         if (Array.isArray(children))
                           return children.map(getText).join('');
-                        if (children?.props?.children)
+                        if (
+                          children &&
+                          typeof children === 'object' &&
+                          'props' in children &&
+                          children.props?.children
+                        )
                           return getText(children.props.children);
                         return '';
                       };
@@ -269,11 +282,16 @@ export default function ForReviewers(): JSX.Element {
                       );
                     },
                     h3: ({ ...props }) => {
-                      const getText = (children: any): string => {
+                      const getText = (children: ReactChildren): string => {
                         if (typeof children === 'string') return children;
                         if (Array.isArray(children))
                           return children.map(getText).join('');
-                        if (children?.props?.children)
+                        if (
+                          children &&
+                          typeof children === 'object' &&
+                          'props' in children &&
+                          children.props?.children
+                        )
                           return getText(children.props.children);
                         return '';
                       };

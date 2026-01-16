@@ -57,18 +57,18 @@ export default function LanguageDropdown({
 
   // Handle Escape key globally when menu is open
   useEffect(() => {
-    const handleEscape = (event: KeyboardEvent): void => {
+    const handleEscape = (event: globalThis.KeyboardEvent): void => {
       if (event.key === 'Escape' && showDropdown) {
         closeDropdown();
       }
     };
 
     if (showDropdown) {
-      document.addEventListener('keydown', handleEscape as any);
+      document.addEventListener('keydown', handleEscape);
     }
 
     return () => {
-      document.removeEventListener('keydown', handleEscape as any);
+      document.removeEventListener('keydown', handleEscape);
     };
   }, [showDropdown]);
 
