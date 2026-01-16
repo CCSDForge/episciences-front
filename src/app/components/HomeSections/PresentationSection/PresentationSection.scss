@@ -18,13 +18,19 @@
     &-content {
       font-size: 18px;
       flex: 1;
-
-      // Troncature visuelle avec line-clamp
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
       overflow: hidden;
-      line-clamp: 6;
-      -webkit-line-clamp: 6;
+      max-height: 180px;
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 40px;
+        background: linear-gradient(transparent, var(--white));
+      }
 
       p {
         margin: 16px 0;
@@ -40,8 +46,13 @@
         text-decoration: underline;
       }
 
+      @media (max-width: breakpoints.$sm) {
+        max-height: 200px;
+      }
+
       @media (max-width: breakpoints.$xsm) {
         font-size: 14px;
+        max-height: 160px;
       }
     }
 
