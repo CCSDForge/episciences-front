@@ -9,8 +9,8 @@ import {
   useFetchBoardMembersQuery,
   useFetchBoardPagesQuery,
 } from '../../../store/features/board/board.query';
-import { IBoardMember } from '../../../types/board';
-import { sortBoardPages } from '../../../utils/board';
+import { IBoardMember, BoardPage } from '../../../types/board';
+import { boardTypes, BOARD_TYPE } from '../../../utils/board';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import BoardCard from '../../components/Cards/BoardCard/BoardCard';
 import Loader from '../../components/Loader/Loader';
@@ -48,47 +48,85 @@ export default function Boards(): JSX.Element {
 
   const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const getPagesLabels = (): string[] => {
-    if (!pages || !pages.length) return [];
-    return sortBoardPages(pages).map(page => page.title[language]);
+  // Helper to get default title for a board type
+  const getBoardTypeTitle = (boardType: BOARD_TYPE): string => {
+    const titleMap: Record<BOARD_TYPE, string> = {
+      [BOARD_TYPE.INTRODUCTION_BOARD]: t('pages.boards.types.introductionBoard'),
+      [BOARD_TYPE.EDITORIAL_BOARD]: t('pages.boards.types.editorialBoard'),
+      [BOARD_TYPE.TECHNICAL_BOARD]: t('pages.boards.types.technicalBoard'),
+      [BOARD_TYPE.SCIENTIFIC_ADVISORY_BOARD]: t(
+        'pages.boards.types.scientificAdvisoryBoard'
+      ),
+      [BOARD_TYPE.REVIEWERS_BOARD]: t('pages.boards.types.reviewersBoard'),
+      [BOARD_TYPE.FORMER_MEMBERS]: t('pages.boards.types.formerMember'),
+      [BOARD_TYPE.OPERATING_CHARTER_BOARD]: t(
+        'pages.boards.types.operatingCharterBoard'
+      ),
+    };
+    return titleMap[boardType] || boardType;
+  };
+
+  // Helper to find a page by its page_code
+  const findPageByCode = (pageCode: string): BoardPage | undefined => {
+    return pages?.find(page => page.page_code === pageCode);
+  };
+
+  // Helper to get members for a board type
+  const getMembersForBoardType = (boardType: BOARD_TYPE): IBoardMember[] => {
+    if (!members || !members.length) return [];
+
+    return members.filter(member => {
+      const pluralRoles = member.roles.map(role => `${role}s`);
+      const hasMatchingRole =
+        member.roles.includes(boardType) || pluralRoles.includes(boardType);
+
+      // Include advisory-board in scientific-advisory-board
+      const isScientificAdvisoryBoard =
+        boardType === BOARD_TYPE.SCIENTIFIC_ADVISORY_BOARD;
+      const hasAdvisoryBoardRole = member.roles.includes('advisory-board');
+
+      // Include managing-editor and handling-editor in editorial-board
+      const isEditorialBoard = boardType === BOARD_TYPE.EDITORIAL_BOARD;
+      const hasManagingOrHandlingRole =
+        member.roles.includes('managing-editor') ||
+        member.roles.includes('handling-editor');
+
+      return (
+        hasMatchingRole ||
+        (isScientificAdvisoryBoard && hasAdvisoryBoardRole) ||
+        (isEditorialBoard && hasManagingOrHandlingRole)
+      );
+    });
   };
 
   const getBoardsPerTitle = (): IBoardPerTitle[] => {
-    if (!pages || !pages.length) return [];
     if (!members || !members.length) return [];
 
-    return sortBoardPages(pages).map(page => {
-      const pageMembers = members.filter(member => {
-        const pluralRoles = member.roles.map(role => `${role}s`);
-        const hasMatchingRole =
-          member.roles.includes(page.page_code) ||
-          pluralRoles.includes(page.page_code);
+    // Iterate over all board types, not just existing pages
+    return boardTypes
+      .map(boardType => {
+        const page = findPageByCode(boardType);
+        const boardMembers = getMembersForBoardType(boardType);
 
-        // Include advisory-board in scientific-advisory-board
-        const isScientificAdvisoryBoard =
-          page.page_code === 'scientific-advisory-board';
-        const hasAdvisoryBoardRole = member.roles.includes('advisory-board');
+        // Only include boards that have members OR have a page with content
+        if (boardMembers.length === 0 && !page) {
+          return null;
+        }
 
-        // Include managing-editor and handling-editor in editorial-board
-        const isEditorialBoard = page.page_code === 'editorial-board';
-        const hasManagingOrHandlingRole =
-          member.roles.includes('managing-editor') ||
-          member.roles.includes('handling-editor');
+        return {
+          title: page ? page.title[language] : getBoardTypeTitle(boardType),
+          description: page ? page.content[language] : '',
+          members: boardMembers,
+          pageCode: boardType as string,
+        };
+      })
+      .filter(
+        (board): board is IBoardPerTitle => board !== null
+      );
+  };
 
-        return (
-          hasMatchingRole ||
-          (isScientificAdvisoryBoard && hasAdvisoryBoardRole) ||
-          (isEditorialBoard && hasManagingOrHandlingRole)
-        );
-      });
-
-      return {
-        title: page.title[language],
-        description: page.content[language],
-        members: pageMembers,
-        pageCode: page.page_code,
-      };
-    });
+  const getPagesLabels = (): string[] => {
+    return getBoardsPerTitle().map(board => board.title);
   };
 
   const handleGroupToggle = (index: number): void => {
