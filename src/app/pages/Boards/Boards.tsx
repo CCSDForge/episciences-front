@@ -51,7 +51,9 @@ export default function Boards(): JSX.Element {
   // Helper to get default title for a board type
   const getBoardTypeTitle = (boardType: BOARD_TYPE): string => {
     const titleMap: Record<BOARD_TYPE, string> = {
-      [BOARD_TYPE.INTRODUCTION_BOARD]: t('pages.boards.types.introductionBoard'),
+      [BOARD_TYPE.INTRODUCTION_BOARD]: t(
+        'pages.boards.types.introductionBoard'
+      ),
       [BOARD_TYPE.EDITORIAL_BOARD]: t('pages.boards.types.editorialBoard'),
       [BOARD_TYPE.TECHNICAL_BOARD]: t('pages.boards.types.technicalBoard'),
       [BOARD_TYPE.SCIENTIFIC_ADVISORY_BOARD]: t(
@@ -120,9 +122,7 @@ export default function Boards(): JSX.Element {
           pageCode: boardType as string,
         };
       })
-      .filter(
-        (board): board is IBoardPerTitle => board !== null
-      );
+      .filter((board): board is IBoardPerTitle => board !== null);
   };
 
   const getPagesLabels = (): string[] => {
