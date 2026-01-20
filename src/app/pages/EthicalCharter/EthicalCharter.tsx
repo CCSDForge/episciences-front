@@ -106,7 +106,7 @@ export default function EthicalCharter(): JSX.Element {
    */
   const extractTextFromNode = (node: IMarkdownNode): string => {
     if (node.type === 'text') {
-      return node.value;
+      return node.value ?? '';
     }
     if (node.type === 'strong' && node.children) {
       return node.children.map(extractTextFromNode).join('');

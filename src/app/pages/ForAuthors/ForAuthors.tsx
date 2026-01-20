@@ -138,9 +138,13 @@ export default function ForAuthors(): JSX.Element {
               .map(child => (child as { value: string }).value)
               .join('');
 
-            if (currentCardContent) {
+            if (
+              currentCardContent &&
+              currentSection.cards &&
+              currentSection.cards.length > 0
+            ) {
               const lastCard =
-                currentSection.cards![currentSection.cards!.length - 1];
+                currentSection.cards[currentSection.cards.length - 1];
               lastCard.content = currentCardContent.trim();
             }
 
@@ -285,12 +289,12 @@ export default function ForAuthors(): JSX.Element {
       { title: string | undefined; content: string | undefined }
     > = {
       [FOR_AUTHORS_SECTION.EDITORIAL_WORKFLOW]: {
-        title: editorialWorkflowPage?.title[language],
-        content: editorialWorkflowPage?.content[language],
+        title: editorialWorkflowPage?.title?.[language],
+        content: editorialWorkflowPage?.content?.[language],
       },
       [FOR_AUTHORS_SECTION.PREPARE_SUBMISSION]: {
-        title: prepareSubmissionPage?.title[language],
-        content: prepareSubmissionPage?.content[language],
+        title: prepareSubmissionPage?.title?.[language],
+        content: prepareSubmissionPage?.content?.[language],
       },
     };
 
