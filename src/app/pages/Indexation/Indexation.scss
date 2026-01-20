@@ -55,12 +55,19 @@
       list-style: disc;
       padding-left: 20px;
       margin-bottom: 12px;
+      columns: 2;
+      column-gap: 30px;
+
+      @media (max-width: breakpoints.$xsm) {
+        columns: 1;
+      }
 
       li {
         margin-bottom: 8px;
         color: var(--blue-dark);
         font-size: 15px;
         line-height: 23px;
+        break-inside: avoid;
       }
     }
 
