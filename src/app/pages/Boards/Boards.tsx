@@ -207,6 +207,7 @@ export default function Boards(): JSX.Element {
             {getBoardsPerTitle().map((boardPerTitle, index) => (
               <div
                 key={index}
+                id={boardPerTitle.pageCode}
                 className="boards-content-groups-group"
                 ref={(el): void => {
                   panelRefs.current[index] = el;

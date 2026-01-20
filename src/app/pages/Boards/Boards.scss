@@ -95,3 +95,24 @@
     }
   }
 }
+
+#reviewers-board {
+  .boards-content-groups-group-content-description {
+    ul {
+      column-count: 3;
+      column-gap: 20px;
+
+      @media (max-width: breakpoints.$sm) {
+        column-count: 2;
+      }
+
+      @media (max-width: breakpoints.$xsm) {
+        column-count: 1;
+      }
+
+      li {
+        break-inside: avoid;
+      }
+    }
+  }
+}
