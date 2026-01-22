@@ -1,0 +1,15 @@
+.affiliationLabel {
+  display: inline;
+
+  &-ror-link {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+  }
+
+  &-ror-icon {
+    height: 1.5em;
+    width: auto;
+    vertical-align: middle;
+  }
+}

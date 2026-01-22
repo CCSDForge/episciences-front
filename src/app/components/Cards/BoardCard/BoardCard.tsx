@@ -10,6 +10,7 @@ import user from '/icons/user.svg';
 import { IBoardMember } from '../../../../types/board';
 import { AvailableLanguage } from '../../../../utils/i18n';
 import { defaultBoardRole, getBoardRoles } from '../../../../utils/board';
+import AffiliationLabel from '../../AffiliationLabel';
 import './BoardCard.scss';
 
 interface IBoardCardProps {
@@ -85,7 +86,7 @@ export default function BoardCard({
           </div>
           {member.affiliations.length > 0 && (
             <div className="boardCard-full-initial-affiliations">
-              {member.affiliations[0].label}
+              <AffiliationLabel affiliation={member.affiliations[0]} />
             </div>
           )}
           {member.assignedSections.length > 0 && (
@@ -218,7 +219,7 @@ export default function BoardCard({
       </div>
       {member.affiliations.length > 0 && (
         <div className="boardCard-affiliations">
-          {member.affiliations[0].label}
+          <AffiliationLabel affiliation={member.affiliations[0]} />
         </div>
       )}
       {member.assignedSections.length > 0 && (

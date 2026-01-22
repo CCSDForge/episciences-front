@@ -116,8 +116,8 @@ export default function Boards(): JSX.Element {
         }
 
         return {
-          title: page ? page.title[language] : getBoardTypeTitle(boardType),
-          description: page ? page.content[language] : '',
+          title: page?.title[language] || getBoardTypeTitle(boardType),
+          description: page?.content[language] ?? '',
           members: boardMembers,
           pageCode: boardType as string,
         };

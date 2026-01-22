@@ -6,6 +6,7 @@ import user from '/icons/user.svg';
 import { IBoardMember } from '../../../../types/board';
 import { AvailableLanguage } from '../../../../utils/i18n';
 import { defaultBoardRole, getBoardRoles } from '../../../../utils/board';
+import AffiliationLabel from '../../AffiliationLabel';
 import './SwiperBoardCard.scss';
 
 export type SwiperBoardCardProps = IBoardMember;
@@ -71,7 +72,7 @@ export default function SwiperBoardCard({
       </div>
       {member.affiliations.length > 0 && (
         <div className="swiperBoardCard-affiliations">
-          {member.affiliations[0].label}
+          <AffiliationLabel affiliation={member.affiliations[0]} />
         </div>
       )}
       {member.assignedSections.length > 0 && (
