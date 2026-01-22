@@ -28,18 +28,41 @@ export const boardApi = createApi({
               ? board.roles[0].map(role => role.replace(/_/g, '-'))
               : [];
 
-          let twitter, mastodon;
+          let twitter, mastodon, bluesky;
           if (board.additionalProfileInformation?.socialMedias) {
-            const atCount = (
-              board.additionalProfileInformation?.socialMedias.match(/@/g) || []
-            ).length;
+            const socialMedia = board.additionalProfileInformation.socialMedias;
 
-            if (atCount === 1) {
-              twitter = `${import.meta.env.VITE_TWITTER_HOMEPAGE}/${board.additionalProfileInformation?.socialMedias.slice(1)}`;
-            } else if (atCount > 1) {
-              const parts =
-                board.additionalProfileInformation?.socialMedias.split('@');
+            // Detect Bluesky: contains bsky.app or bsky.social
+            if (
+              socialMedia.includes('bsky.app') ||
+              socialMedia.includes('bsky.social')
+            ) {
+              // If it's already a full URL, use it directly
+              if (socialMedia.startsWith('http')) {
+                bluesky = socialMedia;
+              } else {
+                // Handle format like @user.bsky.social or user.bsky.social
+                const handle = socialMedia.replace(/^@/, '');
+                bluesky = `https://bsky.app/profile/${handle}`;
+              }
+            }
+            // Detect Mastodon: format @user@instance (two @ symbols)
+            else if ((socialMedia.match(/@/g) || []).length > 1) {
+              const parts = socialMedia.split('@');
               mastodon = `https://${parts[2]}/@${parts[1]}`;
+            }
+            // Detect Twitter/X: single @ or contains twitter.com/x.com
+            else if (
+              socialMedia.includes('twitter.com') ||
+              socialMedia.includes('x.com')
+            ) {
+              twitter = socialMedia.startsWith('http')
+                ? socialMedia
+                : `https://${socialMedia}`;
+            }
+            // Default: assume Twitter/X handle with single @
+            else if (socialMedia.startsWith('@')) {
+              twitter = `${import.meta.env.VITE_TWITTER_HOMEPAGE}/${socialMedia.slice(1)}`;
             }
           }
 
@@ -62,6 +85,7 @@ export const boardApi = createApi({
               : [],
             twitter,
             mastodon,
+            bluesky,
             website: board.additionalProfileInformation?.webSites
               ? board.additionalProfileInformation.webSites[0]
               : undefined,

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add Bluesky social network support for board members
 - add ROR logo link for affiliations with rorId
 - 2 New pages in About Menu (Indexation + Acknowledgements)
 - Deployment scripts see [README.md](deploy/README.md])

@@ -6,6 +6,7 @@ import orcid from '/icons/orcid.svg';
 import externalLink from '/icons/external-link-red.svg';
 import twitter from '/icons/twitter.svg';
 import mastodon from '/icons/mastodon.svg';
+import bluesky from '/icons/bluesky.svg';
 import user from '/icons/user.svg';
 import { IBoardMember } from '../../../../types/board';
 import { AvailableLanguage } from '../../../../utils/i18n';
@@ -111,7 +112,7 @@ export default function BoardCard({
             {member.biography}
           </div>
           <div className="boardCard-full-expanded-social">
-            {(member.twitter || member.mastodon) && (
+            {(member.twitter || member.mastodon || member.bluesky) && (
               <div className="boardCard-full-expanded-social-networks">
                 {member.twitter && (
                   <Link
@@ -138,6 +139,20 @@ export default function BoardCard({
                       className="boardCard-full-expanded-social-networks-icon"
                       src={mastodon}
                       alt="Mastodon icon"
+                    />
+                  </Link>
+                )}
+                {member.bluesky && (
+                  <Link
+                    to={member.bluesky}
+                    title={member.bluesky}
+                    target="_blank"
+                    onClick={e => e.stopPropagation()}
+                  >
+                    <img
+                      className="boardCard-full-expanded-social-networks-icon"
+                      src={bluesky}
+                      alt="Bluesky icon"
                     />
                   </Link>
                 )}
