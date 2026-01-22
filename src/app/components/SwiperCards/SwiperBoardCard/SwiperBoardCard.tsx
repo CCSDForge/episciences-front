@@ -72,7 +72,11 @@ export default function SwiperBoardCard({
       </div>
       {member.affiliations.length > 0 && (
         <div className="swiperBoardCard-affiliations">
-          <AffiliationLabel affiliation={member.affiliations[0]} />
+          {member.affiliations.map((affiliation, index) => (
+            <div key={index}>
+              <AffiliationLabel affiliation={affiliation} />
+            </div>
+          ))}
         </div>
       )}
       {member.assignedSections.length > 0 && (

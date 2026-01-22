@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Display all affiliations for board members instead of only the first one (#73)
 - Breadcrumbs: use correct paths from config and fix navigation
 - Volume page, display other volumes with a link
 - Fixed truncated Markdown not rendered in /HomeSections/PresentationSection
