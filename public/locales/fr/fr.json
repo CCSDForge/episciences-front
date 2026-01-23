@@ -381,7 +381,9 @@
         "formerMember": "Ancien/Ancienne membre",
         "advisoryBoard": "Comité consultatif",
         "managingEditor": "Comité de direction",
-        "handlingEditor": "Rédacteur responsable"
+        "handlingEditor": "Rédacteur responsable",
+        "copyEditor": "Préparateur de copie",
+        "webmaster": "Webmaster"
       }
     },
     "publish": {

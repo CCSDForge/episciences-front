@@ -381,7 +381,9 @@
         "formerMember": "Former member",
         "advisoryBoard": "Advisory board",
         "managingEditor": "Managing editor",
-        "handlingEditor": "Handling editor"
+        "handlingEditor": "Handling editor",
+        "copyEditor": "Copy editor",
+        "webmaster": "Webmaster"
       }
     },
     "publish": {
