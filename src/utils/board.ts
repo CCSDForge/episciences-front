@@ -50,6 +50,8 @@ export enum BOARD_ROLE {
   ADVISORY_BOARD = 'advisory-board',
   MANAGING_EDITOR = 'managing-editor',
   HANDLING_EDITOR = 'handling-editor',
+  COPY_EDITOR = 'copyeditor',
+  WEBMASTER = 'webmaster',
 }
 
 export const defaultBoardRole = (t: TFunction<'translation', undefined>) => {
@@ -105,6 +107,14 @@ export const getBoardRoles = (
     {
       key: BOARD_ROLE.HANDLING_EDITOR,
       label: t('pages.boards.roles.handlingEditor'),
+    },
+    {
+      key: BOARD_ROLE.COPY_EDITOR,
+      label: t('pages.boards.roles.copyEditor'),
+    },
+    {
+      key: BOARD_ROLE.WEBMASTER,
+      label: t('pages.boards.roles.webmaster'),
     },
   ];
 
