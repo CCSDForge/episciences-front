@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Mathematics Subject Classification 2020 section on article detail page, displaying MSC2020 codes as clickable links to zbmath.org
 - WhatsApp and Bluesky sharing buttons in article details sidebar
 - Sign-in link in the preheader bar next to the language switcher, with user icon on mobile and accessible new-window indication
 - Cache busting for translation files to ensure updates are visible immediately

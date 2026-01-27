@@ -284,6 +284,32 @@
             margin-bottom: 5px;
           }
 
+          &-msc2020 {
+            &-container {
+              margin-top: 15px;
+            }
+
+            &-link {
+              display: block;
+              color: var(--primary-accessible);
+              font-size: 16px;
+              line-height: 1.6;
+              text-decoration: none;
+
+              &:hover {
+                text-decoration: underline;
+              }
+
+              @media (max-width: breakpoints.$xsm) {
+                font-size: 14px;
+              }
+            }
+          }
+
+          .msc2020-list {
+            margin-bottom: 5px;
+          }
+
           &-citedBy {
             margin-top: 10px;
 

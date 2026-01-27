@@ -68,6 +68,7 @@ export interface IArticle {
     views: number;
     downloads: number;
   };
+  msc2020?: IMsc2020Classification[];
 }
 
 export interface IArticleAuthor {
@@ -112,6 +113,15 @@ export interface IArticleRelatedItem {
   identifierType: string;
   relationshipType: string;
   citation?: string;
+}
+
+export interface IMsc2020Classification {
+  code: string;
+  docid: number;
+  label: string;
+  sourceName: string;
+  description: string;
+  classificationName: string;
 }
 
 export type RawArticle = IPartialArticle &
@@ -176,6 +186,9 @@ export type RawArticle = IPartialArticle &
           metrics?: {
             file_count: number;
             page_count: number;
+          };
+          classifications?: {
+            msc2020?: IMsc2020Classification[];
           };
         };
       };

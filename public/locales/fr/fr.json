@@ -159,7 +159,8 @@
         "references": "Références",
         "linkedPublications": "Publications liées -  jeux de données - logiciel",
         "citedBy": "Cité par",
-        "preview": "Aperçu"
+        "preview": "Aperçu",
+        "msc2020": "Mathematics Subject Classification 2020"
       },
       "citedBySection": {
         "source": "Source : ",

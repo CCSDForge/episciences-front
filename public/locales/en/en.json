@@ -159,7 +159,8 @@
         "references": "References",
         "linkedPublications": "Linked publications -  datasets - software",
         "citedBy": "Cited by",
-        "preview": "Preview"
+        "preview": "Preview",
+        "msc2020": "Mathematics Subject Classification 2020"
       },
       "citedBySection": {
         "source": "Source: ",

@@ -499,6 +499,7 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
       fundings: fundings,
       license: license,
       metrics: metrics,
+      msc2020: articleDB.current.classifications?.msc2020,
     };
   }
 
