@@ -42,6 +42,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Filter and sort member cards on the homepage: display only Editorial and Scientific Advisory boards, with Chief Editors prioritized and alphabetical sorting by name (#89)
+- Increase homepage news snippet character limit from 200 to 350
 - Sort social sharing buttons alphabetically in article details sidebar
 - Sort editorial board members by role : Editors-in-chief first, then editors
 - Do not display empty sections (abstracts, keywords, relationships)

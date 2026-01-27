@@ -20,6 +20,7 @@ import { useFetchVolumesQuery } from '../../../store/features/volume/volume.quer
 import { IVolume } from '../../../types/volume';
 import { INews } from '../../../types/news';
 import { VOLUME_TYPE } from '../../../utils/volume';
+import { BOARD_TYPE, BOARD_ROLE } from '../../../utils/board';
 import IssuesSection from '../../components/HomeSections/IssuesSection/IssuesSection';
 import JournalSection from '../../components/HomeSections/JournalSection/JournalSection';
 import NewsSection from '../../components/HomeSections/NewsSection/NewsSection';
@@ -57,6 +58,50 @@ export default function Home(): JSX.Element {
   const { data: members } = useFetchBoardMembersQuery(rvcode!, {
     skip: !rvcode,
   });
+
+  const filteredMembers = members
+    ?.filter(
+      member =>
+        member.roles.includes(BOARD_TYPE.EDITORIAL_BOARD) ||
+        member.roles.includes(BOARD_TYPE.SCIENTIFIC_ADVISORY_BOARD)
+    )
+    .sort((a, b) => {
+      const getPriority = (roles: string[]) => {
+        // Editorial Board
+        if (roles.includes(BOARD_TYPE.EDITORIAL_BOARD)) {
+          // Chief Editor
+          if (roles.includes(BOARD_ROLE.CHIEF_EDITOR)) {
+            return 1;
+          }
+          // Other Editorial Board members
+          return 2;
+        }
+        // Scientific Advisory Board
+        if (roles.includes(BOARD_TYPE.SCIENTIFIC_ADVISORY_BOARD)) {
+          return 3;
+        }
+        return 4;
+      };
+
+      const priorityA = getPriority(a.roles);
+      const priorityB = getPriority(b.roles);
+
+      if (priorityA !== priorityB) {
+        return priorityA - priorityB;
+      }
+
+      // Name sort
+      const lastnameCompare = a.lastname.localeCompare(b.lastname, 'fr', {
+        sensitivity: 'base',
+      });
+      if (lastnameCompare !== 0) {
+        return lastnameCompare;
+      }
+
+      return a.firstname.localeCompare(b.firstname, 'fr', {
+        sensitivity: 'base',
+      });
+    });
   const { data: stats } = useFetchStatsQuery(
     { rvcode: rvcode!, page: 1, itemsPerPage: 3 },
     { skip: !rvcode }
@@ -195,7 +240,7 @@ export default function Home(): JSX.Element {
             t={t}
             slidesPerView={4}
             slidesPerGroup={3}
-            cards={members ?? []}
+            cards={filteredMembers ?? []}
           />
         </>
       )}
