@@ -45,7 +45,7 @@ i18next
     supportedLngs: [...availableLanguages],
     debug: true,
     backend: {
-      loadPath: '/locales/{{lng}}/{{lng}}.json',
+      loadPath: `/locales/{{lng}}/{{lng}}.json?v=${__APP_VERSION__}`,
     },
     detection: {
       order: ['navigator'],

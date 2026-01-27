@@ -88,6 +88,9 @@ export default defineConfig(({ mode }) => {
   copyLogos();
 
   return {
+    define: {
+      __APP_VERSION__: JSON.stringify(Date.now().toString()),
+    },
     css: {
       preprocessorOptions: {
         scss: {
