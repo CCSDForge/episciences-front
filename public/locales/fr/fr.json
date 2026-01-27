@@ -84,6 +84,8 @@
       "searchPlaceholder": "rechercher",
       "search": "Rechercher",
       "submit": "Déposer",
+      "signIn": "Connexion",
+      "newWindow": "(nouvelle fenêtre)",
       "chooseLanguage": "Choisir la langue",
       "languageMenu": "Menu de sélection de la langue"
     },

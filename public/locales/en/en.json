@@ -84,6 +84,8 @@
       "searchPlaceholder": "search",
       "search": "Search",
       "submit": "Submit",
+      "signIn": "Sign in",
+      "newWindow": "(new window)",
       "chooseLanguage": "Choose language",
       "languageMenu": "Language selection menu"
     },

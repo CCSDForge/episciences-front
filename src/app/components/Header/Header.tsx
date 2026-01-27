@@ -7,6 +7,7 @@ import arrowRight from '/icons/arrow-right-blue.svg';
 import burger from '/icons/burger.svg';
 import externalLink from '/icons/external-link-white.svg';
 import logoText from '/icons/logo-text.svg';
+import userCircle from '/icons/user-circle.svg';
 
 import { PATHS } from '../../../config/paths';
 import { blocksConfiguration } from '../../../config/statistics';
@@ -416,11 +417,36 @@ export default function Header(): JSX.Element {
             </Link>
           </div>
           <div className="header-reduced-journal-title">{journalName}</div>
-          {availableLanguages.length > 1 && (
-            <div className="header-reduced-journal-dropdown">
+          <div className="header-reduced-journal-dropdown">
+            {availableLanguages.length > 1 && (
               <LanguageDropdown withWhiteCaret={isMobileReduced()} />
-            </div>
-          )}
+            )}
+            {submitManagerLink && (
+              <div className="header-reduced-journal-signin">
+                {availableLanguages.length > 1 && (
+                  <span className="header-reduced-journal-signin-separator" aria-hidden="true">|</span>
+                )}
+                <Link
+                  to={submitManagerLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="header-reduced-journal-signin-link"
+                >
+                  <span className="header-reduced-journal-signin-link-text">
+                    {t('components.header.signIn')}
+                  </span>
+                  <img
+                    className="header-reduced-journal-signin-link-icon"
+                    src={userCircle}
+                    alt={t('components.header.signIn') || 'Sign in'}
+                  />
+                  <span className="sr-only">
+                    {t('components.header.newWindow')}
+                  </span>
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
         <div className="header-postheader" ref={mobileMenuDropdownRef}>
           <div
@@ -471,7 +497,34 @@ export default function Header(): JSX.Element {
               <img src={arrowRight} alt="Arrow right icon" />
             </Link>
           </div>
-          {availableLanguages.length > 1 && <LanguageDropdown />}
+          <div className="header-preheader-links-right">
+            {availableLanguages.length > 1 && <LanguageDropdown />}
+            {submitManagerLink && (
+              <div className="header-preheader-links-signin">
+                {availableLanguages.length > 1 && (
+                  <span className="header-preheader-links-signin-separator" aria-hidden="true">|</span>
+                )}
+                <Link
+                  to={submitManagerLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="header-preheader-links-signin-link"
+                >
+                  <span className="header-preheader-links-signin-link-text">
+                    {t('components.header.signIn')}
+                  </span>
+                  <img
+                    className="header-preheader-links-signin-link-icon"
+                    src={userCircle}
+                    alt={t('components.header.signIn') || 'Sign in'}
+                  />
+                  <span className="sr-only">
+                    {t('components.header.newWindow')}
+                  </span>
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
       <div className="header-journal">

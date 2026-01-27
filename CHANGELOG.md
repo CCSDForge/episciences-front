@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Sign-in link in the preheader bar next to the language switcher, with user icon on mobile and accessible new-window indication
 - Cache busting for translation files to ensure updates are visible immediately
 - Add Bluesky social network support for board members
 - add ROR logo link for affiliations with rorId
