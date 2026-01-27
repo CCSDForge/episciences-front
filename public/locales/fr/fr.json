@@ -179,7 +179,9 @@
           "email": "Mail",
           "twitter": "X",
           "linkedin": "LinkedIn",
-          "facebook": "Facebook"
+          "facebook": "Facebook",
+          "whatsapp": "WhatsApp",
+          "bluesky": "Bluesky"
         }
       },
       "publicationDetails": {

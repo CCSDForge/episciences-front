@@ -6,9 +6,11 @@ import {
   FacebookShareButton,
   LinkedinShareButton,
   TwitterShareButton,
+  WhatsappShareButton,
 } from 'react-share';
 import { isMobileOnly } from 'react-device-detect';
 
+import bluesky from '/icons/bluesky.svg';
 import caretUp from '/icons/caret-up-grey.svg';
 import caretDown from '/icons/caret-down-grey.svg';
 import download from '/icons/download-black.svg';
@@ -19,6 +21,7 @@ import mail from '/icons/mail.svg';
 import quote from '/icons/quote-black.svg';
 import share from '/icons/share.svg';
 import twitter from '/icons/twitter.svg';
+import whatsapp from '/icons/whatsapp.svg';
 import { PATHS } from '../../../../config/paths';
 import { IArticle } from '../../../../types/article';
 import { IVolume } from '../../../../types/volume';
@@ -304,36 +307,18 @@ export default function ArticleDetailsSidebar({
             className={`articleDetailsSidebar-links-link-modal-content ${showSharingDropdown && 'articleDetailsSidebar-links-link-modal-content-displayed'}`}
           >
             <div className="articleDetailsSidebar-links-link-modal-content-links">
-              <EmailShareButton
-                url={window.location.href}
-                subject={article?.title}
+              <a
+                href={`https://bsky.app/intent/compose?text=${encodeURIComponent((article?.title ? article.title + ' ' : '') + window.location.href)}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 onTouchStart={e => e.stopPropagation()}
+                style={{ textDecoration: 'none', color: 'inherit' }}
               >
                 <div className="articleDetailsSidebar-links-link-modal-content-links-link">
-                  <img src={mail} alt="Mail icon" />
-                  {t('pages.articleDetails.actions.share.email')}
+                  <img src={bluesky} alt="Bluesky icon" />
+                  {t('pages.articleDetails.actions.share.bluesky')}
                 </div>
-              </EmailShareButton>
-              <TwitterShareButton
-                url={window.location.href}
-                title={article?.title}
-                onTouchStart={e => e.stopPropagation()}
-              >
-                <div className="articleDetailsSidebar-links-link-modal-content-links-link">
-                  <img src={twitter} alt="Twitter icon" />
-                  {t('pages.articleDetails.actions.share.twitter')}
-                </div>
-              </TwitterShareButton>
-              <LinkedinShareButton
-                url={window.location.href}
-                title={article?.title}
-                onTouchStart={e => e.stopPropagation()}
-              >
-                <div className="articleDetailsSidebar-links-link-modal-content-links-link">
-                  <img src={linkedin} alt="Linkedin icon" />
-                  {t('pages.articleDetails.actions.share.linkedin')}
-                </div>
-              </LinkedinShareButton>
+              </a>
               <FacebookShareButton
                 url={window.location.href}
                 title={article?.title}
@@ -344,6 +329,47 @@ export default function ArticleDetailsSidebar({
                   {t('pages.articleDetails.actions.share.facebook')}
                 </div>
               </FacebookShareButton>
+              <LinkedinShareButton
+                url={window.location.href}
+                title={article?.title}
+                onTouchStart={e => e.stopPropagation()}
+              >
+                <div className="articleDetailsSidebar-links-link-modal-content-links-link">
+                  <img src={linkedin} alt="Linkedin icon" />
+                  {t('pages.articleDetails.actions.share.linkedin')}
+                </div>
+              </LinkedinShareButton>
+              <EmailShareButton
+                url={window.location.href}
+                subject={article?.title}
+                onTouchStart={e => e.stopPropagation()}
+              >
+                <div className="articleDetailsSidebar-links-link-modal-content-links-link">
+                  <img src={mail} alt="Mail icon" />
+                  {t('pages.articleDetails.actions.share.email')}
+                </div>
+              </EmailShareButton>
+              <WhatsappShareButton
+                url={window.location.href}
+                title={article?.title}
+                separator=" - "
+                onTouchStart={e => e.stopPropagation()}
+              >
+                <div className="articleDetailsSidebar-links-link-modal-content-links-link">
+                  <img src={whatsapp} alt="WhatsApp icon" />
+                  {t('pages.articleDetails.actions.share.whatsapp')}
+                </div>
+              </WhatsappShareButton>
+              <TwitterShareButton
+                url={window.location.href}
+                title={article?.title}
+                onTouchStart={e => e.stopPropagation()}
+              >
+                <div className="articleDetailsSidebar-links-link-modal-content-links-link">
+                  <img src={twitter} alt="Twitter icon" />
+                  {t('pages.articleDetails.actions.share.twitter')}
+                </div>
+              </TwitterShareButton>
             </div>
           </div>
         </div>

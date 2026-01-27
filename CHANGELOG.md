@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- WhatsApp and Bluesky sharing buttons in article details sidebar
 - Sign-in link in the preheader bar next to the language switcher, with user icon on mobile and accessible new-window indication
 - Cache busting for translation files to ensure updates are visible immediately
 - Add Bluesky social network support for board members
@@ -41,9 +42,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Sort social sharing buttons alphabetically in article details sidebar
 - Sort editorial board members by role : Editors-in-chief first, then editors
 - Do not display empty sections (abstracts, keywords, relationships)
 - Refactored language switcher for better UI/UX and A11y
+
+### Security
+
+- Fix URL sanitization vulnerability in board member social links
 
 <!--
 
