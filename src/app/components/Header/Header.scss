@@ -270,12 +270,11 @@
   }
 
   &-postheader {
-    height: 60px;
+    height: 80px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-left: 80px;
-    padding-top: 10px;
 
     a:hover {
       color: var(--grey-darker);
@@ -285,24 +284,27 @@
       padding-left: 25px;
     }
 
-    @media (max-width: breakpoints.$xs) {
-      padding-top: 10px;
-    }
-
     @media (max-width: breakpoints.$xsm) {
       height: 50px;
       padding-left: 16px;
-      padding-top: 0;
     }
 
     &-links {
       display: flex;
       gap: 88px;
       font-size: 20px;
+      padding-top: 10px;
+      padding-bottom: 5px;
+      padding-right: 10px;
 
       @media (max-width: breakpoints.$sm) {
         gap: 32px;
         font-size: 16px;
+      }
+
+      @media (max-width: breakpoints.$xs) {
+        padding-top: 10px;
+        padding-bottom: 5px;
       }
 
       @media (max-width: breakpoints.$xsm) {
