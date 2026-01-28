@@ -20,10 +20,10 @@
   }
 
   &-reduced {
-    height: 110px;
+    height: 130px;
 
     @media (max-width: breakpoints.$sm) and (orientation: landscape) {
-      height: 90px;
+      height: 110px;
     }
 
     @media (max-width: breakpoints.$xsm) {
