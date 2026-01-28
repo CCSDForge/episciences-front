@@ -31,7 +31,7 @@
     }
 
     &-journal {
-      height: 50px;
+      min-height: 50px;
       display: flex;
       justify-content: space-between;
 
@@ -54,13 +54,17 @@
         padding: 10px;
         z-index: 10;
         min-width: 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
         display: flex;
         align-items: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
         @media (max-width: breakpoints.$xs) {
           padding: 10px 5px 10px 10px;
+          font-size: 14px;
+          white-space: normal;
+          line-height: 1.2;
         }
       }
 
