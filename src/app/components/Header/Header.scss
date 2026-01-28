@@ -123,22 +123,18 @@
       align-items: center;
       justify-content: space-between;
       color: var(--blue-navy);
-      padding-top: 30px;
-      padding-bottom: 20px;
+      padding: 30px 0 20px;
 
       @media (max-width: breakpoints.$sm) {
-        padding-top: 20px;
-        padding-bottom: 15px;
+        padding: 20px 0 15px;
       }
 
       @media (max-width: breakpoints.$xs) {
-        padding-top: 15px;
-        padding-bottom: 10px;
+        padding: 15px 0 10px;
       }
 
       @media (max-width: breakpoints.$xsm) {
-        padding-top: 10px;
-        padding-bottom: 8px;
+        padding: 10px 0 8px;
       }
 
       &-access {
@@ -199,7 +195,7 @@
         img {
           width: 52px;
           height: 52px;
-          padding: 17px 26px 17px 26px;
+          padding: 17px 26px;
         }
       }
     }
@@ -297,18 +293,11 @@
       display: flex;
       gap: 88px;
       font-size: 20px;
-      padding-top: 10px;
-      padding-bottom: 5px;
-      padding-right: 10px;
+      padding: 10px 10px 5px 0;
 
       @media (max-width: breakpoints.$sm) {
         gap: 32px;
         font-size: 16px;
-      }
-
-      @media (max-width: breakpoints.$xs) {
-        padding-top: 10px;
-        padding-bottom: 5px;
       }
 
       @media (max-width: breakpoints.$xsm) {
