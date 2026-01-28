@@ -84,6 +84,8 @@
       "searchPlaceholder": "search",
       "search": "Search",
       "submit": "Submit",
+      "signIn": "Sign in",
+      "newWindow": "(new window)",
       "chooseLanguage": "Choose language",
       "languageMenu": "Language selection menu"
     },
@@ -157,7 +159,8 @@
         "references": "References",
         "linkedPublications": "Linked publications -  datasets - software",
         "citedBy": "Cited by",
-        "preview": "Preview"
+        "preview": "Preview",
+        "msc2020": "Mathematics Subject Classification 2020"
       },
       "citedBySection": {
         "source": "Source: ",
@@ -177,7 +180,9 @@
           "email": "Mail",
           "twitter": "X",
           "linkedin": "LinkedIn",
-          "facebook": "Facebook"
+          "facebook": "Facebook",
+          "whatsapp": "WhatsApp",
+          "bluesky": "Bluesky"
         }
       },
       "publicationDetails": {
@@ -381,7 +386,9 @@
         "formerMember": "Former member",
         "advisoryBoard": "Advisory board",
         "managingEditor": "Managing editor",
-        "handlingEditor": "Handling editor"
+        "handlingEditor": "Handling editor",
+        "copyEditor": "Copy editor",
+        "webmaster": "Webmaster"
       }
     },
     "publish": {

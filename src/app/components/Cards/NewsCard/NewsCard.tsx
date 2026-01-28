@@ -1,6 +1,7 @@
 import { MouseEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { TFunction } from 'i18next';
 
 import externalLink from '/icons/external-link-red.svg';
@@ -46,15 +47,15 @@ export default function NewsCard({
     if (!news.content || !news.content[language]) return null;
 
     if (news.content[language].length <= MAX_CONTENT_LENGTH) {
-      return <ReactMarkdown>{news.content[language]}</ReactMarkdown>;
+      return <ReactMarkdown remarkPlugins={[remarkGfm]}>{news.content[language]}</ReactMarkdown>;
     }
 
     return (
       <div className="newsCard-content-content">
         {showFullContent ? (
-          <ReactMarkdown>{news.content[language]}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{news.content[language]}</ReactMarkdown>
         ) : (
-          <ReactMarkdown>{`${news.content[language].substring(0, MAX_CONTENT_LENGTH)}...`}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{`${news.content[language].substring(0, MAX_CONTENT_LENGTH)}...`}</ReactMarkdown>
         )}
         <div
           onClick={(e): void => toggleFullContent(e)}

@@ -49,6 +49,7 @@ enum ARTICLE_SECTION {
   GRAPHICAL_ABSTRACT = 'graphicalAbstract',
   ABSTRACT = 'abstract',
   KEYWORDS = 'keywords',
+  MSC2020 = 'msc2020',
   REFERENCES = 'references',
   LINKED_PUBLICATIONS = 'linkedPublications',
   CITED_BY = 'citedBy',
@@ -109,6 +110,7 @@ export default function ArticleDetails(): JSX.Element {
     { key: ARTICLE_SECTION.GRAPHICAL_ABSTRACT, isOpened: true },
     { key: ARTICLE_SECTION.ABSTRACT, isOpened: true },
     { key: ARTICLE_SECTION.KEYWORDS, isOpened: true },
+    { key: ARTICLE_SECTION.MSC2020, isOpened: true },
     { key: ARTICLE_SECTION.REFERENCES, isOpened: true },
     { key: ARTICLE_SECTION.LINKED_PUBLICATIONS, isOpened: true },
     { key: ARTICLE_SECTION.CITED_BY, isOpened: true },
@@ -464,6 +466,28 @@ export default function ArticleDetails(): JSX.Element {
             ))}
           </div>
         )}
+      </div>
+    );
+  };
+
+  const getMsc2020Section = (): JSX.Element | null => {
+    if (!article?.msc2020 || article.msc2020.length === 0) return null;
+
+    return (
+      <div className="articleDetails-content-article-section-content-msc2020-container">
+        <div className="msc2020-list">
+          {article.msc2020.map(classification => (
+            <a
+              key={classification.code}
+              className="articleDetails-content-article-section-content-msc2020-link"
+              href={`https://zbmath.org/classification/?q=${classification.code}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {classification.code} - {classification.label}
+            </a>
+          ))}
+        </div>
       </div>
     );
   };
@@ -918,6 +942,11 @@ export default function ArticleDetails(): JSX.Element {
                 ARTICLE_SECTION.KEYWORDS,
                 t('pages.articleDetails.sections.keywords'),
                 getKeywordsSection()
+              )}
+              {renderSection(
+                ARTICLE_SECTION.MSC2020,
+                t('pages.articleDetails.sections.msc2020'),
+                getMsc2020Section()
               )}
               {renderSection(
                 ARTICLE_SECTION.LINKED_PUBLICATIONS,

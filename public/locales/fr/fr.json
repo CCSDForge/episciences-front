@@ -84,6 +84,8 @@
       "searchPlaceholder": "rechercher",
       "search": "Rechercher",
       "submit": "Déposer",
+      "signIn": "Connexion",
+      "newWindow": "(nouvelle fenêtre)",
       "chooseLanguage": "Choisir la langue",
       "languageMenu": "Menu de sélection de la langue"
     },
@@ -157,7 +159,8 @@
         "references": "Références",
         "linkedPublications": "Publications liées -  jeux de données - logiciel",
         "citedBy": "Cité par",
-        "preview": "Aperçu"
+        "preview": "Aperçu",
+        "msc2020": "Mathematics Subject Classification 2020"
       },
       "citedBySection": {
         "source": "Source : ",
@@ -177,7 +180,9 @@
           "email": "Mail",
           "twitter": "X",
           "linkedin": "LinkedIn",
-          "facebook": "Facebook"
+          "facebook": "Facebook",
+          "whatsapp": "WhatsApp",
+          "bluesky": "Bluesky"
         }
       },
       "publicationDetails": {
@@ -381,7 +386,9 @@
         "formerMember": "Ancien/Ancienne membre",
         "advisoryBoard": "Comité consultatif",
         "managingEditor": "Comité de direction",
-        "handlingEditor": "Rédacteur responsable"
+        "handlingEditor": "Rédacteur responsable",
+        "copyEditor": "Préparateur de copie",
+        "webmaster": "Webmaster"
       }
     },
     "publish": {

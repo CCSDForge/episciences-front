@@ -5,6 +5,20 @@ import { BOARD_TYPE, boardTypes, sortBoardMembers } from '../../../utils/board';
 import { AvailableLanguage } from '../../../utils/i18n';
 import { createBaseQueryWithJsonAccept } from '../../utils';
 
+const isValidSocialUrl = (url: string, domains: string[]) => {
+  try {
+    const urlString = url.startsWith('http') ? url : `https://${url}`;
+    const parsedUrl = new URL(urlString);
+    return domains.some(
+      domain =>
+        parsedUrl.hostname === domain ||
+        parsedUrl.hostname.endsWith(`.${domain}`)
+    );
+  } catch {
+    return false;
+  }
+};
+
 export const boardApi = createApi({
   baseQuery: createBaseQueryWithJsonAccept,
   reducerPath: 'board',
@@ -33,10 +47,7 @@ export const boardApi = createApi({
             const socialMedia = board.additionalProfileInformation.socialMedias;
 
             // Detect Bluesky: contains bsky.app or bsky.social
-            if (
-              socialMedia.includes('bsky.app') ||
-              socialMedia.includes('bsky.social')
-            ) {
+            if (isValidSocialUrl(socialMedia, ['bsky.app', 'bsky.social'])) {
               // If it's already a full URL, use it directly
               if (socialMedia.startsWith('http')) {
                 bluesky = socialMedia;
@@ -52,10 +63,7 @@ export const boardApi = createApi({
               mastodon = `https://${parts[2]}/@${parts[1]}`;
             }
             // Detect Twitter/X: single @ or contains twitter.com/x.com
-            else if (
-              socialMedia.includes('twitter.com') ||
-              socialMedia.includes('x.com')
-            ) {
+            else if (isValidSocialUrl(socialMedia, ['twitter.com', 'x.com'])) {
               twitter = socialMedia.startsWith('http')
                 ? socialMedia
                 : `https://${socialMedia}`;
