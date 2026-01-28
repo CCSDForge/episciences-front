@@ -15,6 +15,10 @@
     transition: height 0.3s ease;
   }
 
+  @media (max-width: breakpoints.$sm) {
+    height: auto;
+  }
+
   @media (max-width: breakpoints.$xsm),
     (max-width: breakpoints.$sm) and (orientation: landscape) {
     height: 180px;
@@ -54,6 +58,15 @@
         color: var(--primary-text);
         padding: 10px;
         z-index: 10;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: flex;
+        align-items: center;
+
+        @media (max-width: breakpoints.$xs) {
+          padding: 10px 5px 10px 10px;
+        }
       }
 
       &-dropdown {
@@ -63,16 +76,22 @@
         justify-content: flex-end;
         color: var(--blue-navy);
         border-bottom: 1px solid var(--primary);
+        flex-shrink: 0;
 
         @media (max-width: breakpoints.$sm) {
           min-width: 410px;
         }
 
+        @media (max-width: breakpoints.$xs) {
+          min-width: auto;
+          margin-left: 10px;
+          border-bottom: none;
+        }
+
         @media (max-width: breakpoints.$xsm) {
           min-width: unset;
-          width: 100%;
-          background: var(--primary);
-          color: var(--primary-text);
+          width: auto;
+          flex-shrink: 0;
         }
       }
     }
@@ -83,6 +102,10 @@
     display: flex;
     justify-content: space-between;
     gap: 15px;
+
+    @media (max-width: breakpoints.$sm) {
+      height: auto;
+    }
 
     &-logo {
       width: 156px;
@@ -101,6 +124,23 @@
       align-items: center;
       justify-content: space-between;
       color: var(--blue-navy);
+      padding-top: 30px;
+      padding-bottom: 20px;
+
+      @media (max-width: breakpoints.$sm) {
+        padding-top: 20px;
+        padding-bottom: 15px;
+      }
+
+      @media (max-width: breakpoints.$xs) {
+        padding-top: 15px;
+        padding-bottom: 10px;
+      }
+
+      @media (max-width: breakpoints.$xsm) {
+        padding-top: 10px;
+        padding-bottom: 8px;
+      }
 
       &-access {
         font-size: 14px;
@@ -240,6 +280,7 @@
     justify-content: space-between;
     align-items: center;
     padding-left: 80px;
+    padding-top: 10px;
 
     a:hover {
       color: var(--grey-darker);
@@ -249,9 +290,14 @@
       padding-left: 25px;
     }
 
+    @media (max-width: breakpoints.$xs) {
+      padding-top: 10px;
+    }
+
     @media (max-width: breakpoints.$xsm) {
       height: 50px;
       padding-left: 16px;
+      padding-top: 0;
     }
 
     &-links {
