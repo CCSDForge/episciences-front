@@ -15,24 +15,19 @@
     transition: height 0.3s ease;
   }
 
-  @media (max-width: breakpoints.$xsm),
-    (max-width: breakpoints.$sm) and (orientation: landscape) {
-    height: 180px;
+  @media (max-width: breakpoints.$sm) {
+    height: auto;
   }
 
   &-reduced {
-    height: 110px;
-
-    @media (max-width: breakpoints.$sm) and (orientation: landscape) {
-      height: 90px;
-    }
+    height: 120px;
 
     @media (max-width: breakpoints.$xsm) {
       height: auto;
     }
 
     &-journal {
-      height: 50px;
+      min-height: 60px;
       display: flex;
       justify-content: space-between;
 
@@ -52,8 +47,21 @@
         width: 100%;
         background: var(--primary);
         color: var(--primary-text);
-        padding: 10px;
+        padding: 12px 10px;
         z-index: 10;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        @media (max-width: breakpoints.$xs) {
+          padding: 10px 5px 10px 10px;
+          font-size: 14px;
+          white-space: normal;
+          line-height: 1.2;
+        }
       }
 
       &-dropdown {
@@ -63,16 +71,22 @@
         justify-content: flex-end;
         color: var(--blue-navy);
         border-bottom: 1px solid var(--primary);
+        flex-shrink: 0;
 
         @media (max-width: breakpoints.$sm) {
           min-width: 410px;
         }
 
+        @media (max-width: breakpoints.$xs) {
+          min-width: auto;
+          margin-left: 10px;
+          border-bottom: none;
+        }
+
         @media (max-width: breakpoints.$xsm) {
           min-width: unset;
-          width: 100%;
-          background: var(--primary);
-          color: var(--primary-text);
+          width: auto;
+          flex-shrink: 0;
         }
 
         .languageDropdown {
@@ -160,6 +174,10 @@
     justify-content: space-between;
     gap: 15px;
 
+    @media (max-width: breakpoints.$sm) {
+      height: auto;
+    }
+
     &-logo {
       width: 156px;
       display: flex;
@@ -177,6 +195,19 @@
       align-items: center;
       justify-content: space-between;
       color: var(--blue-navy);
+      padding: 30px 0 20px;
+
+      @media (max-width: breakpoints.$sm) {
+        padding: 20px 0 15px;
+      }
+
+      @media (max-width: breakpoints.$xs) {
+        padding: 15px 0 10px;
+      }
+
+      @media (max-width: breakpoints.$xsm) {
+        padding: 10px 0 8px;
+      }
 
       &-access {
         font-size: 14px;
@@ -309,7 +340,7 @@
         img {
           width: 52px;
           height: 52px;
-          padding: 17px 26px 17px 26px;
+          padding: 17px 26px;
         }
       }
     }
@@ -407,6 +438,7 @@
       display: flex;
       gap: 88px;
       font-size: 20px;
+      padding: 5px 10px 5px 0;
 
       @media (max-width: breakpoints.$sm) {
         gap: 32px;
