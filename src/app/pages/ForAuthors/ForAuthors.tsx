@@ -194,8 +194,8 @@ export default function ForAuthors(): JSX.Element {
       { title: string | undefined; content: string | undefined }
     >
   ): IForAuthorsHeader[] => {
-    const headerMap: Record<ForAuthorsSectionType, IForAuthorsHeader> =
-      {} as Record<ForAuthorsSectionType, IForAuthorsHeader>;
+    const headersMap: Record<ForAuthorsSectionType, IForAuthorsHeader[]> =
+      {} as Record<ForAuthorsSectionType, IForAuthorsHeader[]>;
 
     Object.entries(toBeParsed).forEach(toBeParsedEntry => {
       const sectionType = toBeParsedEntry[0] as ForAuthorsSectionType;
@@ -208,7 +208,8 @@ export default function ForAuthors(): JSX.Element {
       const parsedContent = `## ${title} \n\n\n ${adjustedContent}`;
       const tree = unifiedProcessor.parse(parsedContent);
 
-      let lastH2 = null;
+      const sectionHeaders: IForAuthorsHeader[] = [];
+      let lastH2: IForAuthorsHeader | null = null;
       let h3Counter = 0;
 
       for (const node of tree.children) {
@@ -235,7 +236,7 @@ export default function ForAuthors(): JSX.Element {
 
             if (node.depth === 2) {
               lastH2 = header;
-              headerMap[sectionType] = header;
+              sectionHeaders.push(header);
               h3Counter = 0;
             } else if (node.depth === 3 && lastH2) {
               lastH2.children.push(header);
@@ -243,9 +244,13 @@ export default function ForAuthors(): JSX.Element {
           }
         }
       }
+
+      if (sectionHeaders.length > 0) {
+        headersMap[sectionType] = sectionHeaders;
+      }
     });
 
-    const sectionTypes = Object.keys(headerMap) as ForAuthorsSectionType[];
+    const sectionTypes = Object.keys(headersMap) as ForAuthorsSectionType[];
 
     sectionTypes.sort((a, b) => {
       const orderA = getForAuthorsSectionSortOrder(a);
@@ -255,7 +260,7 @@ export default function ForAuthors(): JSX.Element {
 
     const headings: IForAuthorsHeader[] = [];
     sectionTypes.forEach(sectionType => {
-      headings.push(headerMap[sectionType]);
+      headings.push(...headersMap[sectionType]);
     });
 
     return headings;
