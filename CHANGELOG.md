@@ -36,6 +36,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Fix preheader bar height inconsistency on resize and vertically center its content
+- Fix page content hidden behind fixed header on mobile by correcting main margin-top values
 - Fix empty section rendered on the for-authors page when the page title is empty
 - Fix for-authors sidebar missing the first H2 heading and its H3 children
 - Display all affiliations for board members instead of only the first one (#73)

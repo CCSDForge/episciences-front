@@ -30,12 +30,12 @@ main {
   }
 
   @media (max-width: breakpoints.$sm) and (orientation: landscape) {
-    margin-top: 185px;
+    margin-top: 245px;
   }
 
   @media (max-width: breakpoints.$xsm) {
     padding: 0px 16px 135px 16px;
-    margin-top: 205px;
+    margin-top: 235px;
   }
 }
 

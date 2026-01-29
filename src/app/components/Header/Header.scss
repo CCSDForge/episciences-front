@@ -171,12 +171,9 @@
   &-preheader {
     height: 45px;
     display: flex;
+    align-items: center;
     justify-content: space-between;
     gap: 15px;
-
-    @media (max-width: breakpoints.$sm) {
-      height: auto;
-    }
 
     &-logo {
       width: 156px;
@@ -195,19 +192,7 @@
       align-items: center;
       justify-content: space-between;
       color: var(--blue-navy);
-      padding: 30px 0 20px;
-
-      @media (max-width: breakpoints.$sm) {
-        padding: 20px 0 15px;
-      }
-
-      @media (max-width: breakpoints.$xs) {
-        padding: 15px 0 10px;
-      }
-
-      @media (max-width: breakpoints.$xsm) {
-        padding: 10px 0 8px;
-      }
+      padding: 0;
 
       &-access {
         font-size: 14px;
