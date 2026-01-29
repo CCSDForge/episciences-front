@@ -100,23 +100,23 @@ export default function ForAuthors(): JSX.Element {
         if (node.type === 'heading' && node.depth === 2) {
           if (currentSection.id) {
             sections.push(currentSection);
-            currentSection = withNumerotation
-              ? {
-                  id: '',
-                  value: '',
-                  title: title || '',
-                  sectionType,
-                  opened: true,
-                  cards: [],
-                }
-              : {
-                  id: '',
-                  value: '',
-                  title: title || '',
-                  sectionType,
-                  opened: true,
-                };
           }
+          currentSection = withNumerotation
+            ? {
+                id: '',
+                value: '',
+                title: title || '',
+                sectionType,
+                opened: true,
+                cards: [],
+              }
+            : {
+                id: '',
+                value: '',
+                title: title || '',
+                sectionType,
+                opened: true,
+              };
 
           const titleText = node.children
             .filter(child => child.type === 'text')
