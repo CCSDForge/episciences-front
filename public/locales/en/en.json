@@ -57,7 +57,8 @@
       "volumes": "Volumes",
       "sections": "Sections",
       "authors": "Authors"
-    }
+    },
+    "contentNotAvailable": "This content is not yet available in the requested language."
   },
   "components": {
     "header": {

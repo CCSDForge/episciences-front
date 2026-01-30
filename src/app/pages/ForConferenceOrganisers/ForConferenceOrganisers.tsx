@@ -8,6 +8,7 @@ import remarkGfm from 'remark-gfm';
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from '../../../hooks/store';
+import { getLocalizedContent } from '../../../utils/i18n';
 import { useFetchForConferenceOrganisersPageQuery } from '../../../store/features/forConferenceOrganisers/forConferenceOrganisers.query';
 import {
   generateIdFromText,
@@ -177,7 +178,7 @@ export default function ForConferenceOrganisers(): JSX.Element {
   };
 
   useEffect(() => {
-    const content = forConferenceOrganisersPage?.content[language];
+    const content = getLocalizedContent(forConferenceOrganisersPage?.content, language);
     const adjustedContent = adjustNestedListsInMarkdownContent(content);
 
     setPageSections(parseContentSections(adjustedContent));
@@ -209,6 +210,10 @@ export default function ForConferenceOrganisers(): JSX.Element {
       ) : !forConferenceOrganisersPage ? (
         <div className="forConferenceOrganisers-content">
           <p>{t('pages.forConferenceOrganisers.description')}</p>
+        </div>
+      ) : pageSections.length === 0 ? (
+        <div className="forConferenceOrganisers-content">
+          <p>{t('common.contentNotAvailable')}</p>
         </div>
       ) : (
         <div className="forConferenceOrganisers-content">

@@ -7,6 +7,7 @@ import remarkGfm from 'remark-gfm';
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from '../../../hooks/store';
+import { getLocalizedContent } from '../../../utils/i18n';
 import { useFetchAboutPageQuery } from '../../../store/features/about/about.query';
 import {
   generateIdFromText,
@@ -144,7 +145,7 @@ export default function About(): JSX.Element {
   };
 
   useEffect(() => {
-    const content = aboutPage?.content[language];
+    const content = getLocalizedContent(aboutPage?.content, language);
     const adjustedContent = adjustNestedListsInMarkdownContent(content);
 
     setPageSections(parseContentSections(adjustedContent));
@@ -171,6 +172,10 @@ export default function About(): JSX.Element {
       <h1 className="about-title">{t('pages.about.title')}</h1>
       {isFetching ? (
         <Loader />
+      ) : pageSections.length === 0 ? (
+        <div className="about-content">
+          <p>{t('common.contentNotAvailable')}</p>
+        </div>
       ) : (
         <div className="about-content">
           <AboutSidebar

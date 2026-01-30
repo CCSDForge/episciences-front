@@ -8,7 +8,7 @@ import { PATHS } from '../../../../config/paths';
 import { INews } from '../../../../types/news';
 import { IVolume } from '../../../../types/volume';
 import { formatDate } from '../../../../utils/date';
-import { AvailableLanguage } from '../../../../utils/i18n';
+import { AvailableLanguage, getLocalizedContent } from '../../../../utils/i18n';
 import { VOLUME_TYPE } from '../../../../utils/volume';
 import './PresentationSection.scss';
 
@@ -32,10 +32,10 @@ export default function PresentationSection({
 }: IPresentationSectionProps): JSX.Element {
   return (
     <div className="presentationSection">
-      {aboutContent && aboutContent[language] && (
+      {aboutContent && getLocalizedContent(aboutContent, language) && (
         <div className="presentationSection-about">
           <div className="presentationSection-about-content">
-            <ReactMarkdown>{aboutContent[language]}</ReactMarkdown>
+            <ReactMarkdown>{getLocalizedContent(aboutContent, language)!}</ReactMarkdown>
           </div>
           <Link to={PATHS.about}>
             <div className="presentationSection-about-seeMore">
