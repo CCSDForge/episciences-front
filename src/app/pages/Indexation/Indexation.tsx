@@ -2,6 +2,7 @@ import remarkGfm from 'remark-gfm';
 import ReactMarkdown from 'react-markdown';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '../../../hooks/store';
+import { getLocalizedContent } from '../../../utils/i18n';
 import { Link } from 'react-router-dom';
 import { getMarkdownImageURL } from '../../../utils/markdown';
 import { useFetchIndexationPageQuery } from '../../../store/features/indexation/indexation.query';
@@ -26,7 +27,7 @@ export default function Indexation(): JSX.Element {
     { skip: !rvcode }
   );
 
-  const content = indexationPage?.content[language];
+  const content = getLocalizedContent(indexationPage?.content, language);
 
   return (
     <main className="indexation">

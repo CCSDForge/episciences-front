@@ -64,11 +64,11 @@ export default function PresentationSection({
                   )}
                 </div>
                 <div className="presentationSection-new-title-text">
-                  {(lastInformation.information as INews).title[language]}
+                  {getLocalizedContent((lastInformation.information as INews).title, language) ?? ''}
                 </div>
               </div>
               {(lastInformation.information as INews).content && (
-                <div className="presentationSection-new-description">{`${(lastInformation.information as INews).content![language]?.substring(0, MAX_NEWS_CONTENT_LENGTH) ?? ''}...`}</div>
+                <div className="presentationSection-new-description">{`${getLocalizedContent((lastInformation.information as INews).content!, language)?.substring(0, MAX_NEWS_CONTENT_LENGTH) ?? ''}...`}</div>
               )}
               <Link to={PATHS.news}>
                 <div className="presentationSection-new-seeMore">
@@ -95,12 +95,12 @@ export default function PresentationSection({
                 </div>
                 <div className="presentationSection-new-title-text">
                   {(lastInformation.information as IVolume).title
-                    ? (lastInformation.information as IVolume).title![language]
+                    ? getLocalizedContent((lastInformation.information as IVolume).title!, language) ?? ''
                     : ''}
                 </div>
               </div>
               {(lastInformation.information as IVolume).description && (
-                <div className="presentationSection-new-description">{`${(lastInformation.information as IVolume).description![language]?.substring(0, MAX_NEWS_CONTENT_LENGTH) ?? ''}...`}</div>
+                <div className="presentationSection-new-description">{`${getLocalizedContent((lastInformation.information as IVolume).description!, language)?.substring(0, MAX_NEWS_CONTENT_LENGTH) ?? ''}...`}</div>
               )}
               <Link
                 to={
