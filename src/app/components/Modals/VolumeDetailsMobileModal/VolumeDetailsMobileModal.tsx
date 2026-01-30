@@ -5,7 +5,7 @@ import close from '/icons/close-red.svg';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/store';
 import { setFooterVisibility } from '../../../../store/features/footer/footer.slice';
 import { IVolume } from '../../../../types/volume';
-import { AvailableLanguage } from '../../../../utils/i18n';
+import { AvailableLanguage, getLocalizedContent } from '../../../../utils/i18n';
 import { VOLUME_TYPE } from '../../../../utils/volume';
 import Button from '../../Button/Button';
 import './VolumeDetailsMobileModal.scss';
@@ -125,7 +125,7 @@ export default function VolumeDetailsMobileModal({
               )
             }
           >
-            {relatedVolume.title ? relatedVolume.title[language] : ''}
+            {relatedVolume.title ? getLocalizedContent(relatedVolume.title, language) ?? '' : ''}
           </div>
         ))}
       </div>

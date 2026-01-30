@@ -8,6 +8,16 @@ export const availableLanguages = import.meta.env
 
 export type AvailableLanguage = (typeof availableLanguages)[number];
 
+export function getLocalizedContent(
+  content: Record<string, string> | undefined,
+  language: string,
+): string | undefined {
+  if (!content) return undefined;
+  if (content[language]) return content[language];
+  if (content[defaultLanguage]) return content[defaultLanguage];
+  return undefined;
+}
+
 const RTL_LANGUAGES = ['ar', 'he', 'fa', 'ur', 'ps', 'syr', 'dv', 'ku'];
 
 export interface LanguageAttributes {

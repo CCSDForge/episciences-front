@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from '../../../hooks/store';
+import { getLocalizedContent } from '../../../utils/i18n';
 import {
   useFetchBoardMembersQuery,
   useFetchBoardPagesQuery,
@@ -123,8 +124,8 @@ export default function Boards(): JSX.Element {
         }
 
         return {
-          title: page?.title[language] || getBoardTypeTitle(boardType),
-          description: page?.content[language] ?? '',
+          title: (page ? getLocalizedContent(page.title, language) : undefined) || getBoardTypeTitle(boardType),
+          description: (page ? getLocalizedContent(page.content, language) : undefined) ?? '',
           members: boardMembers,
           pageCode: boardType as string,
         };

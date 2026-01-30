@@ -6,7 +6,7 @@ import { PATHS } from '../../../../config/paths';
 import { IArticle } from '../../../../types/article';
 import { IJournal } from '../../../../types/journal';
 import { IVolume, IVolumeMetadata } from '../../../../types/volume';
-import { AvailableLanguage } from '../../../../utils/i18n';
+import { AvailableLanguage, getLocalizedContent } from '../../../../utils/i18n';
 import { VOLUME_TYPE } from '../../../../utils/volume';
 import './VolumeDetailsSidebar.scss';
 
@@ -33,13 +33,14 @@ export default function VolumeDetailsSidebar({
     if (!volume?.metadatas || !volume.metadatas.length) return [];
 
     return volume.metadatas.filter(
-      metadata =>
-        metadata.file &&
-        metadata.title &&
-        metadata.title[language] &&
-        !NOT_RENDERED_SIDEBAR_METADATAS.includes(
-          metadata.title[language].replace(/[\u0300-\u036f]/g, '').toLowerCase()
-        )
+      metadata => {
+        const localizedTitle = metadata.title ? getLocalizedContent(metadata.title, language) : undefined;
+        return metadata.file &&
+          localizedTitle &&
+          !NOT_RENDERED_SIDEBAR_METADATAS.includes(
+            localizedTitle.replace(/[\u0300-\u036f]/g, '').toLowerCase()
+          );
+      }
     );
   };
 
@@ -159,7 +160,7 @@ export default function VolumeDetailsSidebar({
           >
             <img src={download} alt="Download icon" />
             <span className="volumeDetailsSidebar-actions-action-text">
-              {metadata.title && metadata.title[language]}
+              {metadata.title && getLocalizedContent(metadata.title, language)}
             </span>
           </Link>
         ))}
@@ -177,7 +178,7 @@ export default function VolumeDetailsSidebar({
                   to={`${PATHS.volumes}/${relatedVolume.id}`}
                   className={`volumeDetailsSidebar-relatedVolumes-volumes-list-volume ${relatedVolume.id === volume?.id && 'volumeDetailsSidebar-relatedVolumes-volumes-list-volume-current'}`}
                 >
-                  {relatedVolume.title ? relatedVolume.title[language] : ''}
+                  {relatedVolume.title ? getLocalizedContent(relatedVolume.title, language) ?? '' : ''}
                 </Link>
               ))}
             </div>

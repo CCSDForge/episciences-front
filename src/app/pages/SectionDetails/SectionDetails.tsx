@@ -6,6 +6,7 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 import { PATHS } from '../../../config/paths';
 import { useAppSelector } from '../../../hooks/store';
+import { getLocalizedContent } from '../../../utils/i18n';
 import { useFetchSectionQuery } from '../../../store/features/section/section.query';
 import { RawArticle, IArticle } from '../../../types/article';
 import { formatArticle, FetchedArticle } from '../../../utils/article';
@@ -106,8 +107,8 @@ export function SectionDetails(): JSX.Element {
           { path: 'sections', label: `${t('pages.sections.title')} >` },
         ]}
         crumbLabel={
-          section?.title && section.title[language]
-            ? `${section.title[language].substring(0, SECTION_TITLE_BREADCRUMB_LENGTH)}...`
+          section?.title && getLocalizedContent(section.title, language)
+            ? `${getLocalizedContent(section.title, language)!.substring(0, SECTION_TITLE_BREADCRUMB_LENGTH)}...`
             : ''
         }
       />
@@ -120,7 +121,7 @@ export function SectionDetails(): JSX.Element {
             <SectionDetailsSidebar t={t} articlesCount={articles.length} />
             <div className="sectionDetails-content-results-content">
               <div className="sectionDetails-content-results-content-title">
-                {section?.title ? section?.title[language] : ''}
+                {section?.title ? getLocalizedContent(section.title, language) ?? '' : ''}
               </div>
               {section?.committee && section.committee.length > 0 && (
                 <div className="sectionDetails-content-results-content-committee">
@@ -133,7 +134,7 @@ export function SectionDetails(): JSX.Element {
               <div className="sectionDetails-content-results-content-description">
                 {section?.description ? (
                   <ReactMarkdown>
-                    {section?.description[language]}
+                    {getLocalizedContent(section.description, language) ?? ''}
                   </ReactMarkdown>
                 ) : (
                   ''

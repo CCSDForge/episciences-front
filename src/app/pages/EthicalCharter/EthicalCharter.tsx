@@ -8,6 +8,7 @@ import remarkGfm from 'remark-gfm';
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from '../../../hooks/store';
+import { getLocalizedContent } from '../../../utils/i18n';
 import { useFetchEthicalCharterPageQuery } from '../../../store/features/ethicalCharter/ethicalCharter.query';
 import {
   generateIdFromText,
@@ -177,7 +178,7 @@ export default function EthicalCharter(): JSX.Element {
   };
 
   useEffect(() => {
-    const content = ethicalCharterPage?.content[language];
+    const content = getLocalizedContent(ethicalCharterPage?.content, language);
     const adjustedContent = adjustNestedListsInMarkdownContent(content);
 
     setPageSections(parseContentSections(adjustedContent));
@@ -209,6 +210,10 @@ export default function EthicalCharter(): JSX.Element {
       ) : !ethicalCharterPage ? (
         <div className="ethicalCharter-content">
           <p>{t('pages.ethicalCharter.description')}</p>
+        </div>
+      ) : pageSections.length === 0 ? (
+        <div className="ethicalCharter-content">
+          <p>{t('common.contentNotAvailable')}</p>
         </div>
       ) : (
         <div className="ethicalCharter-content">

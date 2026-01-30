@@ -57,7 +57,8 @@
       "volumes": "Volumes",
       "sections": "Rubriques",
       "authors": "Auteurs"
-    }
+    },
+    "contentNotAvailable": "Ce contenu n'est pas encore disponible dans la langue demandée."
   },
   "components": {
     "header": {

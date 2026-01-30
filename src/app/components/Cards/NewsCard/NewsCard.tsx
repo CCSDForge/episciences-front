@@ -8,7 +8,7 @@ import externalLink from '/icons/external-link-red.svg';
 import { INews } from '../../../../types/news';
 import { formatDate } from '../../../../utils/date';
 import { RENDERING_MODE } from '../../../../utils/card';
-import { AvailableLanguage } from '../../../../utils/i18n';
+import { AvailableLanguage, getLocalizedContent } from '../../../../utils/i18n';
 import { generateIdFromText } from '../../../../utils/markdown';
 import './NewsCard.scss';
 
@@ -44,18 +44,19 @@ export default function NewsCard({
   };
 
   const renderContent = (): JSX.Element | null => {
-    if (!news.content || !news.content[language]) return null;
+    const localizedContent = getLocalizedContent(news.content, language);
+    if (!localizedContent) return null;
 
-    if (news.content[language].length <= MAX_CONTENT_LENGTH) {
-      return <ReactMarkdown remarkPlugins={[remarkGfm]}>{news.content[language]}</ReactMarkdown>;
+    if (localizedContent.length <= MAX_CONTENT_LENGTH) {
+      return <ReactMarkdown remarkPlugins={[remarkGfm]}>{localizedContent}</ReactMarkdown>;
     }
 
     return (
       <div className="newsCard-content-content">
         {showFullContent ? (
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{news.content[language]}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{localizedContent}</ReactMarkdown>
         ) : (
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{`${news.content[language].substring(0, MAX_CONTENT_LENGTH)}...`}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{`${localizedContent.substring(0, MAX_CONTENT_LENGTH)}...`}</ReactMarkdown>
         )}
         <div
           onClick={(e): void => toggleFullContent(e)}
@@ -80,7 +81,7 @@ export default function NewsCard({
           <div className="newsCard-tile-full-initial">
             <div className="newsCard-content newsCard-content-tile-full">
               <div className="newsCard-content-title newsCard-content-title-tile">
-                {news.title[language]}
+                {getLocalizedContent(news.title, language) ?? ''}
               </div>
               <div className="newsCard-tile-anchor">
                 <div className="newsCard-publicationDate newsCard-publicationDate-tile">
@@ -122,7 +123,7 @@ export default function NewsCard({
       >
         <div className="newsCard-content newsCard-content-tile">
           <div className="newsCard-content-title newsCard-content-title-tile">
-            {news.title[language]}
+            {getLocalizedContent(news.title, language) ?? ''}
           </div>
           <div className="newsCard-tile-anchor">
             <div className="newsCard-publicationDate newsCard-publicationDate-tile">
@@ -154,7 +155,7 @@ export default function NewsCard({
         {formatDate(news.publicationDate, language)}
       </div>
       <div className="newsCard-content">
-        <div className="newsCard-content-title">{news.title[language]}</div>
+        <div className="newsCard-content-title">{getLocalizedContent(news.title, language) ?? ''}</div>
         {renderContent()}
         {news.link && (
           <div className="newsCard-content-read">

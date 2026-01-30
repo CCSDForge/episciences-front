@@ -7,6 +7,7 @@ import remarkGfm from 'remark-gfm';
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from '../../../hooks/store';
+import { getLocalizedContent } from '../../../utils/i18n';
 import { useFetchCreditsPageQuery } from '../../../store/features/credits/credits.query';
 import {
   generateIdFromText,
@@ -144,7 +145,7 @@ export default function Credits(): JSX.Element {
   };
 
   useEffect(() => {
-    const content = creditsPage?.content[language];
+    const content = getLocalizedContent(creditsPage?.content, language);
     const adjustedContent = adjustNestedListsInMarkdownContent(content);
 
     setPageSections(parseContentSections(adjustedContent));
@@ -166,6 +167,10 @@ export default function Credits(): JSX.Element {
       <h1 className="credits-title">{t('pages.credits.title')}</h1>
       {isFetching ? (
         <Loader />
+      ) : pageSections.length === 0 ? (
+        <div className="credits-content">
+          <p>{t('common.contentNotAvailable')}</p>
+        </div>
       ) : (
         <div className="credits-content">
           <CreditsSidebar

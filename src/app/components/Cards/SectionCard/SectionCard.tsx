@@ -7,7 +7,7 @@ import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
 import { PATHS } from '../../../../config/paths';
 import { ISection } from '../../../../types/section';
-import { AvailableLanguage } from '../../../../utils/i18n';
+import { AvailableLanguage, getLocalizedContent } from '../../../../utils/i18n';
 import './SectionCard.scss';
 
 interface ISectionCardProps {
@@ -31,7 +31,7 @@ export default function SectionCard({
       <div className="sectionCard-title">
         <Link to={`${PATHS.sections}/${section.id}`}>
           <div className="sectionCard-title-text">
-            {section.title ? section.title[language] : ''}
+            {section.title ? getLocalizedContent(section.title, language) ?? '' : ''}
           </div>
         </Link>
         <div className="sectionCard-title-count">
@@ -40,7 +40,7 @@ export default function SectionCard({
             : `${section.articles.length} ${t('common.article')}`}
         </div>
       </div>
-      {section.description && section.description[language] && (
+      {section.description && getLocalizedContent(section.description, language) && (
         <div className="sectionCard-description">
           <div
             className={`sectionCard-description-title ${!openedDescription && 'sectionCard-description-title-closed'}`}
@@ -66,7 +66,7 @@ export default function SectionCard({
           <div
             className={`sectionCard-description-content ${openedDescription && 'sectionCard-description-content-opened'}`}
           >
-            <ReactMarkdown>{section.description[language]}</ReactMarkdown>
+            <ReactMarkdown>{getLocalizedContent(section.description, language)!}</ReactMarkdown>
           </div>
         </div>
       )}
