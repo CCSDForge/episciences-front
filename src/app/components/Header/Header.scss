@@ -430,10 +430,10 @@
         font-size: 16px;
       }
 
-      @media (max-width: breakpoints.$xxs) {
-        gap: 20px;
+      @media (max-width: breakpoints.$mobile-lg) {
+        gap: 15px;
         font-size: 14px;
-        padding: 15px 10px 15px 0;
+        padding: 15px 5px 15px 0;
       }
 
       @media (max-width: breakpoints.$xsm) {
@@ -488,6 +488,10 @@
       height: 100%;
       margin-top: 2px;
 
+      @media (max-width: breakpoints.$mobile-lg) {
+        gap: 10px;
+      }
+
       &-reduced {
         margin-top: 0px;
       }
@@ -510,12 +514,12 @@
           width: 240px;
         }
 
-        @media (max-width: breakpoints.$xxs) {
-          width: 110px;
+        @media (max-width: breakpoints.$mobile-lg) {
+          width: 100px;
         }
 
         @media (max-width: breakpoints.$xsm) {
-          width: 220px;
+          width: 150px;
         }
 
         input {
@@ -543,19 +547,21 @@
         }
 
         &-article {
-          @media (max-width: breakpoints.$xxs) {
+          @media (max-width: breakpoints.$mobile-lg) {
+            margin-left: 5px;
+
             button {
               width: 80px;
-              font-size: 12px;
-              padding: 0 5px;
+              font-size: 11px;
+              padding: 0 10px;
             }
           }
 
           @media (max-width: breakpoints.$xsm) {
             button {
-              width: 90px;
-              font-size: 12px;
-              padding: 0 5px;
+              width: 85px;
+              font-size: 11px;
+              padding: 0 10px;
             }
           }
         }
