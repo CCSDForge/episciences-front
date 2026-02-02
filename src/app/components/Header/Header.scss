@@ -430,6 +430,12 @@
         font-size: 16px;
       }
 
+      @media (max-width: breakpoints.$xxs) {
+        gap: 20px;
+        font-size: 14px;
+        padding: 15px 10px 15px 0;
+      }
+
       @media (max-width: breakpoints.$xsm) {
         display: none;
       }
@@ -504,6 +510,10 @@
           width: 240px;
         }
 
+        @media (max-width: breakpoints.$xxs) {
+          width: 110px;
+        }
+
         @media (max-width: breakpoints.$xsm) {
           width: 220px;
         }
@@ -529,6 +539,24 @@
           button {
             background: var(--white);
             color: var(--primary-accessible);
+          }
+        }
+
+        &-article {
+          @media (max-width: breakpoints.$xxs) {
+            button {
+              width: 80px;
+              font-size: 12px;
+              padding: 0 5px;
+            }
+          }
+
+          @media (max-width: breakpoints.$xsm) {
+            button {
+              width: 90px;
+              font-size: 12px;
+              padding: 0 5px;
+            }
           }
         }
       }
