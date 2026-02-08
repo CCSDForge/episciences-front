@@ -25,7 +25,7 @@
         display: block;
 
         &-hidden {
-          * {
+          > *:not(.credits-content-body-section-subtitle) {
             display: none;
           }
         }

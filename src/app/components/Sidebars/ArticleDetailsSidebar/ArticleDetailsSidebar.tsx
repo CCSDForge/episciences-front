@@ -139,10 +139,12 @@ export default function ArticleDetailsSidebar({
   };
 
   const renderLicenseContent = (): JSX.Element | null => {
-    if (!article) return null;
+    if (!article?.license) return null;
 
+    const normalizeUrl = (url: string): string => url.replace(/\/+$/, '');
+    const normalizedLicense = normalizeUrl(article.license);
     const translatedLicense = getLicenseTranslations(t).find(
-      lt => lt.value === article.license
+      lt => normalizeUrl(lt.value) === normalizedLicense
     );
 
     if (!translatedLicense) return null;
