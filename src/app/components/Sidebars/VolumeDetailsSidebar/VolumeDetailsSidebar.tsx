@@ -32,16 +32,18 @@ export default function VolumeDetailsSidebar({
   const renderMetadatas = (): IVolumeMetadata[] => {
     if (!volume?.metadatas || !volume.metadatas.length) return [];
 
-    return volume.metadatas.filter(
-      metadata => {
-        const localizedTitle = metadata.title ? getLocalizedContent(metadata.title, language) : undefined;
-        return metadata.file &&
-          localizedTitle &&
-          !NOT_RENDERED_SIDEBAR_METADATAS.includes(
-            localizedTitle.replace(/[\u0300-\u036f]/g, '').toLowerCase()
-          );
-      }
-    );
+    return volume.metadatas.filter(metadata => {
+      const localizedTitle = metadata.title
+        ? getLocalizedContent(metadata.title, language)
+        : undefined;
+      return (
+        metadata.file &&
+        localizedTitle &&
+        !NOT_RENDERED_SIDEBAR_METADATAS.includes(
+          localizedTitle.replace(/[\u0300-\u036f]/g, '').toLowerCase()
+        )
+      );
+    });
   };
 
   const renderVolumeTemplateSpecial = (): JSX.Element => {
@@ -178,7 +180,9 @@ export default function VolumeDetailsSidebar({
                   to={`${PATHS.volumes}/${relatedVolume.id}`}
                   className={`volumeDetailsSidebar-relatedVolumes-volumes-list-volume ${relatedVolume.id === volume?.id && 'volumeDetailsSidebar-relatedVolumes-volumes-list-volume-current'}`}
                 >
-                  {relatedVolume.title ? getLocalizedContent(relatedVolume.title, language) ?? '' : ''}
+                  {relatedVolume.title
+                    ? (getLocalizedContent(relatedVolume.title, language) ?? '')
+                    : ''}
                 </Link>
               ))}
             </div>

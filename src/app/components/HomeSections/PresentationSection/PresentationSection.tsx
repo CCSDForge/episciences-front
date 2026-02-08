@@ -30,7 +30,9 @@ export default function PresentationSection({
   aboutContent,
   lastInformation,
 }: IPresentationSectionProps): JSX.Element {
-  const localizedAboutContent = aboutContent ? getLocalizedContent(aboutContent, language) : undefined;
+  const localizedAboutContent = aboutContent
+    ? getLocalizedContent(aboutContent, language)
+    : undefined;
 
   return (
     <div className="presentationSection">
@@ -66,7 +68,10 @@ export default function PresentationSection({
                   )}
                 </div>
                 <div className="presentationSection-new-title-text">
-                  {getLocalizedContent((lastInformation.information as INews).title, language) ?? ''}
+                  {getLocalizedContent(
+                    (lastInformation.information as INews).title,
+                    language
+                  ) ?? ''}
                 </div>
               </div>
               {(lastInformation.information as INews).content && (
@@ -97,7 +102,10 @@ export default function PresentationSection({
                 </div>
                 <div className="presentationSection-new-title-text">
                   {(lastInformation.information as IVolume).title
-                    ? getLocalizedContent((lastInformation.information as IVolume).title!, language) ?? ''
+                    ? (getLocalizedContent(
+                        (lastInformation.information as IVolume).title!,
+                        language
+                      ) ?? '')
                     : ''}
                 </div>
               </div>

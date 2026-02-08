@@ -96,8 +96,12 @@ export function SectionDetails(): JSX.Element {
     }
   }, [section, isError, error, navigate, currentJournal]);
 
-  const localizedSectionTitle = section?.title ? getLocalizedContent(section.title, language) : undefined;
-  const localizedSectionDescription = section?.description ? getLocalizedContent(section.description, language) : undefined;
+  const localizedSectionTitle = section?.title
+    ? getLocalizedContent(section.title, language)
+    : undefined;
+  const localizedSectionDescription = section?.description
+    ? getLocalizedContent(section.description, language)
+    : undefined;
 
   return (
     <main className="sectionDetails">
@@ -136,9 +140,7 @@ export function SectionDetails(): JSX.Element {
               )}
               <div className="sectionDetails-content-results-content-description">
                 {localizedSectionDescription ? (
-                  <ReactMarkdown>
-                    {localizedSectionDescription}
-                  </ReactMarkdown>
+                  <ReactMarkdown>{localizedSectionDescription}</ReactMarkdown>
                 ) : (
                   ''
                 )}

@@ -22,12 +22,11 @@ El CCSD invita a cualquier persona que experimente dificultades a ponerse en con
 
 ## Vías de reclamación
 
-Si usted observa un problema de accesibilidad que le impida acceder a un contenido o funcionalidad del sitio web, y tras haberlo notificado no recibe una respuesta satisfactoria, tiene derecho a presentar sus quejas o solicitar una mediación ante el Defensor de los Derechos (*Défenseur des Droits*).
+Si usted observa un problema de accesibilidad que le impida acceder a un contenido o funcionalidad del sitio web, y tras haberlo notificado no recibe una respuesta satisfactoria, tiene derecho a presentar sus quejas o solicitar una mediación ante el Defensor de los Derechos (_Défenseur des Droits_).
 
 ## Dispone de varias opciones:
 
-* Un [formulario de contacto](https://formulaire.defenseurdesdroits.fr/formulaire_saisine);
-* Una [lista de representantes regionales](http://www.defenseurdesdroits.fr/office/) con su información de contacto directo (en francés);
-* Un número de teléfono: +339 69 39 00 00;
-* Una dirección postal (envío gratuito sin sello solo desde Francia): Le Défenseur des droits – Libre réponse 71120 – F-75342 Paris CEDEX 07, Francia.
-
+- Un [formulario de contacto](https://formulaire.defenseurdesdroits.fr/formulaire_saisine);
+- Una [lista de representantes regionales](http://www.defenseurdesdroits.fr/office/) con su información de contacto directo (en francés);
+- Un número de teléfono: +339 69 39 00 00;
+- Una dirección postal (envío gratuito sin sello solo desde Francia): Le Défenseur des droits – Libre réponse 71120 – F-75342 Paris CEDEX 07, Francia.

@@ -124,8 +124,12 @@ export default function Boards(): JSX.Element {
         }
 
         return {
-          title: (page ? getLocalizedContent(page.title, language) : undefined) || getBoardTypeTitle(boardType),
-          description: (page ? getLocalizedContent(page.content, language) : undefined) ?? '',
+          title:
+            (page ? getLocalizedContent(page.title, language) : undefined) ||
+            getBoardTypeTitle(boardType),
+          description:
+            (page ? getLocalizedContent(page.content, language) : undefined) ??
+            '',
           members: boardMembers,
           pageCode: boardType as string,
         };

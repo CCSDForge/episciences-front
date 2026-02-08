@@ -206,7 +206,9 @@ export default function VolumeDetails(): JSX.Element {
 
     return (
       <div className={className}>
-        {volume?.title ? getLocalizedContent(volume.title, language) ?? '' : ''}
+        {volume?.title
+          ? (getLocalizedContent(volume.title, language) ?? '')
+          : ''}
       </div>
     );
   };
@@ -234,12 +236,12 @@ export default function VolumeDetails(): JSX.Element {
   };
 
   const renderVolumeDescription = (): JSX.Element => {
-    const localizedDescription = volume?.description ? getLocalizedContent(volume.description, language) : undefined;
+    const localizedDescription = volume?.description
+      ? getLocalizedContent(volume.description, language)
+      : undefined;
     if (localizedDescription) {
       if (isMobileOnly) {
-        if (
-          localizedDescription.length <= MAX_MOBILE_DESCRIPTION_LENGTH
-        ) {
+        if (localizedDescription.length <= MAX_MOBILE_DESCRIPTION_LENGTH) {
           return (
             <div className="volumeDetails-content-results-content-description">
               <ReactMarkdown>{localizedDescription}</ReactMarkdown>
@@ -329,15 +331,15 @@ export default function VolumeDetails(): JSX.Element {
   const getEdito = (): IVolumeMetadata | null => {
     if (!volume?.metadatas || !volume.metadatas.length) return null;
 
-    const edito = volume.metadatas.find(
-      metadata => {
-        const localizedTitle = metadata.title ? getLocalizedContent(metadata.title, language) : undefined;
-        return localizedTitle &&
-          localizedTitle
-            .replace(/[\u0300-\u036f]/g, '')
-            .toLowerCase() === 'edito';
-      }
-    );
+    const edito = volume.metadatas.find(metadata => {
+      const localizedTitle = metadata.title
+        ? getLocalizedContent(metadata.title, language)
+        : undefined;
+      return (
+        localizedTitle &&
+        localizedTitle.replace(/[\u0300-\u036f]/g, '').toLowerCase() === 'edito'
+      );
+    });
 
     return edito || null;
   };
@@ -361,8 +363,12 @@ export default function VolumeDetails(): JSX.Element {
   }, [volume, isError, error, navigate, currentJournal, id]);
 
   const edito = getEdito();
-  const editoTitle = edito?.title ? getLocalizedContent(edito.title, language) : undefined;
-  const editoContent = edito?.content ? getLocalizedContent(edito.content, language) : undefined;
+  const editoTitle = edito?.title
+    ? getLocalizedContent(edito.title, language)
+    : undefined;
+  const editoContent = edito?.content
+    ? getLocalizedContent(edito.content, language)
+    : undefined;
 
   return (
     <main className="volumeDetails">
@@ -449,44 +455,44 @@ export default function VolumeDetails(): JSX.Element {
                     : `${articles.length} ${t('common.article')}`}
                 </div>
                 {edito && editoContent && (
-                    <div className="volumeDetails-content-results-content-edito">
-                      <div className="volumeDetails-content-results-content-edito-title">
-                        {editoTitle ?? ''}
-                      </div>
-                      <div className="volumeDetails-content-results-content-edito-content">
-                        {editoContent}
-                      </div>
-                      <div className="volumeDetails-content-results-content-edito-anchor">
-                        {edito.createdAt ? (
-                          <div className="volumeDetails-content-results-content-edito-anchor-publicationDate">{`${t('common.publishedOn')} ${formatDate(edito.createdAt, language)}`}</div>
-                        ) : (
-                          edito.updatedAt && (
-                            <div className="volumeDetails-content-results-content-edito-anchor-publicationDate">{`${t('common.publishedOn')} ${formatDate(edito.updatedAt, language)}`}</div>
-                          )
-                        )}
-                        {edito.file && (
-                          <div className="volumeDetails-content-results-content-edito-anchor-icons">
-                            <Link
-                              to={`https://${currentJournal?.code}.episciences.org/public/volumes/${volume?.id}/${edito.file}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <div className="volumeDetails-content-results-content-edito-anchor-icons-download">
-                                <img
-                                  className="volumeDetails-content-results-content-edito-anchor-icons-download-download-icon"
-                                  src={download}
-                                  alt="Download icon"
-                                />
-                                <div className="volumeDetails-content-results-content-edito-anchor-icons-download-text">
-                                  {t('common.pdf')}
-                                </div>
-                              </div>
-                            </Link>
-                          </div>
-                        )}
-                      </div>
+                  <div className="volumeDetails-content-results-content-edito">
+                    <div className="volumeDetails-content-results-content-edito-title">
+                      {editoTitle ?? ''}
                     </div>
-                  )}
+                    <div className="volumeDetails-content-results-content-edito-content">
+                      {editoContent}
+                    </div>
+                    <div className="volumeDetails-content-results-content-edito-anchor">
+                      {edito.createdAt ? (
+                        <div className="volumeDetails-content-results-content-edito-anchor-publicationDate">{`${t('common.publishedOn')} ${formatDate(edito.createdAt, language)}`}</div>
+                      ) : (
+                        edito.updatedAt && (
+                          <div className="volumeDetails-content-results-content-edito-anchor-publicationDate">{`${t('common.publishedOn')} ${formatDate(edito.updatedAt, language)}`}</div>
+                        )
+                      )}
+                      {edito.file && (
+                        <div className="volumeDetails-content-results-content-edito-anchor-icons">
+                          <Link
+                            to={`https://${currentJournal?.code}.episciences.org/public/volumes/${volume?.id}/${edito.file}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <div className="volumeDetails-content-results-content-edito-anchor-icons-download">
+                              <img
+                                className="volumeDetails-content-results-content-edito-anchor-icons-download-download-icon"
+                                src={download}
+                                alt="Download icon"
+                              />
+                              <div className="volumeDetails-content-results-content-edito-anchor-icons-download-text">
+                                {t('common.pdf')}
+                              </div>
+                            </div>
+                          </Link>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
                 <div className="volumeDetails-content-results-content-cards">
                   {articles?.length === 0 ? (
                     <div className="volumeDetails-content-results-content-empty">

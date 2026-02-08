@@ -125,7 +125,9 @@ export default function VolumeDetailsMobileModal({
               )
             }
           >
-            {relatedVolume.title ? getLocalizedContent(relatedVolume.title, language) ?? '' : ''}
+            {relatedVolume.title
+              ? (getLocalizedContent(relatedVolume.title, language) ?? '')
+              : ''}
           </div>
         ))}
       </div>

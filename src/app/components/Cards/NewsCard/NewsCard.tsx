@@ -48,15 +48,23 @@ export default function NewsCard({
     if (!localizedContent) return null;
 
     if (localizedContent.length <= MAX_CONTENT_LENGTH) {
-      return <ReactMarkdown remarkPlugins={[remarkGfm]}>{localizedContent}</ReactMarkdown>;
+      return (
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          {localizedContent}
+        </ReactMarkdown>
+      );
     }
 
     return (
       <div className="newsCard-content-content">
         {showFullContent ? (
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{localizedContent}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {localizedContent}
+          </ReactMarkdown>
         ) : (
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{`${localizedContent.substring(0, MAX_CONTENT_LENGTH)}...`}</ReactMarkdown>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+          >{`${localizedContent.substring(0, MAX_CONTENT_LENGTH)}...`}</ReactMarkdown>
         )}
         <div
           onClick={(e): void => toggleFullContent(e)}
@@ -155,7 +163,9 @@ export default function NewsCard({
         {formatDate(news.publicationDate, language)}
       </div>
       <div className="newsCard-content">
-        <div className="newsCard-content-title">{getLocalizedContent(news.title, language) ?? ''}</div>
+        <div className="newsCard-content-title">
+          {getLocalizedContent(news.title, language) ?? ''}
+        </div>
         {renderContent()}
         {news.link && (
           <div className="newsCard-content-read">

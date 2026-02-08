@@ -26,16 +26,18 @@ export default function SectionCard({
   const toggleDescription = (): void =>
     setOpenedDescription(!openedDescription);
 
-  const localizedTitle = section.title ? getLocalizedContent(section.title, language) : undefined;
-  const localizedDescription = section.description ? getLocalizedContent(section.description, language) : undefined;
+  const localizedTitle = section.title
+    ? getLocalizedContent(section.title, language)
+    : undefined;
+  const localizedDescription = section.description
+    ? getLocalizedContent(section.description, language)
+    : undefined;
 
   return (
     <div className="sectionCard">
       <div className="sectionCard-title">
         <Link to={`${PATHS.sections}/${section.id}`}>
-          <div className="sectionCard-title-text">
-            {localizedTitle ?? ''}
-          </div>
+          <div className="sectionCard-title-text">{localizedTitle ?? ''}</div>
         </Link>
         <div className="sectionCard-title-count">
           {section.articles.length > 1

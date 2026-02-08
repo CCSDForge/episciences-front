@@ -10,7 +10,7 @@ export type AvailableLanguage = (typeof availableLanguages)[number];
 
 export function getLocalizedContent(
   content: Record<string, string> | undefined,
-  language: string,
+  language: string
 ): string | undefined {
   if (!content) return undefined;
   if (content[language]) return content[language];

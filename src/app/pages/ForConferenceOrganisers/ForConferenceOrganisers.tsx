@@ -178,7 +178,10 @@ export default function ForConferenceOrganisers(): JSX.Element {
   };
 
   useEffect(() => {
-    const content = getLocalizedContent(forConferenceOrganisersPage?.content, language);
+    const content = getLocalizedContent(
+      forConferenceOrganisersPage?.content,
+      language
+    );
     const adjustedContent = adjustNestedListsInMarkdownContent(content);
 
     setPageSections(parseContentSections(adjustedContent));

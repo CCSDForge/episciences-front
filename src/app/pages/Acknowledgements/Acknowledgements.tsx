@@ -159,7 +159,10 @@ export default function Acknowledgements(): JSX.Element {
   };
 
   useEffect(() => {
-    const content = getLocalizedContent(acknowledgementsPage?.content, language);
+    const content = getLocalizedContent(
+      acknowledgementsPage?.content,
+      language
+    );
     const adjustedContent = adjustNestedListsInMarkdownContent(content);
 
     setPageSections(parseContentSections(adjustedContent));

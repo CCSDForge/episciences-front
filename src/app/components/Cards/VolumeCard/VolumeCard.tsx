@@ -34,8 +34,12 @@ export default function VolumeCard({
   const toggleDescription = (): void =>
     setOpenedDescription(!openedDescription);
 
-  const localizedTitle = volume.title ? getLocalizedContent(volume.title, language) : undefined;
-  const localizedDescription = volume.description ? getLocalizedContent(volume.description, language) : undefined;
+  const localizedTitle = volume.title
+    ? getLocalizedContent(volume.title, language)
+    : undefined;
+  const localizedDescription = volume.description
+    ? getLocalizedContent(volume.description, language)
+    : undefined;
 
   const renderVolumeTileNum = (): JSX.Element => {
     let text = '';
@@ -168,9 +172,7 @@ export default function VolumeCard({
       <div className="volumeCard-content">
         {renderVolumeListNum(false)}
         <Link to={`${PATHS.volumes}/${volume.id}`}>
-          <div className="volumeCard-content-title">
-            {localizedTitle ?? ''}
-          </div>
+          <div className="volumeCard-content-title">{localizedTitle ?? ''}</div>
         </Link>
         {volume.committee && volume.committee.length > 0 && (
           <div className="volumeCard-content-committee">

@@ -424,7 +424,12 @@ export default function Header(): JSX.Element {
             {submitManagerLink && (
               <div className="header-reduced-journal-signin">
                 {availableLanguages.length > 1 && (
-                  <span className="header-reduced-journal-signin-separator" aria-hidden="true">|</span>
+                  <span
+                    className="header-reduced-journal-signin-separator"
+                    aria-hidden="true"
+                  >
+                    |
+                  </span>
                 )}
                 <Link
                   to={submitManagerLink}
@@ -502,7 +507,12 @@ export default function Header(): JSX.Element {
             {submitManagerLink && (
               <div className="header-preheader-links-signin">
                 {availableLanguages.length > 1 && (
-                  <span className="header-preheader-links-signin-separator" aria-hidden="true">|</span>
+                  <span
+                    className="header-preheader-links-signin-separator"
+                    aria-hidden="true"
+                  >
+                    |
+                  </span>
                 )}
                 <Link
                   to={submitManagerLink}

@@ -97,7 +97,10 @@ export default function BoardCard({
           {member.assignedSections.length > 0 && (
             <div className="boardCard-full-initial-assignedSections">
               {member.assignedSections
-                .map(assignedSection => getLocalizedContent(assignedSection.title, language) ?? '')
+                .map(
+                  assignedSection =>
+                    getLocalizedContent(assignedSection.title, language) ?? ''
+                )
                 .join(', ')}
             </div>
           )}
@@ -248,7 +251,10 @@ export default function BoardCard({
       {member.assignedSections.length > 0 && (
         <div className="boardCard-assignedSections">
           {member.assignedSections
-            .map(assignedSection => getLocalizedContent(assignedSection.title, language) ?? '')
+            .map(
+              assignedSection =>
+                getLocalizedContent(assignedSection.title, language) ?? ''
+            )
             .join(', ')}
         </div>
       )}
