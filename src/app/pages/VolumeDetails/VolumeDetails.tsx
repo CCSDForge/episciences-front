@@ -12,6 +12,7 @@ import caretUpLight from '/icons/caret-up-grey-light.svg';
 import download from '/icons/download-red.svg';
 import { PATHS } from '../../../config/paths';
 import { useAppSelector } from '../../../hooks/store';
+import { getLocalizedContent } from '../../../utils/i18n';
 import { formatArticle, FetchedArticle } from '../../../utils/article';
 import {
   useFetchVolumesQuery,
@@ -196,7 +197,7 @@ export default function VolumeDetails(): JSX.Element {
         return (
           <div className={className}>
             {volume?.title
-              ? `${volume?.title[language]} (${conferenceName.value})`
+              ? `${getLocalizedContent(volume.title, language) ?? ''} (${conferenceName.value})`
               : ''}
           </div>
         );
@@ -205,7 +206,7 @@ export default function VolumeDetails(): JSX.Element {
 
     return (
       <div className={className}>
-        {volume?.title ? volume?.title[language] : ''}
+        {volume?.title ? getLocalizedContent(volume.title, language) ?? '' : ''}
       </div>
     );
   };
@@ -233,14 +234,15 @@ export default function VolumeDetails(): JSX.Element {
   };
 
   const renderVolumeDescription = (): JSX.Element => {
-    if (volume?.description && volume.description[language]) {
+    const localizedDescription = volume?.description ? getLocalizedContent(volume.description, language) : undefined;
+    if (localizedDescription) {
       if (isMobileOnly) {
         if (
-          volume.description[language].length <= MAX_MOBILE_DESCRIPTION_LENGTH
+          localizedDescription.length <= MAX_MOBILE_DESCRIPTION_LENGTH
         ) {
           return (
             <div className="volumeDetails-content-results-content-description">
-              <ReactMarkdown>{volume.description[language]}</ReactMarkdown>
+              <ReactMarkdown>{localizedDescription}</ReactMarkdown>
             </div>
           );
         }
@@ -248,9 +250,9 @@ export default function VolumeDetails(): JSX.Element {
         return (
           <div className="volumeDetails-content-results-content-description">
             {showFullMobileDescription ? (
-              <ReactMarkdown>{volume?.description[language]}</ReactMarkdown>
+              <ReactMarkdown>{localizedDescription}</ReactMarkdown>
             ) : (
-              <ReactMarkdown>{`${volume?.description[language].substring(0, MAX_MOBILE_DESCRIPTION_LENGTH)}...`}</ReactMarkdown>
+              <ReactMarkdown>{`${localizedDescription.substring(0, MAX_MOBILE_DESCRIPTION_LENGTH)}...`}</ReactMarkdown>
             )}
             <div
               onClick={(): void =>
@@ -273,7 +275,7 @@ export default function VolumeDetails(): JSX.Element {
 
       return (
         <div className="volumeDetails-content-results-content-description">
-          <ReactMarkdown>{volume?.description[language]}</ReactMarkdown>
+          <ReactMarkdown>{localizedDescription}</ReactMarkdown>
         </div>
       );
     }
@@ -328,12 +330,13 @@ export default function VolumeDetails(): JSX.Element {
     if (!volume?.metadatas || !volume.metadatas.length) return null;
 
     const edito = volume.metadatas.find(
-      metadata =>
-        metadata.title &&
-        metadata.title[language] &&
-        metadata.title[language]
-          .replace(/[\u0300-\u036f]/g, '')
-          .toLowerCase() === 'edito'
+      metadata => {
+        const localizedTitle = metadata.title ? getLocalizedContent(metadata.title, language) : undefined;
+        return localizedTitle &&
+          localizedTitle
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase() === 'edito';
+      }
     );
 
     return edito || null;
@@ -356,6 +359,10 @@ export default function VolumeDetails(): JSX.Element {
       navigate(PATHS.notFound, { state });
     }
   }, [volume, isError, error, navigate, currentJournal, id]);
+
+  const edito = getEdito();
+  const editoTitle = edito?.title ? getLocalizedContent(edito.title, language) : undefined;
+  const editoContent = edito?.content ? getLocalizedContent(edito.content, language) : undefined;
 
   return (
     <main className="volumeDetails">
@@ -441,28 +448,26 @@ export default function VolumeDetails(): JSX.Element {
                     ? `${articles.length} ${t('common.articles')}`
                     : `${articles.length} ${t('common.article')}`}
                 </div>
-                {getEdito() &&
-                  getEdito()!.content &&
-                  getEdito()!.content![language] && (
+                {edito && editoContent && (
                     <div className="volumeDetails-content-results-content-edito">
                       <div className="volumeDetails-content-results-content-edito-title">
-                        {getEdito()!.title![language]}
+                        {editoTitle ?? ''}
                       </div>
                       <div className="volumeDetails-content-results-content-edito-content">
-                        {getEdito()!.content![language]}
+                        {editoContent}
                       </div>
                       <div className="volumeDetails-content-results-content-edito-anchor">
-                        {getEdito()?.createdAt ? (
-                          <div className="volumeDetails-content-results-content-edito-anchor-publicationDate">{`${t('common.publishedOn')} ${formatDate(getEdito()!.createdAt!, language)}`}</div>
+                        {edito.createdAt ? (
+                          <div className="volumeDetails-content-results-content-edito-anchor-publicationDate">{`${t('common.publishedOn')} ${formatDate(edito.createdAt, language)}`}</div>
                         ) : (
-                          getEdito()?.updatedAt && (
-                            <div className="volumeDetails-content-results-content-edito-anchor-publicationDate">{`${t('common.publishedOn')} ${formatDate(getEdito()!.updatedAt!, language)}`}</div>
+                          edito.updatedAt && (
+                            <div className="volumeDetails-content-results-content-edito-anchor-publicationDate">{`${t('common.publishedOn')} ${formatDate(edito.updatedAt, language)}`}</div>
                           )
                         )}
-                        {getEdito()?.file && (
+                        {edito.file && (
                           <div className="volumeDetails-content-results-content-edito-anchor-icons">
                             <Link
-                              to={`https://${currentJournal?.code}.episciences.org/public/volumes/${volume?.id}/${getEdito()!.file!}`}
+                              to={`https://${currentJournal?.code}.episciences.org/public/volumes/${volume?.id}/${edito.file}`}
                               target="_blank"
                               rel="noopener noreferrer"
                             >

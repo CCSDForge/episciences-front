@@ -8,6 +8,7 @@ import remarkGfm from 'remark-gfm';
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from '../../../hooks/store';
+import { getLocalizedContent } from '../../../utils/i18n';
 import { useFetchAcknowledgementsPageQuery } from '../../../store/features/acknowledgements/acknowledgements.query';
 import {
   generateIdFromText,
@@ -158,7 +159,7 @@ export default function Acknowledgements(): JSX.Element {
   };
 
   useEffect(() => {
-    const content = acknowledgementsPage?.content[language];
+    const content = getLocalizedContent(acknowledgementsPage?.content, language);
     const adjustedContent = adjustNestedListsInMarkdownContent(content);
 
     setPageSections(parseContentSections(adjustedContent));
@@ -192,6 +193,10 @@ export default function Acknowledgements(): JSX.Element {
       ) : !acknowledgementsPage ? (
         <div className="acknowledgements-content">
           <p>{t('pages.acknowledgements.description')}</p>
+        </div>
+      ) : pageSections.length === 0 ? (
+        <div className="acknowledgements-content">
+          <p>{t('common.contentNotAvailable')}</p>
         </div>
       ) : (
         <div className="acknowledgements-content">

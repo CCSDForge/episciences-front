@@ -7,6 +7,7 @@ import remarkGfm from 'remark-gfm';
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from '../../../hooks/store';
+import { getLocalizedContent } from '../../../utils/i18n';
 import {
   useFetchEditorialWorkflowPageQuery,
   useFetchPrepareSubmissionPageQuery,
@@ -294,12 +295,12 @@ export default function ForAuthors(): JSX.Element {
       { title: string | undefined; content: string | undefined }
     > = {
       [FOR_AUTHORS_SECTION.EDITORIAL_WORKFLOW]: {
-        title: editorialWorkflowPage?.title?.[language],
-        content: editorialWorkflowPage?.content?.[language],
+        title: getLocalizedContent(editorialWorkflowPage?.title, language),
+        content: getLocalizedContent(editorialWorkflowPage?.content, language),
       },
       [FOR_AUTHORS_SECTION.PREPARE_SUBMISSION]: {
-        title: prepareSubmissionPage?.title?.[language],
-        content: prepareSubmissionPage?.content?.[language],
+        title: getLocalizedContent(prepareSubmissionPage?.title, language),
+        content: getLocalizedContent(prepareSubmissionPage?.content, language),
       },
     };
 
@@ -326,6 +327,10 @@ export default function ForAuthors(): JSX.Element {
 
       {isFetchingEditorialWorkflow || isFetchingPrepareSubmission ? (
         <Loader />
+      ) : pageSections.length === 0 ? (
+        <div className="forAuthors-content">
+          <p>{t('common.contentNotAvailable')}</p>
+        </div>
       ) : (
         <div className="forAuthors-content">
           <ForAuthorsSidebar

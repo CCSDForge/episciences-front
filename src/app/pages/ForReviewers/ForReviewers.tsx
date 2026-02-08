@@ -8,6 +8,7 @@ import remarkGfm from 'remark-gfm';
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
 import { useAppSelector } from '../../../hooks/store';
+import { getLocalizedContent } from '../../../utils/i18n';
 import { useFetchForReviewersPageQuery } from '../../../store/features/forReviewers/forReviewers.query';
 import {
   generateIdFromText,
@@ -177,7 +178,7 @@ export default function ForReviewers(): JSX.Element {
   };
 
   useEffect(() => {
-    const content = forReviewersPage?.content[language];
+    const content = getLocalizedContent(forReviewersPage?.content, language);
     const adjustedContent = adjustNestedListsInMarkdownContent(content);
 
     setPageSections(parseContentSections(adjustedContent));
@@ -207,6 +208,10 @@ export default function ForReviewers(): JSX.Element {
       ) : !forReviewersPage ? (
         <div className="forReviewers-content">
           <p>{t('pages.forReviewers.description')}</p>
+        </div>
+      ) : pageSections.length === 0 ? (
+        <div className="forReviewers-content">
+          <p>{t('common.contentNotAvailable')}</p>
         </div>
       ) : (
         <div className="forReviewers-content">

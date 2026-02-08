@@ -11,7 +11,7 @@ import { PATHS } from '../../../../config/paths';
 import { IJournal } from '../../../../types/journal';
 import { IVolume } from '../../../../types/volume';
 import { RENDERING_MODE } from '../../../../utils/card';
-import { AvailableLanguage } from '../../../../utils/i18n';
+import { AvailableLanguage, getLocalizedContent } from '../../../../utils/i18n';
 import { VOLUME_TYPE } from '../../../../utils/volume';
 import './VolumeCard.scss';
 
@@ -33,6 +33,9 @@ export default function VolumeCard({
   const [openedDescription, setOpenedDescription] = useState(false);
   const toggleDescription = (): void =>
     setOpenedDescription(!openedDescription);
+
+  const localizedTitle = volume.title ? getLocalizedContent(volume.title, language) : undefined;
+  const localizedDescription = volume.description ? getLocalizedContent(volume.description, language) : undefined;
 
   const renderVolumeTileNum = (): JSX.Element => {
     let text = '';
@@ -107,7 +110,7 @@ export default function VolumeCard({
           {renderVolumeTileNum()}
           <Link to={`${PATHS.volumes}/${volume.id}`}>
             <div className="volumeCard-tile-text-title">
-              {volume.title ? volume.title[language] : ''}
+              {localizedTitle ?? ''}
             </div>
           </Link>
           <div className="volumeCard-tile-text-year">{volume.year}</div>
@@ -166,7 +169,7 @@ export default function VolumeCard({
         {renderVolumeListNum(false)}
         <Link to={`${PATHS.volumes}/${volume.id}`}>
           <div className="volumeCard-content-title">
-            {volume.title ? volume.title[language] : ''}
+            {localizedTitle ?? ''}
           </div>
         </Link>
         {volume.committee && volume.committee.length > 0 && (
@@ -174,7 +177,7 @@ export default function VolumeCard({
             {volume.committee.map(member => member.screenName).join(', ')}
           </div>
         )}
-        {volume.description && volume.description[language] && (
+        {localizedDescription && (
           <div className="volumeCard-content-description">
             <div
               className={`volumeCard-content-description-title ${!openedDescription && 'volumeCard-content-description-title'}`}
@@ -200,7 +203,7 @@ export default function VolumeCard({
             <div
               className={`volumeCard-content-description-content ${openedDescription && 'volumeCard-content-description-content-opened'}`}
             >
-              <ReactMarkdown>{volume.description[language]}</ReactMarkdown>
+              <ReactMarkdown>{localizedDescription}</ReactMarkdown>
             </div>
           </div>
         )}

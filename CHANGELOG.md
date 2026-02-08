@@ -33,6 +33,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Journal code validation to prevent cross-journal article access - articles now redirect to 404 if they don't belong to the current journal
 - Add volume and section access validation by journal (rvid) to prevent cross-journal access with customized notFound(404) messages
 - Display copyeditor and webmaster members in Technical Board section with role labels
+- Spanish (es) translation file and language support
+- Content fallback utility (`getLocalizedContent`) for presentation pages: falls back to default language when content is unavailable, with a translated "content not available" message
+- Cache `getLocalizedContent` and `getEdito` results in local variables to avoid redundant calls during render
 
 ### Fixed
 

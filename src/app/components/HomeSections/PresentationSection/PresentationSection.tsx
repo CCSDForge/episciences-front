@@ -8,7 +8,7 @@ import { PATHS } from '../../../../config/paths';
 import { INews } from '../../../../types/news';
 import { IVolume } from '../../../../types/volume';
 import { formatDate } from '../../../../utils/date';
-import { AvailableLanguage } from '../../../../utils/i18n';
+import { AvailableLanguage, getLocalizedContent } from '../../../../utils/i18n';
 import { VOLUME_TYPE } from '../../../../utils/volume';
 import './PresentationSection.scss';
 
@@ -30,12 +30,14 @@ export default function PresentationSection({
   aboutContent,
   lastInformation,
 }: IPresentationSectionProps): JSX.Element {
+  const localizedAboutContent = aboutContent ? getLocalizedContent(aboutContent, language) : undefined;
+
   return (
     <div className="presentationSection">
-      {aboutContent && aboutContent[language] && (
+      {localizedAboutContent && (
         <div className="presentationSection-about">
           <div className="presentationSection-about-content">
-            <ReactMarkdown>{aboutContent[language]}</ReactMarkdown>
+            <ReactMarkdown>{localizedAboutContent}</ReactMarkdown>
           </div>
           <Link to={PATHS.about}>
             <div className="presentationSection-about-seeMore">
@@ -64,11 +66,11 @@ export default function PresentationSection({
                   )}
                 </div>
                 <div className="presentationSection-new-title-text">
-                  {(lastInformation.information as INews).title[language]}
+                  {getLocalizedContent((lastInformation.information as INews).title, language) ?? ''}
                 </div>
               </div>
               {(lastInformation.information as INews).content && (
-                <div className="presentationSection-new-description">{`${(lastInformation.information as INews).content![language]?.substring(0, MAX_NEWS_CONTENT_LENGTH) ?? ''}...`}</div>
+                <div className="presentationSection-new-description">{`${getLocalizedContent((lastInformation.information as INews).content!, language)?.substring(0, MAX_NEWS_CONTENT_LENGTH) ?? ''}...`}</div>
               )}
               <Link to={PATHS.news}>
                 <div className="presentationSection-new-seeMore">
@@ -95,12 +97,12 @@ export default function PresentationSection({
                 </div>
                 <div className="presentationSection-new-title-text">
                   {(lastInformation.information as IVolume).title
-                    ? (lastInformation.information as IVolume).title![language]
+                    ? getLocalizedContent((lastInformation.information as IVolume).title!, language) ?? ''
                     : ''}
                 </div>
               </div>
               {(lastInformation.information as IVolume).description && (
-                <div className="presentationSection-new-description">{`${(lastInformation.information as IVolume).description![language]?.substring(0, MAX_NEWS_CONTENT_LENGTH) ?? ''}...`}</div>
+                <div className="presentationSection-new-description">{`${getLocalizedContent((lastInformation.information as IVolume).description!, language)?.substring(0, MAX_NEWS_CONTENT_LENGTH) ?? ''}...`}</div>
               )}
               <Link
                 to={

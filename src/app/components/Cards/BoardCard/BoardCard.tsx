@@ -9,7 +9,7 @@ import mastodon from '/icons/mastodon.svg';
 import bluesky from '/icons/bluesky.svg';
 import user from '/icons/user.svg';
 import { IBoardMember } from '../../../../types/board';
-import { AvailableLanguage } from '../../../../utils/i18n';
+import { AvailableLanguage, getLocalizedContent } from '../../../../utils/i18n';
 import { defaultBoardRole, getBoardRoles } from '../../../../utils/board';
 import AffiliationLabel from '../../AffiliationLabel';
 import './BoardCard.scss';
@@ -97,7 +97,7 @@ export default function BoardCard({
           {member.assignedSections.length > 0 && (
             <div className="boardCard-full-initial-assignedSections">
               {member.assignedSections
-                .map(assignedSection => assignedSection.title[language])
+                .map(assignedSection => getLocalizedContent(assignedSection.title, language) ?? '')
                 .join(', ')}
             </div>
           )}
@@ -248,7 +248,7 @@ export default function BoardCard({
       {member.assignedSections.length > 0 && (
         <div className="boardCard-assignedSections">
           {member.assignedSections
-            .map(assignedSection => assignedSection.title[language])
+            .map(assignedSection => getLocalizedContent(assignedSection.title, language) ?? '')
             .join(', ')}
         </div>
       )}
