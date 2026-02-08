@@ -26,12 +26,15 @@ export default function SectionCard({
   const toggleDescription = (): void =>
     setOpenedDescription(!openedDescription);
 
+  const localizedTitle = section.title ? getLocalizedContent(section.title, language) : undefined;
+  const localizedDescription = section.description ? getLocalizedContent(section.description, language) : undefined;
+
   return (
     <div className="sectionCard">
       <div className="sectionCard-title">
         <Link to={`${PATHS.sections}/${section.id}`}>
           <div className="sectionCard-title-text">
-            {section.title ? getLocalizedContent(section.title, language) ?? '' : ''}
+            {localizedTitle ?? ''}
           </div>
         </Link>
         <div className="sectionCard-title-count">
@@ -40,7 +43,7 @@ export default function SectionCard({
             : `${section.articles.length} ${t('common.article')}`}
         </div>
       </div>
-      {section.description && getLocalizedContent(section.description, language) && (
+      {localizedDescription && (
         <div className="sectionCard-description">
           <div
             className={`sectionCard-description-title ${!openedDescription && 'sectionCard-description-title-closed'}`}
@@ -66,7 +69,7 @@ export default function SectionCard({
           <div
             className={`sectionCard-description-content ${openedDescription && 'sectionCard-description-content-opened'}`}
           >
-            <ReactMarkdown>{getLocalizedContent(section.description, language)!}</ReactMarkdown>
+            <ReactMarkdown>{localizedDescription}</ReactMarkdown>
           </div>
         </div>
       )}

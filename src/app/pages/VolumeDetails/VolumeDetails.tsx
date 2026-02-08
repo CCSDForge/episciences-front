@@ -360,6 +360,10 @@ export default function VolumeDetails(): JSX.Element {
     }
   }, [volume, isError, error, navigate, currentJournal, id]);
 
+  const edito = getEdito();
+  const editoTitle = edito?.title ? getLocalizedContent(edito.title, language) : undefined;
+  const editoContent = edito?.content ? getLocalizedContent(edito.content, language) : undefined;
+
   return (
     <main className="volumeDetails">
       {volume && (
@@ -444,28 +448,26 @@ export default function VolumeDetails(): JSX.Element {
                     ? `${articles.length} ${t('common.articles')}`
                     : `${articles.length} ${t('common.article')}`}
                 </div>
-                {getEdito() &&
-                  getEdito()!.content &&
-                  getLocalizedContent(getEdito()!.content!, language) && (
+                {edito && editoContent && (
                     <div className="volumeDetails-content-results-content-edito">
                       <div className="volumeDetails-content-results-content-edito-title">
-                        {getLocalizedContent(getEdito()!.title!, language) ?? ''}
+                        {editoTitle ?? ''}
                       </div>
                       <div className="volumeDetails-content-results-content-edito-content">
-                        {getLocalizedContent(getEdito()!.content!, language)}
+                        {editoContent}
                       </div>
                       <div className="volumeDetails-content-results-content-edito-anchor">
-                        {getEdito()?.createdAt ? (
-                          <div className="volumeDetails-content-results-content-edito-anchor-publicationDate">{`${t('common.publishedOn')} ${formatDate(getEdito()!.createdAt!, language)}`}</div>
+                        {edito.createdAt ? (
+                          <div className="volumeDetails-content-results-content-edito-anchor-publicationDate">{`${t('common.publishedOn')} ${formatDate(edito.createdAt, language)}`}</div>
                         ) : (
-                          getEdito()?.updatedAt && (
-                            <div className="volumeDetails-content-results-content-edito-anchor-publicationDate">{`${t('common.publishedOn')} ${formatDate(getEdito()!.updatedAt!, language)}`}</div>
+                          edito.updatedAt && (
+                            <div className="volumeDetails-content-results-content-edito-anchor-publicationDate">{`${t('common.publishedOn')} ${formatDate(edito.updatedAt, language)}`}</div>
                           )
                         )}
-                        {getEdito()?.file && (
+                        {edito.file && (
                           <div className="volumeDetails-content-results-content-edito-anchor-icons">
                             <Link
-                              to={`https://${currentJournal?.code}.episciences.org/public/volumes/${volume?.id}/${getEdito()!.file!}`}
+                              to={`https://${currentJournal?.code}.episciences.org/public/volumes/${volume?.id}/${edito.file}`}
                               target="_blank"
                               rel="noopener noreferrer"
                             >

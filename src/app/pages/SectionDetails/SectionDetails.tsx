@@ -96,6 +96,9 @@ export function SectionDetails(): JSX.Element {
     }
   }, [section, isError, error, navigate, currentJournal]);
 
+  const localizedSectionTitle = section?.title ? getLocalizedContent(section.title, language) : undefined;
+  const localizedSectionDescription = section?.description ? getLocalizedContent(section.description, language) : undefined;
+
   return (
     <main className="sectionDetails">
       <Breadcrumb
@@ -107,8 +110,8 @@ export function SectionDetails(): JSX.Element {
           { path: 'sections', label: `${t('pages.sections.title')} >` },
         ]}
         crumbLabel={
-          section?.title && getLocalizedContent(section.title, language)
-            ? `${getLocalizedContent(section.title, language)!.substring(0, SECTION_TITLE_BREADCRUMB_LENGTH)}...`
+          localizedSectionTitle
+            ? `${localizedSectionTitle.substring(0, SECTION_TITLE_BREADCRUMB_LENGTH)}...`
             : ''
         }
       />
@@ -121,7 +124,7 @@ export function SectionDetails(): JSX.Element {
             <SectionDetailsSidebar t={t} articlesCount={articles.length} />
             <div className="sectionDetails-content-results-content">
               <div className="sectionDetails-content-results-content-title">
-                {section?.title ? getLocalizedContent(section.title, language) ?? '' : ''}
+                {localizedSectionTitle ?? ''}
               </div>
               {section?.committee && section.committee.length > 0 && (
                 <div className="sectionDetails-content-results-content-committee">
@@ -132,9 +135,9 @@ export function SectionDetails(): JSX.Element {
                 </div>
               )}
               <div className="sectionDetails-content-results-content-description">
-                {section?.description ? (
+                {localizedSectionDescription ? (
                   <ReactMarkdown>
-                    {getLocalizedContent(section.description, language) ?? ''}
+                    {localizedSectionDescription}
                   </ReactMarkdown>
                 ) : (
                   ''

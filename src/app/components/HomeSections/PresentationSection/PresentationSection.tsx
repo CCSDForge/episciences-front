@@ -30,12 +30,14 @@ export default function PresentationSection({
   aboutContent,
   lastInformation,
 }: IPresentationSectionProps): JSX.Element {
+  const localizedAboutContent = aboutContent ? getLocalizedContent(aboutContent, language) : undefined;
+
   return (
     <div className="presentationSection">
-      {aboutContent && getLocalizedContent(aboutContent, language) && (
+      {localizedAboutContent && (
         <div className="presentationSection-about">
           <div className="presentationSection-about-content">
-            <ReactMarkdown>{getLocalizedContent(aboutContent, language)!}</ReactMarkdown>
+            <ReactMarkdown>{localizedAboutContent}</ReactMarkdown>
           </div>
           <Link to={PATHS.about}>
             <div className="presentationSection-about-seeMore">
