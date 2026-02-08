@@ -447,13 +447,22 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
 
     /** Format license */
     let license = undefined;
+    const extractLicenseValue = (licenseRef: unknown): string | undefined => {
+      if (Array.isArray(licenseRef)) {
+        const vor = licenseRef.find(
+          (lr: { '@applies_to'?: string }) => lr['@applies_to'] === 'vor'
+        );
+        return (vor ?? licenseRef[0])?.value;
+      }
+      return (licenseRef as { value?: string })?.value;
+    };
     if (Array.isArray(articleContent.program)) {
-      const licenseRef = articleContent.program.find(
-        p => p.license_ref && p.license_ref.value
-      )?.license_ref;
-      license = licenseRef?.value;
+      const programEntry = articleContent.program.find(
+        (p: { license_ref?: unknown }) => p.license_ref
+      );
+      license = extractLicenseValue(programEntry?.license_ref);
     } else {
-      license = articleContent.program?.license_ref?.value;
+      license = extractLicenseValue(articleContent.program?.license_ref);
     }
 
     /** Format metrics */

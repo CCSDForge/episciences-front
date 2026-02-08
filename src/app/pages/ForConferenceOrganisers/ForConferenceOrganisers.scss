@@ -26,7 +26,7 @@
         display: block;
 
         &-hidden {
-          * {
+          > *:not(.forConferenceOrganisers-content-body-section-subtitle) {
             display: none;
           }
         }

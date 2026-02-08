@@ -66,7 +66,7 @@
         display: block;
 
         &-hidden {
-          * {
+          > *:not(.forAuthors-content-body-section-subtitle) {
             display: none;
           }
         }

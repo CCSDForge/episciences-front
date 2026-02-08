@@ -25,7 +25,7 @@
         display: block;
 
         &-hidden {
-          * {
+          > *:not(.about-content-body-section-subtitle) {
             display: none;
           }
         }
