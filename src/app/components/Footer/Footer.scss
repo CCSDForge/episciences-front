@@ -21,6 +21,9 @@
 
     &-logo {
       margin-right: 25px;
+      height: 40px;
+      width: auto;
+      object-fit: contain;
     }
 
     &-links {

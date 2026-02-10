@@ -53,6 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Consolidate journal logos into a single SVG file per journal by removing size-specific suffixes and managing dimensions via CSS to prevent layout shift
 - Filter and sort member cards on the homepage: display only Editorial and Scientific Advisory boards, with Chief Editors prioritized and alphabetical sorting by name (#89)
 - Underline URLs in news content on the /news page
 - Increase homepage news snippet character limit from 200 to 350

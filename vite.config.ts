@@ -31,32 +31,19 @@ export default defineConfig(({ mode }) => {
 
   function copyLogos() {
     if (journalCode) {
-      const bigLogo = `logo-${journalCode}-big.svg`;
-      const smallLogo = `logo-${journalCode}-small.svg`;
+      const logo = `logo-${journalCode}.svg`;
 
       // Ensure the target logos directory exists
       fs.ensureDirSync(logoTargetDir);
 
-      // Copy big logo
-      if (fs.existsSync(path.join(logoSourceDir, bigLogo))) {
+      // Copy logo
+      if (fs.existsSync(path.join(logoSourceDir, logo))) {
         fs.copyFileSync(
-          path.join(logoSourceDir, bigLogo),
-          path.join(logoTargetDir, bigLogo)
+          path.join(logoSourceDir, logo),
+          path.join(logoTargetDir, logo)
         );
-        //console.log(`Copied ${bigLogo} to ${logoTargetDir}`);
       } else {
-        console.warn(`Big logo not found: ${bigLogo}`);
-      }
-
-      // Copy small logo
-      if (fs.existsSync(path.join(logoSourceDir, smallLogo))) {
-        fs.copyFileSync(
-          path.join(logoSourceDir, smallLogo),
-          path.join(logoTargetDir, smallLogo)
-        );
-        //console.log(`Copied ${smallLogo} to ${logoTargetDir}`);
-      } else {
-        console.warn(`Small logo not found: ${smallLogo}`);
+        console.warn(`Logo not found: ${logo}`);
       }
     }
   }

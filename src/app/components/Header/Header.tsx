@@ -55,10 +55,10 @@ export default function Header(): JSX.Element {
 
   const mobileMenuDropdownRef = useRef<HTMLDivElement | null>(null);
 
-  const getLogoOfJournal = (size: 'small' | 'big'): string => {
+  const getLogoOfJournal = (): string => {
     const code = currentJournal?.code;
-    if (!code) return 'default';
-    return `/logos/logo-${code}-${size}.svg`;
+    if (!code) return '/logo.svg';
+    return `/logos/logo-${code}.svg`;
   };
 
   useEffect(() => {
@@ -413,7 +413,7 @@ export default function Header(): JSX.Element {
         <div className="header-reduced-journal">
           <div className="header-reduced-journal-logo">
             <Link to={PATHS.home}>
-              <img src={getLogoOfJournal('small')} alt="Reduced journal logo" />
+              <img src={getLogoOfJournal()} alt="Reduced journal logo" />
             </Link>
           </div>
           <div className="header-reduced-journal-title">{journalName}</div>
@@ -540,7 +540,7 @@ export default function Header(): JSX.Element {
       <div className="header-journal">
         <div className="header-journal-logo">
           <Link to={PATHS.home}>
-            <img src={getLogoOfJournal('big')} alt="Journal logo" />
+            <img src={getLogoOfJournal()} alt="Journal logo" />
           </Link>
         </div>
         <div className="header-journal-titles">

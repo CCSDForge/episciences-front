@@ -5,8 +5,7 @@ JOURNAL_LIST_FILE := external-assets/journals.txt
 ENV_FILE_PREFIX := external-assets/.env.local.
 
 # Default logo configurations
-DEFAULT_BIG_LOGO := default-big.svg
-DEFAULT_SMALL_LOGO := default-small.svg
+DEFAULT_LOGO := logo-default.svg
 
 # Read journals from the journal list file
 JOURNALS := $(shell cat $(JOURNAL_LIST_FILE) 2>/dev/null)

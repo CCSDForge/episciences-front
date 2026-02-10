@@ -43,10 +43,10 @@ export default function Footer(): JSX.Element {
     return `${import.meta.env.VITE_API_ROOT_ENDPOINT}/feed/rss/${code}`;
   };
 
-  const getLogoOfJournal = (size: 'small' | 'big'): string => {
+  const getLogoOfJournal = (): string => {
     const code = currentJournal?.code;
-    if (!code) return 'default';
-    return `/logos/logo-${code}-${size}.svg`;
+    if (!code) return '/logo.svg';
+    return `/logos/logo-${code}.svg`;
   };
 
   const getDocumentationLink = (): string =>
@@ -94,7 +94,7 @@ export default function Footer(): JSX.Element {
     <footer className={`footer ${!enabled && 'footer-disabled'}`}>
       <div className="footer-journal">
         <img
-          src={getLogoOfJournal('small')}
+          src={getLogoOfJournal()}
           alt="Journal logo"
           className="footer-journal-logo"
         />
