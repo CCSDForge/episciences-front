@@ -93,17 +93,10 @@ export default function Boards(): JSX.Element {
         member.roles.includes('managing-editor') ||
         member.roles.includes('handling-editor');
 
-      // Include copyeditor and webmaster in technical-board
-      const isTechnicalBoard = boardType === BOARD_TYPE.TECHNICAL_BOARD;
-      const hasCopyEditorOrWebmasterRole =
-        member.roles.includes('copyeditor') ||
-        member.roles.includes('webmaster');
-
       return (
         hasMatchingRole ||
         (isScientificAdvisoryBoard && hasAdvisoryBoardRole) ||
-        (isEditorialBoard && hasManagingOrHandlingRole) ||
-        (isTechnicalBoard && hasCopyEditorOrWebmasterRole)
+        (isEditorialBoard && hasManagingOrHandlingRole)
       );
     });
   };
