@@ -67,8 +67,8 @@
         text-overflow: ellipsis;
 
         @media (max-width: breakpoints.$xs) {
-          padding: 10px 5px 10px 10px;
-          font-size: 14px;
+          padding: 10px clamp(3px, 1vw, 5px) 10px clamp(5px, 2vw, 10px);
+          font-size: clamp(11px, 3.5vw, 14px);
           white-space: normal;
           line-height: 1.2;
         }
@@ -360,7 +360,7 @@
       }
 
       @media (max-width: breakpoints.$xs) {
-        padding: 16px 20px 12px 16px;
+        padding: 16px clamp(8px, 3vw, 30px) 12px clamp(8px, 3vw, 16px);
       }
     }
 
@@ -377,11 +377,7 @@
       }
 
       @media (max-width: breakpoints.$xs) {
-        font-size: 22px;
-      }
-
-      @media (max-width: breakpoints.$xsm) {
-        font-size: 14px;
+        font-size: clamp(11px, 4vw, 22px);
         line-height: 1.2;
       }
     }
@@ -401,12 +397,8 @@
       }
 
       @media (max-width: breakpoints.$xs) {
-        font-size: 16px;
-      }
-
-      @media (max-width: breakpoints.$xsm) {
         padding-top: 5px;
-        font-size: 12px;
+        font-size: clamp(10px, 3vw, 16px);
         line-height: 1.2;
       }
     }
@@ -424,12 +416,12 @@
     }
 
     @media (max-width: breakpoints.$sm) {
-      padding-left: 25px;
+      padding-left: clamp(8px, 4vw, 25px);
     }
 
     @media (max-width: breakpoints.$xsm) {
       height: 50px;
-      padding-left: 16px;
+      gap: clamp(5px, 2vw, 10px);
     }
 
     &-links {
@@ -441,6 +433,12 @@
       @media (max-width: breakpoints.$sm) {
         gap: 32px;
         font-size: 16px;
+      }
+
+      @media (max-width: breakpoints.$xs) {
+        gap: clamp(10px, 2vw, 15px);
+        font-size: clamp(12px, 2vw, 14px);
+        padding: 20px 5px 20px 0;
       }
 
       @media (max-width: breakpoints.$xsm) {
@@ -494,9 +492,10 @@
       align-items: center;
       height: 100%;
       margin-top: 2px;
+      gap: 5px;
 
       &-reduced {
-        margin-top: 0px;
+        margin-top: 0;
       }
 
       &-delimiter {
@@ -517,8 +516,10 @@
           width: 240px;
         }
 
-        @media (max-width: breakpoints.$xsm) {
-          width: 220px;
+        @media (max-width: breakpoints.$xs) {
+          flex: 1;
+          min-width: clamp(60px, 20vw, 100px);
+          width: auto;
         }
 
         input {
@@ -534,6 +535,7 @@
 
       &-submit {
         height: 100%;
+        flex-shrink: 0;
 
         &-search {
           height: 43px;
@@ -542,6 +544,17 @@
           button {
             background: var(--white);
             color: var(--primary-accessible);
+          }
+        }
+
+        &-article {
+          @media (max-width: breakpoints.$xs) {
+            button {
+              width: auto;
+              min-width: clamp(50px, 12vw, 70px);
+              font-size: clamp(9px, 2vw, 12px);
+              padding: 0 clamp(4px, 1.5vw, 10px);
+            }
           }
         }
       }
