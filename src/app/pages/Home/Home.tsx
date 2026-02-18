@@ -180,7 +180,8 @@ export default function Home(): JSX.Element {
         aboutContent={aboutPage?.content}
         lastInformation={getLastInformation()}
       />
-      {getBlockRendering(HOMEPAGE_BLOCK.LATEST_ARTICLES_CAROUSEL)?.render && (
+      {getBlockRendering(HOMEPAGE_BLOCK.LATEST_ARTICLES_CAROUSEL)?.render &&
+        !!articles?.data?.filter(article => article?.title)?.length && (
         <>
           <div className="home-subtitle">
             <h2>{t('pages.home.blocks.articles.subtitle')}</h2>
@@ -204,7 +205,8 @@ export default function Home(): JSX.Element {
           />
         </>
       )}
-      {getBlockRendering(HOMEPAGE_BLOCK.LATEST_NEWS_CAROUSEL)?.render && (
+      {getBlockRendering(HOMEPAGE_BLOCK.LATEST_NEWS_CAROUSEL)?.render &&
+        !!news?.data?.length && (
         <>
           <div className="home-subtitle">
             <h2>{t('pages.home.blocks.news.subtitle')}</h2>
@@ -255,7 +257,8 @@ export default function Home(): JSX.Element {
           <JournalSection language={language} content={indexation?.content} />
         </>
       )}
-      {getBlockRendering(HOMEPAGE_BLOCK.SPECIAL_ISSUES)?.render && (
+      {getBlockRendering(HOMEPAGE_BLOCK.SPECIAL_ISSUES)?.render &&
+        !!issues?.data?.length && (
         <>
           <div className="home-subtitle">
             <h2>{t('pages.home.blocks.specialIssues.subtitle')}</h2>
@@ -277,7 +280,8 @@ export default function Home(): JSX.Element {
         </>
       )}
       {getBlockRendering(HOMEPAGE_BLOCK.LATEST_ACCEPTED_ARTICLES_CAROUSEL)
-        ?.render && (
+        ?.render &&
+        !!acceptedArticles?.data?.filter(article => article?.title)?.length && (
         <>
           <div className="home-subtitle">
             <h2>{t('pages.home.blocks.articlesAccepted.subtitle')}</h2>

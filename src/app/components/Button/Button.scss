@@ -7,6 +7,11 @@
   font-weight: bold;
   border: none;
   cursor: pointer;
+  white-space: nowrap;
+
+  @media (max-width: 927px) {
+    font-size: 19px;
+  }
 
   &-withIcon {
     display: flex;
@@ -17,6 +22,10 @@
     &-icon {
       width: 12px;
       height: 12px;
+
+      @media (max-width: 927px) {
+        display: none;
+      }
     }
   }
 }

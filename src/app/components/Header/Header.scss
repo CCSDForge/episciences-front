@@ -332,12 +332,12 @@
 
       @media (max-width: breakpoints.$xsm),
         (max-width: breakpoints.$sm) and (orientation: landscape) {
-        width: 104px;
+        width: 76px;
 
         img {
-          width: 52px;
-          height: 52px;
-          padding: 17px 26px;
+          width: 60px;
+          height: 60px;
+          padding: 8px;
           object-fit: contain;
         }
       }
@@ -378,6 +378,11 @@
 
       @media (max-width: breakpoints.$xs) {
         font-size: clamp(11px, 4vw, 22px);
+        line-height: 1.2;
+      }
+
+      @media (max-width: breakpoints.$xsm) {
+        font-size: clamp(16px, 5.5vw, 26px);
         line-height: 1.2;
       }
     }
@@ -545,15 +550,28 @@
             background: var(--white);
             color: var(--primary-accessible);
           }
+
+          @media (max-width: breakpoints.$xsm) {
+            button {
+              width: auto;
+              padding: 0 clamp(8px, 2.5vw, 16px);
+              font-size: clamp(13px, 3.5vw, 17px);
+            }
+          }
         }
 
         &-article {
           @media (max-width: breakpoints.$xs) {
             button {
               width: auto;
-              min-width: clamp(50px, 12vw, 70px);
-              font-size: clamp(9px, 2vw, 12px);
-              padding: 0 clamp(4px, 1.5vw, 10px);
+              padding: 0 clamp(8px, 2.5vw, 16px);
+            }
+          }
+
+          @media (max-width: breakpoints.$xsm) {
+            button {
+              padding: 0 clamp(8px, 2.5vw, 16px);
+              font-size: clamp(13px, 3.5vw, 17px);
             }
           }
         }
