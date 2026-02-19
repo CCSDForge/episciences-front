@@ -540,7 +540,7 @@ export default function Header(): JSX.Element {
       <div className="header-journal">
         <div className="header-journal-logo">
           <Link to={PATHS.home}>
-            <img src={getLogoOfJournal()} alt="Journal logo" />
+            <img key={getLogoOfJournal()} src={getLogoOfJournal()} alt="Journal logo" />
           </Link>
         </div>
         <div className="header-journal-titles">
