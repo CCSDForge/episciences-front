@@ -45,10 +45,12 @@
         }
 
         @media (max-width: breakpoints.$xsm) {
-          width: 60px;
+          width: 80px;
 
           img {
-            max-height: 40px;
+            max-width: calc(100% - 12px);
+            max-height: 50px;
+            padding: 6px;
           }
         }
       }
@@ -341,10 +343,11 @@
       @media (max-width: breakpoints.$xsm),
         (max-width: breakpoints.$sm) and (orientation: landscape) {
         width: 110px;
+        border-left: 1px solid var(--primary);
 
         img {
-          width: 80px;
-          height: 80px;
+          max-width: calc(100% - 16px);
+          max-height: 90px;
           padding: 8px;
           object-fit: contain;
         }
