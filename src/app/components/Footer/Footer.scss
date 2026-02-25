@@ -19,9 +19,25 @@
       padding: 25px;
     }
 
-    &-logo {
+    &-logo-wrapper {
+      width: 190px;
+      flex-shrink: 4;
+      min-width: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin-right: 25px;
-      height: 40px;
+
+      @media (max-width: breakpoints.$xsm) {
+        width: 80px;
+        flex-shrink: 0;
+      }
+    }
+
+    &-logo {
+      max-height: 50px;
+      max-width: 100%;
+      height: auto;
       width: auto;
       object-fit: contain;
     }

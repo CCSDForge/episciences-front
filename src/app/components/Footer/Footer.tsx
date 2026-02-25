@@ -93,11 +93,13 @@ export default function Footer(): JSX.Element {
   return (
     <footer className={`footer ${!enabled && 'footer-disabled'}`}>
       <div className="footer-journal">
-        <img
-          src={getLogoOfJournal()}
-          alt="Journal logo"
-          className="footer-journal-logo"
-        />
+        <div className="footer-journal-logo-wrapper">
+          <img
+            src={getLogoOfJournal()}
+            alt="Journal logo"
+            className="footer-journal-logo"
+          />
+        </div>
         <div className="footer-journal-links">
           <div className="footer-journal-links-journal">
             {getJournalNotice() && (
