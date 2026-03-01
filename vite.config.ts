@@ -88,21 +88,6 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       {
-        name: 'html-transform',
-        transformIndexHtml(html) {
-          return html
-            .replace(/<!-- ApiDomainPlaceholder -->/g, `${env.VITE_API_DOMAIN}`)
-            .replace(
-              '<!-- CoarInboxUrlPlaceholder -->',
-              `${env.VITE_COAR_NOTIFY_INBOX_URL}`
-            )
-            .replace(
-              /<!-- MatomoSiteIdPlaceholder -->/g,
-              `${env.VITE_MATOMO_SITEID}`
-            );
-        },
-      },
-      {
         // Custom plugin to copy logos during server start
         name: 'copy-logos-on-dev',
         configureServer(server) {
