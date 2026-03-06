@@ -1,13 +1,13 @@
 {
   "common": {
-    "article": "articulo",
-    "articles": "articulos",
+    "article": "artículo",
+    "articles": "artículos",
     "document": "documento",
     "documents": "documentos",
     "volume": "volumen",
-    "volumes": "volumenes",
-    "section": "seccion",
-    "sections": "secciones",
+    "volumes": "volúmenes",
+    "section": "sección",
+    "sections": "secciónes",
     "author": "autor/autora",
     "authorFor": "autor/autora de",
     "authors": "autores/autoras",
@@ -18,9 +18,9 @@
     "resultsFor": "resultados para",
     "resultFor": "resultado para",
     "read": "Leer",
-    "readMore": "Leer mas",
+    "readMore": "Leer más",
     "readLess": "Leer menos",
-    "seeMore": "Ver mas",
+    "seeMore": "Ver más",
     "seeLess": "Ver menos",
     "doi": "DOI",
     "pdf": "PDF",
@@ -28,18 +28,18 @@
     "citeSuccess": "La cita {{template}} se ha copiado en el portapapeles",
     "week": "semana",
     "weeks": "semanas",
-    "content": "Articulos y volumenes",
+    "content": "artículos y volúmenes",
     "publishedOn": "Publicado el",
     "acceptedOn": "Aceptado el",
     "abstract": "Resumen",
     "toggleAbstracts": {
-      "hideAll": "Ocultar todos los resumenes",
-      "showAll": "Mostrar todos los resumenes"
+      "hideAll": "Ocultar todos los resúmenes",
+      "showAll": "Mostrar todos los resúmenes"
     },
-    "volumeCommittee": "Coordinacion: ",
+    "volumeCommittee": "Coordinación: ",
     "volumeCard": {
       "volume": "Volumen",
-      "specialIssue": "Numero especial",
+      "specialIssue": "Número especial",
       "proceeding": "Actas de congreso"
     },
     "renderingMode": {
@@ -54,55 +54,55 @@
       "years": "Anos",
       "documentTypes": "Tipos de documento",
       "volumeTypes": "Tipos de volumen",
-      "volumes": "Volumenes",
+      "volumes": "volúmenes",
       "sections": "Secciones",
       "authors": "Autores"
     },
-    "contentNotAvailable": "Este contenido aun no esta disponible en el idioma solicitado."
+    "contentNotAvailable": "Este contenido aún no esta disponible en el idioma solicitado."
   },
   "components": {
     "header": {
       "journal": "Revistas de acceso abierto",
-      "content": "Articulos y volumenes",
+      "content": "artículos y volúmenes",
       "about": "Acerca de",
       "links": {
-        "articles": "Todos los articulos",
-        "articlesAccepted": "Todos los articulos aceptados",
-        "volumes": "Todos los volumenes",
-        "lastVolume": "Ultimo volumen",
+        "articles": "Todos los artículos",
+        "articlesAccepted": "Todos los artículos aceptados",
+        "volumes": "Todos los volúmenes",
+        "lastVolume": "Último volumen",
         "sections": "Secciones",
-        "specialIssues": "Numeros especiales",
+        "specialIssues": "Númeross especiales",
         "proceedings": "Actas de congresos",
         "authors": "Autores/Autoras",
         "about": "La revista",
         "acknowledgements": "Agradecimientos",
-        "indexation": "Indexacion",
+        "indexation": "Indexación",
         "news": "Noticias",
-        "statistics": "Estadisticas",
-        "boards": "Comites",
+        "statistics": "Estadísticas",
+        "boards": "Comités",
         "forAuthors": "Para los autores/autoras"
       },
       "searchPlaceholder": "buscar",
       "search": "Buscar",
       "submit": "Enviar",
-      "signIn": "Iniciar sesion",
+      "signIn": "Iniciar sesión",
       "newWindow": "(nueva ventana)",
       "chooseLanguage": "Elegir idioma",
-      "languageMenu": "Menu de seleccion de idioma"
+      "languageMenu": "Menu de selección de idioma"
     },
     "footer": {
       "links": {
         "notice": "Ficha de la revista",
         "contact": "Contacto",
-        "credits": "Creditos",
+        "credits": "Créditos",
         "manageJournal": "Gestionar la revista",
         "rss": "RSS",
-        "documentation": "Documentacion",
+        "documentation": "Documentación",
         "acknowledgements": "Agradecimientos",
-        "publishingPolicy": "Politica de publicacion",
-        "accessibility": "Accesibilidad: no conforme",
+        "publishingPolicy": "Política de publicación",
+        "accessibility": "Accesibilidad",
         "legalMentions": "Aviso legal",
-        "privacyStatement": "Declaracion de privacidad",
+        "privacyStatement": "Declaración de privacidad",
         "termsOfUse": "Condiciones de uso",
         "status": "Estado"
       }
@@ -113,8 +113,8 @@
       "title": "Inicio",
       "blocks": {
         "articles": {
-          "subtitle": "Ultimos articulos",
-          "see": "Ver todos los articulos"
+          "subtitle": "Últimos artículos",
+          "see": "Ver todos los artículos"
         },
         "news": {
           "subtitle": "Noticias",
@@ -128,31 +128,31 @@
           "subtitle": "Indexacion de la revista"
         },
         "specialIssues": {
-          "subtitle": "Numeros especiales",
-          "see": "Ver todos los volumenes"
+          "subtitle": "Números especiales",
+          "see": "Ver todos los volúmenes"
         },
         "articlesAccepted": {
-          "subtitle": "Ultimos articulos aceptados",
-          "see": "Ver todos los articulos aceptados"
+          "subtitle": "Últimos artículos aceptados",
+          "see": "Ver todos los artículos aceptados"
         }
       }
     },
     "articles": {
-      "title": "Articulos",
+      "title": "artículos",
       "types": {
-        "article": "Articulo",
+        "article": "artículo",
         "book": "Libro",
         "bookpart": "Parte de libro",
-        "conference": "Comunicacion en congreso",
+        "conference": "Comunicación en congreso",
         "lecture": "Lectura",
         "other": "Otro",
-        "preprint": "Prepublicacion",
+        "preprint": "Prepublicación",
         "report": "Informe",
         "software": "Software"
       }
     },
     "articleDetails": {
-      "title": "Articulo",
+      "title": "artículo",
       "sections": {
         "graphicalAbstract": "Resumen grafico",
         "abstract": "Resumen",
@@ -172,7 +172,7 @@
         "doi": "DOI"
       },
       "actions": {
-        "download": "Descargar articulo",
+        "download": "Descargar artículo",
         "openOn": "Abrir en",
         "cite": "Citar",
         "metadata": "Metadatos",
@@ -187,7 +187,7 @@
         }
       },
       "publicationDetails": {
-        "title": "Detalles de publicacion",
+        "title": "Detalles de publicación",
         "publishedOn": "Publicado el",
         "acceptedOn": "Aceptado el",
         "submittedOn": "Enviado el",
@@ -195,7 +195,7 @@
       },
       "volumeDetails": {
         "title": "Volumen",
-        "specialIssue": "Numero especial",
+        "specialIssue": "Número especial",
         "proceeding": "Actas de congreso"
       },
       "license": "Licencia",
@@ -205,37 +205,37 @@
           "nonExclusive": "arXiv.org - Non-exclusive license to distribute"
         },
         "creativeCommons": {
-          "nonCommercial1.0": "Atribucion-NoComercial 1.0 Generica (CC BY-NC 1.0)",
-          "nonCommercial2.0": "Atribucion-NoComercial 2.0 Generica (CC BY-NC 2.0)",
-          "nonCommercial2.5": "Atribucion-NoComercial 2.5 Generica (CC BY-NC 2.5)",
-          "nonCommercial3.0": "Atribucion-NoComercial 3.0 No adaptada (CC BY-NC 3.0)",
-          "nonCommercial4.0": "Atribucion-NoComercial 4.0 Internacional (CC BY-NC 4.0)",
-          "noDerivatives1.0": "Atribucion-SinDerivadas 1.0 Generica (CC BY-ND 1.0)",
-          "noDerivatives2.0": "Atribucion-SinDerivadas 2.0 Generica (CC BY-ND 2.0)",
-          "noDerivatives2.5": "Atribucion-SinDerivadas 2.5 Generica (CC BY-ND 2.5)",
-          "noDerivatives3.0": "Atribucion-SinDerivadas 3.0 No adaptada (CC BY-ND 3.0)",
-          "noDerivatives4.0": "Atribucion-SinDerivadas 4.0 Internacional (CC BY-ND 4.0)",
-          "noDerivativesNonCommercial1.0": "Atribucion-SinDerivadas-NoComercial 1.0 Generica (CC BY-ND-NC 1.0)",
-          "noDerivativesNonCommercial2.0": "Atribucion-NoComercial-SinDerivadas 2.0 Generica (CC BY-NC-ND 2.0)",
-          "noDerivativesNonCommercial2.5": "Atribucion-NoComercial-SinDerivadas 2.5 Generica (CC BY-NC-ND 2.5)",
-          "noDerivativesNonCommercial3.0": "Atribucion-NoComercial-SinDerivadas 3.0 No adaptada (CC BY-NC-ND 3.0)",
-          "noDerivativesNonCommercial4.0": "Atribucion-NoComercial-SinDerivadas 4.0 Internacional (CC BY-NC-ND 4.0)",
-          "nonCommercialShareAlike1.0": "Atribucion-NoComercial-CompartirIgual 1.0 Generica (CC BY-NC-SA 1.0)",
-          "nonCommercialShareAlike2.0": "Atribucion-NoComercial-CompartirIgual 2.0 Generica (CC BY-NC-SA 2.0)",
-          "nonCommercialShareAlike2.5": "Atribucion-NoComercial-CompartirIgual 2.5 Generica (CC BY-NC-SA 2.5)",
-          "nonCommercialShareAlike3.0": "Atribucion-NoComercial-CompartirIgual 3.0 No adaptada (CC BY-NC-SA 3.0)",
-          "nonCommercialShareAlike4.0": "Atribucion-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)",
-          "shareAlike1.0": "Atribucion-CompartirIgual 1.0 Generica (CC BY-SA 1.0)",
-          "shareAlike2.0": "Atribucion-CompartirIgual 2.0 Generica (CC BY-SA 2.0)",
-          "shareAlike2.5": "Atribucion-CompartirIgual 2.5 Generica (CC BY-SA 2.5)",
-          "shareAlike3.0": "Atribucion-CompartirIgual 3.0 No adaptada (CC BY-SA 3.0)",
-          "shareAlike4.0": "Atribucion-CompartirIgual 4.0 Internacional (CC BY-SA 4.0)",
-          "generic1.0": "Atribucion 1.0 Generica (CC BY 1.0)",
-          "generic2.0": "Atribucion 2.0 Generica (CC BY 2.0)",
-          "generic2.5": "Atribucion 2.5 Generica (CC BY 2.5)",
-          "generic3.0": "Atribucion 3.0 No adaptada (CC BY 3.0)",
-          "generic4.0": "Atribucion 4.0 Internacional (CC BY 4.0)",
-          "zero1.0": "CC0 1.0 Universal (CC0 1.0) Dedicacion de Dominio Publico"
+          "nonCommercial1.0": "Atribución-NoComercial 1.0 Generica (CC BY-NC 1.0)",
+          "nonCommercial2.0": "Atribución-NoComercial 2.0 Generica (CC BY-NC 2.0)",
+          "nonCommercial2.5": "Atribución-NoComercial 2.5 Generica (CC BY-NC 2.5)",
+          "nonCommercial3.0": "Atribución-NoComercial 3.0 No adaptada (CC BY-NC 3.0)",
+          "nonCommercial4.0": "Atribución-NoComercial 4.0 Internaciónal (CC BY-NC 4.0)",
+          "noDerivatives1.0": "Atribución-SinDerivadas 1.0 Generica (CC BY-ND 1.0)",
+          "noDerivatives2.0": "Atribución-SinDerivadas 2.0 Generica (CC BY-ND 2.0)",
+          "noDerivatives2.5": "Atribución-SinDerivadas 2.5 Generica (CC BY-ND 2.5)",
+          "noDerivatives3.0": "Atribución-SinDerivadas 3.0 No adaptada (CC BY-ND 3.0)",
+          "noDerivatives4.0": "Atribución-SinDerivadas 4.0 Internacional (CC BY-ND 4.0)",
+          "noDerivativesNonCommercial1.0": "Atribución-SinDerivadas-NoComercial 1.0 Generica (CC BY-ND-NC 1.0)",
+          "noDerivativesNonCommercial2.0": "Atribución-NoComercial-SinDerivadas 2.0 Generica (CC BY-NC-ND 2.0)",
+          "noDerivativesNonCommercial2.5": "Atribución-NoComercial-SinDerivadas 2.5 Generica (CC BY-NC-ND 2.5)",
+          "noDerivativesNonCommercial3.0": "Atribución-NoComercial-SinDerivadas 3.0 No adaptada (CC BY-NC-ND 3.0)",
+          "noDerivativesNonCommercial4.0": "Atribución-NoComercial-SinDerivadas 4.0 Internacional (CC BY-NC-ND 4.0)",
+          "nonCommercialShareAlike1.0": "Atribución-NoComercial-CompartirIgual 1.0 Generica (CC BY-NC-SA 1.0)",
+          "nonCommercialShareAlike2.0": "Atribución-NoComercial-CompartirIgual 2.0 Generica (CC BY-NC-SA 2.0)",
+          "nonCommercialShareAlike2.5": "Atribución-NoComercial-CompartirIgual 2.5 Generica (CC BY-NC-SA 2.5)",
+          "nonCommercialShareAlike3.0": "Atribución-NoComercial-CompartirIgual 3.0 No adaptada (CC BY-NC-SA 3.0)",
+          "nonCommercialShareAlike4.0": "Atribución-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)",
+          "shareAlike1.0": "Atribución-CompartirIgual 1.0 Generica (CC BY-SA 1.0)",
+          "shareAlike2.0": "Atribución-CompartirIgual 2.0 Generica (CC BY-SA 2.0)",
+          "shareAlike2.5": "Atribución-CompartirIgual 2.5 Generica (CC BY-SA 2.5)",
+          "shareAlike3.0": "Atribución-CompartirIgual 3.0 No adaptada (CC BY-SA 3.0)",
+          "shareAlike4.0": "Atribución-CompartirIgual 4.0 Internacional (CC BY-SA 4.0)",
+          "generic1.0": "Atribución 1.0 Generica (CC BY 1.0)",
+          "generic2.0": "Atribución 2.0 Generica (CC BY 2.0)",
+          "generic2.5": "Atribución 2.5 Generica (CC BY 2.5)",
+          "generic3.0": "Atribución 3.0 No adaptada (CC BY 3.0)",
+          "generic4.0": "Atribución 4.0 Internacional (CC BY 4.0)",
+          "zero1.0": "CC0 1.0 Universal (CC0 1.0) Dedicación de Dominio Publico"
         },
         "others": {
           "closedAccess": "Acceso cerrado",
@@ -244,7 +244,7 @@
           "openAccess": "Acceso abierto"
         }
       },
-      "funding": "Financiacion",
+      "funding": "Financiación",
       "metrics": {
         "title": "Indicadores",
         "views": "Vistas",
@@ -253,9 +253,9 @@
       "relationships": {
         "isSameAs": "Es identico a",
         "isDerivedFrom": "Deriva de",
-        "hasDerivation": "Tiene una derivacion",
-        "isReviewOf": "Es una evaluacion de",
-        "hasReview": "Tiene una evaluacion",
+        "hasDerivation": "Tiene una derivación",
+        "isReviewOf": "Es una evaluación de",
+        "hasReview": "Tiene una evaluación",
         "isCommentOn": "Es un comentario sobre",
         "hasComment": "Tiene un comentario",
         "isReplyTo": "Es una respuesta a",
@@ -282,7 +282,7 @@
         "isRequiredBy": "Requerido por",
         "finances": "Financia",
         "isFinancedBy": "Financiado por",
-        "isVersionOf": "Es una version de",
+        "isVersionOf": "Es una versión de",
         "isRelatedTo": "Relacionado con"
       }
     },
@@ -293,29 +293,29 @@
       "title": "Buscar"
     },
     "volumes": {
-      "title": "Volumenes",
+      "title": "volúmenes",
       "types": {
-        "specialIssues": "Numeros especiales",
+        "specialIssues": "Números especiales",
         "proceedings": "Actas de congresos"
       }
     },
     "volumeDetails": {
       "title": "Volumen",
-      "titleSpecialIssue": "Numero especial",
+      "titleSpecialIssue": "Número especial",
       "titleProceeding": "Actas de congreso",
-      "emptyVolume": "Este volumen aun no contiene documentos.",
+      "emptyVolume": "Este volumen aún no contiene documentos.",
       "proceedingSettings": {
         "theme": "Tema del congreso"
       },
       "actions": {
-        "downloadAll": "Descargar todos los articulos"
+        "downloadAll": "Descargar todos los artículos"
       },
       "relatedVolumes": {
-        "volumes": "Lista de volumenes",
-        "specialIssues": "Lista de numeros especiales",
+        "volumes": "Lista de volúmenes",
+        "specialIssues": "Lista de números especiales",
         "proceedings": "Lista de actas de congresos",
         "lookAtSelectedVolume": "Consultar el volumen seleccionado",
-        "lookAtSelectedIssue": "Consultar el numero especial seleccionado",
+        "lookAtSelectedIssue": "Consultar el número especial seleccionado",
         "lookAtSelectedProceedings": "Consultar las actas del congreso seleccionadas"
       }
     },
@@ -323,7 +323,7 @@
       "title": "Secciones"
     },
     "sectionDetails": {
-      "title": "Seccion"
+      "title": "sección"
     },
     "authors": {
       "title": "Autores/Autoras",
@@ -337,45 +337,45 @@
       "title": "Agradecimientos"
     },
     "indexation": {
-      "title": "Indexacion"
+      "title": "Indexación"
     },
     "news": {
       "title": "Noticias"
     },
     "statistics": {
-      "title": "Estadisticas",
+      "title": "Estadísticas",
       "labels": {
         "glance": "De un vistazo",
-        "evaluationPublication": "Evaluacion y publicacion"
+        "evaluationPublication": "Evaluación y publicación"
       },
       "types": {
-        "nbSubmissions": "Envios",
-        "acceptanceRate": "Tasa de aceptacion",
-        "medianSubmissionPublication": "Tiempo mediano entre envio y publicacion",
-        "medianSubmissionAcceptance": "Tiempo mediano entre envio y aceptacion",
-        "nbSubmissionsDetails": "Desglose de envios",
-        "medianReviewsNumber": "Numero mediano de evaluaciones de articulos de investigacion",
+        "nbSubmissions": "Envíos",
+        "acceptanceRate": "Porcentaje de aceptación",
+        "medianSubmissionPublication": "Tiempo mediano entre envío y publicación",
+        "medianSubmissionAcceptance": "Tiempo mediano entre envío y aceptación",
+        "nbSubmissionsDetails": "Desglose de envíos",
+        "medianReviewsNumber": "Número mediano de evaluaciones de artículos de investigación",
         "reviewsReceived": "Evaluaciones recibidas",
         "reviewsRequested": "Evaluaciones solicitadas"
       },
       "statuses": {
-        "published": "Articulos publicados",
-        "refused": "Articulos rechazados",
-        "beingPublished": "En curso de publicacion",
-        "accepted": "Articulos aceptados",
+        "published": "artículos publicados",
+        "refused": "artículos rechazados",
+        "beingPublished": "En curso de publicación",
+        "accepted": "artículos aceptados",
         "other-status": "Otro estado"
       }
     },
     "boards": {
-      "title": "Comites",
+      "title": "Comités",
       "tableOfContents": "Indice",
       "types": {
-        "technicalBoard": "Comite tecnico",
-        "editorialBoard": "Comite editorial",
-        "scientificAdvisoryBoard": "Comite cientifico",
+        "technicalBoard": "Comité técnico",
+        "editorialBoard": "Comité editorial",
+        "scientificAdvisoryBoard": "Comité cientifico",
         "formerMember": "Antiguo/Antigua miembro",
-        "introductionBoard": "Presentacion de los comites",
-        "reviewersBoard": "Comite de revision",
+        "introductionBoard": "Presentación de los comites",
+        "reviewersBoard": "Comité de revision",
         "operatingCharterBoard": "Estatutos de funcionamiento"
       },
       "roles": {
@@ -383,10 +383,10 @@
         "guestEditor": "Redactor/Redactora invitado/invitada",
         "editor": "Redactor/Redactora",
         "chiefEditor": "Redactor/Redactora jefe",
-        "secretary": "Secretario/Secretaria de redaccion",
+        "secretary": "Secretario/Secretaria de redacción",
         "formerMember": "Antiguo/Antigua miembro",
-        "advisoryBoard": "Comite consultivo",
-        "managingEditor": "Comite de direccion",
+        "advisoryBoard": "Comité consultivo",
+        "managingEditor": "Comité de dirección",
         "handlingEditor": "Redactor responsable",
         "copyEditor": "Corrector de textos",
         "webmaster": "Webmaster"
@@ -394,9 +394,9 @@
     },
     "publish": {
       "title": "Publicar",
-      "description": "Informacion para publicar en nuestra revista",
+      "description": "Información para publicar en nuestra revista",
       "forAuthors": "Para los autores/autoras",
-      "ethicalCharter": "Carta etica",
+      "ethicalCharter": "Carta ética",
       "forReviewers": "Para los revisores",
       "forConferenceOrganisers": "Para los organizadores de congresos"
     },
@@ -404,43 +404,43 @@
       "title": "Para los autores/autoras"
     },
     "ethicalCharter": {
-      "title": "Carta etica",
-      "description": "Carta etica y buenas practicas"
+      "title": "Carta ética",
+      "description": "Carta ética y buenas practicas"
     },
     "forReviewers": {
       "title": "Para los revisores",
-      "description": "Informacion y directrices para los revisores"
+      "description": "Información y directrices para los revisores"
     },
     "forConferenceOrganisers": {
       "title": "Para los organizadores de congresos",
-      "description": "Informacion y directrices para los organizadores de congresos"
+      "description": "Información y directrices para los organizadores de congresos"
     },
     "pdfViewer": {
       "loading": "Cargando PDF...",
       "error": "No se puede cargar el PDF",
-      "errorInfo": "El PDF no puede mostrarse directamente en el navegador. Haga clic en el boton de abajo para abrirlo en una nueva pestana.",
+      "errorInfo": "El PDF no puede mostrarse directamente en el navegador. Haga clic en el boton de abajo para abrirlo en una nueva pestaña.",
       "fallback": "Intentando con un visor alternativo...",
-      "pages": "Paginas",
-      "page": "Pagina",
+      "pages": "Páginas",
+      "page": "Página",
       "of": "de",
       "previous": "Anterior",
       "next": "Siguiente",
       "download": "Descargar PDF",
-      "openInNewTab": "Abrir PDF en una nueva pestana",
-      "closeTab": "Cerrar pestana"
+      "openInNewTab": "Abrir PDF en una nueva pestaña",
+      "closeTab": "Cerrar pestaña"
     },
     "credits": {
       "title": "Creditos"
     },
     "accessibility": {
-      "title": "Declaracion de accesibilidad"
+      "title": "Declaración de accesibilidad"
     },
     "notFound": {
-      "title": "Pagina no encontrada",
+      "title": "Páginas no encontrada",
       "code": "404",
-      "message": "La pagina que busca no existe o ha sido trasladada.",
-      "sectionWrongJournal": "Esta seccion no existe o no pertenece a esta revista.",
-      "articleWrongJournal": "Este articulo no existe o no pertenece a esta revista.",
+      "message": "La páginas que busca no existe o ha sido trasladada.",
+      "sectionWrongJournal": "Esta sección no existe o no pertenece a esta revista.",
+      "articleWrongJournal": "Este artículo no existe o no pertenece a esta revista.",
       "volumeWrongJournal": "Este volumen no existe o no pertenece a esta revista.",
       "backToHome": "Volver al inicio"
     }
