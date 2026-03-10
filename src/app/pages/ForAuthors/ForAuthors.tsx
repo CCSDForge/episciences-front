@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import ReactMarkdown from 'react-markdown';
 import { useTranslation } from 'react-i18next';
-import remarkGfm from 'remark-gfm';
+import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -343,8 +342,7 @@ export default function ForAuthors(): JSX.Element {
                 key={section.id}
                 className={`forAuthors-content-body-section ${!section.opened && 'forAuthors-content-body-section-hidden'}`}
               >
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
+                <MarkdownRenderer
                   urlTransform={uri =>
                     uri.includes('/public/')
                       ? getMarkdownImageURL(uri, rvcode!)
@@ -402,7 +400,7 @@ export default function ForAuthors(): JSX.Element {
                   }}
                 >
                   {section.value}
-                </ReactMarkdown>
+                </MarkdownRenderer>
                 <div className="forAuthors-content-body-section-cards">
                   {section.cards?.map((card, index) => (
                     <div
@@ -419,9 +417,9 @@ export default function ForAuthors(): JSX.Element {
                         >
                           {card.title}
                         </h3>
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        <MarkdownRenderer>
                           {card.content}
-                        </ReactMarkdown>
+                        </MarkdownRenderer>
                       </div>
                     </div>
                   ))}

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import ReactMarkdown from 'react-markdown';
+import MarkdownRenderer from '../../MarkdownRenderer/MarkdownRenderer';
 
 import { AvailableLanguage } from '../../../../utils/i18n';
 import './JournalSection.scss';
@@ -16,7 +16,7 @@ export default function JournalSection({
   return (
     <div className="journalSection">
       {content && (
-        <ReactMarkdown
+        <MarkdownRenderer
           components={{
             a: ({ ...props }) => (
               <Link to={props.href!} target="_blank">
@@ -26,7 +26,7 @@ export default function JournalSection({
           }}
         >
           {content[language]}
-        </ReactMarkdown>
+        </MarkdownRenderer>
       )}
     </div>
   );

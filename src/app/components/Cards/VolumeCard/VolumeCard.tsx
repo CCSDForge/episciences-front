@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TFunction } from 'i18next';
-import ReactMarkdown from 'react-markdown';
+import MarkdownRenderer from '../../MarkdownRenderer/MarkdownRenderer';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -205,7 +205,7 @@ export default function VolumeCard({
             <div
               className={`volumeCard-content-description-content ${openedDescription && 'volumeCard-content-description-content-opened'}`}
             >
-              <ReactMarkdown>{localizedDescription}</ReactMarkdown>
+              <MarkdownRenderer>{localizedDescription}</MarkdownRenderer>
             </div>
           </div>
         )}

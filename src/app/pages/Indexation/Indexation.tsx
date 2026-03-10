@@ -1,6 +1,5 @@
-import remarkGfm from 'remark-gfm';
-import ReactMarkdown from 'react-markdown';
 import { useTranslation } from 'react-i18next';
+import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
 import { useAppSelector } from '../../../hooks/store';
 import { getLocalizedContent } from '../../../utils/i18n';
 import { Link } from 'react-router-dom';
@@ -53,8 +52,7 @@ export default function Indexation(): JSX.Element {
         <div className="indexation-content">
           <div className="indexation-sidebar"></div>
           <div className="indexation-content-body">
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
+            <MarkdownRenderer
               urlTransform={uri =>
                 uri.includes('/public/')
                   ? getMarkdownImageURL(uri, rvcode!)
@@ -73,7 +71,7 @@ export default function Indexation(): JSX.Element {
               }}
             >
               {content}
-            </ReactMarkdown>
+            </MarkdownRenderer>
           </div>
         </div>
       )}

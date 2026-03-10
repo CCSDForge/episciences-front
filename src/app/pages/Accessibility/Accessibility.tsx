@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import ReactMarkdown from 'react-markdown';
 import { useTranslation } from 'react-i18next';
-import remarkGfm from 'remark-gfm';
 import { Helmet } from 'react-helmet-async';
+import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
 
 import { useAppSelector } from '../../../hooks/store';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
@@ -57,8 +56,7 @@ export default function Accessibility(): JSX.Element {
         <Loader />
       ) : (
         <div className="accessibility-content">
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
+          <MarkdownRenderer
             components={{
               a: ({ ...props }) => (
                 <a
@@ -73,7 +71,7 @@ export default function Accessibility(): JSX.Element {
             }}
           >
             {markdownContent}
-          </ReactMarkdown>
+          </MarkdownRenderer>
         </div>
       )}
     </main>

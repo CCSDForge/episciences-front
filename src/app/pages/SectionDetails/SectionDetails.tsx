@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import ReactMarkdown from 'react-markdown';
+import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 import { PATHS } from '../../../config/paths';
@@ -140,7 +140,7 @@ export function SectionDetails(): JSX.Element {
               )}
               <div className="sectionDetails-content-results-content-description">
                 {localizedSectionDescription ? (
-                  <ReactMarkdown>{localizedSectionDescription}</ReactMarkdown>
+                  <MarkdownRenderer>{localizedSectionDescription}</MarkdownRenderer>
                 ) : (
                   ''
                 )}

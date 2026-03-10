@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import ReactMarkdown from 'react-markdown';
+import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
 import { useTranslation } from 'react-i18next';
 
 import caretUp from '/icons/caret-up-red.svg';
@@ -241,7 +241,7 @@ export default function Boards(): JSX.Element {
                   className={`boards-content-groups-group-content ${openPanels.includes(index) && 'boards-content-groups-group-content-active'}`}
                 >
                   <div className="boards-content-groups-group-content-description">
-                    <ReactMarkdown>{boardPerTitle.description}</ReactMarkdown>
+                    <MarkdownRenderer>{boardPerTitle.description}</MarkdownRenderer>
                   </div>
                   <div className="boards-content-groups-group-content-grid">
                     {boardPerTitle.members.map((member, index) => (

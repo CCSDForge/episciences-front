@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import ReactMarkdown from 'react-markdown';
+import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { isMobileOnly } from 'react-device-detect';
 
@@ -244,7 +244,7 @@ export default function VolumeDetails(): JSX.Element {
         if (localizedDescription.length <= MAX_MOBILE_DESCRIPTION_LENGTH) {
           return (
             <div className="volumeDetails-content-results-content-description">
-              <ReactMarkdown>{localizedDescription}</ReactMarkdown>
+              <MarkdownRenderer>{localizedDescription}</MarkdownRenderer>
             </div>
           );
         }
@@ -252,9 +252,9 @@ export default function VolumeDetails(): JSX.Element {
         return (
           <div className="volumeDetails-content-results-content-description">
             {showFullMobileDescription ? (
-              <ReactMarkdown>{localizedDescription}</ReactMarkdown>
+              <MarkdownRenderer>{localizedDescription}</MarkdownRenderer>
             ) : (
-              <ReactMarkdown>{`${localizedDescription.substring(0, MAX_MOBILE_DESCRIPTION_LENGTH)}...`}</ReactMarkdown>
+              <MarkdownRenderer>{`${localizedDescription.substring(0, MAX_MOBILE_DESCRIPTION_LENGTH)}...`}</MarkdownRenderer>
             )}
             <div
               onClick={(): void =>
@@ -277,7 +277,7 @@ export default function VolumeDetails(): JSX.Element {
 
       return (
         <div className="volumeDetails-content-results-content-description">
-          <ReactMarkdown>{localizedDescription}</ReactMarkdown>
+          <MarkdownRenderer>{localizedDescription}</MarkdownRenderer>
         </div>
       );
     }

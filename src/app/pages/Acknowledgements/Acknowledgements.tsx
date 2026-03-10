@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import ReactMarkdown from 'react-markdown';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
-import remarkGfm from 'remark-gfm';
+import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
 
 import caretUp from '/icons/caret-up-red.svg';
 import caretDown from '/icons/caret-down-red.svg';
@@ -213,8 +212,7 @@ export default function Acknowledgements(): JSX.Element {
                 key={section.id}
                 className={`acknowledgements-content-body-section ${!section.opened && 'acknowledgements-content-body-section-hidden'}`}
               >
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
+                <MarkdownRenderer
                   urlTransform={uri =>
                     uri.includes('/public/')
                       ? getMarkdownImageURL(uri, rvcode!)
@@ -272,7 +270,7 @@ export default function Acknowledgements(): JSX.Element {
                   }}
                 >
                   {section.value}
-                </ReactMarkdown>
+                </MarkdownRenderer>
               </div>
             ))}
           </div>

@@ -1,0 +1,35 @@
+.markdownRenderer {
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+
+    thead {
+      tr {
+        border-bottom: 2px solid var(--primary);
+      }
+
+      th {
+        padding: 10px 16px;
+        text-align: left;
+        font-weight: 600;
+        color: var(--grey-darker);
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid var(--grey);
+
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+
+      td {
+        padding: 10px 16px;
+        color: var(--grey-dark);
+      }
+    }
+  }
+}

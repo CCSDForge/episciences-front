@@ -3,9 +3,8 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { MathJax } from 'better-react-mathjax';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import { isMobileOnly } from 'react-device-detect';
+import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
 import { NotFoundState } from '../../../types/notFound';
 
 import caretUpGrey from '/icons/caret-up-grey.svg';
@@ -527,8 +526,7 @@ export default function ArticleDetails(): JSX.Element {
               {t(relationship)}
             </div>
           )}
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
+          <MarkdownRenderer
             components={{
               a: ({ ...props }) => (
                 <Link
@@ -543,7 +541,7 @@ export default function ArticleDetails(): JSX.Element {
             }}
           >
             {decodeText(relatedItem.citation)}
-          </ReactMarkdown>
+          </MarkdownRenderer>
         </div>
       );
     }

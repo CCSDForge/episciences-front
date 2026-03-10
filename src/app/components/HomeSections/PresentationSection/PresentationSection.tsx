@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import ReactMarkdown from 'react-markdown';
+import MarkdownRenderer from '../../MarkdownRenderer/MarkdownRenderer';
 import { TFunction } from 'i18next';
 
 import caretRight from '/icons/caret-right-grey.svg';
@@ -39,7 +39,7 @@ export default function PresentationSection({
       {localizedAboutContent && (
         <div className="presentationSection-about">
           <div className="presentationSection-about-content">
-            <ReactMarkdown>{localizedAboutContent}</ReactMarkdown>
+            <MarkdownRenderer>{localizedAboutContent}</MarkdownRenderer>
           </div>
           <Link to={PATHS.about}>
             <div className="presentationSection-about-seeMore">
