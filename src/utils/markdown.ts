@@ -49,12 +49,19 @@ export const adjustNestedListsInMarkdownContent = (
 
   let fixedContent = content;
 
-  // Handle nested lists with colons
+  //Handle bullet points that interrupt ordered lists
+  //Pattern: numbered item, optional blank lines, bullets, optional whitespace, before next numbered item
+  //We indent the bullets to nest them under the previous numbered item
   fixedContent = fixedContent.replace(
-    /(- [^\n]+:\n)((- .+\n)+)/g,
-    (_: string, parent: string, children: string) => {
-      const indentedChildren = children.replace(/(- )/g, '  $1');
-      return parent + indentedChildren;
+      /(\d+\.\s[^\n]+\n)(\n*)((?:-\s[^\n]+\n)+)(\s*)(?=\d+\.)/g,
+    (_: string,
+     numberedItem: string,
+     blankLines: string,
+     bullets: string,
+     trailingSpace: string
+    ) => {
+      const indentedBullets = bullets.replace(/^-\s/gm, '   - ');
+      return numberedItem + blankLines + indentedBullets + trailingSpace;
     }
   );
 
