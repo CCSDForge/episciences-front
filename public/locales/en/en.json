@@ -398,7 +398,8 @@
       "forAuthors": "For authors",
       "ethicalCharter": "Ethical charter",
       "forReviewers": "For reviewers",
-      "forConferenceOrganisers": "For conference organisers"
+      "forConferenceOrganisers": "For conference organisers",
+      "proposingSpecialIssues": "Proposing special issues"
     },
     "forAuthors": {
       "title": "For authors"
@@ -414,6 +415,10 @@
     "forConferenceOrganisers": {
       "title": "For conference organisers",
       "description": "Information and guidelines for conference organisers"
+    },
+    "proposingSpecialIssues": {
+      "title": "Proposing special issues",
+      "description": "Information for proposing special issues"
     },
     "pdfViewer": {
       "loading": "Loading PDF...",

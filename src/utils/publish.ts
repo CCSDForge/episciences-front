@@ -5,6 +5,7 @@ export enum PUBLISH_SECTION {
   FOR_REVIEWERS = 'for-reviewers',
   FOR_CONFERENCE_ORGANISERS = 'for-conference-organisers',
   ETHICAL_CHARTER = 'ethical-charter',
+  PROPOSING_SPECIAL_ISSUES = 'proposing-special-issues',
 }
 
 // Defines the display order of publish sections in the navigation menu
@@ -13,6 +14,7 @@ export const publishSections = [
   PUBLISH_SECTION.FOR_AUTHORS,
   PUBLISH_SECTION.FOR_REVIEWERS,
   PUBLISH_SECTION.FOR_CONFERENCE_ORGANISERS,
+  PUBLISH_SECTION.PROPOSING_SPECIAL_ISSUES,
 ];
 
 export interface IPublishSection {
@@ -74,6 +76,17 @@ export const getPublishSections = (): IPublishSection[] => {
       type: PUBLISH_SECTION.FOR_CONFERENCE_ORGANISERS,
       path: PATHS.forConferenceOrganisers,
       translationKey: 'pages.publish.forConferenceOrganisers',
+    });
+  }
+
+  // Include proposing-special-issues only if environment variable is 'true'
+  const shouldRenderProposingSpecialIssues =
+    import.meta.env.VITE_JOURNAL_MENU_JOURNAL_PROPOSING_SPECIAL_ISSUES === 'true';
+  if (shouldRenderProposingSpecialIssues) {
+    sections.push({
+      type: PUBLISH_SECTION.PROPOSING_SPECIAL_ISSUES,
+      path: PATHS.proposingSpecialIssues,
+      translationKey: 'pages.publish.proposingSpecialIssues',
     });
   }
 

@@ -26,6 +26,7 @@ export const PATHS = {
   ethicalCharter: '/ethical-charter',
   forReviewers: '/for-reviewers',
   forConferenceOrganisers: '/for-conference-organisers',
+  proposingSpecialIssues: '/proposing-special-issues',
   notFound: '*',
 };
 

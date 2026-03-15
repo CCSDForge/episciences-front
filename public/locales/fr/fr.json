@@ -398,7 +398,8 @@
       "forAuthors": "Pour les auteurs/autrices",
       "ethicalCharter": "Charte éthique",
       "forReviewers": "Pour les relecteurs",
-      "forConferenceOrganisers": "Pour les organisateurs de conférences"
+      "forConferenceOrganisers": "Pour les organisateurs de conférences",
+      "proposingSpecialIssues": "Proposer des numéros spéciaux"
     },
     "forAuthors": {
       "title": "Pour les auteurs/autrices"
@@ -414,6 +415,10 @@
     "forConferenceOrganisers": {
       "title": "Pour les organisateurs de conférences",
       "description": "Informations et directives pour les organisateurs de conférences"
+    },
+    "proposingSpecialIssues": {
+      "title": "Proposer des numéros spéciaux",
+      "description": "Informations pour proposer des numéros spéciaux"
     },
     "pdfViewer": {
       "loading": "Chargement du PDF...",
