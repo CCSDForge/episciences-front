@@ -26,7 +26,7 @@
         display: block;
 
         &-hidden {
-          .markdownRenderer > *:not(.forConferenceOrganisers-content-body-section-subtitle) {
+          > .markdownRenderer > *:not(.forConferenceOrganisers-content-body-section-subtitle) {
             display: none;
           }
         }

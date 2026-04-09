@@ -25,7 +25,7 @@
         display: block;
 
         &-hidden {
-          .markdownRenderer > *:not(.credits-content-body-section-subtitle) {
+          > .markdownRenderer > *:not(.credits-content-body-section-subtitle) {
             display: none;
           }
         }

@@ -25,7 +25,7 @@
         display: block;
 
         &-hidden {
-          .markdownRenderer > *:not(.about-content-body-section-subtitle) {
+          > .markdownRenderer > *:not(.about-content-body-section-subtitle) {
             display: none;
           }
         }
