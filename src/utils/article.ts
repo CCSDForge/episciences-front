@@ -252,7 +252,7 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
 
     /** Format authors */
     let authors: IArticleAuthor[] = [];
-    if (Array.isArray(articleContent.contributors.person_name)) {
+    if (Array.isArray(articleContent.contributors?.person_name)) {
       const authorOrder = { first: 1, additional: 2 };
       const sortedAuthors = articleContent.contributors.person_name.sort(
         (a, b) =>
@@ -281,7 +281,7 @@ export const formatArticle = (article: RawArticle): FetchedArticle => {
           institutions,
         };
       });
-    } else {
+    } else if (articleContent.contributors?.person_name) {
       const authorFullname = articleContent.contributors.person_name.given_name
         ? `${articleContent.contributors.person_name.given_name} ${articleContent.contributors.person_name.surname}`.trim()
         : articleContent.contributors.person_name.surname.trim();
