@@ -200,7 +200,7 @@ export default function About(): JSX.Element {
                         target="_blank"
                         className="about-content-body-section-link"
                       >
-                        {props.children?.toString()}
+                        {props.children}
                       </Link>
                     ),
                     h2: ({ ...props }) => {
