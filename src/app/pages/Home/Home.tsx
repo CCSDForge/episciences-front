@@ -63,7 +63,8 @@ export default function Home(): JSX.Element {
     ?.filter(
       member =>
         member.roles.includes(BOARD_TYPE.EDITORIAL_BOARD) ||
-        member.roles.includes(BOARD_TYPE.SCIENTIFIC_ADVISORY_BOARD)
+        member.roles.includes(BOARD_TYPE.SCIENTIFIC_ADVISORY_BOARD) ||
+        member.roles.includes(BOARD_TYPE.TECHNICAL_BOARD)
     )
     .sort((a, b) => {
       const getPriority = (roles: string[]) => {
@@ -80,7 +81,11 @@ export default function Home(): JSX.Element {
         if (roles.includes(BOARD_TYPE.SCIENTIFIC_ADVISORY_BOARD)) {
           return 3;
         }
-        return 4;
+        // Technical Board
+        if (roles.includes(BOARD_TYPE.TECHNICAL_BOARD)) {
+          return 4;
+        }
+        return 5;
       };
 
       const priorityA = getPriority(a.roles);

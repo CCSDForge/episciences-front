@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Spanish (es) translation file and language support
 - Content fallback utility (`getLocalizedContent`) for presentation pages: falls back to default language when content is unavailable, with a translated "content not available" message
 - Cache `getLocalizedContent` and `getEdito` results in local variables to avoid redundant calls during render
+- [#284](https://github.com/CCSDForge/episciences-front/issues/284) Add Technical Board members to homepage display
 
 ### Fixed
 
