@@ -8,6 +8,7 @@ import creditsReducer from './credits/credits.slice';
 import footerReducer from './footer/footer.slice';
 import forAuthorReducer from './forAuthor/forAuthor.slice';
 import forReviewersReducer from './forReviewers/forReviewers.slice';
+import forEditorsReducer from './forEditors/forEditors.slice';
 import forConferenceOrganisersReducer from './forConferenceOrganisers/forConferenceOrganisers.slice';
 import i18nReducer from './i18n/i18n.slice';
 import indexationReducer from './indexation/indexation.slice';
@@ -25,6 +26,7 @@ import { boardApi } from './board/board.query';
 import { creditsApi } from './credits/credits.query';
 import { forAuthorApi } from './forAuthor/forAuthor.query';
 import { forReviewersApi } from './forReviewers/forReviewers.query';
+import { forEditorsApi } from './forEditors/forEditors.query';
 import { forConferenceOrganisersApi } from './forConferenceOrganisers/forConferenceOrganisers.query';
 import { ethicalCharterApi } from './ethicalCharter/ethicalCharter.query';
 import { proposingSpecialIssuesApi } from './proposingSpecialIssues/proposingSpecialIssues.query';
@@ -47,6 +49,7 @@ const createRootReducer = combineReducers({
   footerReducer,
   forAuthorReducer,
   forReviewersReducer,
+  forEditorsReducer,
   forConferenceOrganisersReducer,
   i18nReducer,
   indexationReducer,
@@ -65,6 +68,7 @@ const createRootReducer = combineReducers({
   [creditsApi.reducerPath]: creditsApi.reducer,
   [forAuthorApi.reducerPath]: forAuthorApi.reducer,
   [forReviewersApi.reducerPath]: forReviewersApi.reducer,
+  [forEditorsApi.reducerPath]: forEditorsApi.reducer,
   [forConferenceOrganisersApi.reducerPath]: forConferenceOrganisersApi.reducer,
   [ethicalCharterApi.reducerPath]: ethicalCharterApi.reducer,
   [proposingSpecialIssuesApi.reducerPath]: proposingSpecialIssuesApi.reducer,

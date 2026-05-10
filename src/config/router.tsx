@@ -23,6 +23,7 @@ import Credits from '../app/pages/Credits/Credits';
 import ForAuthors from '../app/pages/ForAuthors/ForAuthors';
 import EthicalCharter from '../app/pages/EthicalCharter/EthicalCharter.tsx';
 import ForReviewers from '../app/pages/ForReviewers/ForReviewers';
+import ForEditors from '../app/pages/ForEditors/ForEditors';
 import ForConferenceOrganisers from '../app/pages/ForConferenceOrganisers/ForConferenceOrganisers';
 import ProposingSpecialIssues from '../app/pages/ProposingSpecialIssues/ProposingSpecialIssues';
 import Publish from '../app/pages/Publish/Publish';
@@ -75,6 +76,7 @@ const router = createBrowserRouter([
       basicRoute('forAuthors', ForAuthors),
       basicRoute('ethicalCharter', EthicalCharter),
       basicRoute('forReviewers', ForReviewers),
+      basicRoute('forEditors', ForEditors),
       basicRoute('forConferenceOrganisers', ForConferenceOrganisers),
       basicRoute('proposingSpecialIssues', ProposingSpecialIssues),
       basicRoute('credits', Credits),

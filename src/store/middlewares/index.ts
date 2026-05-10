@@ -5,6 +5,7 @@ import { boardApi } from '../features/board/board.query';
 import { creditsApi } from '../features/credits/credits.query';
 import { forAuthorApi } from '../features/forAuthor/forAuthor.query';
 import { forReviewersApi } from '../features/forReviewers/forReviewers.query';
+import { forEditorsApi } from '../features/forEditors/forEditors.query';
 import { forConferenceOrganisersApi } from '../features/forConferenceOrganisers/forConferenceOrganisers.query';
 import { ethicalCharterApi } from '../features/ethicalCharter/ethicalCharter.query';
 import { proposingSpecialIssuesApi } from '../features/proposingSpecialIssues/proposingSpecialIssues.query';
@@ -27,6 +28,7 @@ export const enhancedMiddleware = (getDefaultMiddleware: Function) =>
     .concat(creditsApi.middleware)
     .concat(forAuthorApi.middleware)
     .concat(forReviewersApi.middleware)
+    .concat(forEditorsApi.middleware)
     .concat(forConferenceOrganisersApi.middleware)
     .concat(ethicalCharterApi.middleware)
     .concat(proposingSpecialIssuesApi.middleware)

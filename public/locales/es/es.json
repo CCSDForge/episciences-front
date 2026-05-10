@@ -398,6 +398,7 @@
       "forAuthors": "Para los autores/autoras",
       "ethicalCharter": "Carta ética",
       "forReviewers": "Para los revisores",
+      "forEditors": "Para los redactores/redactoras",
       "forConferenceOrganisers": "Para los organizadores de congresos",
       "proposingSpecialIssues": "Propuesta de monográficos"
     },
@@ -411,6 +412,10 @@
     "forReviewers": {
       "title": "Para los revisores",
       "description": "Información y directrices para los revisores"
+    },
+    "forEditors": {
+      "title": "Para los redactores/redactoras",
+      "description": "Información y directrices para los redactores/redactoras"
     },
     "forConferenceOrganisers": {
       "title": "Para los organizadores de congresos",

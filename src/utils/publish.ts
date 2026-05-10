@@ -3,6 +3,7 @@ import { PATHS } from '../config/paths';
 export enum PUBLISH_SECTION {
   FOR_AUTHORS = 'for-authors',
   FOR_REVIEWERS = 'for-reviewers',
+  FOR_EDITORS = 'for-editors',
   FOR_CONFERENCE_ORGANISERS = 'for-conference-organisers',
   ETHICAL_CHARTER = 'ethical-charter',
   PROPOSING_SPECIAL_ISSUES = 'proposing-special-issues',
@@ -13,6 +14,7 @@ export const publishSections = [
   PUBLISH_SECTION.ETHICAL_CHARTER,
   PUBLISH_SECTION.FOR_AUTHORS,
   PUBLISH_SECTION.FOR_REVIEWERS,
+  PUBLISH_SECTION.FOR_EDITORS,
   PUBLISH_SECTION.FOR_CONFERENCE_ORGANISERS,
   PUBLISH_SECTION.PROPOSING_SPECIAL_ISSUES,
 ];
@@ -64,6 +66,18 @@ export const getPublishSections = (): IPublishSection[] => {
       type: PUBLISH_SECTION.FOR_REVIEWERS,
       path: PATHS.forReviewers,
       translationKey: 'pages.publish.forReviewers',
+    });
+  }
+
+  // Include for-editors only if environment variable is not 'false'
+  const shouldRenderForEditors = shouldRenderFeature(
+    import.meta.env.VITE_JOURNAL_MENU_JOURNAL_FOR_EDITORS_RENDER
+  );
+  if (shouldRenderForEditors) {
+    sections.push({
+      type: PUBLISH_SECTION.FOR_EDITORS,
+      path: PATHS.forEditors,
+      translationKey: 'pages.publish.forEditors',
     });
   }
 
