@@ -95,7 +95,7 @@ export const getPublishSections = (): IPublishSection[] => {
 
   // Include proposing-special-issues only if environment variable is 'true'
   const shouldRenderProposingSpecialIssues =
-    import.meta.env.VITE_JOURNAL_MENU_JOURNAL_PROPOSING_SPECIAL_ISSUES === 'true';
+    import.meta.env.VITE_JOURNAL_MENU_JOURNAL_PROPOSING_SPECIAL_ISSUES_RENDER === 'true';
   if (shouldRenderProposingSpecialIssues) {
     sections.push({
       type: PUBLISH_SECTION.PROPOSING_SPECIAL_ISSUES,
