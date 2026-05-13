@@ -557,6 +557,9 @@ export const articleTypes: { labelPath: string; value: string }[] = [
 export enum CITATION_TEMPLATE {
   APA = 'APA',
   MLA = 'MLA',
+  IEEE = 'IEEE',
+  AMS = 'AMS',
+  VANCOUVER = 'Vancouver',
   BIBTEX = 'BibTeX',
 }
 
@@ -567,6 +570,18 @@ export const citationCustomTemplates: {
   {
     key: CITATION_TEMPLATE.MLA,
     url: `${import.meta.env.VITE_ZOTERO_HOMEPAGE}/styles/modern-language-association`,
+  },
+  {
+    key: CITATION_TEMPLATE.IEEE,
+    url: `${import.meta.env.VITE_ZOTERO_HOMEPAGE}/styles/ieee`,
+  },
+  {
+    key: CITATION_TEMPLATE.AMS,
+    url: `${import.meta.env.VITE_ZOTERO_HOMEPAGE}/styles/american-mathematical-society-numeric`,
+  },
+  {
+    key: CITATION_TEMPLATE.VANCOUVER,
+    url: `${import.meta.env.VITE_ZOTERO_HOMEPAGE}/styles/nlm-citation-sequence`,
   },
 ];
 
