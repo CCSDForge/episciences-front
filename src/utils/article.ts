@@ -567,22 +567,10 @@ export const citationCustomTemplates: {
   key: CITATION_TEMPLATE;
   url: string;
 }[] = [
-  {
-    key: CITATION_TEMPLATE.MLA,
-    url: `${import.meta.env.VITE_ZOTERO_HOMEPAGE}/styles/modern-language-association`,
-  },
-  {
-    key: CITATION_TEMPLATE.IEEE,
-    url: `${import.meta.env.VITE_ZOTERO_HOMEPAGE}/styles/ieee`,
-  },
-  {
-    key: CITATION_TEMPLATE.AMS,
-    url: `${import.meta.env.VITE_ZOTERO_HOMEPAGE}/styles/american-mathematical-society-numeric`,
-  },
-  {
-    key: CITATION_TEMPLATE.VANCOUVER,
-    url: `${import.meta.env.VITE_ZOTERO_HOMEPAGE}/styles/nlm-citation-sequence`,
-  },
+  { key: CITATION_TEMPLATE.MLA, url: '/csl/modern-language-association.csl' },
+  { key: CITATION_TEMPLATE.IEEE, url: '/csl/ieee.csl' },
+  { key: CITATION_TEMPLATE.AMS, url: '/csl/american-mathematical-society-numeric.csl' },
+  { key: CITATION_TEMPLATE.VANCOUVER, url: '/csl/nlm-citation-sequence.csl' },
 ];
 
 export interface ICitation {
