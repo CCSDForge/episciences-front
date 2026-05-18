@@ -50,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Breadcrumbs: use correct paths from config and fix navigation
 - Volume page, display other volumes with a link
 - Fixed truncated Markdown not rendered in /HomeSections/PresentationSection
+- [#283]https://github.com/CCSDForge/episciences-front/issues/283 Links with formatted text (bold/italic) display [object Object] on About page
 
 ### Changed
 
